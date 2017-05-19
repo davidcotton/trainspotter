@@ -1,16 +1,17 @@
 package controllers;
 
 import static java.util.Objects.requireNonNull;
+import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
-import static play.mvc.Results.TODO;
-import static play.mvc.Results.notFound;
-import static play.mvc.Results.ok;
+import static utils.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
+import models.Tracklist;
+import play.mvc.Controller;
 import play.mvc.Result;
 import services.TracklistService;
 
-public class TracklistController {
+public class TracklistController extends Controller {
 
   private final TracklistService tracklistService;
 
@@ -30,7 +31,12 @@ public class TracklistController {
   }
 
   public Result create() {
-    return TODO;
+    return tracklistService
+        .insert(fromJson(request().body().asJson(), Tracklist.class))
+        .fold(
+            error -> badRequest(errorsAsJson(error)),
+            tracklist -> created(toJson(tracklist))
+        );
   }
 
   public Result update(long id) {

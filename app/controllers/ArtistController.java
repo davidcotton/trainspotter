@@ -1,16 +1,18 @@
 package controllers;
 
 import static java.util.Objects.requireNonNull;
+import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
-import static play.mvc.Results.TODO;
-import static play.mvc.Results.notFound;
-import static play.mvc.Results.ok;
+import static utils.JsonHelper.MESSAGE_NOT_FOUND;
+import static utils.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
+import models.Artist;
+import play.mvc.Controller;
 import play.mvc.Result;
 import services.ArtistService;
 
-public class ArtistController {
+public class ArtistController extends Controller {
 
   private final ArtistService artistService;
 
@@ -26,11 +28,16 @@ public class ArtistController {
   public Result find(long id) {
     return artistService.findById(id)
         .map(artist -> ok(toJson(artist)))
-        .orElse(notFound(toJson("Not found")));
+        .orElse(notFound(toJson(MESSAGE_NOT_FOUND)));
   }
 
   public Result create() {
-    return TODO;
+    return artistService
+        .insert(fromJson(request().body().asJson(), Artist.class))
+        .fold(
+            error -> badRequest(errorsAsJson(error)),
+            artist -> created(toJson(artist))
+        );
   }
 
   public Result update(long id) {

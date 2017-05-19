@@ -1,9 +1,12 @@
 package controllers;
 
 import static java.util.Objects.requireNonNull;
+import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
+import static utils.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
+import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.UserService;
@@ -28,7 +31,12 @@ public class UserController extends Controller {
   }
 
   public Result create() {
-    return TODO;
+    return userService
+        .insert(fromJson(request().body().asJson(), User.class))
+        .fold(
+            error -> badRequest(errorsAsJson(error)),
+            user -> created(toJson(user))
+        );
   }
 
   public Result update(long id) {

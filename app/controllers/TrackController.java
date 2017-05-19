@@ -1,16 +1,18 @@
 package controllers;
 
 import static java.util.Objects.requireNonNull;
+import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
-import static play.mvc.Results.TODO;
-import static play.mvc.Results.notFound;
-import static play.mvc.Results.ok;
+import static utils.JsonHelper.MESSAGE_NOT_FOUND;
+import static utils.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
+import models.Track;
+import play.mvc.Controller;
 import play.mvc.Result;
 import services.TrackService;
 
-public class TrackController {
+public class TrackController extends Controller {
 
   private final TrackService trackService;
 
@@ -26,11 +28,16 @@ public class TrackController {
   public Result find(long id) {
     return trackService.findById(id)
         .map(track -> ok(toJson(track)))
-        .orElse(notFound(toJson("Not found")));
+        .orElse(notFound(toJson(MESSAGE_NOT_FOUND)));
   }
 
   public Result create() {
-    return TODO;
+    return trackService
+        .insert(fromJson(request().body().asJson(), Track.class))
+        .fold(
+            error -> badRequest(errorsAsJson(error)),
+            track -> created(toJson(track))
+        );
   }
 
   public Result update(long id) {

@@ -10,6 +10,7 @@ libraryDependencies ++= Seq(
   javaJdbc,
   cache,
   javaWs,
+  evolutions,
   "mysql" % "mysql-connector-java" % "5.1.40",
   "org.projectlombok" % "lombok" % "1.16.10",
   "io.atlassian.fugue" % "fugue" % "4.5.0",

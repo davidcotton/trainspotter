@@ -1,10 +1,8 @@
 package repositories;
 
 import com.avaje.ebean.Model.Finder;
-
 import java.util.List;
 import java.util.Optional;
-
 import models.User;
 
 public class UserRepository implements Repository<User> {
