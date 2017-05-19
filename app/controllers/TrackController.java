@@ -2,28 +2,30 @@ package controllers;
 
 import static java.util.Objects.requireNonNull;
 import static play.libs.Json.toJson;
+import static play.mvc.Results.TODO;
+import static play.mvc.Results.notFound;
+import static play.mvc.Results.ok;
 
 import javax.inject.Inject;
-import play.mvc.Controller;
 import play.mvc.Result;
-import services.UserService;
+import services.TrackService;
 
-public class UserController extends Controller {
+public class TrackController {
 
-  private final UserService userService;
+  private final TrackService trackService;
 
   @Inject
-  public UserController(UserService userService) {
-    this.userService = requireNonNull(userService);
+  public TrackController(TrackService trackService) {
+    this.trackService = requireNonNull(trackService);
   }
 
   public Result findAll() {
-    return ok(toJson(userService.findAll()));
+    return ok(toJson(trackService.findAll()));
   }
 
   public Result find(long id) {
-    return userService.findById(id)
-        .map(user -> ok(toJson(user)))
+    return trackService.findById(id)
+        .map(track -> ok(toJson(track)))
         .orElse(notFound(toJson("Not found")));
   }
 

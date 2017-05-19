@@ -8,24 +8,24 @@ import static play.mvc.Results.ok;
 
 import javax.inject.Inject;
 import play.mvc.Result;
-import services.TracklistService;
+import services.ArtistService;
 
-public class TracklistController {
+public class ArtistController {
 
-  private final TracklistService tracklistService;
+  private final ArtistService artistService;
 
   @Inject
-  public TracklistController(TracklistService tracklistService) {
-    this.tracklistService = requireNonNull(tracklistService);
+  public ArtistController(ArtistService artistService) {
+    this.artistService = requireNonNull(artistService);
   }
 
   public Result findAll() {
-    return ok(toJson(tracklistService.findAll()));
+    return ok(toJson(artistService.findAll()));
   }
 
   public Result find(long id) {
-    return tracklistService.findById(id)
-        .map(user -> ok(toJson(user)))
+    return artistService.findById(id)
+        .map(artist -> ok(toJson(artist)))
         .orElse(notFound(toJson("Not found")));
   }
 

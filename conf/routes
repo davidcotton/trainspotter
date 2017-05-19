@@ -2,12 +2,34 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# An example controller showing a sample home page
-GET     /                           controllers.HomeController.index
-# An example controller showing how to use dependency injection
-GET     /count                      controllers.CountController.count
-# An example controller showing how to write asynchronous code
-GET     /message                    controllers.AsyncController.message
+# Artists
+GET     /artist                       controllers.ArtistController.findAll
+POST    /artist                       controllers.ArtistController.create
+GET     /artist/:id                   controllers.ArtistController.find(id:Long)
+PUT     /artist/:id                   controllers.ArtistController.update(id:Long)
+DELETE  /artist/:id                   controllers.ArtistController.delete(id:Long)
+
+# Tracklists
+GET     /tracklist                    controllers.TracklistController.findAll
+POST    /tracklist                    controllers.TracklistController.create
+GET     /tracklist/:id                controllers.TracklistController.find(id:Long)
+PUT     /tracklist/:id                controllers.TracklistController.update(id:Long)
+DELETE  /tracklist/:id                controllers.TracklistController.delete(id:Long)
+
+# Tracks
+GET     /track                        controllers.TrackController.findAll
+POST    /track                        controllers.TrackController.create
+GET     /track/:id                    controllers.TrackController.find(id:Long)
+PUT     /track/:id                    controllers.TrackController.update(id:Long)
+DELETE  /track/:id                    controllers.TrackController.delete(id:Long)
+
+# Users
+GET     /user                         controllers.UserController.findAll
+POST    /user                         controllers.UserController.create
+GET     /user/:id                     controllers.UserController.find(id:Long)
+PUT     /user/:id                     controllers.UserController.update(id:Long)
+DELETE  /user/:id                     controllers.UserController.delete(id:Long)
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
