@@ -1,0 +1,13 @@
+@(track: Track)
+
+@main("Edit Track") {
+  <h1>Edit Track</h1>
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <td><label for="name">Email</label></td>
+        <td><input type="text" value="@track.getName" name="name" id="name"></td>
+      </tr>
+    </tbody>
+  </table>
+}

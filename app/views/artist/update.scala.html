@@ -1,0 +1,13 @@
+@(artist: Artist)
+
+@main("Edit Artist") {
+  <h1>Edit Artist</h1>
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <td>name</td>
+        <td><input type="text" value="@artist.getName" name="name"></td>
+      </tr>
+    </tbody>
+  </table>
+}

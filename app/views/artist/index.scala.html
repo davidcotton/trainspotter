@@ -1,0 +1,8 @@
+@(artists: List[Artist])
+
+<h1>Artists</h1>
+<ul>
+  @for(artist <- artists) {
+    <li>@artist.getName</li>
+  }
+</ul>

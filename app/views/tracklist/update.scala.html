@@ -1,0 +1,17 @@
+@(tracklist: Tracklist)
+
+@main("Edit Tracklist") {
+  <h1>Edit Tracklist</h1>
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <td><label for="name">Name</label></td>
+        <td><input type="text" value="@tracklist.getName" name="name" id="name"></td>
+      </tr>
+      <tr>
+        <td><label for="date">Date</label></td>
+        <td><input type="text" value="@tracklist.getDate" name="date" id="date"></td>
+      </tr>
+    </tbody>
+  </table>
+}

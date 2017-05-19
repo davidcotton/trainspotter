@@ -1,0 +1,9 @@
+@(tracks: List[Track])
+
+<h1>Tracks</h1>
+<ul>
+  @for(track <- tracks) {
+    <li>@track.getName</li>
+  }
+</ul>
+

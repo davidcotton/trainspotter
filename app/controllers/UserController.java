@@ -5,6 +5,8 @@ import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
 import static utils.JsonHelper.errorsAsJson;
 
+import java.util.List;
+import java.util.Optional;
 import javax.inject.Inject;
 import models.User;
 import play.mvc.Controller;
@@ -21,13 +23,18 @@ public class UserController extends Controller {
   }
 
   public Result findAll() {
-    return ok(toJson(userService.findAll()));
+    List<User> users = userService.findAll();
+    return ok(views.html.user.index.render(users));
   }
 
   public Result find(long id) {
-    return userService.findById(id)
-        .map(user -> ok(toJson(user)))
-        .orElse(notFound(toJson("Not found")));
+    Optional<User> maybeUser = userService.findById(id);
+    if (maybeUser.isPresent()) {
+      return ok(views.html.user.view.render(maybeUser.get()));
+    } else {
+      // @todo fix
+      return ok(views.html.user.view.render(userService.findById(1).get()));
+    }
   }
 
   public Result create() {
