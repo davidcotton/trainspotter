@@ -4,6 +4,7 @@
 
 # Artists
 GET     /artist                       controllers.ArtistController.index
+GET     /artist/new                   controllers.ArtistController.create
 POST    /artist                       controllers.ArtistController.create
 GET     /artist/:id                   controllers.ArtistController.view(id:Long)
 PUT     /artist/:id                   controllers.ArtistController.update(id:Long)
@@ -25,7 +26,8 @@ DELETE  /track/:id                    controllers.TrackController.delete(id:Long
 
 # Users
 GET     /user                         controllers.UserController.index
-POST    /user                         controllers.UserController.create
+GET     /user/new                     controllers.UserController.create
+POST    /user                         controllers.UserController.submit
 GET     /user/:id                     controllers.UserController.view(id:Long)
 PUT     /user/:id                     controllers.UserController.update(id:Long)
 DELETE  /user/:id                     controllers.UserController.delete(id:Long)

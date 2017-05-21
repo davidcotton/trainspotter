@@ -51,12 +51,17 @@ public class UserController extends Controller {
   }
 
   public Result create() {
-    return userService
-        .insert(fromJson(request().body().asJson(), User.class))
-        .fold(
-            error -> badRequest(errorsAsJson(error)),
-            user -> created(toJson(user))
-        );
+    return TODO;
+//    return userService
+//        .insert(fromJson(request().body().asJson(), User.class))
+//        .fold(
+//            error -> badRequest(errorsAsJson(error)),
+//            user -> created(toJson(user))
+//        );
+  }
+
+  public Result submit() {
+    return TODO;
   }
 
   public Result delete(long id) {
