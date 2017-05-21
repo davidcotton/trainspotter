@@ -14,7 +14,7 @@
           <ul>
             @for(track <- artist.getTracks) {
               <li>
-                <a href="@routes.TrackController.find(track.getId)">@track.getName</a>
+                <a href="@routes.TrackController.view(track.getId)">@track.getName</a>
               </li>
             }
           </ul>
@@ -26,7 +26,7 @@
           <ul>
           @for(remix <- artist.getRemixes) {
             <li>
-              <a href="@routes.TrackController.find(remix.getId)">@remix.getName</a>
+              <a href="@routes.TrackController.view(remix.getId)">@remix.getName</a>
             </li>
           }
           </ul>
@@ -38,7 +38,7 @@
           <ul>
           @for(tracklist <- artist.getTracklists) {
             <li>
-              <a href="@routes.TracklistController.find(tracklist.getId)">@tracklist.getName</a>
+              <a href="@routes.TracklistController.view(tracklist.getId)">@tracklist.getName</a>
             </li>
           }
           </ul>

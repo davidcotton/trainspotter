@@ -24,14 +24,18 @@ public class TrackController extends Controller {
     this.trackService = requireNonNull(trackService);
   }
 
-  public Result findAll() {
+  public Result index() {
     List<Track> tracks = trackService.findAll();
     return ok(index.render(tracks));
   }
 
-  public Result find(long id) {
+  public Result view(long id) {
     Optional<Track> maybeTrack = trackService.findById(id);
     return ok(view.render(maybeTrack.get()));
+  }
+
+  public Result update(long id) {
+    return TODO;
   }
 
   public Result create() {
@@ -41,10 +45,6 @@ public class TrackController extends Controller {
             error -> badRequest(errorsAsJson(error)),
             track -> created(toJson(track))
         );
-  }
-
-  public Result update(long id) {
-    return TODO;
   }
 
   public Result delete(long id) {

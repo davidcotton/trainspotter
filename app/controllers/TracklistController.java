@@ -24,14 +24,18 @@ public class TracklistController extends Controller {
     this.tracklistService = requireNonNull(tracklistService);
   }
 
-  public Result findAll() {
+  public Result index() {
     List<Tracklist> tracklists = tracklistService.findAll();
     return ok(index.render(tracklists));
   }
 
-  public Result find(long id) {
+  public Result view(long id) {
     Optional<Tracklist> maybeTracklist = tracklistService.findById(id);
     return ok(view.render(maybeTracklist.get()));
+  }
+
+  public Result update(long id) {
+    return TODO;
   }
 
   public Result create() {
@@ -41,10 +45,6 @@ public class TracklistController extends Controller {
             error -> badRequest(errorsAsJson(error)),
             tracklist -> created(toJson(tracklist))
         );
-  }
-
-  public Result update(long id) {
-    return TODO;
   }
 
   public Result delete(long id) {

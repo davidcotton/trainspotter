@@ -28,14 +28,26 @@ public class UserController extends Controller {
     this.formFactory = requireNonNull(formFactory);
   }
 
-  public Result findAll() {
+  public Result index() {
     List<User> users = userService.findAll();
     return ok(views.html.user.index.render(users));
   }
 
-  public Result find(long id) {
+  public Result view(long id) {
     Optional<User> maybeUser = userService.findById(id);
     return ok(view.render(maybeUser.get()));
+  }
+
+  public Result update(long id) {
+    Form<User> userForm = formFactory.form(User.class).bindFromRequest();
+    if (userForm.hasErrors()) {
+      return badRequest(update.render(id, userForm));
+    }
+
+    User user = userForm.get();
+    userService.update(user);
+
+    return ok(update.render(id, userForm));
   }
 
   public Result create() {
@@ -45,16 +57,6 @@ public class UserController extends Controller {
             error -> badRequest(errorsAsJson(error)),
             user -> created(toJson(user))
         );
-  }
-
-  public Result update(long id) {
-    Form<User> userForm = formFactory.form(User.class).bindFromRequest();
-    if (userForm.hasErrors()) {
-      return badRequest(update.render(id, userForm));
-    }
-
-    userForm.get().update(id);
-    return ok(update.render(id, userForm));
   }
 
   public Result delete(long id) {

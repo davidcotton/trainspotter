@@ -14,7 +14,7 @@
     <tbody>
       @for(user <- users) {
       <tr>
-        <td><a href="@routes.UserController.find(user.getId)">@user.getEmail</a></td>
+        <td><a href="@routes.UserController.view(user.getId)">@user.getEmail</a></td>
         <td>@user.getDisplayName</td>
         <td>@user.getStatus</td>
         <td class="text-right">
