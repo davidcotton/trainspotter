@@ -1,24 +1,10 @@
+@(userForm: Form[User])
+
+@import helper._
 
 @main("Create User") {
   <h1>Create User</h1>
-  <table class="table table-striped">
-    <tbody>
-      <tr>
-        <td><label for="email">Email</label></td>
-        <td><input type="text" name="email" id="email"></td>
-      </tr>
-      <tr>
-        <td><label for="password">Password</label></td>
-        <td><input type="text" name="password" id="password"></td>
-      </tr>
-      <tr>
-        <td><label for="display_name">Display Name</label></td>
-        <td><input type="text" name="display_name" id="display_name"></td>
-      </tr>
-      <tr>
-        <td><label for="status">Status</label></td>
-        <td><input type="text" name="status" id="status"></td>
-      </tr>
-    </tbody>
-  </table>
+  @form(routes.UserController.create) {
+
+  }
 }

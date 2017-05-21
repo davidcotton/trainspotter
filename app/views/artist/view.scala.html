@@ -12,11 +12,11 @@
         <td>Tracks</td>
         <td>
           <ul>
-            @for(track <- artist.getTracks) {
-              <li>
-                <a href="@routes.TrackController.view(track.getId)">@track.getName</a>
-              </li>
-            }
+          @for(track <- artist.getTracks) {
+            <li>
+              <a href="@routes.TrackController.view(track.getId)">@track.getName</a>
+            </li>
+          }
           </ul>
         </td>
       </tr>

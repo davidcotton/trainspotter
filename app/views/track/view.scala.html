@@ -8,9 +8,9 @@
         <th>Artists</th>
         <td>
           <ul>
-            @for(artist <- track.getArtists) {
-              <li>@artist.getName</li>
-            }
+          @for(artist <- track.getArtists) {
+            <li>@artist.getName</li>
+          }
           </ul>
         </td>
       </tr>
@@ -22,9 +22,9 @@
         <th>Remixers</th>
         <td>
           <ul>
-            @for(remixer <- track.getRemixers) {
-              <li>@remixer.getName</li>
-            }
+          @for(remixer <- track.getRemixers) {
+            <li>@remixer.getName</li>
+          }
           </ul>
         </td>
       </tr>

@@ -16,21 +16,21 @@
       <tr>
         <td>
           <ul>
-            @for(artist <- track.getArtists) {
-              <li>
-                <a href="@routes.ArtistController.view(artist.getId)">@artist.getName</a>
-              </li>
-            }
+          @for(artist <- track.getArtists) {
+            <li>
+              <a href="@routes.ArtistController.view(artist.getId)">@artist.getName</a>
+            </li>
+          }
           </ul>
         </td>
         <td><a href="@routes.TrackController.view(track.getId)">@track.getName</a></td>
         <td>
           <ul>
-            @for(remixer <- track.getRemixers) {
-              <li>
-                <a href="@routes.ArtistController.view(remixer.getId)">@remixer.getName</a>
-              </li>
-            }
+          @for(remixer <- track.getRemixers) {
+            <li>
+              <a href="@routes.ArtistController.view(remixer.getId)">@remixer.getName</a>
+            </li>
+          }
           </ul>
         </td>
         <td class="text-right">
