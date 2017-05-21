@@ -3,14 +3,17 @@ package controllers;
 import static java.util.Objects.requireNonNull;
 import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
-import static utils.JsonHelper.MESSAGE_NOT_FOUND;
 import static utils.JsonHelper.errorsAsJson;
 
+import java.util.List;
+import java.util.Optional;
 import javax.inject.Inject;
 import models.Artist;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.ArtistService;
+import views.html.artist.index;
+import views.html.artist.view;
 
 public class ArtistController extends Controller {
 
@@ -22,13 +25,13 @@ public class ArtistController extends Controller {
   }
 
   public Result findAll() {
-    return ok(toJson(artistService.findAll()));
+    List<Artist> artists = artistService.findAll();
+    return ok(index.render(artists));
   }
 
   public Result find(long id) {
-    return artistService.findById(id)
-        .map(artist -> ok(toJson(artist)))
-        .orElse(notFound(toJson(MESSAGE_NOT_FOUND)));
+     Optional<Artist> maybeArtist = artistService.findById(id);
+     return ok(view.render(maybeArtist.get()));
   }
 
   public Result create() {

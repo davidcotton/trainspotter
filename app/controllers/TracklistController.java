@@ -5,11 +5,15 @@ import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
 import static utils.JsonHelper.errorsAsJson;
 
+import java.util.List;
+import java.util.Optional;
 import javax.inject.Inject;
 import models.Tracklist;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.TracklistService;
+import views.html.tracklist.index;
+import views.html.tracklist.view;
 
 public class TracklistController extends Controller {
 
@@ -21,13 +25,13 @@ public class TracklistController extends Controller {
   }
 
   public Result findAll() {
-    return ok(toJson(tracklistService.findAll()));
+    List<Tracklist> tracklists = tracklistService.findAll();
+    return ok(index.render(tracklists));
   }
 
   public Result find(long id) {
-    return tracklistService.findById(id)
-        .map(user -> ok(toJson(user)))
-        .orElse(notFound(toJson("Not found")));
+    Optional<Tracklist> maybeTracklist = tracklistService.findById(id);
+    return ok(view.render(maybeTracklist.get()));
   }
 
   public Result create() {

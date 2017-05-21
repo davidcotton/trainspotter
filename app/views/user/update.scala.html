@@ -1,25 +1,28 @@
-@(user: User)
+@(id: Long, userForm: Form[User])
 
 @main("Edit User") {
   <h1>Edit User</h1>
-  <table class="table table-striped">
-    <tbody>
-      <tr>
-        <td>Email</td>
-        <td><input type="text" value="@user.getEmail" name="email"></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><input type="text" value="@user.getPassword" name="password"></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><input type="text" value="@user.getDisplayName" name="display_name"></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><input type="text" value="@user.getStatus" name="status"></td>
-      </tr>
-    </tbody>
-  </table>
+  @form(routes.UserController.update(id)) {
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <td>Email</td>
+          <td><input type="text" value="@user.getEmail" name="email"></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><input type="text" value="@user.getPassword" name="password"></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><input type="text" value="@user.getDisplayName" name="display_name"></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><input type="text" value="@user.getStatus" name="status"></td>
+        </tr>
+      </tbody>
+    </table>
+
+  }
 }

@@ -9,17 +9,23 @@ import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import models.User;
+import play.data.Form;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.UserService;
+import views.html.user.update;
+import views.html.user.view;
 
 public class UserController extends Controller {
 
   private final UserService userService;
+  private final FormFactory formFactory;
 
   @Inject
-  public UserController(UserService userService) {
+  public UserController(UserService userService, FormFactory formFactory) {
     this.userService = requireNonNull(userService);
+    this.formFactory = requireNonNull(formFactory);
   }
 
   public Result findAll() {
@@ -29,12 +35,7 @@ public class UserController extends Controller {
 
   public Result find(long id) {
     Optional<User> maybeUser = userService.findById(id);
-    if (maybeUser.isPresent()) {
-      return ok(views.html.user.view.render(maybeUser.get()));
-    } else {
-      // @todo fix
-      return ok(views.html.user.view.render(userService.findById(1).get()));
-    }
+    return ok(view.render(maybeUser.get()));
   }
 
   public Result create() {
@@ -47,7 +48,13 @@ public class UserController extends Controller {
   }
 
   public Result update(long id) {
-    return TODO;
+    Form<User> userForm = formFactory.form(User.class).bindFromRequest();
+    if (userForm.hasErrors()) {
+      return badRequest(update.render(id, userForm));
+    }
+
+    userForm.get().update(id);
+    return ok(update.render(id, userForm));
   }
 
   public Result delete(long id) {
