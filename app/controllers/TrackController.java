@@ -3,17 +3,14 @@ package controllers;
 import static java.util.Objects.requireNonNull;
 import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
+import static utils.JsonHelper.MESSAGE_NOT_FOUND;
 import static utils.JsonHelper.errorsAsJson;
 
-import java.util.List;
-import java.util.Optional;
 import javax.inject.Inject;
 import models.Track;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.TrackService;
-import views.html.track.index;
-import views.html.track.view;
 
 public class TrackController extends Controller {
 
@@ -25,13 +22,13 @@ public class TrackController extends Controller {
   }
 
   public Result index() {
-    List<Track> tracks = trackService.findAll();
-    return ok(index.render(tracks));
+    return ok(toJson(trackService.findAll()));
   }
 
   public Result view(long id) {
-    Optional<Track> maybeTrack = trackService.findById(id);
-    return ok(view.render(maybeTrack.get()));
+    return trackService.findById(id)
+        .map(track -> ok(toJson(track)))
+        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
   public Result update(long id) {

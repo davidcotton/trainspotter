@@ -3,17 +3,16 @@
 # ~~~~
 
 # Artists
-GET     /artist                       controllers.ArtistController.index
-GET     /artist/new                   controllers.ArtistController.create
+GET     /artist                       controllers.ArtistController.fetchAll
 POST    /artist                       controllers.ArtistController.create
-GET     /artist/:id                   controllers.ArtistController.view(id:Long)
+GET     /artist/:id                   controllers.ArtistController.fetch(id:Long)
 PUT     /artist/:id                   controllers.ArtistController.update(id:Long)
 DELETE  /artist/:id                   controllers.ArtistController.delete(id:Long)
 
 # Tracklists
-GET     /tracklist                    controllers.TracklistController.index
+GET     /tracklist                    controllers.TracklistController.fetchAll
 POST    /tracklist                    controllers.TracklistController.create
-GET     /tracklist/:id                controllers.TracklistController.view(id:Long)
+GET     /tracklist/:id                controllers.TracklistController.fetch(id:Long)
 PUT     /tracklist/:id                controllers.TracklistController.update(id:Long)
 DELETE  /tracklist/:id                controllers.TracklistController.delete(id:Long)
 
@@ -25,13 +24,16 @@ PUT     /track/:id                    controllers.TrackController.update(id:Long
 DELETE  /track/:id                    controllers.TrackController.delete(id:Long)
 
 # Users
-GET     /user                         controllers.UserController.index
-GET     /user/new                     controllers.UserController.create
-POST    /user                         controllers.UserController.submit
-GET     /user/:id                     controllers.UserController.view(id:Long)
+GET     /user                         controllers.UserController.fetchAll
+POST    /user                         controllers.UserController.create
+GET     /user/:id                     controllers.UserController.fetch(id:Long)
 PUT     /user/:id                     controllers.UserController.update(id:Long)
 DELETE  /user/:id                     controllers.UserController.delete(id:Long)
 
+# Application
+GET     /                             controllers.ApplicationController.index
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file                 controllers.Assets.versioned(path="/public", file: Asset)
+
+GET     /webjars/*file                controllers.WebJarAssets.at(file)

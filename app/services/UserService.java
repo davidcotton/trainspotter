@@ -48,15 +48,16 @@ public class UserService {
     return Either.right(user);
   }
 
-  public Either<Map<String, List<ValidationError>>, User> update(User user) {
-    Form<User> userForm = formFactory.form(User.class).bind(toJson(user));
-    if (userForm.hasErrors()) {
-      return Either.left(userForm.errors());
-    }
-
-    userRepository.update(user);
-
-    return Either.right(user);
+  public Either<Map<String, List<ValidationError>>, User> update(User savedUser, User newUser) {
+    return null;
+//    Form<User> userForm = formFactory.form(User.class).bind(toJson(user));
+//    if (userForm.hasErrors()) {
+//      return Either.left(userForm.errors());
+//    }
+//
+//    userRepository.update(user);
+//
+//    return Either.right(user);
   }
 
 }
