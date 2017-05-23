@@ -62,15 +62,15 @@ public class Tracklist extends Model {
   @JsonBackReference
   private List<Genre> genres;
 
-  @UpdatedTimestamp
-  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(columnDefinition = "datetime")
-  private ZonedDateTime updated;
-
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime created;
+
+  @UpdatedTimestamp
+  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(columnDefinition = "datetime")
+  private ZonedDateTime updated;
 }

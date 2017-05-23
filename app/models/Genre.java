@@ -47,15 +47,15 @@ public class Genre extends Model {
   @JsonManagedReference
   private List<Tracklist> tracklists;
 
-  @UpdatedTimestamp
-  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(columnDefinition = "datetime")
-  private ZonedDateTime updated;
-
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime created;
+
+  @UpdatedTimestamp
+  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(columnDefinition = "datetime")
+  private ZonedDateTime updated;
 }

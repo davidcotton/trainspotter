@@ -6,6 +6,7 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -60,19 +61,21 @@ public class Track extends Model {
   @ManyToOne
   private Label label;
 
+  private LocalDate releaseDate;
+
   @ManyToMany
   @JsonBackReference
   private List<Tracklist> tracklists;
-
-  @UpdatedTimestamp
-  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(columnDefinition = "datetime")
-  private ZonedDateTime updated;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime created;
+
+  @UpdatedTimestamp
+  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(columnDefinition = "datetime")
+  private ZonedDateTime updated;
 }
