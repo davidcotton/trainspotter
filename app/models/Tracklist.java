@@ -3,6 +3,7 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 
+import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -42,6 +43,8 @@ public class Tracklist extends Model {
   @Constraints.Required
   private String name;
 
+  private String mediaUrl;
+
   private LocalDate date;
 
   @ManyToOne(optional = false)
@@ -54,6 +57,16 @@ public class Tracklist extends Model {
   @ManyToMany
   @JsonBackReference
   private List<Artist> artists;
+
+  @ManyToMany
+  @JsonBackReference
+  private List<Genre> genres;
+
+  @UpdatedTimestamp
+  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(columnDefinition = "datetime")
+  private ZonedDateTime updated;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")

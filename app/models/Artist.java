@@ -39,6 +39,8 @@ public class Artist extends Model {
   @Constraints.Required
   private String name;
 
+  private String image;
+
   @ManyToMany(mappedBy = "artists")
   @JsonManagedReference
   private List<Track> tracks;

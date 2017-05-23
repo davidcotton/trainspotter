@@ -3,19 +3,15 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import java.time.ZonedDateTime;
-import java.util.List;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -31,7 +27,7 @@ import play.data.validation.Constraints;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
-public class Track extends Model {
+public class Label extends Model {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,27 +37,10 @@ public class Track extends Model {
   @NotNull
   private String name;
 
-  @ManyToMany
-  @JoinTable(name = "track_artists")
-  @JsonBackReference
-  private List<Artist> artists;
+  private String image;
 
-  @ManyToMany
-  @JoinTable(name = "track_remixers")
-  @JsonBackReference
-  private List<Artist> remixers;
-
-  private String remixName;
-
-  @ManyToOne
-  private Genre genre;
-
-  @ManyToOne
-  private Label label;
-
-  @ManyToMany
-  @JsonBackReference
-  private List<Tracklist> tracklists;
+  @OneToMany(mappedBy = "label")
+  private List<Track> tracks;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")

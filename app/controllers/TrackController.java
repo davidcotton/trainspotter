@@ -21,11 +21,11 @@ public class TrackController extends Controller {
     this.trackService = requireNonNull(trackService);
   }
 
-  public Result index() {
+  public Result fetchAll() {
     return ok(toJson(trackService.findAll()));
   }
 
-  public Result view(long id) {
+  public Result fetch(long id) {
     return trackService.findById(id)
         .map(track -> ok(toJson(track)))
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));

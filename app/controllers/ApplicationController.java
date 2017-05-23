@@ -7,7 +7,7 @@ import views.html.index;
 public class ApplicationController extends Controller {
 
   public Result index() {
-    return ok(index.render("index"));
+    return ok(index.render("fetchAll"));
   }
 
 }
