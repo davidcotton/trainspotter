@@ -3,9 +3,10 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 
+import com.avaje.ebean.annotation.UpdatedTimestamp;
 import java.time.ZonedDateTime;
-
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,6 +42,12 @@ public class Label extends Model {
 
   @OneToMany(mappedBy = "label")
   private List<Track> tracks;
+
+  @UpdatedTimestamp
+  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(columnDefinition = "datetime")
+  private ZonedDateTime updated;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")

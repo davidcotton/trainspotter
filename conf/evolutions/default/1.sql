@@ -7,6 +7,7 @@ create table artist (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
   image                         varchar(255),
+  updated                       datetime not null,
   created                       datetime not null,
   constraint pk_artist primary key (id)
 );
@@ -14,6 +15,7 @@ create table artist (
 create table genre (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
+  updated                       datetime not null,
   created                       datetime not null,
   constraint pk_genre primary key (id)
 );
@@ -28,6 +30,7 @@ create table label (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
   image                         varchar(255),
+  updated                       datetime not null,
   created                       datetime not null,
   constraint pk_label primary key (id)
 );
@@ -35,8 +38,10 @@ create table label (
 create table track (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
+  remix_name                    varchar(255),
   genre_id                      bigint,
   label_id                      bigint,
+  updated                       datetime not null,
   created                       datetime not null,
   constraint pk_track primary key (id)
 );
@@ -89,6 +94,7 @@ create table user (
   salt                          varchar(255) not null,
   display_name                  varchar(255) not null,
   status                        varchar(10) not null,
+  updated                       datetime not null,
   created                       datetime not null,
   constraint ck_user_status check (status in ('inactive','deleted','unverified','active','banned')),
   constraint pk_user primary key (id)
