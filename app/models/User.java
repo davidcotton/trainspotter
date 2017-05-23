@@ -4,6 +4,7 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.ZonedDateTime;
 import java.util.List;
 import javax.persistence.Column;
@@ -61,6 +62,7 @@ public class User extends Model {
   private Status status;
 
   @OneToMany(mappedBy = "user")
+  @JsonManagedReference
   private List<Tracklist> tracklists;
 
   @CreatedTimestamp

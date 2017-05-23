@@ -43,6 +43,7 @@ public class Tracklist extends Model {
   private LocalDate date;
 
   @ManyToOne(optional = false)
+  @JsonBackReference
   private User user;
 
   @ManyToMany(mappedBy = "tracklists")
