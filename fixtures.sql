@@ -31,7 +31,7 @@ INSERT INTO `label`
 (`name`, `created`, `updated`)
 VALUES
   ('Not on label', NOW(), NOW()),
-  ('Bedrock', NOW(), NOW()),
+  ('Bedrock Records', NOW(), NOW()),
   ('Get Wet', NOW(), NOW()),
   ('Sinnbus', NOW(), NOW()),
   ('Mobilee', NOW(), NOW()),
@@ -69,7 +69,7 @@ VALUES
 ;
 
 INSERT INTO `track_artists`
-(`track_id`, `artist_id`)
+  (`track_id`, `artist_id`)
 VALUES
   (1, 3),
   (2, 3),
@@ -84,7 +84,7 @@ VALUES
 ;
 
 INSERT INTO `track_remixers`
-(`track_id`, `artist_id`)
+  (`track_id`, `artist_id`)
 VALUES
   (2, 4),
   (4, 7),
@@ -94,20 +94,20 @@ VALUES
 ;
 
 INSERT INTO `tracklist`
-(`name`, `date`, `user_id`, `created`, `updated`)
+  (`name`, `date`, `user_id`, `created`, `updated`)
 VALUES
   ('John Digweed & Jesper Dahlback - Transitions 664 2017-05-19', '2017-05-19', 1, NOW(), NOW())
 ;
 
 INSERT INTO `tracklist_artist`
-(`tracklist_id`, `artist_id`)
+  (`tracklist_id`, `artist_id`)
 VALUES
   (1, 2),
   (1, 16)
 ;
 
 INSERT INTO `track_tracklist`
-(track_id, tracklist_id)
+  (track_id, tracklist_id)
 VALUES
   (1, 1),
   (2, 1),
@@ -122,13 +122,14 @@ VALUES
 ;
 
 INSERT INTO `media`
-(url, tracklist_id, artist_id, created, updated)
+  (url, tracklist_id, artist_id, label_id, created, updated)
 VALUES
-  ('https://youtu.be/tI7ywh2sI04', 1, null, NOW(), NOW()),
-  ('https://www.mixcloud.com/globaldjmix/john-digweed-jesper-dahlback-transitions-664-2017-05-19/', 1, null, NOW(), NOW()),
-  ('https://soundcloud.com/john-digweed', null, 2, NOW(), NOW()),
-  ('https://www.youtube.com/channel/UCXUO2biGVP7FKCqPEDwmt4w', null, 2, NOW(), NOW()),
-  ('https://www.facebook.com/djjohndigweed', null, 2, NOW(), NOW()),
-  ('https://twitter.com/djjohndigweed', null, 2, NOW(), NOW()),
-  ('http://www.johndigweed.com/', null, 2, NOW(), NOW())
+  ('https://youtu.be/tI7ywh2sI04', 1, null, null, NOW(), NOW()),
+  ('https://www.mixcloud.com/globaldjmix/john-digweed-jesper-dahlback-transitions-664-2017-05-19/', 1, null, null, NOW(), NOW()),
+  ('https://soundcloud.com/john-digweed', null, 2, null, NOW(), NOW()),
+  ('https://www.youtube.com/channel/UCXUO2biGVP7FKCqPEDwmt4w', null, 2, null, NOW(), NOW()),
+  ('https://www.facebook.com/djjohndigweed', null, 2, null, NOW(), NOW()),
+  ('https://twitter.com/djjohndigweed', null, 2, null, NOW(), NOW()),
+  ('http://www.johndigweed.com/', null, 2, null, NOW(), NOW()),
+  ('https://soundcloud.com/bedrock_rec', null, null, 2, NOW(), NOW())
 ;
