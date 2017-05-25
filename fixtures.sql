@@ -1,5 +1,3 @@
-USE trainspotter;
-
 INSERT INTO `user`
 (`email`, `password`, `salt`, `display_name`, `status`, `created`, `updated`)
 VALUES
@@ -89,6 +87,9 @@ INSERT INTO `track_remixers`
 (`track_id`, `artist_id`)
 VALUES
   (2, 4),
+  (4, 7),
+  (6, 9),
+  (6, 10),
   (10, 15)
 ;
 
@@ -103,4 +104,19 @@ INSERT INTO `tracklist_artist`
 VALUES
   (1, 2),
   (1, 16)
+;
+
+INSERT INTO `track_tracklist`
+(track_id, tracklist_id)
+VALUES
+  (1, 1),
+  (2, 1),
+  (3, 1),
+  (4, 1),
+  (5, 1),
+  (6, 1),
+  (7, 1),
+  (8, 1),
+  (9, 1),
+  (10, 1)
 ;
