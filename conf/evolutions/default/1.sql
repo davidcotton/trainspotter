@@ -39,6 +39,7 @@ create table media (
   id                            bigint auto_increment not null,
   url                           varchar(255) not null,
   tracklist_id                  bigint,
+  artist_id                     bigint,
   created                       datetime not null,
   updated                       datetime not null,
   constraint pk_media primary key (id)
@@ -118,6 +119,9 @@ create index ix_genre_tracklist_tracklist on genre_tracklist (tracklist_id);
 alter table media add constraint fk_media_tracklist_id foreign key (tracklist_id) references tracklist (id) on delete restrict on update restrict;
 create index ix_media_tracklist_id on media (tracklist_id);
 
+alter table media add constraint fk_media_artist_id foreign key (artist_id) references artist (id) on delete restrict on update restrict;
+create index ix_media_artist_id on media (artist_id);
+
 alter table track add constraint fk_track_genre_id foreign key (genre_id) references genre (id) on delete restrict on update restrict;
 create index ix_track_genre_id on track (genre_id);
 
@@ -168,6 +172,9 @@ drop index ix_genre_tracklist_tracklist on genre_tracklist;
 
 alter table media drop foreign key fk_media_tracklist_id;
 drop index ix_media_tracklist_id on media;
+
+alter table media drop foreign key fk_media_artist_id;
+drop index ix_media_artist_id on media;
 
 alter table track drop foreign key fk_track_genre_id;
 drop index ix_track_genre_id on track;

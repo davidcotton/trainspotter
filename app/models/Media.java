@@ -43,6 +43,10 @@ public class Media extends Model {
   @JsonBackReference
   private Tracklist tracklist;
 
+  @ManyToOne
+  @JsonBackReference
+  private Artist artist;
+
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)

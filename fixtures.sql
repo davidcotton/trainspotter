@@ -120,3 +120,15 @@ VALUES
   (9, 1),
   (10, 1)
 ;
+
+INSERT INTO `media`
+(url, tracklist_id, artist_id, created, updated)
+VALUES
+  ('https://youtu.be/tI7ywh2sI04', 1, null, NOW(), NOW()),
+  ('https://www.mixcloud.com/globaldjmix/john-digweed-jesper-dahlback-transitions-664-2017-05-19/', 1, null, NOW(), NOW()),
+  ('https://soundcloud.com/john-digweed', null, 2, NOW(), NOW()),
+  ('https://www.youtube.com/channel/UCXUO2biGVP7FKCqPEDwmt4w', null, 2, NOW(), NOW()),
+  ('https://www.facebook.com/djjohndigweed', null, 2, NOW(), NOW()),
+  ('https://twitter.com/djjohndigweed', null, 2, NOW(), NOW()),
+  ('http://www.johndigweed.com/', null, 2, NOW(), NOW())
+;

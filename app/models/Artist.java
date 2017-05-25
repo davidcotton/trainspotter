@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -48,6 +49,10 @@ public class Artist extends Model {
   @ManyToMany(mappedBy = "artists")
   @JsonManagedReference
   private List<Tracklist> tracklists;
+
+  @OneToMany
+  @JsonManagedReference
+  private List<Media> medias;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
