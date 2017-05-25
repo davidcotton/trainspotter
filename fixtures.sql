@@ -94,9 +94,9 @@ VALUES
 ;
 
 INSERT INTO `tracklist`
-(`name`, `media_url`, `date`, `user_id`, `created`, `updated`)
+(`name`, `date`, `user_id`, `created`, `updated`)
 VALUES
-  ('John Digweed & Jesper Dahlback - Transitions 664 2017-05-19', null, '2017-05-19', 1, NOW(), NOW())
+  ('John Digweed & Jesper Dahlback - Transitions 664 2017-05-19', '2017-05-19', 1, NOW(), NOW())
 ;
 
 INSERT INTO `tracklist_artist`

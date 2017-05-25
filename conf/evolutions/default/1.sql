@@ -35,6 +35,15 @@ create table label (
   constraint pk_label primary key (id)
 );
 
+create table media (
+  id                            bigint auto_increment not null,
+  url                           varchar(255) not null,
+  tracklist_id                  bigint,
+  created                       datetime not null,
+  updated                       datetime not null,
+  constraint pk_media primary key (id)
+);
+
 create table track (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
@@ -68,7 +77,6 @@ create table track_tracklist (
 create table tracklist (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
-  media_url                     varchar(255),
   date                          date,
   user_id                       bigint not null,
   created                       datetime not null,
@@ -106,6 +114,9 @@ create index ix_genre_tracklist_genre on genre_tracklist (genre_id);
 
 alter table genre_tracklist add constraint fk_genre_tracklist_tracklist foreign key (tracklist_id) references tracklist (id) on delete restrict on update restrict;
 create index ix_genre_tracklist_tracklist on genre_tracklist (tracklist_id);
+
+alter table media add constraint fk_media_tracklist_id foreign key (tracklist_id) references tracklist (id) on delete restrict on update restrict;
+create index ix_media_tracklist_id on media (tracklist_id);
 
 alter table track add constraint fk_track_genre_id foreign key (genre_id) references genre (id) on delete restrict on update restrict;
 create index ix_track_genre_id on track (genre_id);
@@ -155,6 +166,9 @@ drop index ix_genre_tracklist_genre on genre_tracklist;
 alter table genre_tracklist drop foreign key fk_genre_tracklist_tracklist;
 drop index ix_genre_tracklist_tracklist on genre_tracklist;
 
+alter table media drop foreign key fk_media_tracklist_id;
+drop index ix_media_tracklist_id on media;
+
 alter table track drop foreign key fk_track_genre_id;
 drop index ix_track_genre_id on track;
 
@@ -201,6 +215,8 @@ drop table if exists genre;
 drop table if exists genre_tracklist;
 
 drop table if exists label;
+
+drop table if exists media;
 
 drop table if exists track;
 
