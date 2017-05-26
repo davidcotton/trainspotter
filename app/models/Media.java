@@ -43,6 +43,7 @@ public class Media extends Model {
 
   @NotNull
   @Constraints.Required
+  @Column(unique = true, length = 191)
   private String url;
 
   @ManyToOne

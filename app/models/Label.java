@@ -44,6 +44,7 @@ public class Label extends Model {
 
   @Constraints.Required
   @NotNull
+  @Column(unique = true, length = 191)
   private String name;
 
   private String image;

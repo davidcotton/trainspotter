@@ -5,18 +5,20 @@
 
 create table artist (
   id                            bigint auto_increment not null,
-  name                          varchar(255) not null,
+  name                          varchar(191) not null,
   image                         varchar(255),
   created                       datetime not null,
   updated                       datetime not null,
+  constraint uq_artist_name unique (name),
   constraint pk_artist primary key (id)
 );
 
 create table genre (
   id                            bigint auto_increment not null,
-  name                          varchar(255) not null,
+  name                          varchar(191) not null,
   created                       datetime not null,
   updated                       datetime not null,
+  constraint uq_genre_name unique (name),
   constraint pk_genre primary key (id)
 );
 
@@ -28,21 +30,23 @@ create table genre_tracklist (
 
 create table label (
   id                            bigint auto_increment not null,
-  name                          varchar(255) not null,
+  name                          varchar(191) not null,
   image                         varchar(255),
   created                       datetime not null,
   updated                       datetime not null,
+  constraint uq_label_name unique (name),
   constraint pk_label primary key (id)
 );
 
 create table media (
   id                            bigint auto_increment not null,
-  url                           varchar(255) not null,
+  url                           varchar(191) not null,
   tracklist_id                  bigint,
   artist_id                     bigint,
   label_id                      bigint,
   created                       datetime not null,
   updated                       datetime not null,
+  constraint uq_media_url unique (url),
   constraint pk_media primary key (id)
 );
 

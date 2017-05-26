@@ -45,6 +45,7 @@ public class Artist extends Model {
 
   @NotNull
   @Constraints.Required
+  @Column(unique = true, length = 191)
   private String name;
 
   private String image;

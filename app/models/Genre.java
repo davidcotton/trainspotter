@@ -46,6 +46,7 @@ public class Genre extends Model {
 
   @Constraints.Required
   @NotNull
+  @Column(unique = true, length = 191)
   private String name;
 
   @OneToMany(mappedBy = "genre")
