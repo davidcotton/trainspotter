@@ -1,12 +1,15 @@
 package controllers;
 
 import static java.util.Objects.requireNonNull;
+
 import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
+
 import static utils.JsonHelper.MESSAGE_NOT_FOUND;
 import static utils.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
+
 import models.Artist;
 
 import play.mvc.Controller;
@@ -24,17 +27,13 @@ public class ArtistController extends Controller {
   }
 
   public Result fetchAll() {
-    return ok(toJson(artistService.findAll()));
+    return ok(toJson(artistService.fetchAll()));
   }
 
   public Result fetch(long id) {
     return artistService.findById(id)
         .map(artist -> ok(toJson(artist)))
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
-  }
-
-  public Result update(long id) {
-    return TODO;
   }
 
   public Result create() {
@@ -44,6 +43,19 @@ public class ArtistController extends Controller {
             error -> badRequest(errorsAsJson(error)),
             artist -> created(toJson(artist))
         );
+  }
+
+  public Result update(long id) {
+    return artistService
+        .findById(id)
+        .map(savedArtist -> artistService
+            .update(savedArtist, fromJson(request().body().asJson(), Artist.class))
+            .fold(
+                error -> badRequest(errorsAsJson(error)),
+                newArtist -> created(toJson(newArtist))
+            )
+        )
+        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
   public Result delete(long id) {

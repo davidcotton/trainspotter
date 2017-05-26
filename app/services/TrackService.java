@@ -1,17 +1,23 @@
 package services;
 
 import static java.util.Objects.requireNonNull;
+
 import static play.libs.Json.toJson;
 
 import io.atlassian.fugue.Either;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 import javax.inject.Inject;
+
 import models.Track;
+
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
+
 import repositories.TrackRepository;
 
 public class TrackService {
@@ -25,33 +31,69 @@ public class TrackService {
     this.formFactory = requireNonNull(formFactory);
   }
 
-  public List<Track> findAll() {
+  /**
+   * Fetch all tracks.
+   * @return A collection of all tracks in the DB.
+   */
+  public List<Track> fetchAll() {
     return trackRepository.findAll();
   }
 
+  /**
+   * Find a track by its ID.
+   * @param id  The ID to search for.
+   * @return    An optional track if found.
+   */
   public Optional<Track> findById(long id) {
     return trackRepository.findById(id);
   }
 
+  /**
+   * Insert a new track.
+   * @param track The track to insert.
+   * @return      Either the inserted track or validation errors.
+   */
   public Either<Map<String, List<ValidationError>>, Track> insert(Track track) {
-    Form<Track> trackForm = formFactory.form(Track.class).bind(toJson(track));
+    // validate new track
+    Form<Track> trackForm = formFactory
+        .form(Track.class)
+        .bind(toJson(track));
     if (trackForm.hasErrors()) {
+      // return validation errors
       return Either.left(trackForm.errors());
     }
 
+    // save to DB
     trackRepository.insert(track);
 
+    // return saved track
     return Either.right(track);
   }
 
-  public Either<Map<String, List<ValidationError>>, Track> update(Track track) {
-    Form<Track> trackForm = formFactory.form(Track.class).bind(toJson(track));
+  /**
+   * Update a track.
+   * @param savedTrack  The existing track data.
+   * @param newTrack    The new track data.
+   * @return            Either the updated track or validation errors.
+   */
+  public Either<Map<String, List<ValidationError>>, Track> update(Track savedTrack, Track newTrack) {
+    // copy over read only fields
+    newTrack.setId(savedTrack.getId());
+    newTrack.setCreated(savedTrack.getCreated());
+
+    // validate the changes
+    Form<Track> trackForm = formFactory
+        .form(Track.class)
+        .bind(toJson(newTrack));
     if (trackForm.hasErrors()) {
+      // return validation errors
       return Either.left(trackForm.errors());
     }
 
-    trackRepository.update(track);
+    // save to DB
+    trackRepository.update(newTrack);
 
-    return Either.right(track);
+    // return saved track
+    return Either.right(newTrack);
   }
 }

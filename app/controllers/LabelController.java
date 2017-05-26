@@ -1,15 +1,20 @@
 package controllers;
 
 import static java.util.Objects.requireNonNull;
+
 import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
+
 import static utils.JsonHelper.MESSAGE_NOT_FOUND;
 import static utils.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
+
 import models.Label;
+
 import play.mvc.Controller;
 import play.mvc.Result;
+
 import services.LabelService;
 
 public class LabelController extends Controller {
@@ -22,7 +27,7 @@ public class LabelController extends Controller {
   }
 
   public Result fetchAll() {
-    return ok(toJson(labelService.findAll()));
+    return ok(toJson(labelService.fetchAll()));
   }
 
   public Result fetch(long id) {

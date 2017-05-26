@@ -27,7 +27,7 @@ public class TracklistController extends Controller {
   }
 
   public Result fetchAll() {
-    return ok(toJson(tracklistService.findAll()));
+    return ok(toJson(tracklistService.fetchAll()));
   }
 
   public Result fetch(long id) {
@@ -46,18 +46,16 @@ public class TracklistController extends Controller {
   }
 
   public Result update(long id) {
-    return TODO;
-
-//    return tracklistService
-//        .findById(id)
-//        .map(savedTracklist -> tracklistService
-//            .update(savedTracklist, fromJson(request().body().asJson(), Tracklist.class))
-//            .fold(
-//                error -> badRequest(errorsAsJson(error)),
-//                newTracklist -> created(toJson(newTracklist))
-//            )
-//        )
-//        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+    return tracklistService
+        .findById(id)
+        .map(savedTracklist -> tracklistService
+            .update(savedTracklist, fromJson(request().body().asJson(), Tracklist.class))
+            .fold(
+                error -> badRequest(errorsAsJson(error)),
+                newTracklist -> created(toJson(newTracklist))
+            )
+        )
+        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
   public Result delete(long id) {

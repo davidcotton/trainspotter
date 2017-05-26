@@ -4,9 +4,12 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.time.ZonedDateTime;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -17,9 +20,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -29,7 +34,7 @@ import play.data.validation.Constraints;
 @AllArgsConstructor
 public class User extends Model {
 
-  enum Status {
+  public enum Status {
     @EnumValue("inactive") inactive,
     @EnumValue("unverified") unverified,
     @EnumValue("active") active,
@@ -37,12 +42,19 @@ public class User extends Model {
     @EnumValue("banned") banned,
   }
 
+  /** Validator group to be called on insert. */
+  public interface InsertValidators {}
+
+  /** Validator group to be called on update. */
+  public interface UpdateValidators {}
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @NotNull
   @Constraints.Email
+  @Column(unique = true, length = 191)
   private String email;
 
   @NotNull
@@ -55,6 +67,7 @@ public class User extends Model {
 
   @NotNull
   @Constraints.Required
+  @Column(unique = true, length = 191)
   private String displayName;
 
   @NotNull

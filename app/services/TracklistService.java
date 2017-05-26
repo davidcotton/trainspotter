@@ -1,17 +1,23 @@
 package services;
 
 import static java.util.Objects.requireNonNull;
+
 import static play.libs.Json.toJson;
 
 import io.atlassian.fugue.Either;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 import javax.inject.Inject;
+
 import models.Tracklist;
+
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
+
 import repositories.TracklistRepository;
 
 public class TracklistService {
@@ -25,33 +31,69 @@ public class TracklistService {
     this.formFactory = requireNonNull(formFactory);
   }
 
-  public List<Tracklist> findAll() {
+  /**
+   * Fetch all tracklists.
+   * @return A collection of all tracklists in the DB.
+   */
+  public List<Tracklist> fetchAll() {
     return tracklistRepository.findAll();
   }
 
+  /**
+   * Find a tracklist by its ID.
+   * @param id  The ID to search for.
+   * @return    An optional tracklist if found.
+   */
   public Optional<Tracklist> findById(long id) {
     return tracklistRepository.findById(id);
   }
 
+  /**
+   * Insert a new tracklist.
+   * @param tracklist The tracklist to insert.
+   * @return          Either the inserted tracklist or validation errors.
+   */
   public Either<Map<String, List<ValidationError>>, Tracklist> insert(Tracklist tracklist) {
-    Form<Tracklist> tracklistForm = formFactory.form(Tracklist.class).bind(toJson(tracklist));
+    // validate new tracklist
+    Form<Tracklist> tracklistForm = formFactory
+        .form(Tracklist.class, Tracklist.InsertValidators.class)
+        .bind(toJson(tracklist));
     if (tracklistForm.hasErrors()) {
+      // return validation errors
       return Either.left(tracklistForm.errors());
     }
 
+    // save to DB
     tracklistRepository.insert(tracklist);
 
+    // return saved tracklist
     return Either.right(tracklist);
   }
 
-  public Either<Map<String, List<ValidationError>>, Tracklist> update(Tracklist tracklist) {
-    Form<Tracklist> tracklistForm = formFactory.form(Tracklist.class).bind(toJson(tracklist));
+  /**
+   * Update a tracklist.
+   * @param savedTracklist  The existing tracklist data.
+   * @param newTracklist    The new tracklist data.
+   * @return                Either the updated tracklist or validation errors.
+   */
+  public Either<Map<String, List<ValidationError>>, Tracklist> update(Tracklist savedTracklist, Tracklist newTracklist) {
+    // copy over read only fields
+    newTracklist.setId(savedTracklist.getId());
+    newTracklist.setCreated(savedTracklist.getCreated());
+
+    // validate the changes
+    Form<Tracklist> tracklistForm = formFactory
+        .form(Tracklist.class, Tracklist.UpdateValidators.class)
+        .bind(toJson(newTracklist));
     if (tracklistForm.hasErrors()) {
+      // return validation errors
       return Either.left(tracklistForm.errors());
     }
 
-    tracklistRepository.update(tracklist);
+    // save to DB
+    tracklistRepository.update(newTracklist);
 
-    return Either.right(tracklist);
+    // return saved tracklist
+    return Either.right(newTracklist);
   }
 }
