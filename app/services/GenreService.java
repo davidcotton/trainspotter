@@ -32,7 +32,8 @@ public class GenreService {
   }
 
   /**
-   * Fetch all genres.
+   * Fetch all Genres.
+   *
    * @return A collection of all genres in the DB.
    */
   public List<Genre> fetchAll() {
@@ -40,18 +41,30 @@ public class GenreService {
   }
 
   /**
-   * Find a genre by its ID.
+   * Find a Genre by its ID.
+   *
    * @param id  The ID to search for.
-   * @return    An optional genre if found.
+   * @return    An optional Genre if found.
    */
   public Optional<Genre> findById(long id) {
     return genreRepository.findById(id);
   }
 
   /**
-   * Insert a new genre.
-   * @param genre The genre to insert.
-   * @return      Either the inserted genre or validation errors.
+   * Find a Genre by its name.
+   *
+   * @param name  The name of the Genre to search for.
+   * @return      An optional Genre if found.
+   */
+  public Optional<Genre> findByName(String name) {
+    return genreRepository.findByName(name);
+  }
+
+  /**
+   * Insert a new Genre.
+   *
+   * @param genre The Genre to insert.
+   * @return      Either the inserted Genre or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Genre> insert(Genre genre) {
     // validate new genre
@@ -71,10 +84,11 @@ public class GenreService {
   }
 
   /**
-   * Update a genre.
-   * @param savedGenre  The existing genre data.
-   * @param newGenre    The new genre data.
-   * @return            Either the updated genre or validation errors.
+   * Update a Genre.
+   *
+   * @param savedGenre  The existing Genre data.
+   * @param newGenre    The new Genre data.
+   * @return            Either the updated Genre or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Genre> update(Genre savedGenre, Genre newGenre) {
     // copy over read only fields

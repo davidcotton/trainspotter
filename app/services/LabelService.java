@@ -32,26 +32,39 @@ public class LabelService {
   }
 
   /**
-   * Fetch all labels.
-   * @return A collection of all labels in the DB.
+   * Fetch all Labels.
+   *
+   * @return A collection of all Labels in the DB.
    */
   public List<Label> fetchAll() {
     return labelRepository.findAll();
   }
 
   /**
-   * Find a label by its ID.
+   * Find a Label by its ID.
+   *
    * @param id  The ID to search for.
-   * @return    An optional label if found.
+   * @return    An optional Label if found.
    */
   public Optional<Label> findById(long id) {
     return labelRepository.findById(id);
   }
 
   /**
-   * Insert a new label.
-   * @param label The label to insert.
-   * @return      Either the inserted label or validation errors
+   * Find a Label by its name.
+   *
+   * @param name  The name of the Label to search for.
+   * @return      An optional Label if found.
+   */
+  public Optional<Label> findByName(String name) {
+    return labelRepository.findByName(name);
+  }
+
+  /**
+   * Insert a new Label.
+   *
+   * @param label The Label to insert.
+   * @return      Either the inserted Label or validation errors
    */
   public Either<Map<String, List<ValidationError>>, Label> insert(Label label) {
     // validate new label
@@ -71,9 +84,10 @@ public class LabelService {
   }
 
   /**
-   * Update a label.
-   * @param savedLabel  The existing label data.
-   * @param newLabel    The new label data.
+   * Update a Label.
+   *
+   * @param savedLabel  The existing Label data.
+   * @param newLabel    The new Label data.
    * @return            Either the updated data or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Label> update(Label savedLabel, Label newLabel) {

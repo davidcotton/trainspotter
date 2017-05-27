@@ -20,6 +20,16 @@ public class ArtistRepository implements Repository<Artist> {
     return Optional.ofNullable(find.byId(id));
   }
 
+  /**
+   * Find an Artist by their name.
+   *
+   * @param name  The name of the Artist to search for.
+   * @return      An optional Artist if found.
+   */
+  public Optional<Artist> findByName(String name) {
+    return Optional.ofNullable(find.where().eq("name", name).findUnique());
+  }
+
   @Override
   public void insert(Artist artist) {
     artist.insert();

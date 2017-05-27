@@ -20,6 +20,16 @@ public class TrackRepository implements Repository<Track> {
     return Optional.ofNullable(find.byId(id));
   }
 
+  /**
+   * Find a Track by its name.
+   *
+   * @param name  The name of the Track to search for.
+   * @return      An optional Track if found.
+   */
+  public Optional<Track> findByName(String name) {
+    return Optional.ofNullable(find.where().eq("name", name).findUnique());
+  }
+
   @Override
   public void insert(Track track) {
     track.insert();

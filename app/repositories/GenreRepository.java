@@ -20,6 +20,16 @@ public class GenreRepository implements Repository<Genre> {
     return Optional.ofNullable(find.byId(id));
   }
 
+  /**
+   * Find a Genre by its name.
+   *
+   * @param name  The name of the Genre to search for.
+   * @return      An optional Genre if found.
+   */
+  public Optional<Genre> findByName(String name) {
+    return Optional.ofNullable(find.where().eq("name", name).findUnique());
+  }
+
   @Override
   public void insert(Genre genre) {
     genre.insert();

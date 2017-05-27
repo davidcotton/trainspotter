@@ -32,26 +32,39 @@ public class TrackService {
   }
 
   /**
-   * Fetch all tracks.
-   * @return A collection of all tracks in the DB.
+   * Fetch all Tracks.
+   * 
+   * @return A collection of all Tracks in the DB.
    */
   public List<Track> fetchAll() {
     return trackRepository.findAll();
   }
 
   /**
-   * Find a track by its ID.
+   * Find a Track by its ID.
+   * 
    * @param id  The ID to search for.
-   * @return    An optional track if found.
+   * @return    An optional Track if found.
    */
   public Optional<Track> findById(long id) {
     return trackRepository.findById(id);
   }
 
   /**
-   * Insert a new track.
-   * @param track The track to insert.
-   * @return      Either the inserted track or validation errors.
+   * Find a Track by its name.
+   *
+   * @param name  The name of the Track to search for.
+   * @return      An optional Track if found.
+   */
+  public Optional<Track> findByName(String name) {
+    return trackRepository.findByName(name);
+  }
+
+  /**
+   * Insert a new Track.
+   * 
+   * @param track The Track data to insert.
+   * @return      Either the inserted Track or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Track> insert(Track track) {
     // validate new track
@@ -71,10 +84,11 @@ public class TrackService {
   }
 
   /**
-   * Update a track.
-   * @param savedTrack  The existing track data.
-   * @param newTrack    The new track data.
-   * @return            Either the updated track or validation errors.
+   * Update a Track.
+   * 
+   * @param savedTrack  The existing Track data.
+   * @param newTrack    The new Track data.
+   * @return            Either the updated Track or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Track> update(Track savedTrack, Track newTrack) {
     // copy over read only fields

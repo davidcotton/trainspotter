@@ -41,7 +41,7 @@ public class LabelServiceTest {
   private FormFactory mockFormFactory;
 
   @Test
-  public void findAll() {
+  public void fetchAll() {
     // ARRANGE
     when(mockLabelRepository.findAll()).thenReturn(new ArrayList<Label>() {{
       add(mock(Label.class));
@@ -82,4 +82,29 @@ public class LabelServiceTest {
     assertThat(maybeLabel.isPresent(), is(false));
   }
 
+  @Test
+  public void findByName_givenNameInDb() {
+    // ARRANGE
+    String name = "Bedrock Records";
+    when(mockLabelRepository.findByName(name)).thenReturn(Optional.of(mock(Label.class)));
+
+    // ACT
+    Optional<Label> maybeLabel = labelService.findByName(name);
+
+    // ASSERT
+    assertTrue(maybeLabel.isPresent());
+  }
+
+  @Test
+  public void findByName_givenNameNotInDb() {
+    // ARRANGE
+    String name = "Def Jam";
+    when(mockLabelRepository.findByName(name)).thenReturn(Optional.empty());
+
+    // ACT
+    Optional<Label> maybeLabel = labelService.findByName(name);
+
+    // ASSERT
+    assertThat(maybeLabel.isPresent(), is(false));
+  }
 }

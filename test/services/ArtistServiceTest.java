@@ -80,4 +80,30 @@ public class ArtistServiceTest {
     assertThat(maybeArtist.isPresent(), is(false));
   }
 
+  @Test
+  public void findByName_givenNameInDb() {
+    // ARRANGE
+    String name = "John Digweed";
+    when(mockArtistRepository.findByName(name)).thenReturn(Optional.of(mock(Artist.class)));
+
+    // ACT
+    Optional<Artist> maybeArtist = artistService.findByName(name);
+
+    // ASSERT
+    assertTrue(maybeArtist.isPresent());
+  }
+
+  @Test
+  public void findByName_givenNameNotInDb() {
+    // ARRANGE
+    String name = "Cher";
+    when(mockArtistRepository.findByName(name)).thenReturn(Optional.empty());
+
+    // ACT
+    Optional<Artist> maybeArtist = artistService.findByName(name);
+
+    // ASSERT
+    assertThat(maybeArtist.isPresent(), is(false));
+  }
+
 }

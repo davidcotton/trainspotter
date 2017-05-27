@@ -41,7 +41,7 @@ public class GenreServiceTest {
   private FormFactory mockFormFactory;
 
   @Test
-  public void findAll() {
+  public void fetchAll() {
     // ARRANGE
     when(mockGenreRepository.findAll()).thenReturn(new ArrayList<Genre>() {{
       add(mock(Genre.class));
@@ -77,6 +77,32 @@ public class GenreServiceTest {
 
     // ACT
     Optional<Genre> maybeGenre = genreService.findById(nonExistentId);
+
+    // ASSERT
+    assertThat(maybeGenre.isPresent(), is(false));
+  }
+
+  @Test
+  public void findByName_givenNameInDb() {
+    // ARRANGE
+    String name = "Techno";
+    when(mockGenreRepository.findByName(name)).thenReturn(Optional.of(mock(Genre.class)));
+
+    // ACT
+    Optional<Genre> maybeGenre = genreService.findByName(name);
+
+    // ASSERT
+    assertTrue(maybeGenre.isPresent());
+  }
+
+  @Test
+  public void findByName_givenNameNotInDb() {
+    // ARRANGE
+    String name = "Classical Jazz";
+    when(mockGenreRepository.findByName(name)).thenReturn(Optional.empty());
+
+    // ACT
+    Optional<Genre> maybeGenre = genreService.findByName(name);
 
     // ASSERT
     assertThat(maybeGenre.isPresent(), is(false));

@@ -20,6 +20,12 @@ public class UserRepository implements Repository<User> {
     return Optional.ofNullable(find.byId(id));
   }
 
+  /**
+   * Find a User by their email address.
+   *
+   * @param email The email address to search for.
+   * @return      An optional user if found.
+   */
   public Optional<User> findByEmail(String email) {
     return Optional.ofNullable(find.where().eq("email", email).findUnique());
   }

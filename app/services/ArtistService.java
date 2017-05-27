@@ -32,26 +32,39 @@ public class ArtistService {
   }
 
   /**
-   * Fetch all artists.
-   * @return A collection of all artists in the DB.
+   * Fetch all Artists.
+   *
+   * @return A collection of all Artists in the DB.
    */
   public List<Artist> fetchAll() {
     return artistRepository.findAll();
   }
 
   /**
-   * Find an artist by their ID.
+   * Find an Artist by their ID.
+   *
    * @param id  The ID to search for.
-   * @return    An optional artist if found.
+   * @return    An optional Artist if found.
    */
   public Optional<Artist> findById(long id) {
     return artistRepository.findById(id);
   }
 
   /**
-   * Insert a new artist.
-   * @param artist  The artist to insert.
-   * @return        Either the inserted artist or validation errors.
+   * Find an Artist by their name.
+   *
+   * @param name  The name to search for.
+   * @return      An optional Artist if found.
+   */
+  public Optional<Artist> findByName(String name) {
+    return artistRepository.findByName(name);
+  }
+
+  /**
+   * Insert a new Artist.
+   *
+   * @param artist  The Artist data to insert.
+   * @return        Either the inserted Artist or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Artist> insert(Artist artist) {
     // validate new artist
@@ -71,10 +84,11 @@ public class ArtistService {
   }
 
   /**
-   * Update an artist.
-   * @param savedArtist The existing artist data.
-   * @param newArtist   The new artist data.
-   * @return            Either the updated artist or validation errors.
+   * Update an Artist.
+   *
+   * @param savedArtist The existing Artist data.
+   * @param newArtist   The new Artist data.
+   * @return            Either the updated Artist or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Artist> update(Artist savedArtist, Artist newArtist) {
     // copy over read only fields
