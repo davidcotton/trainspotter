@@ -10,12 +10,14 @@ import static org.junit.Assert.assertTrue;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.atlassian.fugue.Either;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -119,7 +121,7 @@ public class UserServiceTest {
   }
 
   @Test
-  public void insert_successGivenValidUserData() {
+  public void insert_successGivenValidData() {
     // ARRANGE
     String email = "guy.incognito@simpsons.com";
     User user = new User(null, email, "password", null, "displayName", null, null, null, null);
@@ -144,6 +146,37 @@ public class UserServiceTest {
     ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
     verify(mockUserRepository).insert(argument.capture());
     assertThat(argument.getValue().getEmail(), is(email));
+  }
+
+  @Test
+  public void insert_failureGivenInvalidData() {
+    // ARRANGE
+    User user = new User(null, "invalid email format", null, null, null, null, null, null, null);
+
+    Map<String, List<ValidationError>> validationErrors =
+        new HashMap<String, List<ValidationError>>() {{
+          put("email", mock(List.class));
+        }};
+
+    Form mockForm = mock(Form.class);
+    Form mockDataForm = mock(Form.class);
+
+    when(mockFormFactory.form(User.class, User.InsertValidators.class)).thenReturn(mockDataForm);
+    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+    when(mockForm.hasErrors()).thenReturn(true);
+    when(mockForm.errors()).thenReturn(validationErrors);
+
+    // ACT
+    Either<Map<String, List<ValidationError>>, User> userOrError = userService.insert(user);
+
+    // ASSERT
+    // assert right (success value) is not present
+    assertFalse(userOrError.isRight());
+    // assert left (error value) is present
+    assertTrue(userOrError.isLeft());
+    assertThat(userOrError.left().get().get("email"), instanceOf(List.class));
+    // verify that the userRepository never tried to insert the invalid user
+    verify(mockUserRepository, never()).insert(any());
   }
 
 }

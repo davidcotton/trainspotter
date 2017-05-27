@@ -32,26 +32,29 @@ public class TracklistService {
   }
 
   /**
-   * Fetch all tracklists.
-   * @return A collection of all tracklists in the DB.
+   * Fetch all Tracklists.
+   *
+   * @return A collection of all Tracklists in the DB.
    */
   public List<Tracklist> fetchAll() {
     return tracklistRepository.findAll();
   }
 
   /**
-   * Find a tracklist by its ID.
+   * Find a Tracklist by its ID.
+   *
    * @param id  The ID to search for.
-   * @return    An optional tracklist if found.
+   * @return    An optional Tracklist if found.
    */
   public Optional<Tracklist> findById(long id) {
     return tracklistRepository.findById(id);
   }
 
   /**
-   * Insert a new tracklist.
-   * @param tracklist The tracklist to insert.
-   * @return          Either the inserted tracklist or validation errors.
+   * Insert a new Tracklist.
+   *
+   * @param tracklist The Tracklist to insert.
+   * @return          Either the inserted Tracklist or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Tracklist> insert(Tracklist tracklist) {
     // validate new tracklist
@@ -71,10 +74,11 @@ public class TracklistService {
   }
 
   /**
-   * Update a tracklist.
-   * @param savedTracklist  The existing tracklist data.
-   * @param newTracklist    The new tracklist data.
-   * @return                Either the updated tracklist or validation errors.
+   * Update a Tracklist.
+   *
+   * @param savedTracklist  The existing Tracklist data.
+   * @param newTracklist    The new Tracklist data.
+   * @return                Either the updated Tracklist or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Tracklist> update(Tracklist savedTracklist, Tracklist newTracklist) {
     // copy over read only fields

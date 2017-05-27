@@ -69,7 +69,7 @@ public class TrackService {
   public Either<Map<String, List<ValidationError>>, Track> insert(Track track) {
     // validate new track
     Form<Track> trackForm = formFactory
-        .form(Track.class)
+        .form(Track.class, Track.InsertValidators.class)
         .bind(toJson(track));
     if (trackForm.hasErrors()) {
       // return validation errors
@@ -97,7 +97,7 @@ public class TrackService {
 
     // validate the changes
     Form<Track> trackForm = formFactory
-        .form(Track.class)
+        .form(Track.class, Track.UpdateValidators.class)
         .bind(toJson(newTrack));
     if (trackForm.hasErrors()) {
       // return validation errors
@@ -110,4 +110,6 @@ public class TrackService {
     // return saved track
     return Either.right(newTrack);
   }
+
+
 }

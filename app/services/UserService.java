@@ -27,35 +27,39 @@ public class UserService {
   }
 
   /**
-   * Fetch all users.
-   * @return A collection of all users in the database.
+   * Fetch all Users.
+   *
+   * @return A collection of all Users in the database.
    */
   public List<User> fetchAll() {
     return userRepository.findAll();
   }
 
   /**
-   * Find a user by their ID.
+   * Find a User by their ID.
+   *
    * @param id  The ID to search for.
-   * @return    An optional user if found.
+   * @return    An optional User if found.
    */
   public Optional<User> findById(long id) {
     return userRepository.findById(id);
   }
 
   /**
-   * Find a user by their email address.
+   * Find a User by their email address.
+   *
    * @param email The email address to search for.
-   * @return      An optional user if found.
+   * @return      An optional User if found.
    */
   public Optional<User> findByEmail(String email) {
     return userRepository.findByEmail(email);
   }
 
   /**
-   * Insert a new user.
-   * @param user  The user to insert.
-   * @return      Either the inserted user or validation errors.
+   * Insert a new User.
+   *
+   * @param user  The User to insert.
+   * @return      Either the inserted User or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, User> insert(User user) {
     // validate new user
@@ -75,10 +79,11 @@ public class UserService {
   }
 
   /**
-   * Update a user.
-   * @param savedUser The existing user data.
-   * @param newUser   The new user data.
-   * @return          Either the updated user or validation errors.
+   * Update a User.
+   *
+   * @param savedUser The existing User data.
+   * @param newUser   The new User data.
+   * @return          Either the updated User or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, User> update(User savedUser, User newUser) {
     // copy over read only fields
