@@ -5,8 +5,8 @@ import static java.util.Objects.requireNonNull;
 import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
 
-import static utils.JsonHelper.MESSAGE_NOT_FOUND;
-import static utils.JsonHelper.errorsAsJson;
+import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
+import static utilities.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
 

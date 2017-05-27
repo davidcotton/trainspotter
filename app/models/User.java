@@ -28,6 +28,8 @@ import lombok.EqualsAndHashCode;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
+import validators.CustomConstraints;
+
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -52,8 +54,15 @@ public class User extends Model {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotNull
-  @Constraints.Email
+  @NotNull(
+      message = "An email address is required.",
+      groups = {InsertValidators.class, UpdateValidators.class}
+  )
+  @Constraints.Email(
+      message = "This is not a valid email address.",
+      groups = {InsertValidators.class, UpdateValidators.class}
+  )
+  @CustomConstraints.UniqueEmail(groups = {InsertValidators.class})
   @Column(unique = true, length = 191)
   private String email;
 
