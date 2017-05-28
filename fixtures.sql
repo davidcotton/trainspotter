@@ -1,13 +1,11 @@
-INSERT INTO `user`
-(`email`, `password`, `salt`, `display_name`, `status`, `created`, `updated`)
+INSERT INTO `user` (`email`, `hash`, `salt`, `display_name`, `status`, `created`, `updated`)
 VALUES
-  ('joe@example.com', 'password', 'salt', 'joey', 'active', NOW(), NOW()),
-  ('john@example.com', 'password', 'salt', 'john', 'active', NOW(), NOW()),
-  ('pete@example.com', 'password', 'salt', 'pete', 'active', NOW(), NOW())
+  ('joe@example.com', '$2a$16$T1PaqXFutgw9qUmlK875Ge4wFRnn9TBMyJHfxyBpDXItcrNDL/OYa', '$2a$16$T1PaqXFutgw9qUmlK875Ge', 'joey', 'active', NOW(), NOW()),
+  ('john@example.com', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.xKIJUcj9lInDBANSKNmiS5WCKW7uvai', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.', 'john', 'active', NOW(), NOW()),
+  ('pete@example.com', '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', '$2a$16$aY..e8GAU2YGfdvLGqtahe', 'pete', 'active', NOW(), NOW())
 ;
 
-INSERT INTO `artist`
-(`name`, `created`, `updated`)
+INSERT INTO `artist` (`name`, `created`, `updated`)
 VALUES
   ('Sasha', NOW(), NOW()),
   ('John Digweed', NOW(), NOW()),
@@ -27,8 +25,7 @@ VALUES
   ('Jesper Dahlback', NOW(), NOW())
 ;
 
-INSERT INTO `label`
-(`name`, `created`, `updated`)
+INSERT INTO `label` (`name`, `created`, `updated`)
 VALUES
   ('Not on label', NOW(), NOW()),
   ('Bedrock Records', NOW(), NOW()),
@@ -42,8 +39,7 @@ VALUES
   ('Strange Idol', NOW(), NOW())
 ;
 
-INSERT INTO `genre`
-(name, created, updated)
+INSERT INTO `genre` (name, created, updated)
 VALUES
   ('House', NOW(), NOW()),
   ('Techno', NOW(), NOW()),
@@ -53,8 +49,7 @@ VALUES
 ;
 
 
-INSERT INTO `track`
-(`name`, `remix_name`, `genre_id`, `label_id`, `release_date`, `created`, `updated`)
+INSERT INTO `track` (`name`, `remix_name`, `genre_id`, `label_id`, `release_date`, `created`, `updated`)
 VALUES
   ('Eros', null, 1, 1, NOW(), NOW(), NOW()),
   ('Eros', 'Deetron Dub Remix', 1, 1, NOW(), NOW(), NOW()),
@@ -68,8 +63,7 @@ VALUES
   ('Keep Faith', 'Scan Mode Remix', 2, 9, NOW(), NOW(), NOW())
 ;
 
-INSERT INTO `track_artists`
-  (`track_id`, `artist_id`)
+INSERT INTO `track_artists` (`track_id`, `artist_id`)
 VALUES
   (1, 3),
   (2, 3),
@@ -83,8 +77,7 @@ VALUES
   (10, 14)
 ;
 
-INSERT INTO `track_remixers`
-  (`track_id`, `artist_id`)
+INSERT INTO `track_remixers` (`track_id`, `artist_id`)
 VALUES
   (2, 4),
   (4, 7),
@@ -93,21 +86,18 @@ VALUES
   (10, 15)
 ;
 
-INSERT INTO `tracklist`
-  (`name`, `date`, `user_id`, `created`, `updated`)
+INSERT INTO `tracklist` (`name`, `date`, `user_id`, `created`, `updated`)
 VALUES
   ('John Digweed & Jesper Dahlback - Transitions 664 2017-05-19', '2017-05-19', 1, NOW(), NOW())
 ;
 
-INSERT INTO `tracklist_artist`
-  (`tracklist_id`, `artist_id`)
+INSERT INTO `tracklist_artist` (`tracklist_id`, `artist_id`)
 VALUES
   (1, 2),
   (1, 16)
 ;
 
-INSERT INTO `track_tracklist`
-  (track_id, tracklist_id)
+INSERT INTO `track_tracklist` (track_id, tracklist_id)
 VALUES
   (1, 1),
   (2, 1),
@@ -121,8 +111,7 @@ VALUES
   (10, 1)
 ;
 
-INSERT INTO `media`
-  (url, tracklist_id, artist_id, label_id, created, updated)
+INSERT INTO `media` (url, tracklist_id, artist_id, label_id, created, updated)
 VALUES
   ('https://youtu.be/tI7ywh2sI04', 1, null, null, NOW(), NOW()),
   ('https://www.mixcloud.com/globaldjmix/john-digweed-jesper-dahlback-transitions-664-2017-05-19/', 1, null, null, NOW(), NOW()),

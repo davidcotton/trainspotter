@@ -6,6 +6,7 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -15,13 +16,17 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
 import io.atlassian.fugue.Either;
+
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import models.CreateUser;
 import models.User;
 
 import org.hamcrest.collection.IsEmptyCollection;
@@ -36,8 +41,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import play.data.Form;
 import play.data.FormFactory;
-
 import play.data.validation.ValidationError;
+
 import repositories.UserRepository;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -123,18 +128,17 @@ public class UserServiceTest {
   @Test
   public void insert_successGivenValidData() {
     // ARRANGE
-    String email = "guy.incognito@simpsons.com";
-    User user = new User(null, email, "password", null, "displayName", null, null, null, null);
+    CreateUser createUser = new CreateUser("guy.incognito@simpsons.com", "Guy Incognito", "password1!");
 
     Form mockForm = mock(Form.class);
     Form mockDataForm = mock(Form.class);
 
-    when(mockFormFactory.form(User.class, User.InsertValidators.class)).thenReturn(mockDataForm);
+    when(mockFormFactory.form(CreateUser.class, CreateUser.InsertValidators.class)).thenReturn(mockDataForm);
     when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
     when(mockForm.hasErrors()).thenReturn(false);
 
     // ACT
-    Either<Map<String, List<ValidationError>>, User> userOrError = userService.insert(user);
+    Either<Map<String, List<ValidationError>>, User> userOrError = userService.insert(createUser);
 
     // ASSERT
     // assert left (error value) is not present
@@ -145,13 +149,13 @@ public class UserServiceTest {
     // verify that the user repository inserted the new user
     ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
     verify(mockUserRepository).insert(argument.capture());
-    assertThat(argument.getValue().getEmail(), is(email));
+    assertThat(argument.getValue().getEmail(), is("guy.incognito@simpsons.com"));
   }
 
   @Test
   public void insert_failureGivenInvalidData() {
     // ARRANGE
-    User user = new User(null, "invalid email format", null, null, null, null, null, null, null);
+    CreateUser createUser = new CreateUser("invalid email format", "Guy Incognito", "password1!");
 
     Map<String, List<ValidationError>> validationErrors =
         new HashMap<String, List<ValidationError>>() {{
@@ -161,13 +165,13 @@ public class UserServiceTest {
     Form mockForm = mock(Form.class);
     Form mockDataForm = mock(Form.class);
 
-    when(mockFormFactory.form(User.class, User.InsertValidators.class)).thenReturn(mockDataForm);
+    when(mockFormFactory.form(CreateUser.class, CreateUser.InsertValidators.class)).thenReturn(mockDataForm);
     when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
     when(mockForm.hasErrors()).thenReturn(true);
     when(mockForm.errors()).thenReturn(validationErrors);
 
     // ACT
-    Either<Map<String, List<ValidationError>>, User> userOrError = userService.insert(user);
+    Either<Map<String, List<ValidationError>>, User> userOrError = userService.insert(createUser);
 
     // ASSERT
     // assert right (success value) is not present
@@ -179,4 +183,75 @@ public class UserServiceTest {
     verify(mockUserRepository, never()).insert(any());
   }
 
+  @Test
+  public void update_successGivenValidData() {
+    // ARRANGE
+    User savedUser = new User(
+        1L, "john.digweed@bedrock.com", "John Digweed", User.Status.active,
+        "hash", "salt", new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
+    );
+    CreateUser createUser = new CreateUser("sasha@bedrock.com", "Sasha", "password1!");
+
+    Form mockForm = mock(Form.class);
+    Form mockDataForm = mock(Form.class);
+
+    when(mockFormFactory.form(CreateUser.class, CreateUser.UpdateValidators.class))
+        .thenReturn(mockDataForm);
+    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+    when(mockForm.hasErrors()).thenReturn(false);
+
+    // ACT
+    Either<Map<String, List<ValidationError>>, User> userOrError = userService
+        .update(savedUser, createUser);
+
+    // ASSERT
+    // assert left (error value) is not present
+    assertFalse(userOrError.isLeft());
+    // assert right (success value) is present
+    assertTrue(userOrError.isRight());
+    // verify that the user repository updated the user
+    ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
+    verify(mockUserRepository).update(argument.capture());
+    assertThat(argument.getValue().getEmail(), is("sasha@bedrock.com"));
+    assertThat(argument.getValue().getDisplayName(), is("Sasha"));
+    // make sure that password is hashed!
+    assertThat(argument.getValue().getHash(), not("password1!"));
+    assertNotNull(argument.getValue().getSalt());
+  }
+
+  @Test
+  public void update_failureGivenInvalidEmail() {
+    // ARRANGE
+    User savedUser = new User(
+        1L, "john.digweed@bedrock.com", "John Digweed", User.Status.active,
+        "hash", "salt", new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
+    );
+    CreateUser createUser = new CreateUser("invalid email format", "John Digweed", "password1!");
+
+    Map<String, List<ValidationError>> validationErrors =
+        new HashMap<String, List<ValidationError>>() {{
+          put("email", mock(List.class));
+        }};
+
+    Form mockForm = mock(Form.class);
+    Form mockDataForm = mock(Form.class);
+
+    when(mockFormFactory.form(CreateUser.class, CreateUser.UpdateValidators.class)).thenReturn(mockDataForm);
+    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+    when(mockForm.hasErrors()).thenReturn(true);
+    when(mockForm.errors()).thenReturn(validationErrors);
+
+    // ACT
+    Either<Map<String, List<ValidationError>>, User> userOrError = userService
+        .update(savedUser, createUser);
+
+    // ASSERT
+    // assert right (success value) is not present
+    assertFalse(userOrError.isRight());
+    // assert left (error value) is present
+    assertTrue(userOrError.isLeft());
+    assertThat(userOrError.left().get().get("email"), instanceOf(List.class));
+    // verify that the userRepository never tried to insert the invalid user
+    verify(mockUserRepository, never()).insert(any());
+  }
 }

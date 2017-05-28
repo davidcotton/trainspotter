@@ -5,6 +5,7 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.time.ZonedDateTime;
@@ -25,10 +26,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import lombok.Getter;
+import lombok.Setter;
 import play.data.format.Formats;
-import play.data.validation.Constraints;
 
-import validators.CustomConstraints;
+import static services.AuthenticationService.generateSalt;
+import static services.AuthenticationService.hashPassword;
 
 @Entity
 @Data
@@ -37,51 +40,40 @@ import validators.CustomConstraints;
 public class User extends Model {
 
   public enum Status {
-    @EnumValue("inactive") inactive,
-    @EnumValue("unverified") unverified,
-    @EnumValue("active") active,
-    @EnumValue("deleted") deleted,
-    @EnumValue("banned") banned,
+    @EnumValue("inactive")inactive,
+    @EnumValue("unverified")unverified,
+    @EnumValue("active")active,
+    @EnumValue("deleted")deleted,
+    @EnumValue("banned")banned,
   }
-
-  /** Validator group to be called on insert. */
-  public interface InsertValidators {}
-
-  /** Validator group to be called on update. */
-  public interface UpdateValidators {}
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotNull(
-      message = "An email address is required.",
-      groups = {InsertValidators.class, UpdateValidators.class}
-  )
-  @Constraints.Email(
-      message = "This is not a valid email address.",
-      groups = {InsertValidators.class, UpdateValidators.class}
-  )
-  @CustomConstraints.UniqueEmail(groups = {InsertValidators.class})
+  @NotNull
   @Column(unique = true, length = 191)
   private String email;
 
   @NotNull
-  @Constraints.Required
-  private String password;
-
-  @NotNull
-  @Constraints.Required
-  private String salt;
-
-  @NotNull
-  @Constraints.Required
   @Column(unique = true, length = 191)
   private String displayName;
 
   @NotNull
   @Enumerated
   private Status status;
+
+  @Getter(onMethod = @__(@JsonIgnore))
+  @Setter
+  @NotNull
+  @Column(columnDefinition = "char(60)")
+  private String hash;
+
+  @Getter(onMethod = @__(@JsonIgnore))
+  @Setter
+  @NotNull
+  @Column(columnDefinition = "char(29)")
+  private String salt;
 
   @OneToMany(mappedBy = "user")
   @JsonManagedReference
@@ -98,4 +90,12 @@ public class User extends Model {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
+
+  public User(CreateUser createUser) {
+    this.email = createUser.getEmail();
+    this.displayName = createUser.getName();
+    this.salt = generateSalt();
+    this.hash = hashPassword(createUser.getPassword(), this.salt);
+    this.setStatus(Status.unverified);
+  }
 }

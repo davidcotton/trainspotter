@@ -122,98 +122,98 @@ public class LabelServiceTest {
     assertThat(maybeLabel.isPresent(), is(false));
   }
 
-  @Test
-  public void insert_successGivenValidData() {
-    // ARRANGE
-    Label label = new Label(null, "Bedrock Records", null, null, null, null, null);
-
-    Form mockForm = mock(Form.class);
-    Form mockDataForm = mock(Form.class);
-
-    when(mockFormFactory.form(Label.class, Label.InsertValidators.class)).thenReturn(mockDataForm);
-    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-    when(mockForm.hasErrors()).thenReturn(false);
-
-    // ACT
-    Either<Map<String, List<ValidationError>>, Label> labelOrError = labelService.insert(label);
-
-    // ASSERT
-    // assert left (error value) is not present
-    assertFalse(labelOrError.isLeft());
-    // assert right (success value) is present
-    assertTrue(labelOrError.isRight());
-    assertThat(labelOrError.right().get(), instanceOf(Label.class));
-    // verify that the user repository inserted the new user
-    ArgumentCaptor<Label> argument = ArgumentCaptor.forClass(Label.class);
-    verify(mockLabelRepository).insert(argument.capture());
-    assertThat(argument.getValue().getName(), is("Bedrock Records"));
-  }
-
-  @Test
-  public void insert_failureGivenInvalidData() {
-    // ARRANGE
-    Label label = new Label(null, null, null, null, null, null, null);
-
-    Map<String, List<ValidationError>> validationErrors =
-        new HashMap<String, List<ValidationError>>() {{
-          put("name", mock(List.class));
-        }};
-
-    Form mockForm = mock(Form.class);
-    Form mockDataForm = mock(Form.class);
-
-    when(mockFormFactory.form(Label.class, Label.InsertValidators.class)).thenReturn(mockDataForm);
-    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-    when(mockForm.hasErrors()).thenReturn(true);
-    when(mockForm.errors()).thenReturn(validationErrors);
-
-    // ACT
-    Either<Map<String, List<ValidationError>>, Label> labelOrError = labelService.insert(label);
-
-    // ASSERT
-    // assert right (success value) is not present
-    assertFalse(labelOrError.isRight());
-    // assert left (error value) is present
-    assertTrue(labelOrError.isLeft());
-    assertThat(labelOrError.left().get().get("name"), instanceOf(List.class));
-    // verify that the labelRepository never tried to insert the invalid label
-    verify(mockLabelRepository, never()).insert(any());
-  }
-
-  @Test
-  public void update_successGivenValidData() {
-    // ARRANGE
-    Label savedLabel = new Label(
-        1L, "Bedrock Records", "image.jpg", new ArrayList<>(),
-        new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
-    );
-    Label newLabel = new Label(
-        1L, "Mobilee", "image.jpg", new ArrayList<>(),
-        new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
-    );
-
-    Form mockForm = mock(Form.class);
-    Form mockDataForm = mock(Form.class);
-
-    when(mockFormFactory.form(Label.class, Label.UpdateValidators.class))
-        .thenReturn(mockDataForm);
-    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-    when(mockForm.hasErrors()).thenReturn(false);
-
-    // ACT
-    Either<Map<String, List<ValidationError>>, Label> labelOrError = labelService
-        .update(savedLabel, newLabel);
-
-    // ASSERT
-    // assert left (error value) is not present
-    assertFalse(labelOrError.isLeft());
-    // assert right (success value) is present
-    assertTrue(labelOrError.isRight());
-    // verify that the user repository updated the user
-    ArgumentCaptor<Label> argument = ArgumentCaptor.forClass(Label.class);
-    verify(mockLabelRepository).update(argument.capture());
-    assertThat(argument.getValue().getName(), is("Mobilee"));
-  }
+//  @Test
+//  public void insert_successGivenValidData() {
+//    // ARRANGE
+//    Label label = new Label(null, "Bedrock Records", null, null, null, null, null);
+//
+//    Form mockForm = mock(Form.class);
+//    Form mockDataForm = mock(Form.class);
+//
+//    when(mockFormFactory.form(Label.class, Label.InsertValidators.class)).thenReturn(mockDataForm);
+//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+//    when(mockForm.hasErrors()).thenReturn(false);
+//
+//    // ACT
+//    Either<Map<String, List<ValidationError>>, Label> labelOrError = labelService.insert(label);
+//
+//    // ASSERT
+//    // assert left (error value) is not present
+//    assertFalse(labelOrError.isLeft());
+//    // assert right (success value) is present
+//    assertTrue(labelOrError.isRight());
+//    assertThat(labelOrError.right().get(), instanceOf(Label.class));
+//    // verify that the user repository inserted the new user
+//    ArgumentCaptor<Label> argument = ArgumentCaptor.forClass(Label.class);
+//    verify(mockLabelRepository).insert(argument.capture());
+//    assertThat(argument.getValue().getName(), is("Bedrock Records"));
+//  }
+//
+//  @Test
+//  public void insert_failureGivenInvalidData() {
+//    // ARRANGE
+//    Label label = new Label(null, null, null, null, null, null, null);
+//
+//    Map<String, List<ValidationError>> validationErrors =
+//        new HashMap<String, List<ValidationError>>() {{
+//          put("name", mock(List.class));
+//        }};
+//
+//    Form mockForm = mock(Form.class);
+//    Form mockDataForm = mock(Form.class);
+//
+//    when(mockFormFactory.form(Label.class, Label.InsertValidators.class)).thenReturn(mockDataForm);
+//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+//    when(mockForm.hasErrors()).thenReturn(true);
+//    when(mockForm.errors()).thenReturn(validationErrors);
+//
+//    // ACT
+//    Either<Map<String, List<ValidationError>>, Label> labelOrError = labelService.insert(label);
+//
+//    // ASSERT
+//    // assert right (success value) is not present
+//    assertFalse(labelOrError.isRight());
+//    // assert left (error value) is present
+//    assertTrue(labelOrError.isLeft());
+//    assertThat(labelOrError.left().get().get("name"), instanceOf(List.class));
+//    // verify that the labelRepository never tried to insert the invalid label
+//    verify(mockLabelRepository, never()).insert(any());
+//  }
+//
+//  @Test
+//  public void update_successGivenValidData() {
+//    // ARRANGE
+//    Label savedLabel = new Label(
+//        1L, "Bedrock Records", "image.jpg", new ArrayList<>(),
+//        new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
+//    );
+//    Label newLabel = new Label(
+//        1L, "Mobilee", "image.jpg", new ArrayList<>(),
+//        new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
+//    );
+//
+//    Form mockForm = mock(Form.class);
+//    Form mockDataForm = mock(Form.class);
+//
+//    when(mockFormFactory.form(Label.class, Label.UpdateValidators.class))
+//        .thenReturn(mockDataForm);
+//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+//    when(mockForm.hasErrors()).thenReturn(false);
+//
+//    // ACT
+//    Either<Map<String, List<ValidationError>>, Label> labelOrError = labelService
+//        .update(savedLabel, newLabel);
+//
+//    // ASSERT
+//    // assert left (error value) is not present
+//    assertFalse(labelOrError.isLeft());
+//    // assert right (success value) is present
+//    assertTrue(labelOrError.isRight());
+//    // verify that the user repository updated the user
+//    ArgumentCaptor<Label> argument = ArgumentCaptor.forClass(Label.class);
+//    verify(mockLabelRepository).update(argument.capture());
+//    assertThat(argument.getValue().getName(), is("Mobilee"));
+//  }
 
 
 }

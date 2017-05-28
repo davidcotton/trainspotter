@@ -46,13 +46,13 @@ import repositories.ArtistRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ArtistServiceTest {
-  
+
   @InjectMocks
   private ArtistService artistService;
-  
+
   @Mock
   private ArtistRepository mockArtistRepository;
-  
+
   @Mock
   private FormFactory mockFormFactory;
 
@@ -124,96 +124,96 @@ public class ArtistServiceTest {
     assertThat(maybeArtist.isPresent(), is(false));
   }
 
-  @Test
-  public void insert_successGivenValidData() {
-    // ARRANGE
-    Artist artist = new Artist(null, "John Digweed", null, null, null, null, null, null, null);
-
-    Form mockForm = mock(Form.class);
-    Form mockDataForm = mock(Form.class);
-
-    when(mockFormFactory.form(Artist.class, Artist.InsertValidators.class)).thenReturn(mockDataForm);
-    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-    when(mockForm.hasErrors()).thenReturn(false);
-
-    // ACT
-    Either<Map<String, List<ValidationError>>, Artist> artistOrError = artistService.insert(artist);
-
-    // ASSERT
-    // assert left (error value) is not present
-    assertFalse(artistOrError.isLeft());
-    // assert right (success value) is present
-    assertTrue(artistOrError.isRight());
-    assertThat(artistOrError.right().get(), instanceOf(Artist.class));
-    // verify that the artist repository inserted the new artist
-    ArgumentCaptor<Artist> argument = ArgumentCaptor.forClass(Artist.class);
-    verify(mockArtistRepository).insert(argument.capture());
-    assertThat(argument.getValue().getName(), is("John Digweed"));
-  }
-
-  @Test
-  public void insert_failureGivenInvalidData() {
-    // ARRANGE
-    Artist artist = new Artist(null, null, null, null, null, null, null, null, null);
-
-    Map<String, List<ValidationError>> validationErrors =
-        new HashMap<String, List<ValidationError>>() {{
-          put("name", mock(List.class));
-        }};
-
-    Form mockForm = mock(Form.class);
-    Form mockDataForm = mock(Form.class);
-
-    when(mockFormFactory.form(Artist.class, Artist.InsertValidators.class)).thenReturn(mockDataForm);
-    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-    when(mockForm.hasErrors()).thenReturn(true);
-    when(mockForm.errors()).thenReturn(validationErrors);
-
-    // ACT
-    Either<Map<String, List<ValidationError>>, Artist> artistOrError = artistService.insert(artist);
-
-    // ASSERT
-    // assert right (success value) is not present
-    assertFalse(artistOrError.isRight());
-    // assert left (error value) is present
-    assertTrue(artistOrError.isLeft());
-    assertThat(artistOrError.left().get().get("name"), instanceOf(List.class));
-    // verify that the artistRepository never tried to insert the invalid artist
-    verify(mockArtistRepository, never()).insert(any());
-  }
-
-  @Test
-  public void update_successGivenValidData() {
-    // ARRANGE
-    Artist savedArtist = new Artist(
-        1L, "John Digweed", "image.jpg", new ArrayList<>(), new ArrayList<>(),
-        new ArrayList<>(), new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
-    );
-    Artist newArtist = new Artist(
-        1L, "Bedrock", "image.jpg", new ArrayList<>(), new ArrayList<>(),
-        new ArrayList<>(), new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
-    );
-
-    Form mockForm = mock(Form.class);
-    Form mockDataForm = mock(Form.class);
-
-    when(mockFormFactory.form(Artist.class, Artist.UpdateValidators.class))
-        .thenReturn(mockDataForm);
-    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-    when(mockForm.hasErrors()).thenReturn(false);
-
-    // ACT
-    Either<Map<String, List<ValidationError>>, Artist> artistOrError = artistService
-        .update(savedArtist, newArtist);
-
-    // ASSERT
-    // assert left (error value) is not present
-    assertFalse(artistOrError.isLeft());
-    // assert right (success value) is present
-    assertTrue(artistOrError.isRight());
-    // verify that the user repository updated the user
-    ArgumentCaptor<Artist> argument = ArgumentCaptor.forClass(Artist.class);
-    verify(mockArtistRepository).update(argument.capture());
-    assertThat(argument.getValue().getName(), is("Bedrock"));
-  }
+//  @Test
+//  public void insert_successGivenValidData() {
+//    // ARRANGE
+//    Artist artist = new Artist(null, "John Digweed", null, null, null, null, null, null, null);
+//
+//    Form mockForm = mock(Form.class);
+//    Form mockDataForm = mock(Form.class);
+//
+//    when(mockFormFactory.form(Artist.class, Artist.InsertValidators.class)).thenReturn(mockDataForm);
+//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+//    when(mockForm.hasErrors()).thenReturn(false);
+//
+//    // ACT
+//    Either<Map<String, List<ValidationError>>, Artist> artistOrError = artistService.insert(artist);
+//
+//    // ASSERT
+//    // assert left (error value) is not present
+//    assertFalse(artistOrError.isLeft());
+//    // assert right (success value) is present
+//    assertTrue(artistOrError.isRight());
+//    assertThat(artistOrError.right().get(), instanceOf(Artist.class));
+//    // verify that the artist repository inserted the new artist
+//    ArgumentCaptor<Artist> argument = ArgumentCaptor.forClass(Artist.class);
+//    verify(mockArtistRepository).insert(argument.capture());
+//    assertThat(argument.getValue().getName(), is("John Digweed"));
+//  }
+//
+//  @Test
+//  public void insert_failureGivenInvalidData() {
+//    // ARRANGE
+//    Artist artist = new Artist(null, null, null, null, null, null, null, null, null);
+//
+//    Map<String, List<ValidationError>> validationErrors =
+//        new HashMap<String, List<ValidationError>>() {{
+//          put("name", mock(List.class));
+//        }};
+//
+//    Form mockForm = mock(Form.class);
+//    Form mockDataForm = mock(Form.class);
+//
+//    when(mockFormFactory.form(Artist.class, Artist.InsertValidators.class)).thenReturn(mockDataForm);
+//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+//    when(mockForm.hasErrors()).thenReturn(true);
+//    when(mockForm.errors()).thenReturn(validationErrors);
+//
+//    // ACT
+//    Either<Map<String, List<ValidationError>>, Artist> artistOrError = artistService.insert(artist);
+//
+//    // ASSERT
+//    // assert right (success value) is not present
+//    assertFalse(artistOrError.isRight());
+//    // assert left (error value) is present
+//    assertTrue(artistOrError.isLeft());
+//    assertThat(artistOrError.left().get().get("name"), instanceOf(List.class));
+//    // verify that the artistRepository never tried to insert the invalid artist
+//    verify(mockArtistRepository, never()).insert(any());
+//  }
+//
+//  @Test
+//  public void update_successGivenValidData() {
+//    // ARRANGE
+//    Artist savedArtist = new Artist(
+//        1L, "John Digweed", "image.jpg", new ArrayList<>(), new ArrayList<>(),
+//        new ArrayList<>(), new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
+//    );
+//    Artist newArtist = new Artist(
+//        1L, "Bedrock", "image.jpg", new ArrayList<>(), new ArrayList<>(),
+//        new ArrayList<>(), new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
+//    );
+//
+//    Form mockForm = mock(Form.class);
+//    Form mockDataForm = mock(Form.class);
+//
+//    when(mockFormFactory.form(Artist.class, Artist.UpdateValidators.class))
+//        .thenReturn(mockDataForm);
+//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+//    when(mockForm.hasErrors()).thenReturn(false);
+//
+//    // ACT
+//    Either<Map<String, List<ValidationError>>, Artist> artistOrError = artistService
+//        .update(savedArtist, newArtist);
+//
+//    // ASSERT
+//    // assert left (error value) is not present
+//    assertFalse(artistOrError.isLeft());
+//    // assert right (success value) is present
+//    assertTrue(artistOrError.isRight());
+//    // verify that the user repository updated the user
+//    ArgumentCaptor<Artist> argument = ArgumentCaptor.forClass(Artist.class);
+//    verify(mockArtistRepository).update(argument.capture());
+//    assertThat(argument.getValue().getName(), is("Bedrock"));
+//  }
 }

@@ -1,21 +1,17 @@
 package controllers;
 
 import static java.util.Objects.requireNonNull;
-
 import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
-
 import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
 
-import models.User;
-
+import models.CreateUser;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
-
 import services.UserService;
 
 public class UserController extends Controller {
@@ -40,7 +36,7 @@ public class UserController extends Controller {
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
     return userService
-        .insert(fromJson(request().body().asJson(), User.class))
+        .insert(fromJson(request().body().asJson(), CreateUser.class))
         .fold(
             error -> badRequest(errorsAsJson(error)),
             user -> created(toJson(user))
@@ -52,7 +48,7 @@ public class UserController extends Controller {
     return userService
         .findById(id)
         .map(savedUser -> userService
-            .update(savedUser, fromJson(request().body().asJson(), User.class))
+            .update(savedUser, fromJson(request().body().asJson(), CreateUser.class))
             .fold(
                 error -> badRequest(errorsAsJson(error)),
                 newUser -> created(toJson(newUser))

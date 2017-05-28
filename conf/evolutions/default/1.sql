@@ -54,7 +54,6 @@ create table track (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
   remix_name                    varchar(255),
-  genre_id                      bigint,
   release_date                  date,
   created                       datetime not null,
   updated                       datetime not null,
@@ -85,11 +84,11 @@ create table tracklist_genre (
 
 create table user (
   id                            bigint auto_increment not null,
-  email                         varchar(191),
-  password                      varchar(255) not null,
-  salt                          varchar(255) not null,
+  email                         varchar(191) not null,
   display_name                  varchar(191) not null,
   status                        varchar(10) not null,
+  hash                          char(60) not null,
+  salt                          char(29) not null,
   created                       datetime not null,
   updated                       datetime not null,
   constraint ck_user_status check (status in ('inactive','deleted','unverified','active','banned')),
@@ -112,9 +111,6 @@ create index ix_media_artist_id on media (artist_id);
 
 alter table media add constraint fk_media_label_id foreign key (label_id) references label (id) on delete restrict on update restrict;
 create index ix_media_label_id on media (label_id);
-
-alter table track add constraint fk_track_genre_id foreign key (genre_id) references genre (id) on delete restrict on update restrict;
-create index ix_track_genre_id on track (genre_id);
 
 alter table tracklist add constraint fk_tracklist_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
 create index ix_tracklist_user_id on tracklist (user_id);
@@ -148,9 +144,6 @@ drop index ix_media_artist_id on media;
 
 alter table media drop foreign key fk_media_label_id;
 drop index ix_media_label_id on media;
-
-alter table track drop foreign key fk_track_genre_id;
-drop index ix_track_genre_id on track;
 
 alter table tracklist drop foreign key fk_tracklist_user_id;
 drop index ix_tracklist_user_id on tracklist;

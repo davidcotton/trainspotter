@@ -1,14 +1,16 @@
 package services;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import static java.util.Objects.requireNonNull;
 import static play.libs.Json.toJson;
 
 import io.atlassian.fugue.Either;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
+import models.CreateUser;
 import models.User;
 import play.data.Form;
 import play.data.FormFactory;
@@ -56,20 +58,24 @@ public class UserService {
   }
 
   /**
-   * Insert a new User.
+   * Create a new User in the system.
    *
-   * @param user  The User to insert.
-   * @return      Either the inserted User or validation errors.
+   * @param createUser  The user supplied data.
+   * @return            Either the inserted User or validation errors.
    */
-  public Either<Map<String, List<ValidationError>>, User> insert(User user) {
+  public Either<Map<String, List<ValidationError>>, User> insert(CreateUser createUser) {
     // validate new user
-    Form<User> userForm = formFactory
-        .form(User.class, User.InsertValidators.class)
-        .bind(toJson(user));
-    if (userForm.hasErrors()) {
+    JsonNode jsonNode = toJson(createUser);
+    Form<CreateUser> createUserForm = formFactory
+        .form(CreateUser.class, CreateUser.InsertValidators.class)
+        .bind(jsonNode);
+    if (createUserForm.hasErrors()) {
       // return validation errors
-      return Either.left(userForm.errors());
+      return Either.left(createUserForm.errors());
     }
+
+    // create a user object from our createUser object
+    User user = new User(createUser);
 
     // save to DB
     userRepository.insert(user);
@@ -85,21 +91,21 @@ public class UserService {
    * @param newUser   The new User data.
    * @return          Either the updated User or validation errors.
    */
-  public Either<Map<String, List<ValidationError>>, User> update(User savedUser, User newUser) {
-    // copy over read only fields
-    newUser.setId(savedUser.getId());
-    newUser.setSalt(savedUser.getSalt());
-    newUser.setStatus(savedUser.getStatus());
-    newUser.setCreated(savedUser.getCreated());
-
+  public Either<Map<String, List<ValidationError>>, User> update(User savedUser, CreateUser createUser) {
     // validate the changes
-    Form<User> userForm = formFactory
-        .form(User.class, User.UpdateValidators.class)
-        .bind(toJson(newUser));
+    Form<CreateUser> userForm = formFactory
+        .form(CreateUser.class, CreateUser.UpdateValidators.class)
+        .bind(toJson(createUser));
     if (userForm.hasErrors()) {
       // return validation errors
       return Either.left(userForm.errors());
     }
+
+    User newUser = new User(createUser);
+    // copy over read only fields
+    newUser.setId(savedUser.getId());
+    newUser.setStatus(savedUser.getStatus());
+    newUser.setCreated(savedUser.getCreated());
 
     // save to DB
     userRepository.update(newUser);

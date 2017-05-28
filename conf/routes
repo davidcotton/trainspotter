@@ -2,6 +2,13 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Users
+GET     /user                         controllers.UserController.fetchAll
+POST    /user                         controllers.UserController.create
+GET     /user/:id                     controllers.UserController.fetch(id:Long)
+PUT     /user/:id                     controllers.UserController.update(id:Long)
+DELETE  /user/:id                     controllers.UserController.delete(id:Long)
+
 # Artists
 GET     /artist                       controllers.ArtistController.fetchAll
 POST    /artist                       controllers.ArtistController.create
@@ -36,14 +43,6 @@ POST    /track                        controllers.TrackController.create
 GET     /track/:id                    controllers.TrackController.fetch(id:Long)
 PUT     /track/:id                    controllers.TrackController.update(id:Long)
 DELETE  /track/:id                    controllers.TrackController.delete(id:Long)
-
-# Users
-GET     /user                         controllers.UserController.fetchAll
-POST    /user                         controllers.UserController.create
-GET     /user/:id                     controllers.UserController.fetch(id:Long)
-PUT     /user/:id                     controllers.UserController.update(id:Long)
-DELETE  /user/:id                     controllers.UserController.delete(id:Long)
-
 
 
 # Application
