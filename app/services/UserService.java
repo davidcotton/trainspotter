@@ -10,8 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
-import models.CreateUser;
 import models.User;
+import models.User.InsertValidators;
+import models.User.UpdateValidators;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
@@ -60,22 +61,20 @@ public class UserService {
   /**
    * Create a new User in the system.
    *
-   * @param createUser  The user supplied data.
-   * @return            Either the inserted User or validation errors.
+   * @param user  The user supplied data.
+   * @return      Either the inserted User or validation errors.
    */
-  public Either<Map<String, List<ValidationError>>, User> insert(CreateUser createUser) {
-    // validate new user
-    JsonNode jsonNode = toJson(createUser);
-    Form<CreateUser> createUserForm = formFactory
-        .form(CreateUser.class, CreateUser.InsertValidators.class)
-        .bind(jsonNode);
-    if (createUserForm.hasErrors()) {
-      // return validation errors
-      return Either.left(createUserForm.errors());
-    }
+  public Either<Map<String, List<ValidationError>>, User> insert(User user) {
+    // set default values
+    user.setStatus(User.Status.unverified);
 
-    // create a user object from our createUser object
-    User user = new User(createUser);
+    // validate new user
+    JsonNode jsonNode = toJson(user);
+    Form<User> userForm = formFactory.form(User.class, InsertValidators.class).bind(jsonNode);
+    if (userForm.hasErrors()) {
+      // return validation errors
+      return Either.left(userForm.errors());
+    }
 
     // save to DB
     userRepository.insert(user);
@@ -91,21 +90,19 @@ public class UserService {
    * @param newUser   The new User data.
    * @return          Either the updated User or validation errors.
    */
-  public Either<Map<String, List<ValidationError>>, User> update(User savedUser, CreateUser createUser) {
+  public Either<Map<String, List<ValidationError>>, User> update(User savedUser, User newUser) {
+    // copy over read only fields
+    newUser.setId(savedUser.getId());
+    newUser.setPassword(savedUser.getPassword());
+    newUser.setStatus(savedUser.getStatus());
+    newUser.setCreated(savedUser.getCreated());
+
     // validate the changes
-    Form<CreateUser> userForm = formFactory
-        .form(CreateUser.class, CreateUser.UpdateValidators.class)
-        .bind(toJson(createUser));
+    Form<User> userForm = formFactory.form(User.class, UpdateValidators.class).bind(toJson(newUser));
     if (userForm.hasErrors()) {
       // return validation errors
       return Either.left(userForm.errors());
     }
-
-    User newUser = new User(createUser);
-    // copy over read only fields
-    newUser.setId(savedUser.getId());
-    newUser.setStatus(savedUser.getStatus());
-    newUser.setCreated(savedUser.getCreated());
 
     // save to DB
     userRepository.update(newUser);

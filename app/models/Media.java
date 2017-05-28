@@ -47,7 +47,7 @@ public class Media extends Model {
   private String url;
 
   @ManyToOne
-  @JsonBackReference
+  @JsonBackReference(value = "tracklists_medias")
   private Tracklist tracklist;
 
   @ManyToOne

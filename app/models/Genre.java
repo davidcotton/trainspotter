@@ -54,7 +54,7 @@ public class Genre extends Model {
 //  private List<Track> tracks;
 
   @ManyToMany
-  @JsonManagedReference
+  @JsonManagedReference(value = "genres_tracklists")
   private List<Tracklist> tracklists;
 
   @CreatedTimestamp

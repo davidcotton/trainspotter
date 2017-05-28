@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -26,12 +27,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import lombok.Getter;
-import lombok.Setter;
 import play.data.format.Formats;
-
-import static services.AuthenticationService.generateSalt;
-import static services.AuthenticationService.hashPassword;
+import play.data.validation.Constraints;
+import validators.CustomConstraints;
 
 @Entity
 @Data
@@ -47,14 +45,33 @@ public class User extends Model {
     @EnumValue("banned")banned,
   }
 
+  /** Validator group to be called on insert. */
+  public interface InsertValidators {}
+
+  /** Validator group to be called on update. */
+  public interface UpdateValidators {}
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Constraints.Required(
+      message = "An email address is required.",
+      groups = {InsertValidators.class, UpdateValidators.class}
+  )
+  @Constraints.Email(
+      message = "This is not a valid email address.",
+      groups = {InsertValidators.class, UpdateValidators.class}
+  )
+  @CustomConstraints.UniqueEmail(groups = {InsertValidators.class})
   @NotNull
   @Column(unique = true, length = 191)
   private String email;
 
+  @Constraints.Required(
+      message = "A display name is required.",
+      groups = {InsertValidators.class, UpdateValidators.class}
+  )
   @NotNull
   @Column(unique = true, length = 191)
   private String displayName;
@@ -63,21 +80,12 @@ public class User extends Model {
   @Enumerated
   private Status status;
 
-  @Getter(onMethod = @__(@JsonIgnore))
-  @Setter
-  @NotNull
-  @Column(columnDefinition = "char(60)")
-  private String hash;
+  @OneToOne
+  private Password password;
 
-  @Getter(onMethod = @__(@JsonIgnore))
-  @Setter
-  @NotNull
-  @Column(columnDefinition = "char(29)")
-  private String salt;
-
-  @OneToMany(mappedBy = "user")
-  @JsonManagedReference
-  private List<Tracklist> tracklists;
+//  @OneToMany(mappedBy = "user")
+//  @JsonManagedReference(value = "user_tracklists")
+//  private List<Tracklist> tracklists;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -91,11 +99,9 @@ public class User extends Model {
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
 
-  public User(CreateUser createUser) {
-    this.email = createUser.getEmail();
-    this.displayName = createUser.getName();
-    this.salt = generateSalt();
-    this.hash = hashPassword(createUser.getPassword(), this.salt);
-    this.setStatus(Status.unverified);
-  }
+//  public User(CreateUser createUser) {
+//    this.email = createUser.getEmail();
+//    this.displayName = createUser.getName();
+//    this.setStatus(Status.unverified);
+//  }
 }

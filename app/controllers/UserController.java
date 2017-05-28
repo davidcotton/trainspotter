@@ -8,7 +8,9 @@ import static utilities.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
 
-import models.CreateUser;
+import models.CreatePassword;
+import models.User;
+import play.Logger;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -35,8 +37,12 @@ public class UserController extends Controller {
 
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
+    User user1 = fromJson(request().body().asJson(), User.class);
+    CreatePassword createPassword = fromJson(request().body().asJson(), CreatePassword.class);
+    Logger.info(user1.getEmail(), createPassword.getPassword());
+
     return userService
-        .insert(fromJson(request().body().asJson(), CreateUser.class))
+        .insert(fromJson(request().body().asJson(), User.class))
         .fold(
             error -> badRequest(errorsAsJson(error)),
             user -> created(toJson(user))
@@ -48,7 +54,7 @@ public class UserController extends Controller {
     return userService
         .findById(id)
         .map(savedUser -> userService
-            .update(savedUser, fromJson(request().body().asJson(), CreateUser.class))
+            .update(savedUser, fromJson(request().body().asJson(), User.class))
             .fold(
                 error -> badRequest(errorsAsJson(error)),
                 newUser -> created(toJson(newUser))
