@@ -16,6 +16,7 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +37,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import models.Track;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
@@ -180,4 +182,38 @@ public class ArtistServiceTest {
     verify(mockArtistRepository, never()).insert(any());
   }
 
+  @Test
+  public void update_successGivenValidData() {
+    // ARRANGE
+    Artist savedArtist = new Artist(
+        1L, "John Digweed", "image.jpg", new ArrayList<>(), new ArrayList<>(),
+        new ArrayList<>(), new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
+    );
+    Artist newArtist = new Artist(
+        1L, "Bedrock", "image.jpg", new ArrayList<>(), new ArrayList<>(),
+        new ArrayList<>(), new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
+    );
+
+    Form mockForm = mock(Form.class);
+    Form mockDataForm = mock(Form.class);
+
+    when(mockFormFactory.form(Artist.class, Artist.UpdateValidators.class))
+        .thenReturn(mockDataForm);
+    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+    when(mockForm.hasErrors()).thenReturn(false);
+
+    // ACT
+    Either<Map<String, List<ValidationError>>, Artist> artistOrError = artistService
+        .update(savedArtist, newArtist);
+
+    // ASSERT
+    // assert left (error value) is not present
+    assertFalse(artistOrError.isLeft());
+    // assert right (success value) is present
+    assertTrue(artistOrError.isRight());
+    // verify that the user repository updated the user
+    ArgumentCaptor<Artist> argument = ArgumentCaptor.forClass(Artist.class);
+    verify(mockArtistRepository).update(argument.capture());
+    assertThat(argument.getValue().getName(), is("Bedrock"));
+  }
 }

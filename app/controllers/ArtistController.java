@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import models.Artist;
 
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -36,6 +37,7 @@ public class ArtistController extends Controller {
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
+  @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
     return artistService
         .insert(fromJson(request().body().asJson(), Artist.class))
@@ -45,6 +47,7 @@ public class ArtistController extends Controller {
         );
   }
 
+  @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
     return artistService
         .findById(id)

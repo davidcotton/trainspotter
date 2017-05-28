@@ -16,6 +16,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -177,6 +178,41 @@ public class LabelServiceTest {
     assertThat(labelOrError.left().get().get("name"), instanceOf(List.class));
     // verify that the labelRepository never tried to insert the invalid label
     verify(mockLabelRepository, never()).insert(any());
+  }
+
+  @Test
+  public void update_successGivenValidData() {
+    // ARRANGE
+    Label savedLabel = new Label(
+        1L, "Bedrock Records", "image.jpg", new ArrayList<>(),
+        new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
+    );
+    Label newLabel = new Label(
+        1L, "Mobilee", "image.jpg", new ArrayList<>(),
+        new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
+    );
+
+    Form mockForm = mock(Form.class);
+    Form mockDataForm = mock(Form.class);
+
+    when(mockFormFactory.form(Label.class, Label.UpdateValidators.class))
+        .thenReturn(mockDataForm);
+    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+    when(mockForm.hasErrors()).thenReturn(false);
+
+    // ACT
+    Either<Map<String, List<ValidationError>>, Label> labelOrError = labelService
+        .update(savedLabel, newLabel);
+
+    // ASSERT
+    // assert left (error value) is not present
+    assertFalse(labelOrError.isLeft());
+    // assert right (success value) is present
+    assertTrue(labelOrError.isRight());
+    // verify that the user repository updated the user
+    ArgumentCaptor<Label> argument = ArgumentCaptor.forClass(Label.class);
+    verify(mockLabelRepository).update(argument.capture());
+    assertThat(argument.getValue().getName(), is("Mobilee"));
   }
 
 

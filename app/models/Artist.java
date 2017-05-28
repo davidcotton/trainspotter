@@ -50,13 +50,13 @@ public class Artist extends Model {
 
   private String image;
 
-  @ManyToMany(mappedBy = "artists")
-  @JsonManagedReference
-  private List<Track> tracks;
-
-  @ManyToMany(mappedBy = "artists")
-  @JsonManagedReference
-  private List<Track> remixes;
+//  @ManyToMany(mappedBy = "artists")
+//  @JsonManagedReference(value = "track_artists")
+//  private List<Track> tracks;
+//
+//  @ManyToMany(mappedBy = "artists")
+//  @JsonManagedReference(value = "track_remixers")
+//  private List<Track> remixes;
 
   @ManyToMany(mappedBy = "artists")
   @JsonManagedReference

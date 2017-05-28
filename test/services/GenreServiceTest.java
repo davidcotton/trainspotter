@@ -16,6 +16,7 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -178,6 +179,41 @@ public class GenreServiceTest {
     assertThat(genreOrError.left().get().get("name"), instanceOf(List.class));
     // verify that the genreRepository never tried to insert the invalid genre
     verify(mockGenreRepository, never()).insert(any());
+  }
+
+  @Test
+  public void update_successGivenValidData() {
+    // ARRANGE
+    Genre savedGenre = new Genre(
+        1L, "Techno", new ArrayList<>(), new ArrayList<>(), ZonedDateTime.now(),
+        ZonedDateTime.now()
+    );
+    Genre newGenre = new Genre(
+        1L, "Deep House", new ArrayList<>(), new ArrayList<>(), ZonedDateTime.now(),
+        ZonedDateTime.now()
+    );
+
+    Form mockForm = mock(Form.class);
+    Form mockDataForm = mock(Form.class);
+
+    when(mockFormFactory.form(Genre.class, Genre.UpdateValidators.class))
+        .thenReturn(mockDataForm);
+    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+    when(mockForm.hasErrors()).thenReturn(false);
+
+    // ACT
+    Either<Map<String, List<ValidationError>>, Genre> genreOrError = genreService
+        .update(savedGenre, newGenre);
+
+    // ASSERT
+    // assert left (error value) is not present
+    assertFalse(genreOrError.isLeft());
+    // assert right (success value) is present
+    assertTrue(genreOrError.isRight());
+    // verify that the user repository updated the user
+    ArgumentCaptor<Genre> argument = ArgumentCaptor.forClass(Genre.class);
+    verify(mockGenreRepository).update(argument.capture());
+    assertThat(argument.getValue().getName(), is("Deep House"));
   }
 
 }

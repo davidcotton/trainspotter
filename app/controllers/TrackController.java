@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import models.Track;
 
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -36,7 +37,10 @@ public class TrackController extends Controller {
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
+  @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
+    Track track1 = fromJson(request().body().asJson(), Track.class);
+
     return trackService
         .insert(fromJson(request().body().asJson(), Track.class))
         .fold(
@@ -45,6 +49,7 @@ public class TrackController extends Controller {
         );
   }
 
+  @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
     return trackService
         .findById(id)

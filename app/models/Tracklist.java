@@ -56,9 +56,9 @@ public class Tracklist extends Model {
   @JsonBackReference
   private User user;
 
-  @ManyToMany(mappedBy = "tracklists")
-  @JsonManagedReference
-  private List<Track> tracks;
+//  @ManyToMany(mappedBy = "tracklists")
+//  @JsonManagedReference(value = "tracklist_tracks")
+//  private List<Track> tracks;
 
   @ManyToMany
   @JsonBackReference

@@ -49,9 +49,9 @@ public class Label extends Model {
 
   private String image;
 
-  @OneToMany(mappedBy = "label")
-  @JsonManagedReference
-  private List<Track> tracks;
+//  @OneToMany(mappedBy = "label")
+//  @JsonManagedReference(value = "label_tracks")
+//  private List<Track> tracks;
 
   @OneToMany
   @JsonManagedReference

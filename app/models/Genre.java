@@ -49,9 +49,9 @@ public class Genre extends Model {
   @Column(unique = true, length = 191)
   private String name;
 
-  @OneToMany(mappedBy = "genre")
-  @JsonBackReference
-  private List<Track> tracks;
+//  @OneToMany(mappedBy = "genre")
+//  @JsonBackReference(value = "genre_tracks")
+//  private List<Track> tracks;
 
   @ManyToMany
   @JsonManagedReference

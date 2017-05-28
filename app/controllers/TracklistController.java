@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import models.Tracklist;
 
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -36,6 +37,7 @@ public class TracklistController extends Controller {
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
+  @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
     return tracklistService
         .insert(fromJson(request().body().asJson(), Tracklist.class))
@@ -45,6 +47,7 @@ public class TracklistController extends Controller {
         );
   }
 
+  @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
     return tracklistService
         .findById(id)

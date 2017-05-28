@@ -15,6 +15,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +25,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import io.atlassian.fugue.Either;
+import models.Genre;
+import models.Label;
 import models.Track;
 
 import org.hamcrest.collection.IsEmptyCollection;
@@ -178,6 +182,43 @@ public class TrackServiceTest {
     // verify that the trackRepository never tried to insert the invalid track
     verify(mockTrackRepository, never()).insert(any());
   }
-  
-  
+
+  @Test
+  public void update_successGivenValidData() {
+    // ARRANGE
+    Track savedTrack = new Track(
+        1L, "Heaven Scent", new ArrayList<>(), new ArrayList<>(), null,
+        mock(Genre.class), mock(Label.class), LocalDate.now(), new ArrayList<>(),
+        ZonedDateTime.now(), ZonedDateTime.now()
+    );
+    Track newTrack = new Track(
+        1L, "Beautiful Strange", new ArrayList<>(), new ArrayList<>(), null,
+        mock(Genre.class), mock(Label.class), LocalDate.now(), new ArrayList<>(),
+        ZonedDateTime.now(), ZonedDateTime.now()
+    );
+
+    Form mockForm = mock(Form.class);
+    Form mockDataForm = mock(Form.class);
+
+    when(mockFormFactory.form(Track.class, Track.UpdateValidators.class))
+        .thenReturn(mockDataForm);
+    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+    when(mockForm.hasErrors()).thenReturn(false);
+
+    // ACT
+    Either<Map<String, List<ValidationError>>, Track> trackOrError = trackService
+        .update(savedTrack, newTrack);
+
+    // ASSERT
+    // assert left (error value) is not present
+    assertFalse(trackOrError.isLeft());
+    // assert right (success value) is present
+    assertTrue(trackOrError.isRight());
+    // verify that the user repository updated the user
+    ArgumentCaptor<Track> argument = ArgumentCaptor.forClass(Track.class);
+    verify(mockTrackRepository).update(argument.capture());
+    assertThat(argument.getValue().getName(), is("Beautiful Strange"));
+  }
+
+
 }
