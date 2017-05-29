@@ -188,7 +188,7 @@ public class UserServiceTest {
     // ARRANGE
     User savedUser = new User(
         1L, "john.digweed@bedrock.com", "John Digweed", User.Status.active,
-        "hash", "salt", ZonedDateTime.now(), ZonedDateTime.now()
+        "hash", "salt", new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
     );
     CreateUser createUser = new CreateUser("sasha@bedrock.com", "Sasha", "password1!");
 
@@ -224,7 +224,7 @@ public class UserServiceTest {
     // ARRANGE
     User savedUser = new User(
         1L, "john.digweed@bedrock.com", "John Digweed", User.Status.active,
-        "hash", "salt", ZonedDateTime.now(), ZonedDateTime.now()
+        "hash", "salt", new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
     );
     CreateUser createUser = new CreateUser("invalid email format", "John Digweed", "password1!");
 
