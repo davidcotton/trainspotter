@@ -1,35 +1,29 @@
 package models;
 
+import static services.AuthenticationService.generateSalt;
+import static services.AuthenticationService.hashPassword;
+
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import java.time.ZonedDateTime;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
+import lombok.Getter;
+import lombok.Setter;
 import play.data.format.Formats;
-import play.data.validation.Constraints;
-import validators.CustomConstraints;
 
 @Entity
 @Data
@@ -45,43 +39,33 @@ public class User extends Model {
     @EnumValue("banned")banned,
   }
 
-  /** Validator group to be called on insert. */
-  public interface InsertValidators {}
-
-  /** Validator group to be called on update. */
-  public interface UpdateValidators {}
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Constraints.Required(
-      message = "An email address is required.",
-      groups = {InsertValidators.class, UpdateValidators.class}
-  )
-  @Constraints.Email(
-      message = "This is not a valid email address.",
-      groups = {InsertValidators.class, UpdateValidators.class}
-  )
-  @CustomConstraints.UniqueEmail(groups = {InsertValidators.class})
   @NotNull
   @Column(unique = true, length = 191)
   private String email;
 
-  @Constraints.Required(
-      message = "A display name is required.",
-      groups = {InsertValidators.class, UpdateValidators.class}
-  )
   @NotNull
-  @Column(unique = true, length = 191)
+//  @Column(unique = true, length = 191)
   private String displayName;
 
   @NotNull
   @Enumerated
   private Status status;
 
-  @OneToOne
-  private Password password;
+  @Getter(onMethod = @__(@JsonIgnore))
+  @Setter
+  @NotNull
+  @Column(columnDefinition = "char(60)")
+  private String hash;
+
+  @Getter(onMethod = @__(@JsonIgnore))
+  @Setter
+  @NotNull
+  @Column(columnDefinition = "char(29)")
+  private String salt;
 
 //  @OneToMany(mappedBy = "user")
 //  @JsonManagedReference(value = "user_tracklists")
@@ -99,9 +83,11 @@ public class User extends Model {
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
 
-//  public User(CreateUser createUser) {
-//    this.email = createUser.getEmail();
-//    this.displayName = createUser.getName();
-//    this.setStatus(Status.unverified);
-//  }
+  public User(CreateUser createUser) {
+    this.email = createUser.getEmail();
+    this.displayName = createUser.getDisplayName();
+    this.salt = generateSalt();
+    this.hash = hashPassword(createUser.getPassword(), this.salt);
+    this.setStatus(Status.unverified);
+  }
 }

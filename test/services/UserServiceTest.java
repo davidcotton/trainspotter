@@ -128,7 +128,7 @@ public class UserServiceTest {
   @Test
   public void insert_successGivenValidData() {
     // ARRANGE
-    CreateUser createUser = new CreateUser("guy.incognito@simpsons.com", "Guy Incognito", "password1!");
+    CreateUser createUser = new CreateUser("john.digweed@bedrock.com", "John Digweed", "password1!");
 
     Form mockForm = mock(Form.class);
     Form mockDataForm = mock(Form.class);
@@ -149,13 +149,13 @@ public class UserServiceTest {
     // verify that the user repository inserted the new user
     ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
     verify(mockUserRepository).insert(argument.capture());
-    assertThat(argument.getValue().getEmail(), is("guy.incognito@simpsons.com"));
+    assertThat(argument.getValue().getEmail(), is("john.digweed@bedrock.com"));
   }
 
   @Test
   public void insert_failureGivenInvalidData() {
     // ARRANGE
-    CreateUser createUser = new CreateUser("invalid email format", "Guy Incognito", "password1!");
+    CreateUser createUser = new CreateUser("invalid email format", "MC Hammer", "password1!");
 
     Map<String, List<ValidationError>> validationErrors =
         new HashMap<String, List<ValidationError>>() {{
@@ -188,7 +188,7 @@ public class UserServiceTest {
     // ARRANGE
     User savedUser = new User(
         1L, "john.digweed@bedrock.com", "John Digweed", User.Status.active,
-        "hash", "salt", new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
+        "hash", "salt", ZonedDateTime.now(), ZonedDateTime.now()
     );
     CreateUser createUser = new CreateUser("sasha@bedrock.com", "Sasha", "password1!");
 
@@ -224,7 +224,7 @@ public class UserServiceTest {
     // ARRANGE
     User savedUser = new User(
         1L, "john.digweed@bedrock.com", "John Digweed", User.Status.active,
-        "hash", "salt", new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
+        "hash", "salt", ZonedDateTime.now(), ZonedDateTime.now()
     );
     CreateUser createUser = new CreateUser("invalid email format", "John Digweed", "password1!");
 

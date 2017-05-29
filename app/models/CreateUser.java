@@ -2,10 +2,12 @@ package models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import play.data.validation.Constraints;
 import validators.CustomConstraints;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class CreateUser {
 
@@ -26,11 +28,11 @@ public class CreateUser {
   @CustomConstraints.UniqueEmail(groups = {InsertValidators.class})
   private String email;
 
-  @Constraints.Required(
-      message = "A display name is required.",
-      groups = {InsertValidators.class, UpdateValidators.class}
-  )
-  private String name;
+//  @Constraints.Required(
+//      message = "A display name is required.",
+//      groups = {InsertValidators.class, UpdateValidators.class}
+//  )
+  private String displayName;
 
   @Constraints.Required(
       message = "A password is required.",
