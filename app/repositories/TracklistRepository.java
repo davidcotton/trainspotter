@@ -30,4 +30,9 @@ public class TracklistRepository implements Repository<Tracklist> {
   public void update(Tracklist tracklist) {
     tracklist.update();
   }
+
+  @Override
+  public void delete(Tracklist tracklist) {
+    tracklist.delete();
+  }
 }

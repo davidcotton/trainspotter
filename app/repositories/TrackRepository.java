@@ -39,4 +39,9 @@ public class TrackRepository implements Repository<Track> {
   public void update(Track track) {
     track.update();
   }
+
+  @Override
+  public void delete(Track track) {
+    track.delete();
+  }
 }

@@ -12,6 +12,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -29,6 +30,7 @@ import java.util.Optional;
 import models.CreateUser;
 import models.User;
 
+import models.User.Status;
 import org.hamcrest.collection.IsEmptyCollection;
 
 import org.junit.Test;
@@ -60,7 +62,7 @@ public class UserServiceTest {
   @Test
   public void fetchAll() {
     // ARRANGE
-    when(mockUserRepository.findAll()).thenReturn(new ArrayList<User>() {{
+    when(mockUserRepository.findAllCurrentUsers()).thenReturn(new ArrayList<User>() {{
       add(mock(User.class));
       add(mock(User.class));
     }});
@@ -253,5 +255,21 @@ public class UserServiceTest {
     assertThat(userOrError.left().get().get("email"), instanceOf(List.class));
     // verify that the userRepository never tried to insert the invalid user
     verify(mockUserRepository, never()).insert(any());
+  }
+
+  @Test
+  public void delete() {
+    // ARRANGE
+    User user = new User(
+        1L, "john.digweed@bedrock.com", "John Digweed", User.Status.active,
+        "hash", "salt", new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
+    );
+
+    // ACT
+    userService.delete(user);
+
+    // ASSERT
+    assertThat(user.getStatus(), is(Status.deleted));
+    verify(mockUserRepository, times(1)).update(user);
   }
 }

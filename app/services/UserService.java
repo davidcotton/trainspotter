@@ -3,7 +3,6 @@ package services;
 import static java.util.Objects.requireNonNull;
 import static play.libs.Json.toJson;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import io.atlassian.fugue.Either;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +10,7 @@ import java.util.Optional;
 import javax.inject.Inject;
 import models.CreateUser;
 import models.User;
+import models.User.Status;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
@@ -33,7 +33,7 @@ public class UserService {
    * @return A collection of all Users in the database.
    */
   public List<User> fetchAll() {
-    return userRepository.findAll();
+    return userRepository.findAllCurrentUsers();
   }
 
   /**
@@ -112,4 +112,14 @@ public class UserService {
     return Either.right(newUser);
   }
 
+  /**
+   * Delete a User.
+   * Use a soft deletes approach.
+   *
+   * @param user  The user to delete.
+   */
+  public void delete(User user) {
+    user.setStatus(Status.deleted);
+    userRepository.update(user);
+  }
 }

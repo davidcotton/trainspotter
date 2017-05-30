@@ -39,4 +39,9 @@ public class LabelRepository implements Repository<Label> {
   public void update(Label label) {
     label.update();
   }
+
+  @Override
+  public void delete(Label label) {
+    label.delete();
+  }
 }
