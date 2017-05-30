@@ -8,13 +8,16 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.ZonedDateTime;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -48,7 +51,7 @@ public class User extends Model {
   private String email;
 
   @NotNull
-//  @Column(unique = true, length = 191)
+  @Column(unique = true, length = 191)
   private String displayName;
 
   @NotNull
@@ -67,9 +70,9 @@ public class User extends Model {
   @Column(columnDefinition = "char(29)")
   private String salt;
 
-//  @OneToMany(mappedBy = "user")
-//  @JsonManagedReference(value = "user_tracklists")
-//  private List<Tracklist> tracklists;
+  @OneToMany(mappedBy = "user")
+  @JsonManagedReference(value = "user_tracklists")
+  private List<Tracklist> tracklists;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")

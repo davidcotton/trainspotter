@@ -35,4 +35,11 @@ public interface Repository<T extends Model> {
    * @param model The {@link Model} to update.
    */
   void update(T model);
+
+  /**
+   * Delete a {@link Model} in the database.
+   *
+   * @param model The {@link Model} to delete.
+   */
+  void delete(T model);
 }

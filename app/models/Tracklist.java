@@ -52,9 +52,9 @@ public class Tracklist extends Model {
 
   private LocalDate date;
 
-//  @ManyToOne(optional = false)
-//  @JsonBackReference(value = "user_tracklists")
-//  private User user;
+  @ManyToOne(optional = false)
+  @JsonBackReference(value = "user_tracklists")
+  private User user;
 
 //  @ManyToMany(mappedBy = "tracklists")
 //  @JsonManagedReference(value = "tracklist_tracks")

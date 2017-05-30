@@ -4,6 +4,7 @@ import com.avaje.ebean.Model.Finder;
 import java.util.List;
 import java.util.Optional;
 import models.User;
+import models.User.Status;
 
 public class UserRepository implements Repository<User> {
 
@@ -15,9 +16,24 @@ public class UserRepository implements Repository<User> {
     return find.all();
   }
 
+  /**
+   * Find all non-deleted users.
+   *
+   * @return A collection of non-deleted users.
+   */
+  public List<User> findAllCurrentUsers() {
+    return find.where().ne("status", Status.deleted).findList();
+  }
+
   @Override
   public Optional<User> findById(long id) {
-    return Optional.ofNullable(find.byId(id));
+    return Optional.ofNullable(
+        find
+            .where().idEq(id)
+            // filter out users that have been 'deleted'
+            .where().ne("status", Status.deleted)
+            .findUnique()
+    );
   }
 
   /**
@@ -27,7 +43,13 @@ public class UserRepository implements Repository<User> {
    * @return      An optional user if found.
    */
   public Optional<User> findByEmail(String email) {
-    return Optional.ofNullable(find.where().eq("email", email).findUnique());
+    return Optional.ofNullable(
+        find
+            .where().eq("email", email)
+            // filter out users that have been 'deleted'
+            .where().ne("status", Status.deleted)
+            .findUnique()
+    );
   }
 
   @Override
@@ -38,5 +60,10 @@ public class UserRepository implements Repository<User> {
   @Override
   public void update(User user) {
     user.update();
+  }
+
+  @Override
+  public void delete(User user) {
+    user.delete();
   }
 }
