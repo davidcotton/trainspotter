@@ -30,7 +30,7 @@ public class JsonModule extends AbstractModule {
    */
   @Override
   protected void configure() {
-    bind(ObjectMapper.class).toProvider(ObjectMapperProvider.class).asEagerSingleton();
+//    bind(ObjectMapper.class).toProvider(ObjectMapperProvider.class).asEagerSingleton();
     bind(ZonedDateTimeSerializer.class).asEagerSingleton();
     bind(LocalDateSerializer.class).asEagerSingleton();
   }

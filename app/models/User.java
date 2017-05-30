@@ -9,6 +9,7 @@ import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -52,8 +53,9 @@ public class User extends Model {
   @Column(unique = true, length = 191)
   private String email;
 
+  @JsonProperty(value = "display_name")
   @NotNull
-//  @Column(unique = true, length = 191)
+  @Column(unique = true, length = 191)
   private String displayName;
 
   @NotNull

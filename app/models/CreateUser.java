@@ -28,10 +28,10 @@ public class CreateUser {
   @CustomConstraints.UniqueEmail(groups = {InsertValidators.class})
   private String email;
 
-//  @Constraints.Required(
-//      message = "A display name is required.",
-//      groups = {InsertValidators.class, UpdateValidators.class}
-//  )
+  @Constraints.Required(
+      message = "A display name is required.",
+      groups = {InsertValidators.class, UpdateValidators.class}
+  )
   private String displayName;
 
   @Constraints.Required(

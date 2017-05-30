@@ -53,7 +53,6 @@ public class FormattersModule extends AbstractModule {
 
       // register a LocalDate formatter
       formatters.register(LocalDate.class, new Formatters.SimpleFormatter<LocalDate>() {
-
         @Override
         public LocalDate parse(String text, Locale locale) throws ParseException {
           return LocalDate.parse(text);
@@ -67,7 +66,6 @@ public class FormattersModule extends AbstractModule {
 
       // register a ZonedDateTime formatter
       formatters.register(ZonedDateTime.class, new Formatters.SimpleFormatter<ZonedDateTime>() {
-
         @Override
         public ZonedDateTime parse(String text, Locale locale) throws ParseException {
           return ZonedDateTime.parse(text);

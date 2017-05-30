@@ -85,7 +85,7 @@ create table tracklist_genre (
 create table user (
   id                            bigint auto_increment not null,
   email                         varchar(191) not null,
-  display_name                  varchar(255) not null,
+  display_name                  varchar(191) not null,
   status                        varchar(10) not null,
   hash                          char(60) not null,
   salt                          char(29) not null,
@@ -93,6 +93,7 @@ create table user (
   updated                       datetime not null,
   constraint ck_user_status check (status in ('inactive','deleted','unverified','active','banned')),
   constraint uq_user_email unique (email),
+  constraint uq_user_display_name unique (display_name),
   constraint pk_user primary key (id)
 );
 
