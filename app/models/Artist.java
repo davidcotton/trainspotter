@@ -30,7 +30,7 @@ import play.data.validation.Constraints;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
+//@AllArgsConstructor
 public class Artist extends Model {
 
   /** Validator group to be called on insert. */
@@ -58,12 +58,12 @@ public class Artist extends Model {
 //  @JsonManagedReference(value = "track_remixers")
 //  private List<Track> remixes;
 
-  @ManyToMany(mappedBy = "artists")
-  @JsonManagedReference(value = "artist_tracklists")
-  private List<Tracklist> tracklists;
+//  @ManyToMany(mappedBy = "artists")
+//  @JsonManagedReference(value = "artist_tracklists")
+//  private List<Tracklist> tracklists;
 
   @OneToMany
-  @JsonManagedReference
+  @JsonManagedReference(value = "artist_medias")
   private List<Media> medias;
 
   @CreatedTimestamp

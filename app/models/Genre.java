@@ -31,7 +31,7 @@ import play.data.validation.Constraints;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
+//@AllArgsConstructor
 public class Genre extends Model {
 
   /** Validator group to be called on insert. */
@@ -53,9 +53,9 @@ public class Genre extends Model {
 //  @JsonBackReference(value = "genre_tracks")
 //  private List<Track> tracks;
 
-  @ManyToMany
-  @JsonManagedReference(value = "genres_tracklists")
-  private List<Tracklist> tracklists;
+//  @ManyToMany(mappedBy = "genres")
+//  @JsonManagedReference(value = "genres_tracklists")
+//  private List<Tracklist> tracklists;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")

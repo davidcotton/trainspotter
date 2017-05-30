@@ -1,5 +1,7 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import static java.util.Objects.requireNonNull;
 
 import static play.libs.Json.fromJson;
@@ -39,8 +41,10 @@ public class TracklistController extends Controller {
 
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
+    JsonNode jsonNode = request().body().asJson();
+    Tracklist tracklist1 = fromJson(jsonNode, Tracklist.class);
     return tracklistService
-        .insert(fromJson(request().body().asJson(), Tracklist.class))
+        .insert(tracklist1)
         .fold(
             error -> badRequest(errorsAsJson(error)),
             tracklist -> created(toJson(tracklist))

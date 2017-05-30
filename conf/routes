@@ -3,52 +3,53 @@
 # ~~~~
 
 # Users
-GET     /user                         controllers.UserController.fetchAll
-POST    /user                         controllers.UserController.create
-GET     /user/:id                     controllers.UserController.fetch(id:Long)
-PUT     /user/:id                     controllers.UserController.update(id:Long)
-DELETE  /user/:id                     controllers.UserController.delete(id:Long)
+GET     /user                           controllers.UserController.fetchAll
+POST    /user                           controllers.UserController.create
+GET     /user/:id                       controllers.UserController.fetch(id:Long)
+PUT     /user/:id                       controllers.UserController.update(id:Long)
+DELETE  /user/:id                       controllers.UserController.delete(id:Long)
+POST    /user/login                     controllers.UserController.login
 
 # Artists
-GET     /artist                       controllers.ArtistController.fetchAll
-POST    /artist                       controllers.ArtistController.create
-GET     /artist/:id                   controllers.ArtistController.fetch(id:Long)
-PUT     /artist/:id                   controllers.ArtistController.update(id:Long)
-DELETE  /artist/:id                   controllers.ArtistController.delete(id:Long)
+GET     /artist                         controllers.ArtistController.fetchAll
+POST    /artist                         controllers.ArtistController.create
+GET     /artist/:id                     controllers.ArtistController.fetch(id:Long)
+PUT     /artist/:id                     controllers.ArtistController.update(id:Long)
+DELETE  /artist/:id                     controllers.ArtistController.delete(id:Long)
 
 # Genres
-GET     /genre                        controllers.GenreController.fetchAll
-POST    /genre                        controllers.GenreController.create
-GET     /genre/:id                    controllers.GenreController.fetch(id:Long)
-PUT     /genre/:id                    controllers.GenreController.update(id:Long)
-DELETE  /genre/:id                    controllers.GenreController.delete(id:Long)
+GET     /genre                          controllers.GenreController.fetchAll
+POST    /genre                          controllers.GenreController.create
+GET     /genre/:id                      controllers.GenreController.fetch(id:Long)
+PUT     /genre/:id                      controllers.GenreController.update(id:Long)
+DELETE  /genre/:id                      controllers.GenreController.delete(id:Long)
 
 # Labels
-GET     /label                        controllers.LabelController.fetchAll
-POST    /label                        controllers.LabelController.create
-GET     /label/:id                    controllers.LabelController.fetch(id:Long)
-PUT     /label/:id                    controllers.LabelController.update(id:Long)
-DELETE  /label/:id                    controllers.LabelController.delete(id:Long)
+GET     /label                          controllers.LabelController.fetchAll
+POST    /label                          controllers.LabelController.create
+GET     /label/:id                      controllers.LabelController.fetch(id:Long)
+PUT     /label/:id                      controllers.LabelController.update(id:Long)
+DELETE  /label/:id                      controllers.LabelController.delete(id:Long)
 
 # Tracklists
-GET     /tracklist                    controllers.TracklistController.fetchAll
-POST    /tracklist                    controllers.TracklistController.create
-GET     /tracklist/:id                controllers.TracklistController.fetch(id:Long)
-PUT     /tracklist/:id                controllers.TracklistController.update(id:Long)
-DELETE  /tracklist/:id                controllers.TracklistController.delete(id:Long)
+GET     /tracklist                      controllers.TracklistController.fetchAll
+POST    /tracklist                      controllers.TracklistController.create
+GET     /tracklist/:id                  controllers.TracklistController.fetch(id:Long)
+PUT     /tracklist/:id                  controllers.TracklistController.update(id:Long)
+DELETE  /tracklist/:id                  controllers.TracklistController.delete(id:Long)
 
 # Tracks
-GET     /track                        controllers.TrackController.fetchAll
-POST    /track                        controllers.TrackController.create
-GET     /track/:id                    controllers.TrackController.fetch(id:Long)
-PUT     /track/:id                    controllers.TrackController.update(id:Long)
-DELETE  /track/:id                    controllers.TrackController.delete(id:Long)
+GET     /track                          controllers.TrackController.fetchAll
+POST    /track                          controllers.TrackController.create
+GET     /track/:id                      controllers.TrackController.fetch(id:Long)
+PUT     /track/:id                      controllers.TrackController.update(id:Long)
+DELETE  /track/:id                      controllers.TrackController.delete(id:Long)
 
 
 # Application
-GET     /                             controllers.ApplicationController.index
+GET     /                               controllers.ApplicationController.index
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file                 controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)
 
-GET     /webjars/*file                controllers.WebJarAssets.at(file)
+GET     /webjars/*file                  controllers.WebJarAssets.at(file)

@@ -3,10 +3,11 @@ DJ tracklist management application.
 
 
 ## Installation
-1. Create the app & test databases
-2. Add the environment variables to IDE/command line
-3. Download dependencies, run database migrations and run the app
-4. Load database fixtures to bootstrap the app with data
+1. `brew install libsodium`
+2. Create the app & test databases
+3. Add the environment variables to IDE/command line
+4. Download dependencies, run database migrations and run the app
+5. Load database fixtures to bootstrap the app with data
 
 ### Create the databases
 
@@ -16,6 +17,7 @@ DJ tracklist management application.
 ### Environment Variables
 + MYSQL_DB_USER - The MySQL DB user name
 + MYSQL_DB_PASS - The MySQL DB user password
++ CRYPTO_SECRET - Used to sign the session cookie
 
 
 ### Download Dependencies and Run DB Migrations

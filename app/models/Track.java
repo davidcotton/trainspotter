@@ -33,7 +33,7 @@ import play.data.validation.Constraints;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
+//@AllArgsConstructor
 public class Track extends Model {
 
   /** Validator group to be called on insert. */

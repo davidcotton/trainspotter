@@ -25,4 +25,8 @@ public class AuthenticationService {
   public static String hashPassword(String plaintextPassword, String salt) {
     return BCrypt.hashpw(plaintextPassword, salt);
   }
+
+  public static boolean checkPassword(String password, String hash) {
+    return BCrypt.checkpw(password, hash);
+  }
 }

@@ -29,7 +29,7 @@ import play.data.validation.Constraints;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
+//@AllArgsConstructor
 public class Label extends Model {
 
   /** Validator group to be called on insert. */
@@ -54,7 +54,7 @@ public class Label extends Model {
 //  private List<Track> tracks;
 
   @OneToMany
-  @JsonManagedReference
+  @JsonManagedReference(value = "label_medias")
   private List<Media> medias;
 
   @CreatedTimestamp

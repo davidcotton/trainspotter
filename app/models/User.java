@@ -33,7 +33,7 @@ import play.data.format.Formats;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
+//@AllArgsConstructor
 public class User extends Model {
 
   public enum Status {

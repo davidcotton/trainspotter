@@ -8,6 +8,7 @@ import static utilities.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
 import models.CreateUser;
+import models.LoginUser;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -63,5 +64,15 @@ public class UserController extends Controller {
           return (Result) noContent();
         })
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+  }
+
+  @BodyParser.Of(BodyParser.Json.class)
+  public Result login() {
+    return userService
+        .login(fromJson(request().body().asJson(), LoginUser.class))
+        .fold(
+            error -> badRequest(errorsAsJson(error)),
+            user -> ok(toJson(user))
+        );
   }
 }
