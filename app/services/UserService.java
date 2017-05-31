@@ -3,6 +3,7 @@ package services;
 import static java.util.Objects.requireNonNull;
 import static play.libs.Json.toJson;
 import static services.AuthenticationService.checkPassword;
+import static services.AuthenticationService.generateSalt;
 
 import io.atlassian.fugue.Either;
 
@@ -16,20 +17,31 @@ import models.CreateUser;
 import models.LoginUser;
 import models.User;
 import models.User.Status;
+import org.abstractj.kalium.keys.AuthenticationKey;
+import org.keyczar.Signer;
+import org.keyczar.exceptions.KeyczarException;
+import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
+import play.libs.Crypto;
 import repositories.UserRepository;
 
 public class UserService {
 
   private final UserRepository userRepository;
   private final FormFactory formFactory;
+  private final AuthenticationService authenticationService;
 
   @Inject
-  public UserService(UserRepository userRepository, FormFactory formFactory) {
+  public UserService(
+      UserRepository userRepository,
+      FormFactory formFactory,
+      AuthenticationService authenticationService
+  ) {
     this.userRepository = requireNonNull(userRepository);
     this.formFactory = requireNonNull(formFactory);
+    this.authenticationService = requireNonNull(authenticationService);
   }
 
   /**
@@ -38,6 +50,20 @@ public class UserService {
    * @return A collection of all Users in the database.
    */
   public List<User> fetchAll() {
+    //String derp = authenticationService.derp();
+    //Logger.info(derp);
+
+    try {
+      Signer signer = new Signer("/keys");
+      String signature = signer.sign("hmac");
+      boolean verified = signer.verify("hmac", signature);
+    } catch (KeyczarException e) {
+      // do nothing
+      return new ArrayList<>();
+    }
+
+
+
     return userRepository.findAllCurrentUsers();
   }
 
@@ -150,6 +176,11 @@ public class UserService {
     }
 
     boolean result = checkPassword(loginUser.getPassword(), user.getHash());
+
+    //AuthenticationKey authenticationKey = new AuthenticationKey();
+    //Crypto.sign();
+
+
 
     if (result) {
       return Either.right(user);

@@ -1,10 +1,26 @@
 package services;
 
+import javax.inject.Inject;
+import org.abstractj.kalium.keys.AuthenticationKey;
 import org.mindrot.jbcrypt.BCrypt;
+import play.Configuration;
+import play.Logger;
 
 public class AuthenticationService {
 
   private final static int bcryptWorkFactor = 16;
+  private final AuthenticationKey authenticationKey;
+
+  @Inject
+  public AuthenticationService(Configuration configuration) {
+    String cryptoSecret = configuration.getString("play.crypto.secret");
+    authenticationKey = new AuthenticationKey(cryptoSecret.getBytes());
+    Logger.info("info");
+  }
+
+  public String derp() {
+    return "derp";
+  }
 
   /**
    * Generate a salt.

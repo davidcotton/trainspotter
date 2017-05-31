@@ -19,4 +19,4 @@ addSbtPlugin("org.irundaia.sbt" % "sbt-sassify" % "1.4.6")
 addSbtPlugin("com.typesafe.sbt" % "sbt-play-ebean" % "3.0.2")
 
 // ReactJS Source Compiler
-addSbtPlugin("com.github.ddispaltro" % "sbt-reactjs" % "0.6.8")
+//addSbtPlugin("com.github.ddispaltro" % "sbt-reactjs" % "0.6.8")
