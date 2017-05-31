@@ -3,7 +3,7 @@ DJ tracklist management application.
 
 
 ## Installation
-1. `brew install libsodium`
+1. Install encryption package `brew install libsodium`
 2. Create the app & test databases
 3. Add the environment variables to IDE/command line
 4. Download dependencies, run database migrations and run the app

@@ -15,10 +15,7 @@ libraryDependencies ++= Seq(
   "org.projectlombok" % "lombok" % "1.16.10",
   "io.atlassian.fugue" % "fugue" % "4.5.0",
   "org.mindrot" % "jbcrypt" % "0.4",
-  "org.kalium" % "kalium" % "0.6.0",
-  "org.webjars" %% "webjars-play" % "2.4.0-1",
-  "org.webjars" % "react" % "15.3.2",
-  "org.webjars" % "react-bootstrap" % "0.28.1",
+  "org.abstractj.kalium" % "kalium" % "0.6.0",
   "org.mockito" % "mockito-core" % "2.1.0",
   "io.rest-assured" % "scala-support" % "3.0.2"
 )

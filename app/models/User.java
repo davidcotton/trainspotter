@@ -33,7 +33,7 @@ import play.data.format.Formats;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-//@AllArgsConstructor
+@AllArgsConstructor
 public class User extends Model {
 
   public enum Status {
@@ -92,7 +92,7 @@ public class User extends Model {
     this.email = createUser.getEmail();
     this.displayName = createUser.getDisplayName();
     this.salt = generateSalt();
-    this.hash = hashPassword(createUser.getPassword(), this.salt);
+    this.hash = hashPassword(createUser.getPassword(), salt);
     this.setStatus(Status.unverified);
   }
 }
