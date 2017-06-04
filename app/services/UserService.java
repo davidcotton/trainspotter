@@ -2,7 +2,6 @@ package services;
 
 import static java.util.Objects.requireNonNull;
 import static play.libs.Json.toJson;
-import static services.AuthenticationService.checkPassword;
 
 import io.atlassian.fugue.Either;
 import java.util.ArrayList;
@@ -34,10 +33,12 @@ public class UserService {
   public UserService(
       UserRepository userRepository,
       FormFactory formFactory,
+      AuthenticationService authenticationService,
       TokenService tokenService
   ) {
     this.userRepository = requireNonNull(userRepository);
     this.formFactory = requireNonNull(formFactory);
+    this.authenticationService = requireNonNull(authenticationService);
     this.tokenService = requireNonNull(tokenService);
   }
 
@@ -66,7 +67,7 @@ public class UserService {
    * @param email The email address to search for.
    * @return An optional User if found.
    */
-  public Optional<User> findByEmail(String email) {
+  Optional<User> findByEmail(String email) {
     return userRepository.findByEmail(email);
   }
 
@@ -154,7 +155,7 @@ public class UserService {
     }
 
     return userRepository.findByEmail(loginUser.getEmail())
-        .flatMap(user -> fetchToken(user, loginUser.getPassword()))
+        .flatMap(user -> fetchToken(loginUser.getPassword(), user))
         .map(token -> Either.<Map<String, List<ValidationError>>, Token>right(token))
         .orElse(Either.left(getValidationErrors(FIELD_LOGIN, MESSAGE_LOGIN_FAILURE)));
   }
@@ -166,8 +167,8 @@ public class UserService {
    * @param password  The password to check.
    * @return An optional token that will be empty if the password doesn't match.
    */
-  private Optional<Token> fetchToken(User user, String password) {
-    return checkPassword(password, user.getHash())
+  private Optional<Token> fetchToken(String password, User user) {
+    return authenticationService.checkPassword(password, user.getHash())
         ? Optional.of(tokenService.create(user))
         : Optional.empty();
   }
@@ -175,8 +176,8 @@ public class UserService {
   /**
    * Helper method to aid in generating validation error responses.
    *
-   * @param key   The field name that failed.
-   * @param error The validation error.
+   * @param key           The field name that failed.
+   * @param errorMessage  The validation error.
    * @return A collection of validation errors.
    */
   private Map<String, List<ValidationError>> getValidationErrors(String key, String errorMessage) {

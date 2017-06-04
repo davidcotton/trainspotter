@@ -4,6 +4,7 @@ import com.avaje.ebean.Model.Finder;
 import java.util.List;
 import java.util.Optional;
 import models.Token;
+import models.User;
 
 public class TokenRepository implements Repository<Token> {
 
@@ -18,6 +19,16 @@ public class TokenRepository implements Repository<Token> {
   @Override
   public Optional<Token> findById(long id) {
     return Optional.ofNullable(find.byId(id));
+  }
+
+  /**
+   * Find a token by User.
+   *
+   * @param user The user to search for.
+   * @return An optional Token if found.
+   */
+  public Optional<Token> findByUser(User user) {
+    return Optional.ofNullable(find.where().eq("user_id", user.getId()).findUnique());
   }
 
   @Override

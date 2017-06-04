@@ -33,7 +33,7 @@ public class AuthenticationService {
    * @param hash      The previously hashed password.
    * @return          true if the passwords match, false otherwise.
    */
-  public boolean checkPassword(String plaintext, String hash) {
+  boolean checkPassword(String plaintext, String hash) {
     return BCrypt.checkpw(plaintext, hash);
   }
 }

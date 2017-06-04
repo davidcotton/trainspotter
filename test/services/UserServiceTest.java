@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -12,8 +13,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -55,12 +56,12 @@ public class UserServiceTest {
   @InjectMocks private UserService userService;
   @Mock private UserRepository mockUserRepository;
   @Mock private FormFactory mockFormFactory;
+  @Mock private AuthenticationService mockAuthenticationService;
   @Mock private TokenService mockTokenService;
   @Mock private Form mockForm;
   @Mock private Form mockDataForm;
 
-  @Test
-  public void fetchAll() {
+  @Test public void fetchAll() {
     // ARRANGE
     when(mockUserRepository.findAllCurrentUsers()).thenReturn(new ArrayList<User>() {{
       add(mock(User.class));
@@ -75,8 +76,7 @@ public class UserServiceTest {
     assertThat(actualUsers.size(), is(2));
   }
 
-  @Test
-  public void findById_givenIdInDb() {
+  @Test public void findById_givenIdInDb() {
     // ARRANGE
     long id = 1L;
     when(mockUserRepository.findById(id)).thenReturn(Optional.of(mock(User.class)));
@@ -88,8 +88,7 @@ public class UserServiceTest {
     assertTrue(maybeUser.isPresent());
   }
 
-  @Test
-  public void findById_givenIdNotInDb() {
+  @Test public void findById_givenIdNotInDb() {
     // ARRANGE
     long nonExistentId = 1L;
     when(mockUserRepository.findById(nonExistentId)).thenReturn(Optional.empty());
@@ -101,8 +100,7 @@ public class UserServiceTest {
     assertThat(maybeUser.isPresent(), is(false));
   }
 
-  @Test
-  public void findByEmail_givenEmailInDb() {
+  @Test public void findByEmail_givenEmailInDb() {
     // ARRANGE
     String email = "max.power@simpsons.com";
     when(mockUserRepository.findByEmail(email)).thenReturn(Optional.of(mock(User.class)));
@@ -114,8 +112,7 @@ public class UserServiceTest {
     assertTrue(maybeUser.isPresent());
   }
 
-  @Test
-  public void findByEmail_givenEmailNotInDb() {
+  @Test public void findByEmail_givenEmailNotInDb() {
     // ARRANGE
     String email = "joey.jo-jo.junior.shabadoo@simpsons.com";
     when(mockUserRepository.findByEmail(email)).thenReturn(Optional.empty());
@@ -127,8 +124,7 @@ public class UserServiceTest {
     assertThat(maybeUser.isPresent(), is(false));
   }
 
-  @Test
-  public void insert_successGivenValidData() {
+  @Test public void insert_successGivenValidData() {
     // ARRANGE
     CreateUser createUser = new CreateUser("john.digweed@bedrock.com", "John Digweed", "password1!");
 
@@ -151,8 +147,7 @@ public class UserServiceTest {
     assertThat(argument.getValue().getEmail(), is("john.digweed@bedrock.com"));
   }
 
-  @Test
-  public void insert_failureGivenInvalidData() {
+  @Test public void insert_failureGivenInvalidData() {
     // ARRANGE
     CreateUser createUser = new CreateUser("invalid email format", "MC Hammer", "password1!");
 
@@ -179,8 +174,7 @@ public class UserServiceTest {
     verify(mockUserRepository, never()).insert(any());
   }
 
-  @Test
-  public void update_successGivenValidData() {
+  @Test public void update_successGivenValidData() {
     // ARRANGE
     User savedUser = new User(
         1L, "john.digweed@bedrock.com", "John Digweed", User.Status.active,
@@ -212,8 +206,7 @@ public class UserServiceTest {
     assertNotNull(argument.getValue().getSalt());
   }
 
-  @Test
-  public void update_failureGivenInvalidEmail() {
+  @Test public void update_failureGivenInvalidEmail() {
     // ARRANGE
     User savedUser = new User(
         1L, "john.digweed@bedrock.com", "John Digweed", User.Status.active,
@@ -244,8 +237,7 @@ public class UserServiceTest {
     verify(mockUserRepository, never()).insert(any());
   }
 
-  @Test
-  public void delete() {
+  @Test public void delete() {
     // ARRANGE
     User user = new User(
         1L, "john.digweed@bedrock.com", "John Digweed", User.Status.active,
@@ -257,30 +249,25 @@ public class UserServiceTest {
 
     // ASSERT
     assertThat(user.getStatus(), is(Status.deleted));
-    verify(mockUserRepository, times(1)).update(user);
+    verify(mockUserRepository).update(user);
   }
 
-  @Test
-  public void login_successGivenValidDetails() {
+  @Test public void login_successGivenValidDetails() {
     // ARRANGE
     String email = "john.digweed@bedrock.com";
     String password = "password1!";
     LoginUser loginUser = new LoginUser(email, password);
-    //User user = mock(User.class);
-    User user = new User(
-        1L, "john.digweed@bedrock.com", "John Digweed", User.Status.active,
-        "hash", "salt", new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
-    );
-    Token token = new Token(user, "value".getBytes(), ZonedDateTime.now());
+    User mockUser = mock(User.class);
+    Token token = new Token(mockUser, "value".getBytes(), ZonedDateTime.now());
 
     when(mockFormFactory.form(LoginUser.class, LoginUser.Validators.class)).thenReturn(mockDataForm);
     when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
     when(mockForm.hasErrors()).thenReturn(false);
 
-    when(mockUserRepository.findByEmail(email)).thenReturn(Optional.of(user));
-    //when(mockUser.getHash()).thenReturn("hashedPassword");
-    when(AuthenticationService.checkPassword(password, user.getHash())).thenReturn(true);
-    when(mockTokenService.create(user)).thenReturn(token);
+    when(mockUserRepository.findByEmail(email)).thenReturn(Optional.of(mockUser));
+    when(mockUser.getHash()).thenReturn("passwordHash");
+    when(mockAuthenticationService.checkPassword(password, mockUser.getHash())).thenReturn(true);
+    when(mockTokenService.create(mockUser)).thenReturn(token);
 
     // ACT
     Either<Map<String, List<ValidationError>>, Token> tokenOrError = userService.login(loginUser);
@@ -290,12 +277,96 @@ public class UserServiceTest {
     assertFalse(tokenOrError.isLeft());
     // assert right (success value) is present
     assertTrue(tokenOrError.isRight());
-    // verify that the user repository searched for the user
-    verify(mockUserRepository, times(1)).findByEmail(email);
-//    ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
-//    verify(mockUserRepository).update(argument.capture());
-//    assertThat(argument.getValue().getEmail(), is("sasha@bedrock.com"));
-//    assertThat(argument.getValue().getDisplayName(), is("Sasha"));
+    // verify that the userRepository searched for the user
+    verify(mockUserRepository).findByEmail(email);
+    // verify we checked the password
+    verify(mockAuthenticationService).checkPassword(password, mockUser.getHash());
+    // verify that the tokenService created a new auth token
+    verify(mockTokenService).create(mockUser);
+  }
 
+  @Test public void login_failureGivenMissingPasswordField() {
+    // ARRANGE
+    String email = "john.digweed@bedrock.com";
+    String password = null;
+    LoginUser loginUser = new LoginUser(email, password);
+
+    when(mockFormFactory.form(LoginUser.class, LoginUser.Validators.class)).thenReturn(mockDataForm);
+    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+    when(mockForm.hasErrors()).thenReturn(true);
+
+    // ACT
+    Either<Map<String, List<ValidationError>>, Token> tokenOrError = userService.login(loginUser);
+
+    // ASSERT
+    // assert right (success value) is not present
+    assertFalse(tokenOrError.isRight());
+    // assert left (error value) is present
+    assertTrue(tokenOrError.isLeft());
+    // verify that we didn't try to check the password or fetch a token
+    verifyZeroInteractions(mockUserRepository);
+    verifyZeroInteractions(mockAuthenticationService);
+    verifyZeroInteractions(mockTokenService);
+  }
+
+  @Test public void login_failureGivenEmailNotFound() {
+    // ARRANGE
+    String email = "not.in.database@example.com";
+    String password = "password1!";
+    LoginUser loginUser = new LoginUser(email, password);
+    Optional<User> emptyUser = Optional.empty();
+
+    when(mockFormFactory.form(LoginUser.class, LoginUser.Validators.class)).thenReturn(mockDataForm);
+    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+    when(mockForm.hasErrors()).thenReturn(false);
+    // user not found
+    when(mockUserRepository.findByEmail(email)).thenReturn(emptyUser);
+
+    // ACT
+    Either<Map<String, List<ValidationError>>, Token> tokenOrError = userService.login(loginUser);
+
+    // ASSERT
+    // assert right (success value) is not present
+    assertFalse(tokenOrError.isRight());
+    // assert left (error value) is present
+    assertTrue(tokenOrError.isLeft());
+    // verify that the userRepository searched for the user and it was empty
+    verify(mockUserRepository).findByEmail(loginUser.getEmail());
+    assertEquals(Optional.empty(), emptyUser);
+    // verify we didn't try to check the password or fetch a token
+    verifyZeroInteractions(mockAuthenticationService);
+    verifyZeroInteractions(mockTokenService);
+  }
+
+  @Test public void login_failureGivenWrongPassword() {
+    // ARRANGE
+    String email = "john.digweed@bedrock.com";
+    String password = "wrong password";
+    LoginUser loginUser = new LoginUser(email, password);
+    User mockUser = mock(User.class);
+
+    when(mockFormFactory.form(LoginUser.class, LoginUser.Validators.class)).thenReturn(mockDataForm);
+    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+    when(mockForm.hasErrors()).thenReturn(false);
+
+    when(mockUserRepository.findByEmail(email)).thenReturn(Optional.of(mockUser));
+    when(mockUser.getHash()).thenReturn("passwordHash");
+    // invalid password
+    when(mockAuthenticationService.checkPassword(password, mockUser.getHash())).thenReturn(false);
+
+    // ACT
+    Either<Map<String, List<ValidationError>>, Token> tokenOrError = userService.login(loginUser);
+
+    // ASSERT
+    // assert right (success value) is not present
+    assertFalse(tokenOrError.isRight());
+    // assert left (error value) is present
+    assertTrue(tokenOrError.isLeft());
+    // verify that the userRepository searched for the user
+    verify(mockUserRepository).findByEmail(email);
+    // verify we checked the password
+    verify(mockAuthenticationService).checkPassword(password, mockUser.getHash());
+    // verify we didn't try to create a token
+    verifyZeroInteractions(mockTokenService);
   }
 }
