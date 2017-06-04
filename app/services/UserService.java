@@ -156,7 +156,7 @@ public class UserService {
 
     return userRepository.findByEmail(loginUser.getEmail())
         .flatMap(user -> fetchToken(loginUser.getPassword(), user))
-        .map(token -> Either.<Map<String, List<ValidationError>>, Token>right(token))
+        .map(Either::<Map<String, List<ValidationError>>, Token>right)
         .orElse(Either.left(getValidationErrors(FIELD_LOGIN, MESSAGE_LOGIN_FAILURE)));
   }
 

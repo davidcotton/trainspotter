@@ -3,28 +3,22 @@ package services;
 import static java.util.Objects.requireNonNull;
 
 import java.time.ZonedDateTime;
-
 import javax.inject.Inject;
-
 import models.Token;
 import models.User;
-
 import org.abstractj.kalium.keys.AuthenticationKey;
-
-import play.Configuration;
 import repositories.TokenRepository;
 
 public class TokenService {
 
   private final TokenRepository tokenRepository;
   private final AuthenticationKey authenticationKey;
+  private static final int TOKEN_EXPIRY_PERIOD = 4;
 
   @Inject
-  public TokenService(Configuration configuration, TokenRepository tokenRepository) {
+  public TokenService(TokenRepository tokenRepository, AuthenticationKey authenticationKey) {
     this.tokenRepository = requireNonNull(tokenRepository);
-    authenticationKey = new AuthenticationKey(
-        configuration.getString("play.crypto.secret").getBytes()
-    );
+    this.authenticationKey = requireNonNull(authenticationKey);
   }
 
   /**
@@ -37,7 +31,7 @@ public class TokenService {
    * @return An authentication token.
    */
   public Token create(User user) {
-    ZonedDateTime expiry = ZonedDateTime.now().plusHours(4);
+    ZonedDateTime expiry = ZonedDateTime.now().plusHours(TOKEN_EXPIRY_PERIOD);
     byte[] hmac = authenticationKey.sign(
         String.format("%s:%s", user.getEmail(), expiry.toString()).getBytes()
     );
