@@ -48,14 +48,11 @@ import repositories.TrackRepository;
 @RunWith(MockitoJUnitRunner.class)
 public class TrackServiceTest {
 
-  @InjectMocks
-  private TrackService trackService;
-
-  @Mock
-  private TrackRepository mockTrackRepository;
-
-  @Mock
-  private FormFactory mockFormFactory;
+  @InjectMocks private TrackService trackService;
+  @Mock private TrackRepository mockTrackRepository;
+  @Mock private FormFactory mockFormFactory;
+  @Mock private Form mockForm;
+  @Mock private Form mockDataForm;
 
   @Test
   public void fetchAll() {
@@ -130,9 +127,6 @@ public class TrackServiceTest {
 //    // ARRANGE
 //    Track track = new Track(null, "Beautiful Strange", null, null, null, null, null, null, null, null, null);
 //
-//    Form mockForm = mock(Form.class);
-//    Form mockDataForm = mock(Form.class);
-//
 //    when(mockFormFactory.form(Track.class, Track.InsertValidators.class)).thenReturn(mockDataForm);
 //    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
 //    when(mockForm.hasErrors()).thenReturn(false);
@@ -161,9 +155,6 @@ public class TrackServiceTest {
 //        new HashMap<String, List<ValidationError>>() {{
 //          put("name", mock(List.class));
 //        }};
-//
-//    Form mockForm = mock(Form.class);
-//    Form mockDataForm = mock(Form.class);
 //
 //    when(mockFormFactory.form(Track.class, Track.InsertValidators.class)).thenReturn(mockDataForm);
 //    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
@@ -196,9 +187,6 @@ public class TrackServiceTest {
 //        mock(Genre.class), mock(Label.class), LocalDate.now(), new ArrayList<>(),
 //        ZonedDateTime.now(), ZonedDateTime.now()
 //    );
-//
-//    Form mockForm = mock(Form.class);
-//    Form mockDataForm = mock(Form.class);
 //
 //    when(mockFormFactory.form(Track.class, Track.UpdateValidators.class))
 //        .thenReturn(mockDataForm);

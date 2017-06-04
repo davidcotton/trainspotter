@@ -28,9 +28,11 @@ import java.util.Map;
 import java.util.Optional;
 
 import models.CreateUser;
+import models.LoginUser;
+import models.Token;
 import models.User;
-
 import models.User.Status;
+
 import org.hamcrest.collection.IsEmptyCollection;
 
 import org.junit.Test;
@@ -50,14 +52,12 @@ import repositories.UserRepository;
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 
-  @InjectMocks
-  private UserService userService;
-
-  @Mock
-  private UserRepository mockUserRepository;
-
-  @Mock
-  private FormFactory mockFormFactory;
+  @InjectMocks private UserService userService;
+  @Mock private UserRepository mockUserRepository;
+  @Mock private FormFactory mockFormFactory;
+  @Mock private TokenService mockTokenService;
+  @Mock private Form mockForm;
+  @Mock private Form mockDataForm;
 
   @Test
   public void fetchAll() {
@@ -132,9 +132,6 @@ public class UserServiceTest {
     // ARRANGE
     CreateUser createUser = new CreateUser("john.digweed@bedrock.com", "John Digweed", "password1!");
 
-    Form mockForm = mock(Form.class);
-    Form mockDataForm = mock(Form.class);
-
     when(mockFormFactory.form(CreateUser.class, CreateUser.InsertValidators.class)).thenReturn(mockDataForm);
     when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
     when(mockForm.hasErrors()).thenReturn(false);
@@ -159,15 +156,12 @@ public class UserServiceTest {
     // ARRANGE
     CreateUser createUser = new CreateUser("invalid email format", "MC Hammer", "password1!");
 
-    Map<String, List<ValidationError>> validationErrors =
-        new HashMap<String, List<ValidationError>>() {{
-          put("email", mock(List.class));
-        }};
+    Map<String, List<ValidationError>> validationErrors = new HashMap<String, List<ValidationError>>() {{
+      put("email", mock(List.class));
+    }};
 
-    Form mockForm = mock(Form.class);
-    Form mockDataForm = mock(Form.class);
-
-    when(mockFormFactory.form(CreateUser.class, CreateUser.InsertValidators.class)).thenReturn(mockDataForm);
+    when(mockFormFactory.form(CreateUser.class, CreateUser.InsertValidators.class))
+        .thenReturn(mockDataForm);
     when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
     when(mockForm.hasErrors()).thenReturn(true);
     when(mockForm.errors()).thenReturn(validationErrors);
@@ -193,9 +187,6 @@ public class UserServiceTest {
         "hash", "salt", new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
     );
     CreateUser createUser = new CreateUser("sasha@bedrock.com", "Sasha", "password1!");
-
-    Form mockForm = mock(Form.class);
-    Form mockDataForm = mock(Form.class);
 
     when(mockFormFactory.form(CreateUser.class, CreateUser.UpdateValidators.class))
         .thenReturn(mockDataForm);
@@ -230,13 +221,9 @@ public class UserServiceTest {
     );
     CreateUser createUser = new CreateUser("invalid email format", "John Digweed", "password1!");
 
-    Map<String, List<ValidationError>> validationErrors =
-        new HashMap<String, List<ValidationError>>() {{
-          put("email", mock(List.class));
-        }};
-
-    Form mockForm = mock(Form.class);
-    Form mockDataForm = mock(Form.class);
+    Map<String, List<ValidationError>> validationErrors = new HashMap<String, List<ValidationError>>() {{
+      put("email", mock(List.class));
+    }};
 
     when(mockFormFactory.form(CreateUser.class, CreateUser.UpdateValidators.class)).thenReturn(mockDataForm);
     when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
@@ -271,5 +258,44 @@ public class UserServiceTest {
     // ASSERT
     assertThat(user.getStatus(), is(Status.deleted));
     verify(mockUserRepository, times(1)).update(user);
+  }
+
+  @Test
+  public void login_successGivenValidDetails() {
+    // ARRANGE
+    String email = "john.digweed@bedrock.com";
+    String password = "password1!";
+    LoginUser loginUser = new LoginUser(email, password);
+    //User user = mock(User.class);
+    User user = new User(
+        1L, "john.digweed@bedrock.com", "John Digweed", User.Status.active,
+        "hash", "salt", new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
+    );
+    Token token = new Token(user, "value".getBytes(), ZonedDateTime.now());
+
+    when(mockFormFactory.form(LoginUser.class, LoginUser.Validators.class)).thenReturn(mockDataForm);
+    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
+    when(mockForm.hasErrors()).thenReturn(false);
+
+    when(mockUserRepository.findByEmail(email)).thenReturn(Optional.of(user));
+    //when(mockUser.getHash()).thenReturn("hashedPassword");
+    when(AuthenticationService.checkPassword(password, user.getHash())).thenReturn(true);
+    when(mockTokenService.create(user)).thenReturn(token);
+
+    // ACT
+    Either<Map<String, List<ValidationError>>, Token> tokenOrError = userService.login(loginUser);
+
+    // ASSERT
+    // assert left (error value) is not present
+    assertFalse(tokenOrError.isLeft());
+    // assert right (success value) is present
+    assertTrue(tokenOrError.isRight());
+    // verify that the user repository searched for the user
+    verify(mockUserRepository, times(1)).findByEmail(email);
+//    ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
+//    verify(mockUserRepository).update(argument.capture());
+//    assertThat(argument.getValue().getEmail(), is("sasha@bedrock.com"));
+//    assertThat(argument.getValue().getDisplayName(), is("Sasha"));
+
   }
 }

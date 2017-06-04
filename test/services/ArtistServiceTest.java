@@ -47,14 +47,11 @@ import repositories.ArtistRepository;
 @RunWith(MockitoJUnitRunner.class)
 public class ArtistServiceTest {
 
-  @InjectMocks
-  private ArtistService artistService;
-
-  @Mock
-  private ArtistRepository mockArtistRepository;
-
-  @Mock
-  private FormFactory mockFormFactory;
+  @InjectMocks private ArtistService artistService;
+  @Mock private ArtistRepository mockArtistRepository;
+  @Mock private FormFactory mockFormFactory;
+  @Mock private Form mockForm;
+  @Mock private Form mockDataForm;
 
   @Test
   public void fetchAll() {
@@ -129,9 +126,6 @@ public class ArtistServiceTest {
 //    // ARRANGE
 //    Artist artist = new Artist(null, "John Digweed", null, null, null, null, null, null, null);
 //
-//    Form mockForm = mock(Form.class);
-//    Form mockDataForm = mock(Form.class);
-//
 //    when(mockFormFactory.form(Artist.class, Artist.InsertValidators.class)).thenReturn(mockDataForm);
 //    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
 //    when(mockForm.hasErrors()).thenReturn(false);
@@ -160,9 +154,6 @@ public class ArtistServiceTest {
 //        new HashMap<String, List<ValidationError>>() {{
 //          put("name", mock(List.class));
 //        }};
-//
-//    Form mockForm = mock(Form.class);
-//    Form mockDataForm = mock(Form.class);
 //
 //    when(mockFormFactory.form(Artist.class, Artist.InsertValidators.class)).thenReturn(mockDataForm);
 //    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
@@ -193,9 +184,6 @@ public class ArtistServiceTest {
 //        1L, "Bedrock", "image.jpg", new ArrayList<>(), new ArrayList<>(),
 //        new ArrayList<>(), new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
 //    );
-//
-//    Form mockForm = mock(Form.class);
-//    Form mockDataForm = mock(Form.class);
 //
 //    when(mockFormFactory.form(Artist.class, Artist.UpdateValidators.class))
 //        .thenReturn(mockDataForm);

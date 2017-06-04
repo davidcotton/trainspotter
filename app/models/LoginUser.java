@@ -1,9 +1,11 @@
 package models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import play.data.validation.Constraints;
 
 @Data
+@AllArgsConstructor
 public class LoginUser {
 
   public interface Validators {}

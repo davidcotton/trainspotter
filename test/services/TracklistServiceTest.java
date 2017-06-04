@@ -44,14 +44,11 @@ import repositories.TracklistRepository;
 @RunWith(MockitoJUnitRunner.class)
 public class TracklistServiceTest {
 
-  @InjectMocks
-  private TracklistService tracklistService;
-
-  @Mock
-  private TracklistRepository mockTracklistRepository;
-
-  @Mock
-  private FormFactory mockFormFactory;
+  @InjectMocks private TracklistService tracklistService;
+  @Mock private TracklistRepository mockTracklistRepository;
+  @Mock private FormFactory mockFormFactory;
+  @Mock private Form mockForm;
+  @Mock private Form mockDataForm;
 
   @Test
   public void fetchAll() {
@@ -101,9 +98,6 @@ public class TracklistServiceTest {
 //    String tracklistName = "John Digweed & Jesper Dahlback - Transitions 664 2017-05-19";
 //    Tracklist tracklist = new Tracklist(null, tracklistName, null, null, null, null, null, null, null, null);
 //
-//    Form mockForm = mock(Form.class);
-//    Form mockDataForm = mock(Form.class);
-//
 //    when(mockFormFactory.form(Tracklist.class, Tracklist.InsertValidators.class)).thenReturn(mockDataForm);
 //    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
 //    when(mockForm.hasErrors()).thenReturn(false);
@@ -132,9 +126,6 @@ public class TracklistServiceTest {
 //        new HashMap<String, List<ValidationError>>() {{
 //          put("name", mock(List.class));
 //        }};
-//
-//    Form mockForm = mock(Form.class);
-//    Form mockDataForm = mock(Form.class);
 //
 //    when(mockFormFactory.form(Tracklist.class, Tracklist.InsertValidators.class)).thenReturn(mockDataForm);
 //    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);

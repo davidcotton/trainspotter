@@ -46,14 +46,11 @@ import repositories.GenreRepository;
 @RunWith(MockitoJUnitRunner.class)
 public class GenreServiceTest {
   
-  @InjectMocks
-  private GenreService genreService;
-  
-  @Mock
-  private GenreRepository mockGenreRepository;
-  
-  @Mock
-  private FormFactory mockFormFactory;
+  @InjectMocks private GenreService genreService;
+  @Mock private GenreRepository mockGenreRepository;
+  @Mock private FormFactory mockFormFactory;
+  @Mock private Form mockForm;
+  @Mock private Form mockDataForm;
 
   @Test
   public void fetchAll() {
@@ -128,9 +125,6 @@ public class GenreServiceTest {
 //    // ARRANGE
 //    Genre genre = new Genre(null, "Techno", null, null, null, null);
 //
-//    Form mockForm = mock(Form.class);
-//    Form mockDataForm = mock(Form.class);
-//
 //    when(mockFormFactory.form(Genre.class, Genre.InsertValidators.class)).thenReturn(mockDataForm);
 //    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
 //    when(mockForm.hasErrors()).thenReturn(false);
@@ -159,9 +153,6 @@ public class GenreServiceTest {
 //        new HashMap<String, List<ValidationError>>() {{
 //          put("name", mock(List.class));
 //        }};
-//
-//    Form mockForm = mock(Form.class);
-//    Form mockDataForm = mock(Form.class);
 //
 //    when(mockFormFactory.form(Genre.class, Genre.InsertValidators.class)).thenReturn(mockDataForm);
 //    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
@@ -192,9 +183,6 @@ public class GenreServiceTest {
 //        1L, "Deep House", new ArrayList<>(), new ArrayList<>(), ZonedDateTime.now(),
 //        ZonedDateTime.now()
 //    );
-//
-//    Form mockForm = mock(Form.class);
-//    Form mockDataForm = mock(Form.class);
 //
 //    when(mockFormFactory.form(Genre.class, Genre.UpdateValidators.class))
 //        .thenReturn(mockDataForm);

@@ -1,26 +1,10 @@
 package services;
 
-import javax.inject.Inject;
-import org.abstractj.kalium.keys.AuthenticationKey;
 import org.mindrot.jbcrypt.BCrypt;
-import play.Configuration;
-import play.Logger;
 
 public class AuthenticationService {
 
-  private final static int bcryptWorkFactor = 16;
-  private final AuthenticationKey authenticationKey;
-
-  @Inject
-  public AuthenticationService(Configuration configuration) {
-    String cryptoSecret = configuration.getString("play.crypto.secret");
-    authenticationKey = new AuthenticationKey(cryptoSecret.getBytes());
-    Logger.info("info");
-  }
-
-  public String derp() {
-    return "derp";
-  }
+  private static final int bcryptWorkFactor = 16;
 
   /**
    * Generate a salt.
@@ -34,15 +18,22 @@ public class AuthenticationService {
   /**
    * Hash a password with BCrypt.
    *
-   * @param plaintextPassword The plaintext password to hash.
-   * @param salt              The salt to use during hashing.
+   * @param plaintext The plaintext password to hash.
+   * @param salt      The salt to use during hashing.
    * @return The hashed password.
    */
-  public static String hashPassword(String plaintextPassword, String salt) {
-    return BCrypt.hashpw(plaintextPassword, salt);
+  public static String hashPassword(String plaintext, String salt) {
+    return BCrypt.hashpw(plaintext, salt);
   }
 
-  public static boolean checkPassword(String password, String hash) {
-    return BCrypt.checkpw(password, hash);
+  /**
+   * Check that a plaintext password matches the hashed password.
+   *
+   * @param plaintext The plaintext password to verify.
+   * @param hash      The previously hashed password.
+   * @return          true if the passwords match, false otherwise.
+   */
+  public boolean checkPassword(String plaintext, String hash) {
+    return BCrypt.checkpw(plaintext, hash);
   }
 }

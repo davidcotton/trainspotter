@@ -72,7 +72,7 @@ public class UserController extends Controller {
         .login(fromJson(request().body().asJson(), LoginUser.class))
         .fold(
             error -> badRequest(errorsAsJson(error)),
-            user -> ok(toJson(user))
+            token -> ok(toJson(token))
         );
   }
 }

@@ -45,14 +45,11 @@ import repositories.LabelRepository;
 @RunWith(MockitoJUnitRunner.class)
 public class LabelServiceTest {
 
-  @InjectMocks
-  private LabelService labelService;
-
-  @Mock
-  private LabelRepository mockLabelRepository;
-
-  @Mock
-  private FormFactory mockFormFactory;
+  @InjectMocks private LabelService labelService;
+  @Mock private LabelRepository mockLabelRepository;
+  @Mock private FormFactory mockFormFactory;
+  @Mock private Form mockForm;
+  @Mock private Form mockDataForm;
 
   @Test
   public void fetchAll() {
@@ -127,9 +124,6 @@ public class LabelServiceTest {
 //    // ARRANGE
 //    Label label = new Label(null, "Bedrock Records", null, null, null, null, null);
 //
-//    Form mockForm = mock(Form.class);
-//    Form mockDataForm = mock(Form.class);
-//
 //    when(mockFormFactory.form(Label.class, Label.InsertValidators.class)).thenReturn(mockDataForm);
 //    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
 //    when(mockForm.hasErrors()).thenReturn(false);
@@ -158,9 +152,6 @@ public class LabelServiceTest {
 //        new HashMap<String, List<ValidationError>>() {{
 //          put("name", mock(List.class));
 //        }};
-//
-//    Form mockForm = mock(Form.class);
-//    Form mockDataForm = mock(Form.class);
 //
 //    when(mockFormFactory.form(Label.class, Label.InsertValidators.class)).thenReturn(mockDataForm);
 //    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
@@ -191,9 +182,6 @@ public class LabelServiceTest {
 //        1L, "Mobilee", "image.jpg", new ArrayList<>(),
 //        new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
 //    );
-//
-//    Form mockForm = mock(Form.class);
-//    Form mockDataForm = mock(Form.class);
 //
 //    when(mockFormFactory.form(Label.class, Label.UpdateValidators.class))
 //        .thenReturn(mockDataForm);

@@ -43,6 +43,15 @@ create table media (
   constraint pk_media primary key (id)
 );
 
+create table token (
+  id                            bigint auto_increment not null,
+  user_id                       bigint not null,
+  value                         varbinary(255) not null,
+  expiry                        datetime not null,
+  constraint uq_token_user_id unique (user_id),
+  constraint pk_token primary key (id)
+);
+
 create table track (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
@@ -84,6 +93,8 @@ create index ix_media_artist_id on media (artist_id);
 alter table media add constraint fk_media_label_id foreign key (label_id) references label (id) on delete restrict on update restrict;
 create index ix_media_label_id on media (label_id);
 
+alter table token add constraint fk_token_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
+
 alter table tracklist add constraint fk_tracklist_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
 create index ix_tracklist_user_id on tracklist (user_id);
 
@@ -96,6 +107,8 @@ drop index ix_media_artist_id on media;
 alter table media drop foreign key fk_media_label_id;
 drop index ix_media_label_id on media;
 
+alter table token drop foreign key fk_token_user_id;
+
 alter table tracklist drop foreign key fk_tracklist_user_id;
 drop index ix_tracklist_user_id on tracklist;
 
@@ -106,6 +119,8 @@ drop table if exists genre;
 drop table if exists label;
 
 drop table if exists media;
+
+drop table if exists token;
 
 drop table if exists track;
 

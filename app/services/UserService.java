@@ -3,10 +3,8 @@ package services;
 import static java.util.Objects.requireNonNull;
 import static play.libs.Json.toJson;
 import static services.AuthenticationService.checkPassword;
-import static services.AuthenticationService.generateSalt;
 
 import io.atlassian.fugue.Either;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,16 +13,12 @@ import java.util.Optional;
 import javax.inject.Inject;
 import models.CreateUser;
 import models.LoginUser;
+import models.Token;
 import models.User;
 import models.User.Status;
-import org.abstractj.kalium.keys.AuthenticationKey;
-import org.keyczar.Signer;
-import org.keyczar.exceptions.KeyczarException;
-import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
-import play.libs.Crypto;
 import repositories.UserRepository;
 
 public class UserService {
@@ -32,16 +26,19 @@ public class UserService {
   private final UserRepository userRepository;
   private final FormFactory formFactory;
   private final AuthenticationService authenticationService;
+  private final TokenService tokenService;
+  private static final String FIELD_LOGIN = "login";
+  private static final String MESSAGE_LOGIN_FAILURE = "Unable to login";
 
   @Inject
   public UserService(
       UserRepository userRepository,
       FormFactory formFactory,
-      AuthenticationService authenticationService
+      TokenService tokenService
   ) {
     this.userRepository = requireNonNull(userRepository);
     this.formFactory = requireNonNull(formFactory);
-    this.authenticationService = requireNonNull(authenticationService);
+    this.tokenService = requireNonNull(tokenService);
   }
 
   /**
@@ -50,20 +47,6 @@ public class UserService {
    * @return A collection of all Users in the database.
    */
   public List<User> fetchAll() {
-    //String derp = authenticationService.derp();
-    //Logger.info(derp);
-
-    try {
-      Signer signer = new Signer("/keys");
-      String signature = signer.sign("hmac");
-      boolean verified = signer.verify("hmac", signature);
-    } catch (KeyczarException e) {
-      // do nothing
-      return new ArrayList<>();
-    }
-
-
-
     return userRepository.findAllCurrentUsers();
   }
 
@@ -154,7 +137,14 @@ public class UserService {
     userRepository.update(user);
   }
 
-  public Either<Map<String, List<ValidationError>>, User> login(LoginUser loginUser) {
+  /**
+   * Log a user into the system.
+   * Takes user credentials and returns an access token.
+   *
+   * @param loginUser The user's credentials.
+   * @return Either an access token on success or validation errors.
+   */
+  public Either<Map<String, List<ValidationError>>, Token> login(LoginUser loginUser) {
     // validate the login details
     Form<LoginUser> userForm = formFactory
         .form(LoginUser.class, LoginUser.Validators.class)
@@ -163,33 +153,37 @@ public class UserService {
       return Either.left(userForm.errors());
     }
 
-    Optional<User> maybeUser = userRepository.findByEmail(loginUser.getEmail());
-    User user;
-    if (maybeUser.isPresent()) {
-      user = maybeUser.get();
-    } else {
-      return Either.left(new HashMap<String, List<ValidationError>>() {{
-        put("login", new ArrayList<ValidationError>() {{
-          new ValidationError("login", "Unable to login");
-        }});
+    return userRepository.findByEmail(loginUser.getEmail())
+        .flatMap(user -> fetchToken(user, loginUser.getPassword()))
+        .map(token -> Either.<Map<String, List<ValidationError>>, Token>right(token))
+        .orElse(Either.left(getValidationErrors(FIELD_LOGIN, MESSAGE_LOGIN_FAILURE)));
+  }
+
+  /**
+   * Fetch a login token for a user if the supplied password matches their saved hash.
+   *
+   * @param user      The user to verify.
+   * @param password  The password to check.
+   * @return An optional token that will be empty if the password doesn't match.
+   */
+  private Optional<Token> fetchToken(User user, String password) {
+    return checkPassword(password, user.getHash())
+        ? Optional.of(tokenService.create(user))
+        : Optional.empty();
+  }
+
+  /**
+   * Helper method to aid in generating validation error responses.
+   *
+   * @param key   The field name that failed.
+   * @param error The validation error.
+   * @return A collection of validation errors.
+   */
+  private Map<String, List<ValidationError>> getValidationErrors(String key, String errorMessage) {
+    return new HashMap<String, List<ValidationError>>() {{
+      put(key, new ArrayList<ValidationError>() {{
+        add(new ValidationError(key, errorMessage));
       }});
-    }
-
-    boolean result = checkPassword(loginUser.getPassword(), user.getHash());
-
-    //AuthenticationKey authenticationKey = new AuthenticationKey();
-    //Crypto.sign();
-
-
-
-    if (result) {
-      return Either.right(user);
-    } else {
-      return Either.left(new HashMap<String, List<ValidationError>>() {{
-        put("login", new ArrayList<ValidationError>() {{
-          new ValidationError("login", "Unable to login");
-        }});
-      }});
-    }
+    }};
   }
 }

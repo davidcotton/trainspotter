@@ -17,7 +17,7 @@ DJ tracklist management application.
 ### Environment Variables
 + MYSQL_DB_USER - The MySQL DB user name
 + MYSQL_DB_PASS - The MySQL DB user password
-+ CRYPTO_SECRET - Used to sign the session cookie
++ CRYPTO_SECRET - Used to sign the HMAC, must be 32 characters or will throw invalid size exception.
 
 
 ### Download Dependencies and Run DB Migrations
