@@ -38,7 +38,7 @@ public class TokenService {
 
     return tokenRepository.findByUser(user)
         .map(token -> {
-          token.setValue(hmac);
+          token.setHmac(hmac);
           token.setExpiry(expiry);
           tokenRepository.update(token);
           return token;

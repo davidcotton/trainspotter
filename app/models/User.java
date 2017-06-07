@@ -20,7 +20,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -72,11 +71,6 @@ public class User extends Model {
   @NotNull
   @Column(columnDefinition = "char(29)")
   private String salt;
-
-//  @Getter(onMethod = @__(@JsonIgnore))
-//  @Setter
-//  @OneToOne
-//  private Token token;
 
   @OneToMany(mappedBy = "user")
   @JsonManagedReference(value = "user_tracklists")

@@ -258,7 +258,7 @@ public class UserServiceTest {
     String password = "password1!";
     LoginUser loginUser = new LoginUser(email, password);
     User mockUser = mock(User.class);
-    Token token = new Token(mockUser, "value".getBytes(), ZonedDateTime.now());
+    Token token = new Token(mockUser, "hmac".getBytes(), ZonedDateTime.now());
 
     when(mockFormFactory.form(LoginUser.class, LoginUser.Validators.class)).thenReturn(mockDataForm);
     when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
