@@ -53,7 +53,7 @@ public class UserServiceTest {
 
   @Test public void fetchAll() {
     // ARRANGE
-    when(mockUserRepository.findAllCurrentUsers()).thenReturn(new ArrayList<User>() {{
+    when(mockUserRepository.findAllActiveUsers()).thenReturn(new ArrayList<User>() {{
       add(mock(User.class));
       add(mock(User.class));
     }});
@@ -69,7 +69,7 @@ public class UserServiceTest {
   @Test public void findById_givenIdInDb() {
     // ARRANGE
     long id = 1L;
-    when(mockUserRepository.findById(id)).thenReturn(Optional.of(mock(User.class)));
+    when(mockUserRepository.findActiveById(id)).thenReturn(Optional.of(mock(User.class)));
 
     // ACT
     Optional<User> maybeUser = userService.findById(id);
@@ -81,7 +81,7 @@ public class UserServiceTest {
   @Test public void findById_givenIdNotInDb() {
     // ARRANGE
     long nonExistentId = 1L;
-    when(mockUserRepository.findById(nonExistentId)).thenReturn(Optional.empty());
+    when(mockUserRepository.findActiveById(nonExistentId)).thenReturn(Optional.empty());
 
     // ACT
     Optional<User> maybeUser = userService.findById(nonExistentId);

@@ -48,7 +48,7 @@ public class UserService {
    * @return A collection of all Users in the database.
    */
   public List<User> fetchAll() {
-    return userRepository.findAllCurrentUsers();
+    return userRepository.findAllActiveUsers();
   }
 
   /**
@@ -58,7 +58,7 @@ public class UserService {
    * @return An optional User if found.
    */
   public Optional<User> findById(long id) {
-    return userRepository.findById(id);
+    return userRepository.findActiveById(id);
   }
 
   /**

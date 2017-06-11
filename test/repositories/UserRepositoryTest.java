@@ -96,8 +96,8 @@ public class UserRepositoryTest extends WithApplication {
     assertThat(users, hasItem(hasProperty("email", is("adam.beyer@drumcode.com"))));
   }
 
-  @Test public void findAllCurrentUsers() throws Exception {
-    List<User> users = userRepository.findAllCurrentUsers();
+  @Test public void findAllActiveUsers() throws Exception {
+    List<User> users = userRepository.findAllActiveUsers();
 
     assertThat(users, not(IsEmptyCollection.empty()));
     assertThat(users.size(), is(2));
@@ -106,21 +106,21 @@ public class UserRepositoryTest extends WithApplication {
     assertThat(users, hasItem(hasProperty("email", is("adam.beyer@drumcode.com"))));
   }
 
-  @Test public void findById_successGivenIdInDb() throws Exception {
-    Optional<User> maybeUser = userRepository.findById(1L);
+  @Test public void findActiveById_successGivenIdInDb() throws Exception {
+    Optional<User> maybeUser = userRepository.findActiveById(1L);
 
     assertTrue(maybeUser.isPresent());
     assertEquals("john.digweed@bedrock-records.com", maybeUser.get().getEmail());
   }
 
-  @Test public void findById_failureGivenIdNotInDb() throws Exception {
-    Optional<User> maybeUser = userRepository.findById(999L);
+  @Test public void findActiveById_failureGivenIdNotInDb() throws Exception {
+    Optional<User> maybeUser = userRepository.findActiveById(999L);
 
     assertFalse(maybeUser.isPresent());
   }
 
-  @Test public void findById_failureGivenUserDeleted() throws Exception {
-    Optional<User> maybeUser = userRepository.findById(2L);
+  @Test public void findActiveById_failureGivenUserDeleted() throws Exception {
+    Optional<User> maybeUser = userRepository.findActiveById(2L);
 
     assertFalse(maybeUser.isPresent());
   }
