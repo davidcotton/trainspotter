@@ -28,22 +28,20 @@ public class Token extends Model {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Getter(onMethod = @__(@JsonIgnore))
-  @Setter
   @NotNull
   @OneToOne
   private User user;
 
   @NotNull
-  private byte[] value;
+  private byte[] hmac;
 
   @NotNull
   @Column(columnDefinition = "datetime")
   private ZonedDateTime expiry;
 
-  public Token(User user, byte[] value, ZonedDateTime expiry) {
+  public Token(User user, byte[] hmac, ZonedDateTime expiry) {
     this.user = user;
-    this.value = value;
+    this.hmac = hmac;
     this.expiry = expiry;
   }
 }

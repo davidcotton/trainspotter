@@ -46,7 +46,7 @@ create table media (
 create table token (
   id                            bigint auto_increment not null,
   user_id                       bigint not null,
-  value                         varbinary(255) not null,
+  hmac                          varbinary(255) not null,
   expiry                        datetime not null,
   constraint uq_token_user_id unique (user_id),
   constraint pk_token primary key (id)
