@@ -73,6 +73,12 @@ create table tracklist (
   constraint pk_tracklist primary key (id)
 );
 
+create table tracklist_artist (
+  tracklist_id                  bigint not null,
+  artist_id                     bigint not null,
+  constraint pk_tracklist_artist primary key (tracklist_id,artist_id)
+);
+
 create table tracklist_genre (
   tracklist_id                  bigint not null,
   genre_id                      bigint not null,
@@ -108,6 +114,12 @@ alter table token add constraint fk_token_user_id foreign key (user_id) referenc
 alter table tracklist add constraint fk_tracklist_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
 create index ix_tracklist_user_id on tracklist (user_id);
 
+alter table tracklist_artist add constraint fk_tracklist_artist_tracklist foreign key (tracklist_id) references tracklist (id) on delete restrict on update restrict;
+create index ix_tracklist_artist_tracklist on tracklist_artist (tracklist_id);
+
+alter table tracklist_artist add constraint fk_tracklist_artist_artist foreign key (artist_id) references artist (id) on delete restrict on update restrict;
+create index ix_tracklist_artist_artist on tracklist_artist (artist_id);
+
 alter table tracklist_genre add constraint fk_tracklist_genre_tracklist foreign key (tracklist_id) references tracklist (id) on delete restrict on update restrict;
 create index ix_tracklist_genre_tracklist on tracklist_genre (tracklist_id);
 
@@ -131,6 +143,12 @@ alter table token drop foreign key fk_token_user_id;
 alter table tracklist drop foreign key fk_tracklist_user_id;
 drop index ix_tracklist_user_id on tracklist;
 
+alter table tracklist_artist drop foreign key fk_tracklist_artist_tracklist;
+drop index ix_tracklist_artist_tracklist on tracklist_artist;
+
+alter table tracklist_artist drop foreign key fk_tracklist_artist_artist;
+drop index ix_tracklist_artist_artist on tracklist_artist;
+
 alter table tracklist_genre drop foreign key fk_tracklist_genre_tracklist;
 drop index ix_tracklist_genre_tracklist on tracklist_genre;
 
@@ -150,6 +168,8 @@ drop table if exists token;
 drop table if exists track;
 
 drop table if exists tracklist;
+
+drop table if exists tracklist_artist;
 
 drop table if exists tracklist_genre;
 

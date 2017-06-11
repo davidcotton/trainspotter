@@ -53,9 +53,9 @@ public class Artist extends Model {
 //  @JsonManagedReference(value = "track_remixers")
 //  private List<Track> remixes;
 
-//  @ManyToMany(mappedBy = "artists")
-//  @JsonManagedReference(value = "artist_tracklists")
-//  private List<Tracklist> tracklists;
+  @ManyToMany(mappedBy = "artists")
+  @JsonManagedReference(value = "artist_tracklists")
+  private List<Tracklist> tracklists;
 
   @OneToMany
   @JsonManagedReference(value = "artist_medias")
