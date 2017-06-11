@@ -63,9 +63,9 @@ public class Tracklist extends Model {
 //  @JsonBackReference(value = "genres_tracklists")
 //  private List<Genre> genres;
 
-//  @OneToMany
-//  @JsonManagedReference(value = "tracklists_medias")
-//  private List<Media> medias;
+  @OneToMany
+  @JsonManagedReference(value = "tracklists_medias")
+  private List<Media> medias;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")

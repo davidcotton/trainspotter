@@ -35,6 +35,7 @@ create table label (
 create table media (
   id                            bigint auto_increment not null,
   url                           varchar(191) not null,
+  tracklist_id                  bigint,
   artist_id                     bigint,
   label_id                      bigint,
   created                       datetime not null,
@@ -87,6 +88,9 @@ create table user (
   constraint pk_user primary key (id)
 );
 
+alter table media add constraint fk_media_tracklist_id foreign key (tracklist_id) references tracklist (id) on delete restrict on update restrict;
+create index ix_media_tracklist_id on media (tracklist_id);
+
 alter table media add constraint fk_media_artist_id foreign key (artist_id) references artist (id) on delete restrict on update restrict;
 create index ix_media_artist_id on media (artist_id);
 
@@ -100,6 +104,9 @@ create index ix_tracklist_user_id on tracklist (user_id);
 
 
 # --- !Downs
+
+alter table media drop foreign key fk_media_tracklist_id;
+drop index ix_media_tracklist_id on media;
 
 alter table media drop foreign key fk_media_artist_id;
 drop index ix_media_artist_id on media;
