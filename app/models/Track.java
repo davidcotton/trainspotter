@@ -45,31 +45,31 @@ public class Track extends Model {
   @NotNull
   private String name;
 
-//  @ManyToMany
-//  @JoinTable(name = "track_artists")
-//  @JsonBackReference(value = "track_artists")
-//  private List<Artist> artists;
-//
-//  @ManyToMany
-//  @JoinTable(name = "track_remixers")
-//  @JsonBackReference(value = "track_remixers")
-//  private List<Artist> remixers;
+  @ManyToMany
+  @JoinTable(name = "track_artists")
+  @JsonBackReference(value = "track_artists")
+  private List<Artist> artists;
+
+  @ManyToMany
+  @JoinTable(name = "track_remixers")
+  @JsonBackReference(value = "track_remixers")
+  private List<Artist> remixers;
 
   private String remixName;
 
-//  @ManyToOne
-//  @JsonManagedReference(value = "genre_tracks")
-//  private Genre genre;
-//
-//  @ManyToOne
-//  @JsonBackReference(value = "label_tracks")
-//  private Label label;
+  @ManyToOne
+  @JsonBackReference(value = "genre_tracks")
+  private Genre genre;
+
+  @ManyToOne
+  @JsonBackReference(value = "label_tracks")
+  private Label label;
 
   private LocalDate releaseDate;
 
-//  @ManyToMany
-//  @JsonBackReference(value = "tracklist_tracks")
-//  private List<Tracklist> tracklists;
+  @ManyToMany
+  @JsonBackReference(value = "tracklist_tracks")
+  private List<Tracklist> tracklists;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")

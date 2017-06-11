@@ -3,6 +3,7 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -45,16 +46,16 @@ public class Artist extends Model {
 
   private String image;
 
-//  @ManyToMany(mappedBy = "artists")
-//  @JsonManagedReference(value = "track_artists")
-//  private List<Track> tracks;
-//
-//  @ManyToMany(mappedBy = "artists")
-//  @JsonManagedReference(value = "track_remixers")
-//  private List<Track> remixes;
+  @ManyToMany(mappedBy = "artists")
+  @JsonManagedReference(value = "track_artists")
+  private List<Track> tracks;
 
   @ManyToMany(mappedBy = "artists")
-  @JsonManagedReference(value = "artist_tracklists")
+  @JsonManagedReference(value = "track_remixers")
+  private List<Track> remixes;
+
+  @ManyToMany(mappedBy = "artists")
+  @JsonBackReference(value = "artist_tracklists")
   private List<Tracklist> tracklists;
 
   @OneToMany
