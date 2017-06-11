@@ -4,7 +4,6 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.ZonedDateTime;
 import java.util.List;
 import javax.persistence.Column;
@@ -29,10 +28,7 @@ import play.data.validation.Constraints;
 @AllArgsConstructor
 public class Genre extends Model {
 
-  /** Validator group to be called on insert. */
   public interface InsertValidators {}
-
-  /** Validator group to be called on update. */
   public interface UpdateValidators {}
 
   @Id

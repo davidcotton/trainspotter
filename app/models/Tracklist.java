@@ -31,10 +31,7 @@ import play.data.validation.Constraints;
 @AllArgsConstructor
 public class Tracklist extends Model {
 
-  /** Validator group to be called on insert. */
   public interface InsertValidators {}
-
-  /** Validator group to be called on update. */
   public interface UpdateValidators {}
 
   @Id

@@ -11,10 +11,7 @@ import validators.CustomConstraints;
 @AllArgsConstructor
 public class CreateUser {
 
-  /** Validator group to be called on insert. */
   public interface InsertValidators {}
-
-  /** Validator group to be called on update. */
   public interface UpdateValidators {}
 
   @Constraints.Required(
