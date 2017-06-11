@@ -24,7 +24,7 @@ import play.data.validation.Constraints;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-//@AllArgsConstructor
+@AllArgsConstructor
 public class Label extends Model {
 
   /** Validator group to be called on insert. */
