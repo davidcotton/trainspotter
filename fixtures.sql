@@ -1,8 +1,8 @@
 INSERT INTO `user` (`email`, `hash`, `salt`, `display_name`, `status`, `created`, `updated`)
 VALUES
-  ('joe@example.com', '$2a$16$T1PaqXFutgw9qUmlK875Ge4wFRnn9TBMyJHfxyBpDXItcrNDL/OYa', '$2a$16$T1PaqXFutgw9qUmlK875Ge', 'joey', 'active', NOW(), NOW()),
-  ('john@example.com', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.xKIJUcj9lInDBANSKNmiS5WCKW7uvai', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.', 'john', 'active', NOW(), NOW()),
-  ('pete@example.com', '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', '$2a$16$aY..e8GAU2YGfdvLGqtahe', 'pete', 'active', NOW(), NOW())
+  ('john.digweed@bedrock-records.com', '$2a$16$T1PaqXFutgw9qUmlK875Ge4wFRnn9TBMyJHfxyBpDXItcrNDL/OYa', '$2a$16$T1PaqXFutgw9qUmlK875Ge', 'John Digweed', 'active', NOW(), NOW()),
+  ('sasha@last-night-on-earth.com', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.xKIJUcj9lInDBANSKNmiS5WCKW7uvai', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.', 'Sasha', 'active', NOW(), NOW()),
+  ('adam.beyer@drumcode.com', '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', '$2a$16$aY..e8GAU2YGfdvLGqtahe', 'Adam Beyer', 'active', NOW(), NOW())
 ;
 
 INSERT INTO `artist` (`name`, `created`, `updated`)
