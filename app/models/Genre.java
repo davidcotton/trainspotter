@@ -48,9 +48,9 @@ public class Genre extends Model {
 //  @JsonBackReference(value = "genre_tracks")
 //  private List<Track> tracks;
 
-//  @ManyToMany(mappedBy = "genres")
-//  @JsonManagedReference(value = "genres_tracklists")
-//  private List<Tracklist> tracklists;
+  @ManyToMany(mappedBy = "genres")
+  @JsonManagedReference(value = "genres_tracklists")
+  private List<Tracklist> tracklists;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")

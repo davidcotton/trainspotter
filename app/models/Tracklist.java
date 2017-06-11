@@ -59,9 +59,9 @@ public class Tracklist extends Model {
 //  @JsonBackReference(value = "artist_tracklists")
 //  private List<Artist> artists;
 
-//  @ManyToMany
-//  @JsonBackReference(value = "genres_tracklists")
-//  private List<Genre> genres;
+  @ManyToMany
+  @JsonBackReference(value = "genres_tracklists")
+  private List<Genre> genres;
 
   @OneToMany
   @JsonManagedReference(value = "tracklists_medias")
