@@ -12,6 +12,35 @@ public class CustomConstraints {
 
   @Target({ElementType.FIELD})
   @Retention(RetentionPolicy.RUNTIME)
+  @Constraint(validatedBy = PasswordValidator.class)
+  public @interface Password {
+    /**
+     * The error message shown when a password is invalid.
+     * This is required by JR303.
+     *
+     * @return The error message.
+     */
+    String message() default PasswordValidator.message;
+
+    /**
+     * Groups allow you to restrict the set of constraints applied during validation.
+     * This is required by JR303.
+     *
+     * @return Constraint groups.
+     */
+    Class<?>[] groups() default {};
+
+    /**
+     * Payload type that can be attached to a given constraint declaration.
+     * This is required by JR303.
+     *
+     * @return Constraint payload.
+     */
+    Class<? extends Payload>[] payload() default {};
+  }
+
+  @Target({ElementType.FIELD})
+  @Retention(RetentionPolicy.RUNTIME)
   @Constraint(validatedBy = UniqueEmailValidator.class)
   public @interface UniqueEmail {
 

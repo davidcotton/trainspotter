@@ -35,5 +35,6 @@ public class CreateUser {
       message = "A password is required.",
       groups = {InsertValidators.class, UpdateValidators.class}
   )
+  @CustomConstraints.Password(groups = {InsertValidators.class, UpdateValidators.class})
   private String password;
 }
