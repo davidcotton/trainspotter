@@ -3,14 +3,10 @@
 @import helper._
 
 @main("Create User") {
-    <h1>Create User</h1>
-    @helper.form(action = routes.UserController.submit()) {
-        @helper.inputText(userForm("email"))
-        @helper.inputPassword(userForm("displayName"))
-        @helper.inputPassword(userForm("password"))
-    }
-
-    @* @form(routes.UserController.add) {
-
-    }*@
+  <h1>Create User</h1>
+  @form(action = routes.UserController.submit()) {
+    @inputText(userForm("email"))
+    @inputText(userForm("displayName"))
+    @inputPassword(userForm("password"))
+  }
 }

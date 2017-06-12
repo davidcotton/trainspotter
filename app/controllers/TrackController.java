@@ -34,17 +34,17 @@ public class TrackController extends Controller {
     return ok(view.render(maybeTrack.get()));
   }
 
-  public Result update(long id) {
-    return TODO;
-  }
-
-  public Result create() {
+  public Result add() {
     return trackService
         .insert(fromJson(request().body().asJson(), Track.class))
         .fold(
             error -> badRequest(errorsAsJson(error)),
             track -> created(toJson(track))
         );
+  }
+
+  public Result edit(long id) {
+    return TODO;
   }
 
   public Result delete(long id) {

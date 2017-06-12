@@ -34,17 +34,17 @@ public class ArtistController extends Controller {
     return ok(view.render(maybeArtist.get()));
   }
 
-  public Result update(long id) {
-    return TODO;
-  }
-
-  public Result create() {
+  public Result add() {
     return artistService
         .insert(fromJson(request().body().asJson(), Artist.class))
         .fold(
             error -> badRequest(errorsAsJson(error)),
             artist -> created(toJson(artist))
         );
+  }
+
+  public Result edit(long id) {
+    return TODO;
   }
 
   public Result delete(long id) {

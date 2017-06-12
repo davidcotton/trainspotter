@@ -34,17 +34,17 @@ public class TracklistController extends Controller {
     return ok(view.render(maybeTracklist.get()));
   }
 
-  public Result update(long id) {
-    return TODO;
-  }
-
-  public Result create() {
+  public Result add() {
     return tracklistService
         .insert(fromJson(request().body().asJson(), Tracklist.class))
         .fold(
             error -> badRequest(errorsAsJson(error)),
             tracklist -> created(toJson(tracklist))
         );
+  }
+
+  public Result edit(long id) {
+    return TODO;
   }
 
   public Result delete(long id) {
