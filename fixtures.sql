@@ -1,9 +1,9 @@
 
 INSERT INTO `user` (`email`, `hash`, `salt`, `display_name`, `status`, `created`, `updated`)
 VALUES
-  ('john.digweed@bedrock-records.com', '$2a$16$T1PaqXFutgw9qUmlK875Ge4wFRnn9TBMyJHfxyBpDXItcrNDL/OYa', '$2a$16$T1PaqXFutgw9qUmlK875Ge', 'John Digweed', 'active', NOW(), NOW()),
-  ('sasha@last-night-on-earth.com', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.xKIJUcj9lInDBANSKNmiS5WCKW7uvai', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.', 'Sasha', 'active', NOW(), NOW()),
-  ('adam.beyer@drumcode.com', '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', '$2a$16$aY..e8GAU2YGfdvLGqtahe', 'Adam Beyer', 'active', NOW(), NOW());
+  ('brian.mcgee@simpsons.com', '$2a$16$T1PaqXFutgw9qUmlK875Ge4wFRnn9TBMyJHfxyBpDXItcrNDL/OYa', '$2a$16$T1PaqXFutgw9qUmlK875Ge', 'Brian McGee', 'active', NOW(), NOW()),
+  ('rembrandt.q.einstein@simpsons.com', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.xKIJUcj9lInDBANSKNmiS5WCKW7uvai', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.', 'Rembrandt Q. Einstein', 'active', NOW(), NOW()),
+  ('rory.b.bellows@simpsons.com', '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', '$2a$16$aY..e8GAU2YGfdvLGqtahe', 'Rory B. Bellows', 'active', NOW(), NOW());
 
 INSERT INTO `artist` (`name`, `created`, `updated`)
 VALUES
@@ -60,7 +60,10 @@ VALUES
 
 INSERT INTO `tracklist` (`name`, `date`, `user_id`, `created`, `updated`)
 VALUES
-  ('John Digweed & Jesper Dahlback - Transitions 664 2017-05-19', '2017-05-19', 1, NOW(), NOW());
+  ('John Digweed & Jesper Dahlback - Transitions 664', '2017-05-19', 1, NOW(), NOW()),
+  ('Solomun @ Space Closing Fiesta, Terraza, Space Ibiza, Spain (Be-At TV)', '2016-10-02', 1, NOW(), NOW()),
+  ('Adam Beyer @ Drumcode 354 (Metro City Perth, Australia 2017-04-24)', '2017-05-18', 1, NOW(), NOW()),
+  ('Sasha @ Last Night On Earth 025 (Coachella Festival, United States)', '2017-05-29', 1, NOW(), NOW());
 
 INSERT INTO `media` (url, tracklist_id, artist_id, label_id, created, updated)
 VALUES

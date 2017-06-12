@@ -12,7 +12,7 @@ public class TrackRepository implements Repository<Track> {
 
   @Override
   public List<Track> findAll() {
-    return find.all();
+    return find.orderBy().asc("name").findList();
   }
 
   @Override
