@@ -17,9 +17,7 @@
         <td>
           <ul>
           @for(artist <- track.getArtists) {
-            <li>
-              <a href="@routes.TrackController.view(artist.getId)">@artist.getName</a>
-            </li>
+            <li><a href="@routes.TrackController.view(artist.getId)">@artist.getName</a></li>
           }
           </ul>
         </td>
@@ -27,9 +25,7 @@
         <td>
           <ul>
           @for(remixer <- track.getRemixers) {
-            <li>
-              <a href="@routes.TrackController.view(remixer.getId)">@remixer.getName</a>
-            </li>
+            <li><a href="@routes.TrackController.view(remixer.getId)">@remixer.getName</a></li>
           }
           </ul>
         </td>
