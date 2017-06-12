@@ -72,6 +72,14 @@ GET     /artist/:id             controllers.ArtistController.view(id:Long)
 PUT     /artist/:id             controllers.ArtistController.edit(id:Long)
 DELETE  /artist/:id             controllers.ArtistController.delete(id:Long)
 
+# Genres
+GET     /genre                  controllers.GenreController.index
+GET     /genre/new              controllers.GenreController.add
+POST    /genre                  controllers.GenreController.add
+GET     /genre/:id              controllers.GenreController.view(id:Long)
+PUT     /genre/:id              controllers.GenreController.edit(id:Long)
+DELETE  /genre/:id              controllers.GenreController.delete(id:Long)
+
 # Labels
 GET     /label                  controllers.LabelController.index
 GET     /label/new              controllers.LabelController.add
@@ -79,6 +87,7 @@ POST    /label                  controllers.LabelController.add
 GET     /label/:id              controllers.LabelController.view(id:Long)
 PUT     /label/:id              controllers.LabelController.edit(id:Long)
 DELETE  /label/:id              controllers.LabelController.delete(id:Long)
+
 
 # Tracks
 GET     /track                  controllers.TrackController.index
