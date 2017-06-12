@@ -5,10 +5,10 @@ import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
 import static utilities.JsonHelper.errorsAsJson;
 
-import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import models.Tracklist;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.TracklistService;
@@ -18,15 +18,16 @@ import views.html.tracklist.view;
 public class TracklistController extends Controller {
 
   private final TracklistService tracklistService;
+  private final FormFactory formFactory;
 
   @Inject
-  public TracklistController(TracklistService tracklistService) {
+  public TracklistController(TracklistService tracklistService, FormFactory formFactory) {
     this.tracklistService = requireNonNull(tracklistService);
+    this.formFactory = requireNonNull(formFactory);
   }
 
   public Result index() {
-    List<Tracklist> tracklists = tracklistService.fetchAll();
-    return ok(index.render(tracklists));
+    return ok(index.render(tracklistService.fetchAll()));
   }
 
   public Result view(long id) {
