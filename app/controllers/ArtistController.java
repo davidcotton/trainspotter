@@ -1,46 +1,52 @@
 package controllers;
 
 import static java.util.Objects.requireNonNull;
-import static play.libs.Json.fromJson;
-import static play.libs.Json.toJson;
-import static utilities.JsonHelper.errorsAsJson;
 
-import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import models.Artist;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
-import services.ArtistService;
+import repositories.ArtistRepository;
+import views.html.artist.add;
+import views.html.artist.edit;
 import views.html.artist.index;
 import views.html.artist.view;
 
 public class ArtistController extends Controller {
 
-  private final ArtistService artistService;
+  private final ArtistRepository artistRepository;
+  private final FormFactory formFactory;
 
   @Inject
-  public ArtistController(ArtistService artistService) {
-    this.artistService = requireNonNull(artistService);
+  public ArtistController(ArtistRepository artistRepository, FormFactory formFactory) {
+    this.artistRepository = requireNonNull(artistRepository);
+    this.formFactory = requireNonNull(formFactory);
   }
 
+  /**
+   * View all artists.
+   *
+   * @return A page with all artists.
+   */
   public Result index() {
-    List<Artist> artists = artistService.fetchAll();
-    return ok(index.render(artists));
+    return ok(index.render(artistRepository.findAll()));
   }
 
+  /**
+   * View a single artist.
+   *
+   * @param id The artist's ID.
+   * @return An artist page if found.
+   */
   public Result view(long id) {
-    Optional<Artist> maybeArtist = artistService.findById(id);
+    Optional<Artist> maybeArtist = artistRepository.findById(id);
     return ok(view.render(maybeArtist.get()));
   }
 
   public Result add() {
-    return artistService
-        .insert(fromJson(request().body().asJson(), Artist.class))
-        .fold(
-            error -> badRequest(errorsAsJson(error)),
-            artist -> created(toJson(artist))
-        );
+    return TODO;
   }
 
   public Result edit(long id) {

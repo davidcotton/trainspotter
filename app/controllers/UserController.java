@@ -2,7 +2,6 @@ package controllers;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import models.CreateUser;
@@ -14,6 +13,7 @@ import play.mvc.Result;
 import repositories.UserRepository;
 import views.html.user.add;
 import views.html.user.edit;
+import views.html.user.index;
 import views.html.user.view;
 
 public class UserController extends Controller {
@@ -27,11 +27,21 @@ public class UserController extends Controller {
     this.formFactory = requireNonNull(formFactory);
   }
 
+  /**
+   * View all users.
+   *
+   * @return A page with all users.
+   */
   public Result index() {
-    List<User> users = userRepository.findAll();
-    return ok(views.html.user.index.render(users));
+    return ok(index.render(userRepository.findAll()));
   }
 
+  /**
+   * View a single user.
+   *
+   * @param id The user's ID.
+   * @return A user page if found.
+   */
   public Result view(long id) {
     Optional<User> maybeUser = userRepository.findById(id);
     return ok(view.render(maybeUser.get()));
