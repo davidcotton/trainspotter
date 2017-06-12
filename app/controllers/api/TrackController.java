@@ -1,4 +1,4 @@
-package controllers;
+package controllers.api;
 
 import static java.util.Objects.requireNonNull;
 
@@ -10,52 +10,54 @@ import static utilities.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
 
-import models.Genre;
+import models.Track;
 
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import services.GenreService;
+import services.TrackService;
 
-public class GenreController extends Controller {
+public class TrackController extends Controller {
 
-  private final GenreService genreService;
+  private final TrackService trackService;
 
   @Inject
-  public GenreController(GenreService genreService) {
-    this.genreService = requireNonNull(genreService);
+  public TrackController(TrackService trackService) {
+    this.trackService = requireNonNull(trackService);
   }
 
   public Result fetchAll() {
-    return ok(toJson(genreService.fetchAll()));
+    return ok(toJson(trackService.fetchAll()));
   }
 
   public Result fetch(long id) {
-    return genreService.findById(id)
-        .map(genre -> ok(toJson(genre)))
+    return trackService.findById(id)
+        .map(track -> ok(toJson(track)))
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
-    return genreService
-        .insert(fromJson(request().body().asJson(), Genre.class))
+    Track track1 = fromJson(request().body().asJson(), Track.class);
+
+    return trackService
+        .insert(fromJson(request().body().asJson(), Track.class))
         .fold(
             error -> badRequest(errorsAsJson(error)),
-            user -> created(toJson(user))
+            track -> created(toJson(track))
         );
   }
 
   @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
-    return genreService
+    return trackService
         .findById(id)
-        .map(savedGenre -> genreService
-            .update(savedGenre, fromJson(request().body().asJson(), Genre.class))
+        .map(savedTrack -> trackService
+            .update(savedTrack, fromJson(request().body().asJson(), Track.class))
             .fold(
                 error -> badRequest(errorsAsJson(error)),
-                newGenre -> created(toJson(newGenre))
+                newTrack -> created(toJson(newTrack))
             )
         )
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));

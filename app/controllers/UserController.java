@@ -1,78 +1,67 @@
 package controllers;
 
 import static java.util.Objects.requireNonNull;
-import static play.libs.Json.fromJson;
-import static play.libs.Json.toJson;
-import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
-import static utilities.JsonHelper.errorsAsJson;
 
+import java.util.List;
+import java.util.Optional;
 import javax.inject.Inject;
-import models.CreateUser;
-import models.LoginUser;
-import play.mvc.BodyParser;
+import models.User;
+import play.data.Form;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.UserService;
+import views.html.user.update;
+import views.html.user.view;
 
 public class UserController extends Controller {
 
   private final UserService userService;
+  private final FormFactory formFactory;
 
   @Inject
-  public UserController(UserService userService) {
+  public UserController(UserService userService, FormFactory formFactory) {
     this.userService = requireNonNull(userService);
+    this.formFactory = requireNonNull(formFactory);
   }
 
-  public Result fetchAll() {
-    return ok(toJson(userService.fetchAll()));
+  public Result index() {
+    List<User> users = userService.fetchAll();
+    return ok(views.html.user.index.render(users));
   }
 
-  public Result fetch(long id) {
-    return userService.findById(id)
-        .map(user -> ok(toJson(user)))
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+  public Result view(long id) {
+    Optional<User> maybeUser = userService.findById(id);
+    return ok(view.render(maybeUser.get()));
   }
 
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result create() {
-    return userService
-        .insert(fromJson(request().body().asJson(), CreateUser.class))
-        .fold(
-            error -> badRequest(errorsAsJson(error)),
-            user -> created(toJson(user))
-        );
-  }
-
-  @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
-    return userService
-        .findById(id)
-        .map(savedUser -> userService
-            .update(savedUser, fromJson(request().body().asJson(), CreateUser.class))
-            .fold(
-                error -> badRequest(errorsAsJson(error)),
-                newUser -> created(toJson(newUser))
-            )
-        )
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+    Form<User> userForm = formFactory.form(User.class).bindFromRequest();
+    if (userForm.hasErrors()) {
+      return badRequest(update.render(id, userForm));
+    }
+
+    User user = userForm.get();
+//    userService.update(user);
+
+    return ok(update.render(id, userForm));
+  }
+
+  public Result create() {
+    return TODO;
+//    return userService
+//        .insert(fromJson(request().body().asJson(), User.class))
+//        .fold(
+//            error -> badRequest(errorsAsJson(error)),
+//            user -> created(toJson(user))
+//        );
+  }
+
+  public Result submit() {
+    return TODO;
   }
 
   public Result delete(long id) {
-    return userService.findById(id)
-        .map(user -> {
-          userService.delete(user);
-          return (Result) noContent();
-        })
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
-  }
-
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result login() {
-    return userService
-        .login(fromJson(request().body().asJson(), LoginUser.class))
-        .fold(
-            error -> badRequest(errorsAsJson(error)),
-            token -> ok(toJson(token))
-        );
+    return TODO;
   }
 }

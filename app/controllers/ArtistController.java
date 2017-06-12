@@ -1,22 +1,19 @@
 package controllers;
 
 import static java.util.Objects.requireNonNull;
-
 import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
-
-import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
+import java.util.List;
+import java.util.Optional;
 import javax.inject.Inject;
-
 import models.Artist;
-
-import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
-
 import services.ArtistService;
+import views.html.artist.index;
+import views.html.artist.view;
 
 public class ArtistController extends Controller {
 
@@ -27,17 +24,20 @@ public class ArtistController extends Controller {
     this.artistService = requireNonNull(artistService);
   }
 
-  public Result fetchAll() {
-    return ok(toJson(artistService.fetchAll()));
+  public Result index() {
+    List<Artist> artists = artistService.fetchAll();
+    return ok(index.render(artists));
   }
 
-  public Result fetch(long id) {
-    return artistService.findById(id)
-        .map(artist -> ok(toJson(artist)))
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+  public Result view(long id) {
+    Optional<Artist> maybeArtist = artistService.findById(id);
+    return ok(view.render(maybeArtist.get()));
   }
 
-  @BodyParser.Of(BodyParser.Json.class)
+  public Result update(long id) {
+    return TODO;
+  }
+
   public Result create() {
     return artistService
         .insert(fromJson(request().body().asJson(), Artist.class))
@@ -45,20 +45,6 @@ public class ArtistController extends Controller {
             error -> badRequest(errorsAsJson(error)),
             artist -> created(toJson(artist))
         );
-  }
-
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result update(long id) {
-    return artistService
-        .findById(id)
-        .map(savedArtist -> artistService
-            .update(savedArtist, fromJson(request().body().asJson(), Artist.class))
-            .fold(
-                error -> badRequest(errorsAsJson(error)),
-                newArtist -> created(toJson(newArtist))
-            )
-        )
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
   public Result delete(long id) {

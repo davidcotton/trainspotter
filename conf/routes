@@ -2,52 +2,90 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+## API
+######
+
 # Users
-GET     /user                           controllers.UserController.fetchAll
-POST    /user                           controllers.UserController.create
-GET     /user/:id                       controllers.UserController.fetch(id:Long)
-PUT     /user/:id                       controllers.UserController.update(id:Long)
-DELETE  /user/:id                       controllers.UserController.delete(id:Long)
-POST    /user/login                     controllers.UserController.login
+GET     /api/user               controllers.api.UserController.fetchAll
+POST    /api/user               controllers.api.UserController.create
+GET     /api/user/:id           controllers.api.UserController.fetch(id:Long)
+PUT     /api/user/:id           controllers.api.UserController.update(id:Long)
+DELETE  /api/user/:id           controllers.api.UserController.delete(id:Long)
+POST    /api/user/login         controllers.api.UserController.login
 
 # Artists
-GET     /artist                         controllers.ArtistController.fetchAll
-POST    /artist                         controllers.ArtistController.create
-GET     /artist/:id                     controllers.ArtistController.fetch(id:Long)
-PUT     /artist/:id                     controllers.ArtistController.update(id:Long)
-DELETE  /artist/:id                     controllers.ArtistController.delete(id:Long)
+GET     /api/artist             controllers.api.ArtistController.fetchAll
+POST    /api/artist             controllers.api.ArtistController.create
+GET     /api/artist/:id         controllers.api.ArtistController.fetch(id:Long)
+PUT     /api/artist/:id         controllers.api.ArtistController.update(id:Long)
+DELETE  /api/artist/:id         controllers.api.ArtistController.delete(id:Long)
 
 # Genres
-GET     /genre                          controllers.GenreController.fetchAll
-POST    /genre                          controllers.GenreController.create
-GET     /genre/:id                      controllers.GenreController.fetch(id:Long)
-PUT     /genre/:id                      controllers.GenreController.update(id:Long)
-DELETE  /genre/:id                      controllers.GenreController.delete(id:Long)
+GET     /api/genre              controllers.api.GenreController.fetchAll
+POST    /api/genre              controllers.api.GenreController.create
+GET     /api/genre/:id          controllers.api.GenreController.fetch(id:Long)
+PUT     /api/genre/:id          controllers.api.GenreController.update(id:Long)
+DELETE  /api/genre/:id          controllers.api.GenreController.delete(id:Long)
 
 # Labels
-GET     /label                          controllers.LabelController.fetchAll
-POST    /label                          controllers.LabelController.create
-GET     /label/:id                      controllers.LabelController.fetch(id:Long)
-PUT     /label/:id                      controllers.LabelController.update(id:Long)
-DELETE  /label/:id                      controllers.LabelController.delete(id:Long)
+GET     /api/label              controllers.api.LabelController.fetchAll
+POST    /api/label              controllers.api.LabelController.create
+GET     /api/label/:id          controllers.api.LabelController.fetch(id:Long)
+PUT     /api/label/:id          controllers.api.LabelController.update(id:Long)
+DELETE  /api/label/:id          controllers.api.LabelController.delete(id:Long)
 
 # Tracklists
-GET     /tracklist                      controllers.TracklistController.fetchAll
-POST    /tracklist                      controllers.TracklistController.create
-GET     /tracklist/:id                  controllers.TracklistController.fetch(id:Long)
-PUT     /tracklist/:id                  controllers.TracklistController.update(id:Long)
-DELETE  /tracklist/:id                  controllers.TracklistController.delete(id:Long)
+GET     /api/tracklist          controllers.api.TracklistController.fetchAll
+POST    /api/tracklist          controllers.api.TracklistController.create
+GET     /api/tracklist/:id      controllers.api.TracklistController.fetch(id:Long)
+PUT     /api/tracklist/:id      controllers.api.TracklistController.update(id:Long)
+DELETE  /api/tracklist/:id      controllers.api.TracklistController.delete(id:Long)
 
 # Tracks
-GET     /track                          controllers.TrackController.fetchAll
-POST    /track                          controllers.TrackController.create
-GET     /track/:id                      controllers.TrackController.fetch(id:Long)
-PUT     /track/:id                      controllers.TrackController.update(id:Long)
-DELETE  /track/:id                      controllers.TrackController.delete(id:Long)
+GET     /api/track              controllers.api.TrackController.fetchAll
+POST    /api/track              controllers.api.TrackController.create
+GET     /api/track/:id          controllers.api.TrackController.fetch(id:Long)
+PUT     /api/track/:id          controllers.api.TrackController.update(id:Long)
+DELETE  /api/track/:id          controllers.api.TrackController.delete(id:Long)
 
 
-# Application
-GET     /                               controllers.ApplicationController.index
+
+## APPLICATION
+##############
+
+# Home
+GET     /                       controllers.ApplicationController.index
+
+# Users
+GET     /user                   controllers.UserController.index
+GET     /user/new               controllers.UserController.create
+POST    /user                   controllers.UserController.submit
+GET     /user/:id               controllers.UserController.view(id:Long)
+PUT     /user/:id               controllers.UserController.update(id:Long)
+DELETE  /user/:id               controllers.UserController.delete(id:Long)
+
+# Artists
+GET     /artist                 controllers.ArtistController.index
+GET     /artist/new             controllers.ArtistController.create
+POST    /artist                 controllers.ArtistController.create
+GET     /artist/:id             controllers.ArtistController.view(id:Long)
+PUT     /artist/:id             controllers.ArtistController.update(id:Long)
+DELETE  /artist/:id             controllers.ArtistController.delete(id:Long)
+
+# Tracks
+GET     /track                  controllers.TrackController.index
+POST    /track                  controllers.TrackController.create
+GET     /track/:id              controllers.TrackController.view(id:Long)
+PUT     /track/:id              controllers.TrackController.update(id:Long)
+DELETE  /track/:id              controllers.TrackController.delete(id:Long)
+
+# Tracklists
+GET     /tracklist              controllers.TracklistController.index
+POST    /tracklist              controllers.TracklistController.create
+GET     /tracklist/:id          controllers.TracklistController.view(id:Long)
+PUT     /tracklist/:id          controllers.TracklistController.update(id:Long)
+DELETE  /tracklist/:id          controllers.TracklistController.delete(id:Long)
+
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)

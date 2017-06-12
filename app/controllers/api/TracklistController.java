@@ -1,4 +1,6 @@
-package controllers;
+package controllers.api;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import static java.util.Objects.requireNonNull;
 
@@ -10,52 +12,54 @@ import static utilities.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
 
-import models.Label;
+import models.Tracklist;
 
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import services.LabelService;
+import services.TracklistService;
 
-public class LabelController extends Controller {
+public class TracklistController extends Controller {
 
-  private final LabelService labelService;
+  private final TracklistService tracklistService;
 
   @Inject
-  public LabelController(LabelService labelService) {
-    this.labelService = requireNonNull(labelService);
+  public TracklistController(TracklistService tracklistService) {
+    this.tracklistService = requireNonNull(tracklistService);
   }
 
   public Result fetchAll() {
-    return ok(toJson(labelService.fetchAll()));
+    return ok(toJson(tracklistService.fetchAll()));
   }
 
   public Result fetch(long id) {
-    return labelService.findById(id)
-        .map(user -> ok(toJson(user)))
+    return tracklistService.findById(id)
+        .map(tracklist -> ok(toJson(tracklist)))
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
-    return labelService
-        .insert(fromJson(request().body().asJson(), Label.class))
+    JsonNode jsonNode = request().body().asJson();
+    Tracklist tracklist1 = fromJson(jsonNode, Tracklist.class);
+    return tracklistService
+        .insert(tracklist1)
         .fold(
             error -> badRequest(errorsAsJson(error)),
-            label -> created(toJson(label))
+            tracklist -> created(toJson(tracklist))
         );
   }
 
   @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
-    return labelService
+    return tracklistService
         .findById(id)
-        .map(savedLabel -> labelService
-            .update(savedLabel, fromJson(request().body().asJson(), Label.class))
+        .map(savedTracklist -> tracklistService
+            .update(savedTracklist, fromJson(request().body().asJson(), Tracklist.class))
             .fold(
                 error -> badRequest(errorsAsJson(error)),
-                newLabel -> created(toJson(newLabel))
+                newTracklist -> created(toJson(newTracklist))
             )
         )
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
