@@ -5,60 +5,66 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
+
+import models.CreateUser;
 import models.User;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
+import repositories.UserRepository;
 import services.UserService;
+import views.html.user.create;
 import views.html.user.update;
 import views.html.user.view;
 
 public class UserController extends Controller {
 
-  private final UserService userService;
+  private final UserRepository userRepository;
   private final FormFactory formFactory;
 
   @Inject
-  public UserController(UserService userService, FormFactory formFactory) {
-    this.userService = requireNonNull(userService);
+  public UserController(UserRepository userRepository, FormFactory formFactory) {
+    this.userRepository = requireNonNull(userRepository);
     this.formFactory = requireNonNull(formFactory);
   }
 
   public Result index() {
-    List<User> users = userService.fetchAll();
+    List<User> users = userRepository.findAll();
     return ok(views.html.user.index.render(users));
   }
 
   public Result view(long id) {
-    Optional<User> maybeUser = userService.findById(id);
+    Optional<User> maybeUser = userRepository.findById(id);
     return ok(view.render(maybeUser.get()));
   }
 
-  public Result update(long id) {
+  public Result edit(long id) {
     Form<User> userForm = formFactory.form(User.class).bindFromRequest();
     if (userForm.hasErrors()) {
       return badRequest(update.render(id, userForm));
     }
 
     User user = userForm.get();
-//    userService.update(user);
+//    userService.edit(user);
 
     return ok(update.render(id, userForm));
   }
 
-  public Result create() {
-    return TODO;
-//    return userService
-//        .insert(fromJson(request().body().asJson(), User.class))
-//        .fold(
-//            error -> badRequest(errorsAsJson(error)),
-//            user -> created(toJson(user))
-//        );
+  public Result add() {
+//    return TODO;
+
   }
 
   public Result submit() {
-    return TODO;
+    Form<CreateUser> userForm = formFactory.form(CreateUser.class).bindFromRequest();
+    if (userForm.hasErrors()) {
+      return badRequest(create.render(userForm));
+    } else {
+      CreateUser createUser = userForm.get();
+      User user = new User(createUser);
+      return redirect(routes.UserController.index());
+    }
   }
 
   public Result delete(long id) {

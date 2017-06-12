@@ -58,10 +58,10 @@ GET     /                       controllers.ApplicationController.index
 
 # Users
 GET     /user                   controllers.UserController.index
-GET     /user/new               controllers.UserController.create
+GET     /user/new               controllers.UserController.add
 POST    /user                   controllers.UserController.submit
 GET     /user/:id               controllers.UserController.view(id:Long)
-PUT     /user/:id               controllers.UserController.update(id:Long)
+PUT     /user/:id               controllers.UserController.edit(id:Long)
 DELETE  /user/:id               controllers.UserController.delete(id:Long)
 
 # Artists
