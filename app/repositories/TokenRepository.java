@@ -31,6 +31,16 @@ public class TokenRepository implements Repository<Token> {
     return Optional.ofNullable(find.where().eq("user_id", user.getId()).findUnique());
   }
 
+  /**
+   * Fetch a token by its user ID.
+   *
+   * @param userId The user ID to search for.
+   * @return An optional Token if found.
+   */
+  public Optional<Token> findByUserId(long userId) {
+    return Optional.ofNullable(find.where().eq("user_id", userId).findUnique());
+  }
+
   @Override
   public void insert(Token token) {
     token.insert();

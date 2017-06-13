@@ -23,16 +23,32 @@ public class UserController extends Controller {
     this.userService = requireNonNull(userService);
   }
 
+  /**
+   * Fetch all active users.
+   *
+   * @return A collection of active users.
+   */
   public Result fetchAll() {
     return ok(toJson(userService.fetchAll()));
   }
 
+  /**
+   * Fetch a single user by their ID.
+   *
+   * @param id The users ID.
+   * @return The user if found else a 404 Not Found.
+   */
   public Result fetch(long id) {
     return userService.findById(id)
         .map(user -> ok(toJson(user)))
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
+  /**
+   * Create a new user.
+   *
+   * @return The created user if successful else the errors.
+   */
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
     return userService
@@ -43,6 +59,13 @@ public class UserController extends Controller {
         );
   }
 
+  /**
+   * Update a user in the system.
+   *
+   * @param id The user's ID.
+   * @return The updated user if successful else the errors.
+   */
+  @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
     return userService
@@ -57,6 +80,15 @@ public class UserController extends Controller {
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
+  /**
+   * Delete a user in the system.
+   *
+   * Uses a soft-delete approach to mark a user as deleted.
+   *
+   * @param id The user's ID
+   * @return 204 No Content if successful else the error.
+   */
+  @Security.Authenticated
   public Result delete(long id) {
     return userService.findById(id)
         .map(user -> {

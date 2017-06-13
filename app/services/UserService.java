@@ -3,9 +3,9 @@ package services;
 import static java.util.Objects.requireNonNull;
 import static play.libs.Json.toJson;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import io.atlassian.fugue.Either;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -181,10 +181,6 @@ public class UserService {
    * @return A collection of validation errors.
    */
   private Map<String, List<ValidationError>> getValidationErrors(String key, String errorMessage) {
-    return new HashMap<String, List<ValidationError>>() {{
-      put(key, new ArrayList<ValidationError>() {{
-        add(new ValidationError(key, errorMessage));
-      }});
-    }};
+    return ImmutableMap.of(key, ImmutableList.of(new ValidationError(key, errorMessage)));
   }
 }
