@@ -7,50 +7,50 @@ import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
-import models.Artist;
+import models.Channel;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
-import services.ArtistService;
+import services.ChannelService;
 
-public class ArtistController extends Controller {
+public class ChannelController extends Controller {
 
-  private final ArtistService artistService;
+  private final ChannelService channelService;
 
   @Inject
-  public ArtistController(ArtistService artistService) {
-    this.artistService = requireNonNull(artistService);
+  public ChannelController(ChannelService channelService) {
+    this.channelService = requireNonNull(channelService);
   }
 
   public Result fetchAll() {
-    return ok(toJson(artistService.fetchAll()));
+    return ok(toJson(channelService.fetchAll()));
   }
 
   public Result fetch(long id) {
-    return artistService.findById(id)
-        .map(artist -> ok(toJson(artist)))
+    return channelService.findById(id)
+        .map(channel -> ok(toJson(channel)))
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
-    return artistService
-        .insert(fromJson(request().body().asJson(), Artist.class))
+    return channelService
+        .insert(fromJson(request().body().asJson(), Channel.class))
         .fold(
             error -> badRequest(errorsAsJson(error)),
-            artist -> created(toJson(artist))
+            channel -> created(toJson(channel))
         );
   }
 
   @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
-    return artistService
+    return channelService
         .findById(id)
-        .map(savedArtist -> artistService
-            .update(savedArtist, fromJson(request().body().asJson(), Artist.class))
+        .map(savedChannel -> channelService
+            .update(savedChannel, fromJson(request().body().asJson(), Channel.class))
             .fold(
                 error -> badRequest(errorsAsJson(error)),
-                newArtist -> created(toJson(newArtist))
+                newChannel -> created(toJson(newChannel))
             )
         )
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));

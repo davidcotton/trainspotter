@@ -20,6 +20,13 @@ GET     /api/artist/:id         controllers.api.ArtistController.fetch(id:Long)
 PUT     /api/artist/:id         controllers.api.ArtistController.update(id:Long)
 DELETE  /api/artist/:id         controllers.api.ArtistController.delete(id:Long)
 
+# Channels
+GET     /api/channel            controllers.api.ChannelController.fetchAll
+POST    /api/channel            controllers.api.ChannelController.create
+GET     /api/channel/:id        controllers.api.ChannelController.fetch(id:Long)
+PUT     /api/channel/:id        controllers.api.ChannelController.update(id:Long)
+DELETE  /api/channel/:id        controllers.api.ChannelController.delete(id:Long)
+
 # Genres
 GET     /api/genre              controllers.api.GenreController.fetchAll
 POST    /api/genre              controllers.api.GenreController.create
@@ -71,6 +78,14 @@ POST    /artist                 controllers.ArtistController.add
 GET     /artist/:id             controllers.ArtistController.view(id:Long)
 PUT     /artist/:id             controllers.ArtistController.edit(id:Long)
 DELETE  /artist/:id             controllers.ArtistController.delete(id:Long)
+
+# Channels
+GET     /channel                controllers.ChannelController.index
+GET     /channel/new            controllers.ChannelController.add
+POST    /channel                controllers.ChannelController.add
+GET     /channel/:id            controllers.ChannelController.view(id:Long)
+PUT     /channel/:id            controllers.ChannelController.edit(id:Long)
+DELETE  /channel/:id            controllers.ChannelController.delete(id:Long)
 
 # Genres
 GET     /genre                  controllers.GenreController.index
