@@ -32,7 +32,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="@routes.ApplicationController.index()">Trainspotter</a>
+          <a class="navbar-brand" href="@routes.ApplicationController.index">Trainspotter</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -41,6 +41,7 @@
             <li class="@activeLink(routes.ArtistController.index.toString)"><a href="@routes.ArtistController.index">Artists</a></li>
             <li class="@activeLink(routes.LabelController.index.toString)"><a href="@routes.LabelController.index">Labels</a></li>
             <li class="@activeLink(routes.TrackController.index.toString)"><a href="@routes.TrackController.index">Tracks</a></li>
+            <li class="@activeLink(routes.ChannelController.index.toString)"><a href="@routes.ChannelController.index">Channels</a></li>
             <li class="@activeLink(routes.UserController.index.toString)"><a href="@routes.UserController.index">Users</a></li>
           </ul>
         </div>

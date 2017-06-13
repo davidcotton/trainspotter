@@ -20,13 +20,6 @@ GET     /api/artist/:id         controllers.api.ArtistController.fetch(id:Long)
 PUT     /api/artist/:id         controllers.api.ArtistController.update(id:Long)
 DELETE  /api/artist/:id         controllers.api.ArtistController.delete(id:Long)
 
-# Channels
-GET     /api/channel            controllers.api.ChannelController.fetchAll
-POST    /api/channel            controllers.api.ChannelController.create
-GET     /api/channel/:id        controllers.api.ChannelController.fetch(id:Long)
-PUT     /api/channel/:id        controllers.api.ChannelController.update(id:Long)
-DELETE  /api/channel/:id        controllers.api.ChannelController.delete(id:Long)
-
 # Genres
 GET     /api/genre              controllers.api.GenreController.fetchAll
 POST    /api/genre              controllers.api.GenreController.create
@@ -41,12 +34,21 @@ GET     /api/label/:id          controllers.api.LabelController.fetch(id:Long)
 PUT     /api/label/:id          controllers.api.LabelController.update(id:Long)
 DELETE  /api/label/:id          controllers.api.LabelController.delete(id:Long)
 
-# Programs
-GET     /api/program            controllers.api.ProgramController.fetchAll
-POST    /api/program            controllers.api.ProgramController.create
-GET     /api/program/:id        controllers.api.ProgramController.fetch(id:Long)
-PUT     /api/program/:id        controllers.api.ProgramController.update(id:Long)
-DELETE  /api/program/:id        controllers.api.ProgramController.delete(id:Long)
+
+## Channels
+#GET     /api/channel            controllers.api.ChannelController.fetchAll
+#POST    /api/channel            controllers.api.ChannelController.create
+#GET     /api/channel/:id        controllers.api.ChannelController.fetch(id:Long)
+#PUT     /api/channel/:id        controllers.api.ChannelController.update(id:Long)
+#DELETE  /api/channel/:id        controllers.api.ChannelController.delete(id:Long)
+#
+## Programs
+#GET     /api/channel/:cId/program            controllers.api.ProgramController.fetchAll
+#POST    /api/channel/:cId/program            controllers.api.ProgramController.create
+#GET     /api/channel/:cId/program/:id        controllers.api.ProgramController.fetch(id:Long)
+#PUT     /api/channel/:cId/program/:id        controllers.api.ProgramController.update(id:Long)
+#DELETE  /api/channel/:cId/program/:id        controllers.api.ProgramController.delete(id:Long)
+
 
 # Tracklists
 GET     /api/tracklist          controllers.api.TracklistController.fetchAll
@@ -94,6 +96,15 @@ GET     /channel/:id            controllers.ChannelController.view(id:Long)
 PUT     /channel/:id            controllers.ChannelController.edit(id:Long)
 DELETE  /channel/:id            controllers.ChannelController.delete(id:Long)
 
+# Programs
+GET     /channel/:cId/program        controllers.ProgramController.index(cId:Long)
+GET     /channel/:cId/program/new    controllers.ProgramController.add(cId:Long)
+POST    /channel/:cId/program        controllers.ProgramController.add(cId:Long)
+GET     /channel/:cId/program/:id    controllers.ProgramController.view(id:Long, cId:Long)
+PUT     /channel/:cId/program/:id    controllers.ProgramController.edit(id:Long, cId:Long)
+DELETE  /channel/:cId/program/:id    controllers.ProgramController.delete(id:Long, cId:Long)
+
+
 # Genres
 GET     /genre                  controllers.GenreController.index
 GET     /genre/new              controllers.GenreController.add
@@ -109,14 +120,6 @@ POST    /label                  controllers.LabelController.add
 GET     /label/:id              controllers.LabelController.view(id:Long)
 PUT     /label/:id              controllers.LabelController.edit(id:Long)
 DELETE  /label/:id              controllers.LabelController.delete(id:Long)
-
-# Programs
-GET     /program                controllers.ProgramController.index
-GET     /program/new            controllers.ProgramController.add
-POST    /program                controllers.ProgramController.add
-GET     /program/:id            controllers.ProgramController.view(id:Long)
-PUT     /program/:id            controllers.ProgramController.edit(id:Long)
-DELETE  /program/:id            controllers.ProgramController.delete(id:Long)
 
 # Tracks
 GET     /track                  controllers.TrackController.index

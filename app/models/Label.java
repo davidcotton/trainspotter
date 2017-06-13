@@ -41,6 +41,9 @@ public class Label extends Model {
 
   private String image;
 
+  @Column(columnDefinition = "text")
+  private String description;
+
   @OneToMany(mappedBy = "label")
   @JsonManagedReference(value = "label_tracks")
   private List<Track> tracks;
@@ -71,6 +74,10 @@ public class Label extends Model {
 
   public String getImage() {
     return image;
+  }
+
+  public String getDescription() {
+    return description;
   }
 
   public List<Track> getTracks() {

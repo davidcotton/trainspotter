@@ -43,6 +43,9 @@ public class Artist extends Model {
 
   private String image;
 
+  @Column(columnDefinition = "text")
+  private String description;
+
   @ManyToMany(mappedBy = "artists")
   @JsonManagedReference(value = "tracks_artists")
   private List<Track> tracks;
@@ -85,6 +88,10 @@ public class Artist extends Model {
 
   public String getImage() {
     return image;
+  }
+
+  public String getDescription() {
+    return description;
   }
 
   public List<Track> getTracks() {

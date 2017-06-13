@@ -5,44 +5,48 @@ VALUES
   ('rembrandt.q.einstein@simpsons.com', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.xKIJUcj9lInDBANSKNmiS5WCKW7uvai', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.', 'Rembrandt Q. Einstein', 'active', NOW(), NOW()),
   ('rory.b.bellows@simpsons.com', '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', '$2a$16$aY..e8GAU2YGfdvLGqtahe', 'Rory B. Bellows', 'active', NOW(), NOW());
 
-INSERT INTO `artist` (`name`, `image`, `created`, `updated`)
+INSERT INTO `artist` (`name`, `image`, `description`, `created`, `updated`)
 VALUES
-  ('Sasha', 'sasha.jpg', NOW(), NOW()),
-  ('John Digweed', 'john-digweed.jpg', NOW(), NOW()),
-  ('Customer', null, NOW(), NOW()),
-  ('Deetron', 'deetron.jpg', NOW(), NOW()),
-  ('Kaled', null, NOW(), NOW()),
-  ('Lessons', null, NOW(), NOW()),
-  ('Adam Port', 'adam-port.jpg', NOW(), NOW()),
-  ('Re.You', 're.you.jpg', NOW(), NOW()),
-  ('Tiefschwarz', 'tiefschwarz.jpg', NOW(), NOW()),
-  ('Yawk', null, NOW(), NOW()),
-  ('Soame', null,NOW(), NOW()),
-  ('Wigbert', null,NOW(), NOW()),
-  ('Citizen', 'citizen.jpg',NOW(), NOW()),
-  ('Kocleo', null,NOW(), NOW()),
-  ('Scan Mode', null,NOW(), NOW()),
-  ('Jesper Dahlback', 'jesper-dahlback.jpg', NOW(), NOW());
+  ('Sasha', 'sasha.jpg','' , NOW(), NOW()),
+  ('John Digweed', 'john-digweed.jpg','' , NOW(), NOW()),
+  ('Customer', null,'' , NOW(), NOW()),
+  ('Deetron', 'deetron.jpg','' , NOW(), NOW()),
+  ('Kaled', null,'' , NOW(), NOW()),
+  ('Lessons', null,'' , NOW(), NOW()),
+  ('Adam Port', 'adam-port.jpg','' , NOW(), NOW()),
+  ('Re.You', 're.you.jpg','' , NOW(), NOW()),
+  ('Tiefschwarz', 'tiefschwarz.jpg','' , NOW(), NOW()),
+  ('Yawk', null,'' , NOW(), NOW()),
+  ('Soame', null,'' , NOW(), NOW()),
+  ('Wigbert', null, '', NOW(), NOW()),
+  ('Citizen', 'citizen.jpg','' , NOW(), NOW()),
+  ('Kocleo', null,'' , NOW(), NOW()),
+  ('Scan Mode', null,'' , NOW(), NOW()),
+  ('Jesper Dahlback', 'jesper-dahlback.jpg','' , NOW(), NOW()),
+  ('Umek', 'umek.jpg','' , NOW(), NOW()),
+  ('Solomun', 'solomun.jpg','' , NOW(), NOW()),
+  ('Marc Romboy', 'marc_romboy.jpg','' , NOW(), NOW()),
+  ('Henry Saiz', 'henry-saiz.jpg','' , NOW(), NOW());
 
-INSERT INTO `channel` (`name`, `image`, `created`, `updated`) VALUES
-  ('Proton Radio', 'proton-radio.jpg', NOW(), NOW()),
-  ('Triple J', 'triple-j.jpg', NOW(), NOW()),
-  ('BBC Radio 1', 'bbc.jpg', NOW(), NOW()),
-  ('Kiss FM', 'kiss-fm.jpg', NOW(), NOW()),
-  ('Energia 97 FM', null, NOW(), NOW());
+INSERT INTO `channel` (`name`, `image`, `description`, `created`, `updated`) VALUES
+  ('Proton Radio', 'proton-radio.jpg','Welcome to Proton, a subscriber supported Internet radio station and music label.' , NOW(), NOW()),
+  ('Triple J', 'triple-j.jpg','' , NOW(), NOW()),
+  ('BBC Radio 1', 'bbc.jpg','' , NOW(), NOW()),
+  ('Kiss FM', 'kiss-fm.jpg','' , NOW(), NOW()),
+  ('Energia 97 FM', null,'' , NOW(), NOW());
 
-INSERT INTO `label` (`name`, `image`, `created`, `updated`)
+INSERT INTO `label` (`name`, `image`, `description`, `created`, `updated`)
 VALUES
-  ('Not on label', null, NOW(), NOW()),
-  ('Bedrock Records', 'bedrock-records.jpg', NOW(), NOW()),
-  ('Get Wet', null,  NOW(), NOW()),
-  ('Sinnbus', 'sinnbus.jpg', NOW(), NOW()),
-  ('Mobilee', 'mobilee.jpg', NOW(), NOW()),
-  ('Souvenir', 'souvenir.jpg', NOW(), NOW()),
-  ('Colour Series', null, NOW(), NOW()),
-  ('SCI+TEC', 'sci+tec.jpg', NOW(), NOW()),
-  ('IAM Music', 'iam-music.jpg', NOW(), NOW()),
-  ('Strange Idol', 'strange-idol.jpg', NOW(), NOW());
+  ('Not on label', null,'' , NOW(), NOW()),
+  ('Bedrock Records', 'bedrock-records.jpg','' , NOW(), NOW()),
+  ('Get Wet', null,'' ,  NOW(), NOW()),
+  ('Sinnbus', 'sinnbus.jpg','' , NOW(), NOW()),
+  ('Mobilee', 'mobilee.jpg','' , NOW(), NOW()),
+  ('Souvenir', 'souvenir.jpg','' , NOW(), NOW()),
+  ('Colour Series', null,'' , NOW(), NOW()),
+  ('SCI+TEC', 'sci+tec.jpg','' , NOW(), NOW()),
+  ('IAM Music', 'iam-music.jpg','' , NOW(), NOW()),
+  ('Strange Idol', 'strange-idol.jpg','' , NOW(), NOW());
 
 INSERT INTO `genre` (name, created, updated)
 VALUES
@@ -52,12 +56,12 @@ VALUES
   ('Tech House', NOW(), NOW()),
   ('Progressive', NOW(), NOW());
 
-INSERT INTO `program` (name, image, channel_id, created, updated) VALUES
-  ('Transitions', 'transitions.jpg', 1, NOW(), NOW()),
-  ('Behind The Iron Curtain', 'behind-the-iron-curtain.jpg', 1, NOW(), NOW()),
-  ('Diynamic Radioshow', 'Diynamic-Radioshow.jpg', 1, NOW(), NOW()),
-  ('Systematic Session', 'Systematic-Session.jpg', 1, NOW(), NOW()),
-  ('The Labyrinth', 'The_Labyrinth.jpg', 1, NOW(), NOW());
+INSERT INTO `program` (name, image, description, channel_id, created, updated) VALUES
+  ('Transitions', 'transitions.jpg', 'The most important radio show in house music needs no introduction, but here it goes anyway. John Digweed\'s long-standing weekly 2 hour program is legendary, airing for many years exclusively on Kiss 100 in London but now syndicated around the world and internet. In 2008, the show comes to Proton Radio. Expect upfront & unreleased tunes dished up by John Digweed alongside finely tuned guest mixes that are almost always exclusively prepared just for the show.', 1, NOW(), NOW()),
+  ('Behind The Iron Curtain', 'behind-the-iron-curtain.jpg', null, 1, NOW(), NOW()),
+  ('Diynamic', 'diynamic.jpg', 'The weekly Diynamic radio show is hosted by Solomun & friends.', 1, NOW(), NOW()),
+  ('Systematic Session', 'Systematic-Session.jpg', 'Systematic Recordings from Germany has now finally its own exclusive radio show. The label which is run by the worldwide well known DJ/ producer Marc Romboy has released dozens of trendsetting and forwardthinking electronic house tracks, contributed by artists like Stephan Bodzin, Steve Lawler, Booka Shade, Chelonis R. Jones, John Dahlback and Robert Babicz, just to name a few. The show is called "Systematic Sessions" and serves you one hour of Dj mixed up-to-date records by their host Marc Romboy and other globally profiled DJs and producers. You want to know more about Marc Romboy and Systematic recordings? ', 1, NOW(), NOW()),
+  ('The Labyrinth', 'The_Labyrinth.jpg', 'Hi everybody, this is Henry Saiz, welcome to the labyrinth, my first online radio show. I would like to use this platform to share with you some ideas about music, I will try to develop a concept in every show, like a little sound research through musical styles or  production techniques. For this I will count on very special guests.', 1, NOW(), NOW());
 
 INSERT INTO `track` (`name`, `remix_name`, `genre_id`, `label_id`, `release_date`, `created`, `updated`)
 VALUES
@@ -89,6 +93,14 @@ VALUES
   ('https://twitter.com/djjohndigweed', null, 2, null, NOW(), NOW()),
   ('http://www.johndigweed.com/', null, 2, null, NOW(), NOW()),
   ('https://soundcloud.com/bedrock_rec', null, null, 2, NOW(), NOW());
+
+INSERT INTO `artist_program` (artist_id, program_id)
+VALUES
+  (2, 1),
+  (17, 2),
+  (18, 3),
+  (19, 4),
+  (20, 5);
 
 INSERT INTO `track_artist` (`track_id`, `artist_id`)
 VALUES
@@ -133,3 +145,4 @@ VALUES
   (8, 1),
   (9, 1),
   (10, 1);
+

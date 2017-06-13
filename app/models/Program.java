@@ -43,6 +43,9 @@ public class Program extends Model {
 
   private String image;
 
+  @Column(columnDefinition = "text")
+  private String description;
+
   @ManyToOne
   @JsonBackReference(value = "channel_programs")
   private Channel channel;
@@ -73,6 +76,10 @@ public class Program extends Model {
 
   public String getImage() {
     return image;
+  }
+
+  public String getDescription() {
+    return description;
   }
 
   public Channel getChannel() {

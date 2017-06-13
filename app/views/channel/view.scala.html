@@ -2,24 +2,24 @@
 
 @main(channel.getName) {
   <h1>@channel.getName</h1>
+  <p><img src="@channel.getImage" alt="@channel.getName">@channel.getDescription</p>
+  <div class="row">
+  @for(program <- channel.getPrograms) {
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <img src="@program.getImage" alt="@program.getName">
+        <div class="caption">
+          <h3>@program.getName</h3>
+          <p>@program.getDescription</p>
+          <p><a href="@routes.ProgramController.view(program.getId, channel.getId)" class="btn btn-primary" role="button">Explore</a></p>
+        </div>
+      </div>
+    </div>
+  }
+  </div>
+
   <table class="table table-striped">
     <tbody>
-      <tr>
-        <td>Name</td>
-        <td>@channel.getName</td>
-      </tr>
-      <tr>
-        <td>Tracks</td>
-        <td>
-          <ul>
-          @for(program <- channel.getPrograms) {
-            <li>
-              <a href="@routes.ProgramController.view(program.getId)">@program.getName</a>
-            </li>
-          }
-          </ul>
-        </td>
-      </tr>
       <tr>
         <td>&nbsp;</td>
         <td>

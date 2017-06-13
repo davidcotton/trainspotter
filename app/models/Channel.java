@@ -41,6 +41,9 @@ public class Channel extends Model {
 
   private String image;
 
+  @Column(columnDefinition = "text")
+  private String description;
+
   @OneToMany
   @JsonManagedReference(value = "channel_programs")
   private List<Program> programs;
@@ -67,6 +70,10 @@ public class Channel extends Model {
 
   public String getImage() {
     return image;
+  }
+
+  public String getDescription() {
+    return description;
   }
 
   public List<Program> getPrograms() {

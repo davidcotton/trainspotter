@@ -6,9 +6,7 @@
     <thead>
       <tr>
         <th>Name</th>
-        <th>Tracks</th>
-        <th>Remixes</th>
-        <th>Tracklists</th>
+        <th>Programs</th>
         <th>&nbsp;</th>
       </tr>
     </thead>
@@ -19,7 +17,7 @@
         <td>
           <ul>
             @for(program <- channel.getPrograms) {
-              <li><a href="@routes.ProgramController.view(program.getId)">@program.getName</a></li>
+              <li><a href="@routes.ProgramController.view(program.getId, channel.getId)">@program.getName</a></li>
             }
           </ul>
         </td>
