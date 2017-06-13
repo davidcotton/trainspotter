@@ -5,37 +5,37 @@ VALUES
   ('rembrandt.q.einstein@simpsons.com', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.xKIJUcj9lInDBANSKNmiS5WCKW7uvai', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.', 'Rembrandt Q. Einstein', 'active', NOW(), NOW()),
   ('rory.b.bellows@simpsons.com', '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', '$2a$16$aY..e8GAU2YGfdvLGqtahe', 'Rory B. Bellows', 'active', NOW(), NOW());
 
-INSERT INTO `artist` (`name`, `created`, `updated`)
+INSERT INTO `artist` (`name`, `image`, `created`, `updated`)
 VALUES
-  ('Sasha', NOW(), NOW()),
-  ('John Digweed', NOW(), NOW()),
-  ('Customer', NOW(), NOW()),
-  ('Deetron', NOW(), NOW()),
-  ('Kaled', NOW(), NOW()),
-  ('Lessons', NOW(), NOW()),
-  ('Adam Port', NOW(), NOW()),
-  ('Re.You', NOW(), NOW()),
-  ('Tiefschwarz', NOW(), NOW()),
-  ('Yawk', NOW(), NOW()),
-  ('Soame', NOW(), NOW()),
-  ('Wigbert', NOW(), NOW()),
-  ('Citizen', NOW(), NOW()),
-  ('Kocleo', NOW(), NOW()),
-  ('Scan Mode', NOW(), NOW()),
-  ('Jesper Dahlback', NOW(), NOW());
+  ('Sasha', 'sasha.jpg', NOW(), NOW()),
+  ('John Digweed', 'john-digweed.jpg', NOW(), NOW()),
+  ('Customer', null, NOW(), NOW()),
+  ('Deetron', 'deetron.jpg', NOW(), NOW()),
+  ('Kaled', null, NOW(), NOW()),
+  ('Lessons', null, NOW(), NOW()),
+  ('Adam Port', 'adam-port.jpg', NOW(), NOW()),
+  ('Re.You', 're.you.jpg', NOW(), NOW()),
+  ('Tiefschwarz', 'tiefschwarz.jpg', NOW(), NOW()),
+  ('Yawk', null, NOW(), NOW()),
+  ('Soame', null,NOW(), NOW()),
+  ('Wigbert', null,NOW(), NOW()),
+  ('Citizen', 'citizen.jpg',NOW(), NOW()),
+  ('Kocleo', null,NOW(), NOW()),
+  ('Scan Mode', null,NOW(), NOW()),
+  ('Jesper Dahlback', 'jesper-dahlback.jpg', NOW(), NOW());
 
-INSERT INTO `label` (`name`, `created`, `updated`)
+INSERT INTO `label` (`name`, `image`, `created`, `updated`)
 VALUES
-  ('Not on label', NOW(), NOW()),
-  ('Bedrock Records', NOW(), NOW()),
-  ('Get Wet', NOW(), NOW()),
-  ('Sinnbus', NOW(), NOW()),
-  ('Mobilee', NOW(), NOW()),
-  ('Souvenir', NOW(), NOW()),
-  ('Colour Series', NOW(), NOW()),
-  ('SCI+TEC', NOW(), NOW()),
-  ('IAM Music', NOW(), NOW()),
-  ('Strange Idol', NOW(), NOW());
+  ('Not on label', null, NOW(), NOW()),
+  ('Bedrock Records', 'bedrock-records.jpg', NOW(), NOW()),
+  ('Get Wet', null,  NOW(), NOW()),
+  ('Sinnbus', 'sinnbus.jpg', NOW(), NOW()),
+  ('Mobilee', 'mobilee.jpg', NOW(), NOW()),
+  ('Souvenir', 'souvenir.jpg', NOW(), NOW()),
+  ('Colour Series', null, NOW(), NOW()),
+  ('SCI+TEC', 'sci+tec.jpg', NOW(), NOW()),
+  ('IAM Music', 'iam-music.jpg', NOW(), NOW()),
+  ('Strange Idol', 'strange-idol.jpg', NOW(), NOW());
 
 INSERT INTO `genre` (name, created, updated)
 VALUES
@@ -61,14 +61,14 @@ VALUES
 INSERT INTO `tracklist` (`name`, `date`, `user_id`, `created`, `updated`)
 VALUES
   ('John Digweed & Jesper Dahlback - Transitions 664', '2017-05-19', 1, NOW(), NOW()),
-  ('Solomun @ Space Closing Fiesta, Terraza, Space Ibiza, Spain (Be-At TV)', '2016-10-02', 1, NOW(), NOW()),
+  ('Solomun @ Space Closing Fiesta, Terraza, Space Ibiza, Spain (Be-At TV)', '2016-10-02', 3, NOW(), NOW()),
   ('Adam Beyer @ Drumcode 354 (Metro City Perth, Australia 2017-04-24)', '2017-05-18', 1, NOW(), NOW()),
-  ('Sasha @ Last Night On Earth 025 (Coachella Festival, United States)', '2017-05-29', 1, NOW(), NOW());
+  ('Sasha @ Last Night On Earth 025 (Coachella Festival, United States)', '2017-05-29', 2, NOW(), NOW());
 
 INSERT INTO `media` (url, tracklist_id, artist_id, label_id, created, updated)
 VALUES
   ('https://youtu.be/tI7ywh2sI04', 1, null, null, NOW(), NOW()),
-  ('https://www.mixcloud.com/globaldjmix/john-digweed-jesper-dahlback-transitions-664-2017-05-19/', 1, null, null, NOW(), NOW())
+  ('https://www.mixcloud.com/globaldjmix/john-digweed-jesper-dahlback-transitions-664-2017-05-19/', 1, null, null, NOW(), NOW()),
   ('https://soundcloud.com/john-digweed', null, 2, null, NOW(), NOW()),
   ('https://www.youtube.com/channel/UCXUO2biGVP7FKCqPEDwmt4w', null, 2, null, NOW(), NOW()),
   ('https://www.facebook.com/djjohndigweed', null, 2, null, NOW(), NOW()),
