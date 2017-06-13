@@ -1,23 +1,17 @@
 package services;
 
 import static java.util.Objects.requireNonNull;
-
 import static play.libs.Json.toJson;
 
 import io.atlassian.fugue.Either;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import javax.inject.Inject;
-
 import models.Artist;
-
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
-
 import repositories.ArtistRepository;
 
 public class ArtistService {
@@ -34,7 +28,7 @@ public class ArtistService {
   /**
    * Fetch all Artists.
    *
-   * @return A collection of all Artists in the DB.
+   * @return A collection of Artists.
    */
   public List<Artist> fetchAll() {
     return artistRepository.findAll();
@@ -43,8 +37,8 @@ public class ArtistService {
   /**
    * Find an Artist by their ID.
    *
-   * @param id  The ID to search for.
-   * @return    An optional Artist if found.
+   * @param id The ID to search for.
+   * @return An optional Artist if found.
    */
   public Optional<Artist> findById(long id) {
     return artistRepository.findById(id);
@@ -53,8 +47,8 @@ public class ArtistService {
   /**
    * Find an Artist by their name.
    *
-   * @param name  The name to search for.
-   * @return      An optional Artist if found.
+   * @param name The name to search for.
+   * @return An optional Artist if found.
    */
   public Optional<Artist> findByName(String name) {
     return artistRepository.findByName(name);
@@ -63,8 +57,8 @@ public class ArtistService {
   /**
    * Insert a new Artist.
    *
-   * @param artist  The Artist data to insert.
-   * @return        Either the inserted Artist or validation errors.
+   * @param artist The Artist data to insert.
+   * @return Either the inserted Artist or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Artist> insert(Artist artist) {
     // validate new artist
@@ -88,7 +82,7 @@ public class ArtistService {
    *
    * @param savedArtist The existing Artist data.
    * @param newArtist   The new Artist data.
-   * @return            Either the updated Artist or validation errors.
+   * @return Either the updated Artist or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Artist> update(Artist savedArtist, Artist newArtist) {
     // copy over read only fields

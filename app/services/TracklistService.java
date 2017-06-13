@@ -1,23 +1,17 @@
 package services;
 
 import static java.util.Objects.requireNonNull;
-
 import static play.libs.Json.toJson;
 
 import io.atlassian.fugue.Either;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import javax.inject.Inject;
-
 import models.Tracklist;
-
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
-
 import repositories.TracklistRepository;
 
 public class TracklistService {
@@ -34,7 +28,7 @@ public class TracklistService {
   /**
    * Fetch all Tracklists.
    *
-   * @return A collection of all Tracklists in the DB.
+   * @return A collection of Tracklists.
    */
   public List<Tracklist> fetchAll() {
     return tracklistRepository.findAll();
@@ -43,8 +37,8 @@ public class TracklistService {
   /**
    * Find a Tracklist by its ID.
    *
-   * @param id  The ID to search for.
-   * @return    An optional Tracklist if found.
+   * @param id The ID to search for.
+   * @return An optional Tracklist if found.
    */
   public Optional<Tracklist> findById(long id) {
     return tracklistRepository.findById(id);
@@ -54,7 +48,7 @@ public class TracklistService {
    * Insert a new Tracklist.
    *
    * @param tracklist The Tracklist to insert.
-   * @return          Either the inserted Tracklist or validation errors.
+   * @return Either the inserted Tracklist or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Tracklist> insert(Tracklist tracklist) {
     // validate new tracklist
@@ -78,7 +72,7 @@ public class TracklistService {
    *
    * @param savedTracklist  The existing Tracklist data.
    * @param newTracklist    The new Tracklist data.
-   * @return                Either the updated Tracklist or validation errors.
+   * @return Either the updated Tracklist or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Tracklist> update(Tracklist savedTracklist, Tracklist newTracklist) {
     // copy over read only fields

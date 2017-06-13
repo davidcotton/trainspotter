@@ -1,23 +1,17 @@
 package services;
 
 import static java.util.Objects.requireNonNull;
-
 import static play.libs.Json.toJson;
 
 import io.atlassian.fugue.Either;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import javax.inject.Inject;
-
 import models.Track;
-
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
-
 import repositories.TrackRepository;
 
 public class TrackService {
@@ -34,7 +28,7 @@ public class TrackService {
   /**
    * Fetch all Tracks.
    * 
-   * @return A collection of all Tracks in the DB.
+   * @return A collection of Tracks.
    */
   public List<Track> fetchAll() {
     return trackRepository.findAll();
@@ -43,8 +37,8 @@ public class TrackService {
   /**
    * Find a Track by its ID.
    * 
-   * @param id  The ID to search for.
-   * @return    An optional Track if found.
+   * @param id The ID to search for.
+   * @return An optional Track if found.
    */
   public Optional<Track> findById(long id) {
     return trackRepository.findById(id);
@@ -53,8 +47,8 @@ public class TrackService {
   /**
    * Find a Track by its name.
    *
-   * @param name  The name of the Track to search for.
-   * @return      An optional Track if found.
+   * @param name The name of the Track to search for.
+   * @return An optional Track if found.
    */
   public Optional<Track> findByName(String name) {
     return trackRepository.findByName(name);
@@ -64,7 +58,7 @@ public class TrackService {
    * Insert a new Track.
    * 
    * @param track The Track data to insert.
-   * @return      Either the inserted Track or validation errors.
+   * @return Either the inserted Track or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Track> insert(Track track) {
     // validate new track
@@ -88,7 +82,7 @@ public class TrackService {
    * 
    * @param savedTrack  The existing Track data.
    * @param newTrack    The new Track data.
-   * @return            Either the updated Track or validation errors.
+   * @return Either the updated Track or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Track> update(Track savedTrack, Track newTrack) {
     // copy over read only fields
@@ -110,6 +104,5 @@ public class TrackService {
     // return saved track
     return Either.right(newTrack);
   }
-
 
 }

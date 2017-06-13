@@ -41,6 +41,13 @@ GET     /api/label/:id          controllers.api.LabelController.fetch(id:Long)
 PUT     /api/label/:id          controllers.api.LabelController.update(id:Long)
 DELETE  /api/label/:id          controllers.api.LabelController.delete(id:Long)
 
+# Programs
+GET     /api/program            controllers.api.ProgramController.fetchAll
+POST    /api/program            controllers.api.ProgramController.create
+GET     /api/program/:id        controllers.api.ProgramController.fetch(id:Long)
+PUT     /api/program/:id        controllers.api.ProgramController.update(id:Long)
+DELETE  /api/program/:id        controllers.api.ProgramController.delete(id:Long)
+
 # Tracklists
 GET     /api/tracklist          controllers.api.TracklistController.fetchAll
 POST    /api/tracklist          controllers.api.TracklistController.create
@@ -103,6 +110,13 @@ GET     /label/:id              controllers.LabelController.view(id:Long)
 PUT     /label/:id              controllers.LabelController.edit(id:Long)
 DELETE  /label/:id              controllers.LabelController.delete(id:Long)
 
+# Programs
+GET     /program                controllers.ProgramController.index
+GET     /program/new            controllers.ProgramController.add
+POST    /program                controllers.ProgramController.add
+GET     /program/:id            controllers.ProgramController.view(id:Long)
+PUT     /program/:id            controllers.ProgramController.edit(id:Long)
+DELETE  /program/:id            controllers.ProgramController.delete(id:Long)
 
 # Tracks
 GET     /track                  controllers.TrackController.index

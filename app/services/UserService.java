@@ -45,7 +45,7 @@ public class UserService {
   /**
    * Fetch all Users.
    *
-   * @return A collection of all Users in the database.
+   * @return A collection of Users.
    */
   public List<User> fetchAll() {
     return userRepository.findAllActiveUsers();
@@ -54,7 +54,7 @@ public class UserService {
   /**
    * Find a User by their ID.
    *
-   * @param id  The ID to search for.
+   * @param id The ID to search for.
    * @return An optional User if found.
    */
   public Optional<User> findById(long id) {
@@ -74,7 +74,7 @@ public class UserService {
   /**
    * Create a new User in the system.
    *
-   * @param createUser  The user supplied data.
+   * @param createUser The user supplied data.
    * @return Either the inserted User or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, User> insert(CreateUser createUser) {

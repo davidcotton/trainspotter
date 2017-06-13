@@ -20,6 +20,16 @@ public class ProgramRepository implements Repository<Program> {
     return Optional.ofNullable(find.byId(id));
   }
 
+  /**
+   * Find a Program by its name.
+   *
+   * @param name  The name of the Program to search for.
+   * @return      An optional Program if found.
+   */
+  public Optional<Program> findByName(String name) {
+    return Optional.ofNullable(find.where().eq("name", name).findUnique());
+  }
+
   @Override
   public void insert(Program program) {
     program.insert();

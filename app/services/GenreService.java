@@ -1,23 +1,17 @@
 package services;
 
 import static java.util.Objects.requireNonNull;
-
 import static play.libs.Json.toJson;
 
 import io.atlassian.fugue.Either;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import javax.inject.Inject;
-
 import models.Genre;
-
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
-
 import repositories.GenreRepository;
 
 public class GenreService {
@@ -34,7 +28,7 @@ public class GenreService {
   /**
    * Fetch all Genres.
    *
-   * @return A collection of all genres in the DB.
+   * @return A collection of genres.
    */
   public List<Genre> fetchAll() {
     return genreRepository.findAll();
@@ -43,8 +37,8 @@ public class GenreService {
   /**
    * Find a Genre by its ID.
    *
-   * @param id  The ID to search for.
-   * @return    An optional Genre if found.
+   * @param id The ID to search for.
+   * @return An optional Genre if found.
    */
   public Optional<Genre> findById(long id) {
     return genreRepository.findById(id);
@@ -53,8 +47,8 @@ public class GenreService {
   /**
    * Find a Genre by its name.
    *
-   * @param name  The name of the Genre to search for.
-   * @return      An optional Genre if found.
+   * @param name The name of the Genre to search for.
+   * @return An optional Genre if found.
    */
   public Optional<Genre> findByName(String name) {
     return genreRepository.findByName(name);
@@ -64,7 +58,7 @@ public class GenreService {
    * Insert a new Genre.
    *
    * @param genre The Genre to insert.
-   * @return      Either the inserted Genre or validation errors.
+   * @return Either the inserted Genre or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Genre> insert(Genre genre) {
     // validate new genre
@@ -88,7 +82,7 @@ public class GenreService {
    *
    * @param savedGenre  The existing Genre data.
    * @param newGenre    The new Genre data.
-   * @return            Either the updated Genre or validation errors.
+   * @return Either the updated Genre or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Genre> update(Genre savedGenre, Genre newGenre) {
     // copy over read only fields

@@ -3,6 +3,8 @@ package repositories;
 import com.avaje.ebean.Model.Finder;
 import java.util.List;
 import java.util.Optional;
+
+import models.Artist;
 import models.Channel;
 
 public class ChannelRepository implements Repository<Channel> {
@@ -18,6 +20,16 @@ public class ChannelRepository implements Repository<Channel> {
   @Override
   public Optional<Channel> findById(long id) {
     return Optional.ofNullable(find.byId(id));
+  }
+
+  /**
+   * Find a Channel by its name.
+   *
+   * @param name  The name of the Channel to search for.
+   * @return      An optional Channel if found.
+   */
+  public Optional<Channel> findByName(String name) {
+    return Optional.ofNullable(find.where().eq("name", name).findUnique());
   }
 
   @Override

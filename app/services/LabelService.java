@@ -1,23 +1,17 @@
 package services;
 
 import static java.util.Objects.requireNonNull;
-
 import static play.libs.Json.toJson;
 
 import io.atlassian.fugue.Either;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import javax.inject.Inject;
-
 import models.Label;
-
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
-
 import repositories.LabelRepository;
 
 public class LabelService {
@@ -34,7 +28,7 @@ public class LabelService {
   /**
    * Fetch all Labels.
    *
-   * @return A collection of all Labels in the DB.
+   * @return A collection of Labels.
    */
   public List<Label> fetchAll() {
     return labelRepository.findAll();
@@ -43,8 +37,8 @@ public class LabelService {
   /**
    * Find a Label by its ID.
    *
-   * @param id  The ID to search for.
-   * @return    An optional Label if found.
+   * @param id The ID to search for.
+   * @return An optional Label if found.
    */
   public Optional<Label> findById(long id) {
     return labelRepository.findById(id);
@@ -53,8 +47,8 @@ public class LabelService {
   /**
    * Find a Label by its name.
    *
-   * @param name  The name of the Label to search for.
-   * @return      An optional Label if found.
+   * @param name The name of the Label to search for.
+   * @return An optional Label if found.
    */
   public Optional<Label> findByName(String name) {
     return labelRepository.findByName(name);
@@ -64,7 +58,7 @@ public class LabelService {
    * Insert a new Label.
    *
    * @param label The Label to insert.
-   * @return      Either the inserted Label or validation errors
+   * @return Either the inserted Label or validation errors
    */
   public Either<Map<String, List<ValidationError>>, Label> insert(Label label) {
     // validate new label
@@ -88,7 +82,7 @@ public class LabelService {
    *
    * @param savedLabel  The existing Label data.
    * @param newLabel    The new Label data.
-   * @return            Either the updated data or validation errors.
+   * @return Either the updated data or validation errors.
    */
   public Either<Map<String, List<ValidationError>>, Label> update(Label savedLabel, Label newLabel) {
     // copy over read only fields

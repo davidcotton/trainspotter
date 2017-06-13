@@ -31,7 +31,7 @@ public class AuthenticationService {
    *
    * @param plaintext The plaintext password to verify.
    * @param hash      The previously hashed password.
-   * @return          true if the passwords match, false otherwise.
+   * @return true if the passwords match, false otherwise.
    */
   boolean checkPassword(String plaintext, String hash) {
     return BCrypt.checkpw(plaintext, hash);
