@@ -8,7 +8,7 @@ VALUES
 INSERT INTO `artist` (`name`, `image`, `description`, `created`, `updated`)
 VALUES
   ('Sasha', 'sasha.jpg','' , NOW(), NOW()),
-  ('John Digweed', 'john-digweed.jpg','' , NOW(), NOW()),
+  ('John Digweed', 'john-digweed.jpg','Some DJ careers are built on hype. John Digweed’s career is built on substance. One of the planet’s most popular DJs, his sets never fall out of favour with clubbers the world over, as his relentless global gig schedule testifies. From ethereal, swirling cinematic soundscapes to energy-infused bass-bothering tech growlers, a new generation of clubbers are learning what we already know - that there’s nothing quite like being locked into a John Digweed set. But John Digweed is much more than a DJ. Bedrock – his record label, promotions company and production partnership with Nick Muir – is a mothership of creative ingenuity and integrity that other labels orbit around. His Transitions, Bedrock and Structures albums continue to turn new fans on worldwide. His Transitions radio show is one of the world’s most successful dance music shows, broadcast across 45 countries to a staggering weekly audience of 14 million.' , NOW(), NOW()),
   ('Customer', null,'' , NOW(), NOW()),
   ('Deetron', 'deetron.jpg','' , NOW(), NOW()),
   ('Kaled', null,'' , NOW(), NOW()),

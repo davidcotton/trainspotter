@@ -1,0 +1,3 @@
+@(track: models.Track)
+
+<a href="@routes.TrackController.view(track.getId)">@track.getName</a> @if(track.getRemixName != null) { (@track.getRemixName) }

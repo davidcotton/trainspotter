@@ -1,4 +1,4 @@
-@(tracks: List[Track])
+@(tracks: java.util.List[models.Track])
 
 @main("List Tracks") {
   <h1>Tracks</h1>
@@ -22,6 +22,7 @@
           </ul>
         </td>
         <td><a href="@routes.TrackController.view(track.getId)">@track.getName</a></td>
+        <td>@partials.tracklink(track)</td>
         <td>
           <ul>
           @for(remixer <- track.getRemixers) {

@@ -1,15 +1,15 @@
 @(program: Program, channel: Channel)
 
 @main(program.getName) {
-  <h1>@program.getName</h1>
-
   <ol class="breadcrumb">
-    <li><a href="@routes.ApplicationController.index">Home</a></li>
-    <li><a href="@routes.ChannelController.view(channel.getId)">@channel.getName</a></li>
-    <li class="active">@program.getName</li>
+    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item"><a href="@routes.ChannelController.view(channel.getId)">@channel.getName</a></li>
+    <li class="breadcrumb-item active">@program.getName</li>
   </ol>
 
+  <h1>@program.getName</h1>
   <p><img src="@program.getImage" alt="@program.getName">@program.getDescription</p>
+
   <table class="table table-striped">
     <tbody>
       <tr>
@@ -30,7 +30,7 @@
       </tr>
       <tr>
         <td>Channel</td>
-        <td>@program.getChannel.getName</td>
+        <td><a href="@routes.ChannelController.view(channel.getId)">@program.getChannel.getName</a></td>
       </tr>
       <tr>
         <td>&nbsp;</td>

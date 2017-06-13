@@ -4,10 +4,6 @@
   <strong><a href="@routes.ArtistController.view(artist.getId)">@artist.getName</a></strong>
 }
 
-@renderTrackName(track: models.Track) = {
-  <strong>@track.getName</strong> @if(track.getRemixName != null) { (@track.getRemixName) }
-}
-
 @main(tracklist.getName) {
   <h1>@tracklist.getName</h1>
   <div class="media">
@@ -71,7 +67,7 @@
           @for(track <- tracklist.getTracks) {
             <tr>
               <td>@{track.getArtists.map(renderArtist)}</td>
-              <td>@renderTrackName(track)</td>
+              <td>@partials.tracklink(track)</td>
               <td>@{track.getRemixers.map(renderArtist)}</td>
               <td><a href="@routes.LabelController.view(track.getLabel.getId)">@track.getLabel.getName</a></td>
               <td>

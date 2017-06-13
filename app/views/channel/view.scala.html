@@ -1,22 +1,32 @@
 @(channel: models.Channel)
 
 @main(channel.getName) {
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.ChannelController.view(channel.getId)">@channel.getName</a></li>
+  </ol>
+
   <h1>@channel.getName</h1>
   <p><img src="@channel.getImage" alt="@channel.getName">@channel.getDescription</p>
-  <div class="row">
-  @for(program <- channel.getPrograms) {
-    <div class="col-sm-6 col-md-4">
-      <div class="thumbnail">
-        <img src="@program.getImage" alt="@program.getName">
-        <div class="caption">
-          <h3>@program.getName</h3>
-          <p>@program.getDescription</p>
-          <p><a href="@routes.ProgramController.view(program.getId, channel.getId)" class="btn btn-primary" role="button">Explore</a></p>
+  @for((program, index) <- channel.getPrograms.zipWithIndex) {
+    @if(index % 3 == 0) {
+      <div class="d-flex flex-row">
+    }
+      <div class="col-sm-6 col-md-4">
+        <p>@index</p>
+        <div class="thumbnail">
+          <img src="@program.getImage" alt="@program.getName">
+          <div class="caption">
+            <h3>@program.getName</h3>
+            <p>@program.getDescription</p>
+            <p><a href="@routes.ProgramController.view(program.getId, channel.getId)" class="btn btn-primary" role="button">Explore</a></p>
+          </div>
         </div>
       </div>
-    </div>
+    @if(index + 2 % 3 == 0) {
+      </div>
+    }
   }
-  </div>
 
   <table class="table table-striped">
     <tbody>
