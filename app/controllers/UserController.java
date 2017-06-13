@@ -1,110 +1,90 @@
 package controllers;
 
 import static java.util.Objects.requireNonNull;
-import static play.libs.Json.fromJson;
-import static play.libs.Json.toJson;
-import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
-import static utilities.JsonHelper.errorsAsJson;
 
+import java.util.Optional;
 import javax.inject.Inject;
 import models.CreateUser;
-import models.LoginUser;
-import play.mvc.BodyParser;
+import models.User;
+import play.data.Form;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
-import services.UserService;
+import repositories.UserRepository;
+import views.html.user.add;
+import views.html.user.edit;
+import views.html.user.index;
+import views.html.user.view;
 
 public class UserController extends Controller {
 
-  private final UserService userService;
+  private final UserRepository userRepository;
+  private final FormFactory formFactory;
 
   @Inject
-  public UserController(UserService userService) {
-    this.userService = requireNonNull(userService);
+  public UserController(UserRepository userRepository, FormFactory formFactory) {
+    this.userRepository = requireNonNull(userRepository);
+    this.formFactory = requireNonNull(formFactory);
   }
 
   /**
-   * Fetch all active users.
+   * View all users.
    *
-   * @return A collection of active users.
+   * @return A page with all users.
    */
-  public Result fetchAll() {
-    return ok(toJson(userService.fetchAll()));
+  public Result index() {
+    return ok(index.render(userRepository.findAll()));
   }
 
   /**
-   * Fetch a single user by their ID.
-   *
-   * @param id The users ID.
-   * @return The user if found else a 404 Not Found.
-   */
-  public Result fetch(long id) {
-    return userService.findById(id)
-        .map(user -> ok(toJson(user)))
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
-  }
-
-  /**
-   * Create a new user.
-   *
-   * @return The created user if successful else the errors.
-   */
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result create() {
-    return userService
-        .insert(fromJson(request().body().asJson(), CreateUser.class))
-        .fold(
-            error -> badRequest(errorsAsJson(error)),
-            user -> created(toJson(user))
-        );
-  }
-
-  /**
-   * Update a user in the system.
+   * View a single user.
    *
    * @param id The user's ID.
-   * @return The updated user if successful else the errors.
+   * @return A user page if found.
    */
-  @Security.Authenticated
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result update(long id) {
-    return userService
-        .findById(id)
-        .map(savedUser -> userService
-            .update(savedUser, fromJson(request().body().asJson(), CreateUser.class))
-            .fold(
-                error -> badRequest(errorsAsJson(error)),
-                newUser -> created(toJson(newUser))
-            )
-        )
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+  public Result view(long id) {
+    Optional<User> maybeUser = userRepository.findById(id);
+    return ok(view.render(maybeUser.get()));
   }
 
-  /**
-   * Delete a user in the system.
-   *
-   * Uses a soft-delete approach to mark a user as deleted.
-   *
-   * @param id The user's ID
-   * @return 204 No Content if successful else the error.
-   */
-  @Security.Authenticated
+  public Result add() {
+    Form<CreateUser> userForm = formFactory.form(CreateUser.class).bindFromRequest();
+    return ok(add.render(userForm));
+  }
+
+  public Result edit(long id) {
+    Optional<User> maybeUser = userRepository.findById(id);
+    if (maybeUser.isPresent()) {
+      Form<User> userForm = formFactory.form(User.class).fill(maybeUser.get());
+      return ok(edit.render(id, userForm));
+    } else {
+      return notFound("User not found");
+    }
+
+//    if (userForm.hasErrors()) {
+//      return badRequest(update.render(id, userForm));
+//    }
+//
+//    User user = userForm.get();
+//    userRepository.insert(user);
+//
+//    return ok(update.render(id, userForm));
+  }
+
+  public Result submit() {
+    return TODO;
+
+//    Form<CreateUser> userForm = formFactory.form(CreateUser.class).bindFromRequest();
+//    if (userForm.hasErrors()) {
+//      return badRequest(create.render(userForm));
+//    } else {
+//      CreateUser createUser = userForm.get();
+//      User user = new User(createUser);
+//      return redirect(routes.UserController.index());
+//    }
+  }
+
   public Result delete(long id) {
-    return userService.findById(id)
-        .map(user -> {
-          userService.delete(user);
-          return (Result) noContent();
-        })
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
-  }
-
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result login() {
-    return userService
-        .login(fromJson(request().body().asJson(), LoginUser.class))
-        .fold(
-            error -> badRequest(errorsAsJson(error)),
-            token -> ok(toJson(token))
-        );
+    return TODO;
   }
 }

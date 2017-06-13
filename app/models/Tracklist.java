@@ -3,14 +3,11 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,11 +19,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -36,10 +31,7 @@ import play.data.validation.Constraints;
 @AllArgsConstructor
 public class Tracklist extends Model {
 
-  /** Validator group to be called on insert. */
   public interface InsertValidators {}
-
-  /** Validator group to be called on update. */
   public interface UpdateValidators {}
 
   @Id
@@ -56,21 +48,21 @@ public class Tracklist extends Model {
   @JsonBackReference(value = "user_tracklists")
   private User user;
 
-//  @ManyToMany(mappedBy = "tracklists")
-//  @JsonManagedReference(value = "tracklist_tracks")
-//  private List<Track> tracks;
+  @ManyToMany(mappedBy = "tracklists")
+  @JsonManagedReference(value = "tracklist_tracks")
+  private List<Track> tracks;
 
-//  @ManyToMany
-//  @JsonBackReference(value = "artist_tracklists")
-//  private List<Artist> artists;
+  @ManyToMany
+  @JsonManagedReference(value = "artist_tracklists")
+  private List<Artist> artists;
 
-//  @ManyToMany
-//  @JsonBackReference(value = "genres_tracklists")
-//  private List<Genre> genres;
+  @ManyToMany
+  @JsonManagedReference(value = "genres_tracklists")
+  private List<Genre> genres;
 
-//  @OneToMany
-//  @JsonManagedReference(value = "tracklists_medias")
-//  private List<Media> medias;
+  @OneToMany
+  @JsonManagedReference(value = "tracklists_medias")
+  private List<Media> medias;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")

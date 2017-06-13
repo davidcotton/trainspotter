@@ -2,63 +2,55 @@ package controllers;
 
 import static java.util.Objects.requireNonNull;
 
-import static play.libs.Json.fromJson;
-import static play.libs.Json.toJson;
-
-import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
-import static utilities.JsonHelper.errorsAsJson;
-
+import java.util.Optional;
 import javax.inject.Inject;
-
 import models.Genre;
-
-import play.mvc.BodyParser;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import services.GenreService;
+import repositories.GenreRepository;
+import views.html.genre.add;
+import views.html.genre.edit;
+import views.html.genre.index;
+import views.html.genre.view;
 
 public class GenreController extends Controller {
 
-  private final GenreService genreService;
+  private final GenreRepository genreRepository;
+  private final FormFactory formFactory;
 
   @Inject
-  public GenreController(GenreService genreService) {
-    this.genreService = requireNonNull(genreService);
+  public GenreController(GenreRepository genreRepository, FormFactory formFactory) {
+    this.genreRepository = requireNonNull(genreRepository);
+    this.formFactory = requireNonNull(formFactory);
   }
 
-  public Result fetchAll() {
-    return ok(toJson(genreService.fetchAll()));
+  /**
+   * View all genres.
+   *
+   * @return A page with all genres.
+   */
+  public Result index() {
+    return ok(index.render(genreRepository.findAll()));
   }
 
-  public Result fetch(long id) {
-    return genreService.findById(id)
-        .map(genre -> ok(toJson(genre)))
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+  /**
+   * View a single genre.
+   *
+   * @param id The genre's ID.
+   * @return A genre page if found.
+   */
+  public Result view(long id) {
+    Optional<Genre> maybeGenre = genreRepository.findById(id);
+    return ok(view.render(maybeGenre.get()));
   }
 
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result create() {
-    return genreService
-        .insert(fromJson(request().body().asJson(), Genre.class))
-        .fold(
-            error -> badRequest(errorsAsJson(error)),
-            user -> created(toJson(user))
-        );
+  public Result add() {
+    return TODO;
   }
 
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result update(long id) {
-    return genreService
-        .findById(id)
-        .map(savedGenre -> genreService
-            .update(savedGenre, fromJson(request().body().asJson(), Genre.class))
-            .fold(
-                error -> badRequest(errorsAsJson(error)),
-                newGenre -> created(toJson(newGenre))
-            )
-        )
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+  public Result edit(long id) {
+    return TODO;
   }
 
   public Result delete(long id) {

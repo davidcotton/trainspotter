@@ -1,68 +1,56 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import static java.util.Objects.requireNonNull;
 
-import static play.libs.Json.fromJson;
-import static play.libs.Json.toJson;
-
-import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
-import static utilities.JsonHelper.errorsAsJson;
-
+import java.util.Optional;
 import javax.inject.Inject;
-
 import models.Tracklist;
-
-import play.mvc.BodyParser;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import services.TracklistService;
+import repositories.TracklistRepository;
+import views.html.tracklist.add;
+import views.html.tracklist.edit;
+import views.html.tracklist.index;
+import views.html.tracklist.view;
 
 public class TracklistController extends Controller {
 
-  private final TracklistService tracklistService;
+  private final TracklistRepository tracklistRepository;
+  private final FormFactory formFactory;
 
   @Inject
-  public TracklistController(TracklistService tracklistService) {
-    this.tracklistService = requireNonNull(tracklistService);
+  public TracklistController(TracklistRepository tracklistRepository, FormFactory formFactory) {
+    this.tracklistRepository = requireNonNull(tracklistRepository);
+    this.formFactory = requireNonNull(formFactory);
   }
 
-  public Result fetchAll() {
-    return ok(toJson(tracklistService.fetchAll()));
+  /**
+   * View all tracklists.
+   *
+   * @return A page with all tracklists.
+   */
+  public Result index() {
+    return ok(index.render(tracklistRepository.findAll()));
   }
 
-  public Result fetch(long id) {
-    return tracklistService.findById(id)
-        .map(tracklist -> ok(toJson(tracklist)))
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+  /**
+   * View a single tracklist.
+   *
+   * @param id The tracklist's ID.
+   * @return A tracklist page if found.
+   */
+  public Result view(long id) {
+    Optional<Tracklist> maybeTracklist = tracklistRepository.findById(id);
+    return ok(view.render(maybeTracklist.get()));
   }
 
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result create() {
-    JsonNode jsonNode = request().body().asJson();
-    Tracklist tracklist1 = fromJson(jsonNode, Tracklist.class);
-    return tracklistService
-        .insert(tracklist1)
-        .fold(
-            error -> badRequest(errorsAsJson(error)),
-            tracklist -> created(toJson(tracklist))
-        );
+  public Result add() {
+    return TODO;
   }
 
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result update(long id) {
-    return tracklistService
-        .findById(id)
-        .map(savedTracklist -> tracklistService
-            .update(savedTracklist, fromJson(request().body().asJson(), Tracklist.class))
-            .fold(
-                error -> badRequest(errorsAsJson(error)),
-                newTracklist -> created(toJson(newTracklist))
-            )
-        )
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+  public Result edit(long id) {
+    return TODO;
   }
 
   public Result delete(long id) {

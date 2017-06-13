@@ -1,45 +1,44 @@
 package repositories;
 
 import com.avaje.ebean.Model;
-
 import java.util.List;
 import java.util.Optional;
 
 public interface Repository<T extends Model> {
 
   /**
-   * Fetch all {@link Model}s.
+   * Fetch all models.
    *
-   * @return A collection of {@link Model}.
+   * @return A collection of models.
    */
   List<T> findAll();
 
   /**
-   * Find a {@link Model} via its ID.
+   * Find a model via its ID.
    *
    * @param id The ID to search for.
-   * @return An optional {@link Model} that might not be found.
+   * @return An optional model if found.
    */
   Optional<T> findById(long id);
 
   /**
-   * Insert a {@link Model} into the database.
+   * Insert a model into the database.
    *
-   * @param model The {@link Model} to insert.
+   * @param model The model to insert.
    */
   void insert(T model);
 
   /**
-   * Update given {@link Model} in the database.
+   * Update given model in the database.
    *
-   * @param model The {@link Model} to update.
+   * @param model The model to update.
    */
   void update(T model);
 
   /**
-   * Delete a {@link Model} in the database.
+   * Delete a model from the database.
    *
-   * @param model The {@link Model} to delete.
+   * @param model The model to delete.
    */
   void delete(T model);
 }

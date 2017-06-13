@@ -1,0 +1,87 @@
+@(tracklist: Tracklist)
+
+@renderArtist(artist: models.Artist) = {
+  <strong><a href="@routes.ArtistController.view(artist.getId)">@artist.getName</a></strong>
+}
+
+@renderTrackName(track: models.Track) = {
+  <strong>@track.getName</strong> @if(track.getRemixName != null) { (@track.getRemixName) }
+}
+
+@main(tracklist.getName) {
+  <h1>@tracklist.getName</h1>
+  <div class="media">
+    <ul>
+    @for(media <- tracklist.getMedias) {
+      <li><a href="@media.getUrl">@media.getUrl</a></li>
+    }
+    </ul>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <td colspan="2"><img src="@tracklist.getArtists.head.getImage"></td>
+          </tr>
+          <tr>
+            <td>Artists</td>
+            <td>
+            @for(artist <- tracklist.getArtists) {
+              <a href="@routes.ArtistController.view(artist.getId)">@artist.getName</a>,
+            }
+            </td>
+          </tr>
+          <tr>
+            <td>Date</td>
+            <td>@tracklist.getDate</td>
+          </tr>
+          <tr>
+            <td>Submitted by</td>
+            <td>@tracklist.getUser.getDisplayName</td>
+          </tr>
+          <tr>
+            <td>Actions</td>
+            <td>
+              <a href="@routes.TracklistController.edit(tracklist.getId)" class="btn btn-xs btn-warning">
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+              </a>
+              <a href="@routes.TracklistController.delete(tracklist.getId)" class="btn btn-xs btn-danger">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-sm-8">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Artists</th>
+            <th>Title</th>
+            <th>Remixers</th>
+            <th>Label</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(track <- tracklist.getTracks) {
+            <tr>
+              <td>@{track.getArtists.map(renderArtist)}</td>
+              <td>@renderTrackName(track)</td>
+              <td>@{track.getRemixers.map(renderArtist)}</td>
+              <td><a href="@routes.LabelController.view(track.getLabel.getId)">@track.getLabel.getName</a></td>
+              <td>
+                <a href="" class="btn btn-xs btn-success" title="Add Track"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                <a href="" class="btn btn-xs btn-warning" title="Suggest Correction"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+}

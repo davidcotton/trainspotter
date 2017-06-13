@@ -12,7 +12,7 @@ public class ArtistRepository implements Repository<Artist> {
 
   @Override
   public List<Artist> findAll() {
-    return find.all();
+    return find.orderBy().asc("name").findList();
   }
 
   @Override

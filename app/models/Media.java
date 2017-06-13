@@ -3,11 +3,8 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import java.time.ZonedDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,11 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -31,10 +26,7 @@ import play.data.validation.Constraints;
 @AllArgsConstructor
 public class Media extends Model {
 
-  /** Validator group to be called on insert. */
   public interface InsertValidators {}
-
-  /** Validator group to be called on update. */
   public interface UpdateValidators {}
 
   @Id
@@ -46,9 +38,9 @@ public class Media extends Model {
   @Column(unique = true, length = 191)
   private String url;
 
-//  @ManyToOne
-//  @JsonBackReference(value = "tracklists_medias")
-//  private Tracklist tracklist;
+  @ManyToOne
+  @JsonBackReference(value = "tracklists_medias")
+  private Tracklist tracklist;
 
   @ManyToOne
   @JsonBackReference(value = "artist_medias")

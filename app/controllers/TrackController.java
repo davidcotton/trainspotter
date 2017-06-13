@@ -2,65 +2,55 @@ package controllers;
 
 import static java.util.Objects.requireNonNull;
 
-import static play.libs.Json.fromJson;
-import static play.libs.Json.toJson;
-
-import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
-import static utilities.JsonHelper.errorsAsJson;
-
+import java.util.Optional;
 import javax.inject.Inject;
-
 import models.Track;
-
-import play.mvc.BodyParser;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import services.TrackService;
+import repositories.TrackRepository;
+import views.html.track.add;
+import views.html.track.edit;
+import views.html.track.index;
+import views.html.track.view;
 
 public class TrackController extends Controller {
 
-  private final TrackService trackService;
+  private final TrackRepository trackRepository;
+  private final FormFactory formFactory;
 
   @Inject
-  public TrackController(TrackService trackService) {
-    this.trackService = requireNonNull(trackService);
+  public TrackController(TrackRepository trackRepository, FormFactory formFactory) {
+    this.trackRepository = requireNonNull(trackRepository);
+    this.formFactory = requireNonNull(formFactory);
   }
 
-  public Result fetchAll() {
-    return ok(toJson(trackService.fetchAll()));
+  /**
+   * View all tracks.
+   *
+   * @return A page with all tracks.
+   */
+  public Result index() {
+    return ok(index.render(trackRepository.findAll()));
   }
 
-  public Result fetch(long id) {
-    return trackService.findById(id)
-        .map(track -> ok(toJson(track)))
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+  /**
+   * View a single track.
+   *
+   * @param id The track's ID.
+   * @return A track page if found.
+   */
+  public Result view(long id) {
+    Optional<Track> maybeTrack = trackRepository.findById(id);
+    return ok(view.render(maybeTrack.get()));
   }
 
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result create() {
-    Track track1 = fromJson(request().body().asJson(), Track.class);
-
-    return trackService
-        .insert(fromJson(request().body().asJson(), Track.class))
-        .fold(
-            error -> badRequest(errorsAsJson(error)),
-            track -> created(toJson(track))
-        );
+  public Result add() {
+    return TODO;
   }
 
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result update(long id) {
-    return trackService
-        .findById(id)
-        .map(savedTrack -> trackService
-            .update(savedTrack, fromJson(request().body().asJson(), Track.class))
-            .fold(
-                error -> badRequest(errorsAsJson(error)),
-                newTrack -> created(toJson(newTrack))
-            )
-        )
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+  public Result edit(long id) {
+    return TODO;
   }
 
   public Result delete(long id) {

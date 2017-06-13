@@ -2,63 +2,55 @@ package controllers;
 
 import static java.util.Objects.requireNonNull;
 
-import static play.libs.Json.fromJson;
-import static play.libs.Json.toJson;
-
-import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
-import static utilities.JsonHelper.errorsAsJson;
-
+import java.util.Optional;
 import javax.inject.Inject;
-
 import models.Artist;
-
-import play.mvc.BodyParser;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import services.ArtistService;
+import repositories.ArtistRepository;
+import views.html.artist.add;
+import views.html.artist.edit;
+import views.html.artist.index;
+import views.html.artist.view;
 
 public class ArtistController extends Controller {
 
-  private final ArtistService artistService;
+  private final ArtistRepository artistRepository;
+  private final FormFactory formFactory;
 
   @Inject
-  public ArtistController(ArtistService artistService) {
-    this.artistService = requireNonNull(artistService);
+  public ArtistController(ArtistRepository artistRepository, FormFactory formFactory) {
+    this.artistRepository = requireNonNull(artistRepository);
+    this.formFactory = requireNonNull(formFactory);
   }
 
-  public Result fetchAll() {
-    return ok(toJson(artistService.fetchAll()));
+  /**
+   * View all artists.
+   *
+   * @return A page with all artists.
+   */
+  public Result index() {
+    return ok(index.render(artistRepository.findAll()));
   }
 
-  public Result fetch(long id) {
-    return artistService.findById(id)
-        .map(artist -> ok(toJson(artist)))
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+  /**
+   * View a single artist.
+   *
+   * @param id The artist's ID.
+   * @return An artist page if found.
+   */
+  public Result view(long id) {
+    Optional<Artist> maybeArtist = artistRepository.findById(id);
+    return ok(view.render(maybeArtist.get()));
   }
 
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result create() {
-    return artistService
-        .insert(fromJson(request().body().asJson(), Artist.class))
-        .fold(
-            error -> badRequest(errorsAsJson(error)),
-            artist -> created(toJson(artist))
-        );
+  public Result add() {
+    return TODO;
   }
 
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result update(long id) {
-    return artistService
-        .findById(id)
-        .map(savedArtist -> artistService
-            .update(savedArtist, fromJson(request().body().asJson(), Artist.class))
-            .fold(
-                error -> badRequest(errorsAsJson(error)),
-                newArtist -> created(toJson(newArtist))
-            )
-        )
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+  public Result edit(long id) {
+    return TODO;
   }
 
   public Result delete(long id) {

@@ -4,12 +4,10 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -18,36 +16,28 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
 import io.atlassian.fugue.Either;
-
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import models.CreateUser;
 import models.LoginUser;
 import models.Token;
 import models.User;
 import models.User.Status;
-
 import org.hamcrest.collection.IsEmptyCollection;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
-
 import repositories.UserRepository;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -63,7 +53,7 @@ public class UserServiceTest {
 
   @Test public void fetchAll() {
     // ARRANGE
-    when(mockUserRepository.findAllCurrentUsers()).thenReturn(new ArrayList<User>() {{
+    when(mockUserRepository.findAllActiveUsers()).thenReturn(new ArrayList<User>() {{
       add(mock(User.class));
       add(mock(User.class));
     }});
@@ -79,7 +69,7 @@ public class UserServiceTest {
   @Test public void findById_givenIdInDb() {
     // ARRANGE
     long id = 1L;
-    when(mockUserRepository.findById(id)).thenReturn(Optional.of(mock(User.class)));
+    when(mockUserRepository.findActiveById(id)).thenReturn(Optional.of(mock(User.class)));
 
     // ACT
     Optional<User> maybeUser = userService.findById(id);
@@ -91,7 +81,7 @@ public class UserServiceTest {
   @Test public void findById_givenIdNotInDb() {
     // ARRANGE
     long nonExistentId = 1L;
-    when(mockUserRepository.findById(nonExistentId)).thenReturn(Optional.empty());
+    when(mockUserRepository.findActiveById(nonExistentId)).thenReturn(Optional.empty());
 
     // ACT
     Optional<User> maybeUser = userService.findById(nonExistentId);

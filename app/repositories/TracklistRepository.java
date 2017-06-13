@@ -13,7 +13,8 @@ public class TracklistRepository implements Repository<Tracklist> {
 
   @Override
   public List<Tracklist> findAll() {
-    return find.all();
+//    return find.all();
+    return find.orderBy().asc("created").findList();
   }
 
   @Override

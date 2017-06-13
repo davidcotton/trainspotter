@@ -12,7 +12,7 @@ public class GenreRepository implements Repository<Genre> {
 
   @Override
   public List<Genre> findAll() {
-    return find.all();
+    return find.orderBy().asc("name").findList();
   }
 
   @Override

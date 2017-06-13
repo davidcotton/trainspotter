@@ -21,12 +21,22 @@ public class UserRepository implements Repository<User> {
    *
    * @return A collection of non-deleted users.
    */
-  public List<User> findAllCurrentUsers() {
+  public List<User> findAllActiveUsers() {
     return find.where().ne("status", Status.deleted).findList();
   }
 
   @Override
   public Optional<User> findById(long id) {
+    return Optional.ofNullable(find.byId(id));
+  }
+
+  /**
+   * Find a non-deleted user.
+   *
+   * @param id The ID to search for.
+   * @return An optional User if found.
+   */
+  public Optional<User> findActiveById(long id) {
     return Optional.ofNullable(
         find
             .where().idEq(id)
@@ -38,6 +48,7 @@ public class UserRepository implements Repository<User> {
 
   /**
    * Find a User by their email address.
+   * Only searches for non-deleted users.
    *
    * @param email The email address to search for.
    * @return      An optional user if found.

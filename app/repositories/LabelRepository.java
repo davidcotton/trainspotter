@@ -12,7 +12,7 @@ public class LabelRepository implements Repository<Label> {
 
   @Override
   public List<Label> findAll() {
-    return find.all();
+    return find.orderBy().asc("name").findList();
   }
 
   @Override

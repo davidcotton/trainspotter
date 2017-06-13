@@ -2,63 +2,60 @@ package controllers;
 
 import static java.util.Objects.requireNonNull;
 
-import static play.libs.Json.fromJson;
-import static play.libs.Json.toJson;
-
-import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
-import static utilities.JsonHelper.errorsAsJson;
-
+import java.util.Optional;
 import javax.inject.Inject;
-
 import models.Label;
-
-import play.mvc.BodyParser;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import services.LabelService;
+import repositories.LabelRepository;
+import views.html.label.add;
+import views.html.label.edit;
+import views.html.label.index;
+import views.html.label.view;
 
 public class LabelController extends Controller {
 
-  private final LabelService labelService;
+  private final LabelRepository labelRepository;
+  private final FormFactory formFactory;
 
   @Inject
-  public LabelController(LabelService labelService) {
-    this.labelService = requireNonNull(labelService);
+  public LabelController(LabelRepository labelRepository, FormFactory formFactory) {
+    this.labelRepository = requireNonNull(labelRepository);
+    this.formFactory = requireNonNull(formFactory);
   }
 
-  public Result fetchAll() {
-    return ok(toJson(labelService.fetchAll()));
+  /**
+   * View all labels.
+   *
+   * @return A page with all labels.
+   */
+  public Result index() {
+    return ok(index.render(labelRepository.findAll()));
   }
 
-  public Result fetch(long id) {
-    return labelService.findById(id)
-        .map(user -> ok(toJson(user)))
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+  /**
+   * View a single label.
+   *
+   * @param id The label's ID.
+   * @return A label page if found.
+   */
+  public Result view(long id) {
+    Optional<Label> maybeLabel = labelRepository.findById(id);
+    return ok(view.render(maybeLabel.get()));
   }
 
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result create() {
-    return labelService
-        .insert(fromJson(request().body().asJson(), Label.class))
-        .fold(
-            error -> badRequest(errorsAsJson(error)),
-            label -> created(toJson(label))
-        );
+  /**
+   * Add a new label.
+   *
+   * @return
+   */
+  public Result add() {
+    return TODO;
   }
 
-  @BodyParser.Of(BodyParser.Json.class)
-  public Result update(long id) {
-    return labelService
-        .findById(id)
-        .map(savedLabel -> labelService
-            .update(savedLabel, fromJson(request().body().asJson(), Label.class))
-            .fold(
-                error -> badRequest(errorsAsJson(error)),
-                newLabel -> created(toJson(newLabel))
-            )
-        )
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+  public Result edit(long id) {
+    return TODO;
   }
 
   public Result delete(long id) {

@@ -11,10 +11,7 @@ import validators.CustomConstraints;
 @AllArgsConstructor
 public class CreateUser {
 
-  /** Validator group to be called on insert. */
   public interface InsertValidators {}
-
-  /** Validator group to be called on update. */
   public interface UpdateValidators {}
 
   @Constraints.Required(
@@ -38,5 +35,6 @@ public class CreateUser {
       message = "A password is required.",
       groups = {InsertValidators.class, UpdateValidators.class}
   )
+  @CustomConstraints.Password(groups = {InsertValidators.class, UpdateValidators.class})
   private String password;
 }
