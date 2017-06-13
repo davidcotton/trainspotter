@@ -61,4 +61,24 @@ public class Media extends Model {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
+
+  public Long getId() {
+    return id;
+  }
+
+  public String getUrl() {
+    return url;
+  }
+
+  public Tracklist getTracklist() {
+    return tracklist;
+  }
+
+  public Artist getArtist() {
+    return artist;
+  }
+
+  public Label getLabel() {
+    return label;
+  }
 }

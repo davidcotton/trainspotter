@@ -59,4 +59,20 @@ public class Genre extends Model {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
+
+  public Long getId() {
+    return id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public List<Track> getTracks() {
+    return tracks;
+  }
+
+  public List<Tracklist> getTracklists() {
+    return tracklists;
+  }
 }

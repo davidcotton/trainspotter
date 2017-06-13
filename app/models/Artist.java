@@ -70,4 +70,32 @@ public class Artist extends Model {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
+
+  public Long getId() {
+    return id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getImage() {
+    return image;
+  }
+
+  public List<Track> getTracks() {
+    return tracks;
+  }
+
+  public List<Track> getRemixes() {
+    return remixes;
+  }
+
+  public List<Tracklist> getTracklists() {
+    return tracklists;
+  }
+
+  public List<Media> getMedias() {
+    return medias;
+  }
 }

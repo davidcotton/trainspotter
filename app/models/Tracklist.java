@@ -75,4 +75,36 @@ public class Tracklist extends Model {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
+
+  public Long getId() {
+    return id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public LocalDate getDate() {
+    return date;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public List<Track> getTracks() {
+    return tracks;
+  }
+
+  public List<Artist> getArtists() {
+    return artists;
+  }
+
+  public List<Genre> getGenres() {
+    return genres;
+  }
+
+  public List<Media> getMedias() {
+    return medias;
+  }
 }

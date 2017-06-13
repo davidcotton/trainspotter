@@ -93,4 +93,24 @@ public class User extends Model {
     this.hash = hashPassword(createUser.getPassword(), salt);
     this.setStatus(Status.unverified);
   }
+
+  public Long getId() {
+    return id;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public String getDisplayName() {
+    return displayName;
+  }
+
+  public Status getStatus() {
+    return status;
+  }
+
+  public List<Tracklist> getTracklists() {
+    return tracklists;
+  }
 }
