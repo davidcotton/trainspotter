@@ -44,20 +44,24 @@ public class Artist extends Model {
   private String image;
 
   @ManyToMany(mappedBy = "artists")
-  @JsonManagedReference(value = "track_artists")
+  @JsonManagedReference(value = "tracks_artists")
   private List<Track> tracks;
 
   @ManyToMany(mappedBy = "artists")
-  @JsonManagedReference(value = "track_remixers")
+  @JsonManagedReference(value = "tracks_remixers")
   private List<Track> remixes;
 
   @ManyToMany(mappedBy = "artists")
-  @JsonBackReference(value = "artist_tracklists")
+  @JsonBackReference(value = "artists_tracklists")
   private List<Tracklist> tracklists;
 
   @OneToMany
   @JsonManagedReference(value = "artist_medias")
   private List<Media> medias;
+
+  @ManyToMany
+  @JsonBackReference(value = "programs_hosts")
+  private List<Program> programs;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -97,5 +101,9 @@ public class Artist extends Model {
 
   public List<Media> getMedias() {
     return medias;
+  }
+
+  public List<Program> getPrograms() {
+    return programs;
   }
 }

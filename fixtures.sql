@@ -24,6 +24,13 @@ VALUES
   ('Scan Mode', null,NOW(), NOW()),
   ('Jesper Dahlback', 'jesper-dahlback.jpg', NOW(), NOW());
 
+INSERT INTO `channel` (`name`, `image`, `created`, `updated`) VALUES
+  ('Proton Radio', 'proton-radio.jpg', NOW(), NOW()),
+  ('Triple J', 'triple-j.jpg', NOW(), NOW()),
+  ('BBC Radio 1', 'bbc.jpg', NOW(), NOW()),
+  ('Kiss FM', 'kiss-fm.jpg', NOW(), NOW()),
+  ('Energia 97 FM', null, NOW(), NOW());
+
 INSERT INTO `label` (`name`, `image`, `created`, `updated`)
 VALUES
   ('Not on label', null, NOW(), NOW()),
@@ -44,6 +51,13 @@ VALUES
   ('Deep House', NOW(), NOW()),
   ('Tech House', NOW(), NOW()),
   ('Progressive', NOW(), NOW());
+
+INSERT INTO `program` (name, image, channel_id, created, updated) VALUES
+  ('Transitions', 'transitions.jpg', 1, NOW(), NOW()),
+  ('Behind The Iron Curtain', 'behind-the-iron-curtain.jpg', 1, NOW(), NOW()),
+  ('Diynamic Radioshow', 'Diynamic-Radioshow.jpg', 1, NOW(), NOW()),
+  ('Systematic Session', 'Systematic-Session.jpg', 1, NOW(), NOW()),
+  ('The Labyrinth', 'The_Labyrinth.jpg', 1, NOW(), NOW());
 
 INSERT INTO `track` (`name`, `remix_name`, `genre_id`, `label_id`, `release_date`, `created`, `updated`)
 VALUES
@@ -76,7 +90,7 @@ VALUES
   ('http://www.johndigweed.com/', null, 2, null, NOW(), NOW()),
   ('https://soundcloud.com/bedrock_rec', null, null, 2, NOW(), NOW());
 
-INSERT INTO `track_artists` (`track_id`, `artist_id`)
+INSERT INTO `track_artist` (`track_id`, `artist_id`)
 VALUES
   (1, 3),
   (2, 3),
@@ -89,7 +103,7 @@ VALUES
   (9, 13),
   (10, 14);
 
-INSERT INTO `track_remixers` (`track_id`, `artist_id`)
+INSERT INTO `track_remixer` (`track_id`, `artist_id`)
 VALUES
   (2, 4),
   (4, 7),

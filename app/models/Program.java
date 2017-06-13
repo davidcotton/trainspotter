@@ -5,7 +5,6 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 import javax.persistence.Column;
@@ -15,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -29,7 +27,7 @@ import play.data.validation.Constraints;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
-public class Tracklist extends Model {
+public class Program extends Model {
 
   public interface InsertValidators {}
   public interface UpdateValidators {}
@@ -40,29 +38,18 @@ public class Tracklist extends Model {
 
   @NotNull
   @Constraints.Required
+  @Column(unique = true, length = 191)
   private String name;
 
-  private LocalDate date;
+  private String image;
 
-  @ManyToOne(optional = false)
-  @JsonBackReference(value = "user_tracklists")
-  private User user;
+  @ManyToOne
+  @JsonBackReference(value = "channel_programs")
+  private Channel channel;
 
-  @ManyToMany(mappedBy = "tracklists")
-  @JsonManagedReference(value = "tracklists_tracks")
-  private List<Track> tracks;
-
-  @ManyToMany
-  @JsonManagedReference(value = "artists_tracklists")
-  private List<Artist> artists;
-
-  @ManyToMany
-  @JsonManagedReference(value = "genres_tracklists")
-  private List<Genre> genres;
-
-  @OneToMany
-  @JsonManagedReference(value = "tracklists_medias")
-  private List<Media> medias;
+  @ManyToMany(mappedBy = "programs")
+  @JsonManagedReference(value = "programs_hosts")
+  private List<Artist> hosts;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -84,27 +71,15 @@ public class Tracklist extends Model {
     return name;
   }
 
-  public LocalDate getDate() {
-    return date;
+  public String getImage() {
+    return image;
   }
 
-  public User getUser() {
-    return user;
+  public Channel getChannel() {
+    return channel;
   }
 
-  public List<Track> getTracks() {
-    return tracks;
-  }
-
-  public List<Artist> getArtists() {
-    return artists;
-  }
-
-  public List<Genre> getGenres() {
-    return genres;
-  }
-
-  public List<Media> getMedias() {
-    return medias;
+  public List<Artist> getHosts() {
+    return hosts;
   }
 }
