@@ -70,7 +70,11 @@ public class Channel extends Model {
   }
 
   public String getImage() {
-    return image;
+    if (image == null) {
+      return null;
+    } else {
+      return String.format("images/channel/%s", image);
+    }
   }
 
   public String getDescription() {

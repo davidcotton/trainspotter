@@ -1,6 +1,11 @@
 @(channels: java.util.List[models.Channel])
 
 @main("Channels") {
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.ChannelController.index">Channels</a></li>
+  </ol>
+
   <h1>Channels</h1>
   <table class="table table-striped">
     <thead>

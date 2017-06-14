@@ -1,61 +1,25 @@
 @(artists: List[Artist])
 
 @main("List Artists") {
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.ArtistController.index">Artists</a></li>
+  </ol>
+
   <h1>Artists</h1>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Tracks</th>
-        <th>Remixes</th>
-        <th>Tracklists</th>
-        <th>&nbsp;</th>
-      </tr>
-    </thead>
-    <tbody>
-    @for(artist <- artists) {
-      <tr>
-        <td><a href="@routes.ArtistController.view(artist.getId)">@artist.getName</a></td>
-        <td>
-          <ul>
-            @for(track <- artist.getTracks) {
-              <li><a href="@routes.TrackController.view(track.getId)">@track.getName</a></li>
-            }
-          </ul>
-        </td>
-        <td>
-          <ul>
-            @for(remix <- artist.getRemixes) {
-              <li><a href="@routes.TrackController.view(remix.getId)">@remix.getName</a></li>
-            }
-          </ul>
-        </td>
-        <td>
-          <ul>
-            @for(tracklist <- artist.getTracklists) {
-              <li><a href="@routes.TracklistController.view(tracklist.getId)">@tracklist.getName</a></li>
-            }
-          </ul>
-        </td>
-        <td class="text-right">
-          <a href="@routes.ArtistController.edit(artist.getId)" class="btn btn-xs btn-warning">
-            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-          </a>
-          <a href="@routes.ArtistController.delete(artist.getId)" class="btn btn-xs btn-danger">
-            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-          </a>
-        </td>
-      </tr>
-    }
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="2">
-          <a href="@routes.ArtistController.add" class="btn btn-sm btn-primary">
-            New Artist <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-          </a>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+
+  <div class="row">
+  @for(artist <- artists) {
+    <div class="col-sm-6 col-md-4">
+      @if(artist.getImage != null) {
+        <img class="d-flex mr-3" src="@routes.Assets.versioned(artist.getImage)" alt="@artist.getName">
+      }
+      <div class="caption">
+        <h3>@artist.getName</h3>
+        <p>@artist.getDescription</p>
+        <p><a href="@routes.ArtistController.view(artist.getId)" class="btn btn-primary" role="button">Explore</a></p>
+      </div>
+    </div>
+  }
+  </div>
 }

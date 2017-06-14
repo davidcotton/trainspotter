@@ -88,7 +88,11 @@ public class Artist extends Model {
   }
 
   public String getImage() {
-    return image;
+    if (image == null) {
+      return null;
+    } else {
+      return String.format("images/artist/%s", image);
+    }
   }
 
   public String getDescription() {
