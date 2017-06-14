@@ -46,7 +46,7 @@ public class Genre extends Model {
   private List<Track> tracks;
 
   @JsonBackReference(value = "genre_tracklist")
-  @ManyToMany(mappedBy = "genres")
+  @ManyToMany(mappedBy = "genres", cascade = CascadeType.PERSIST)
   private List<Tracklist> tracklists;
 
   @CreatedTimestamp

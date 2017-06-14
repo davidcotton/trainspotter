@@ -48,15 +48,15 @@ public class Artist extends Model {
   private String description;
 
   @JsonManagedReference(value = "track_artist")
-  @ManyToMany(mappedBy = "artists")
+  @ManyToMany(mappedBy = "artists", cascade = CascadeType.PERSIST)
   private List<Track> tracks;
 
   @JsonManagedReference(value = "track_remixer")
-  @ManyToMany(mappedBy = "artists")
+  @ManyToMany(mappedBy = "remixers", cascade = CascadeType.PERSIST)
   private List<Track> remixes;
 
   @JsonBackReference(value = "artist_tracklist")
-  @ManyToMany(mappedBy = "artists")
+  @ManyToMany(mappedBy = "artists", cascade = CascadeType.PERSIST)
   private List<Tracklist> tracklists;
 
   @JsonManagedReference(value = "artist_media")
