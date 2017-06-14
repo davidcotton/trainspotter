@@ -70,8 +70,8 @@ public class User extends Model {
   @Column(columnDefinition = "char(29)")
   private String salt;
 
-  @OneToMany(mappedBy = "user")
   @JsonManagedReference(value = "user_tracklists")
+  @OneToMany(mappedBy = "user")
   private List<Tracklist> tracklists;
 
   @CreatedTimestamp

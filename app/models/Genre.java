@@ -40,12 +40,12 @@ public class Genre extends Model {
   @Column(unique = true, length = 191)
   private String name;
 
-  @OneToMany(mappedBy = "genre")
   @JsonBackReference(value = "genre_tracks")
+  @OneToMany(mappedBy = "genre")
   private List<Track> tracks;
 
-  @ManyToMany(mappedBy = "genres")
   @JsonBackReference(value = "genres_tracklists")
+  @ManyToMany(mappedBy = "genres")
   private List<Tracklist> tracklists;
 
   @CreatedTimestamp

@@ -46,20 +46,20 @@ public class Artist extends Model {
   @Column(columnDefinition = "text")
   private String description;
 
-  @ManyToMany(mappedBy = "artists")
   @JsonManagedReference(value = "tracks_artists")
+  @ManyToMany(mappedBy = "artists")
   private List<Track> tracks;
 
-  @ManyToMany(mappedBy = "artists")
   @JsonManagedReference(value = "tracks_remixers")
+  @ManyToMany(mappedBy = "artists")
   private List<Track> remixes;
 
-  @ManyToMany(mappedBy = "artists")
   @JsonBackReference(value = "artists_tracklists")
+  @ManyToMany(mappedBy = "artists")
   private List<Tracklist> tracklists;
 
-  @OneToMany
   @JsonManagedReference(value = "artist_medias")
+  @OneToMany
   private List<Media> medias;
 
   @ManyToMany

@@ -44,12 +44,12 @@ public class Label extends Model {
   @Column(columnDefinition = "text")
   private String description;
 
-  @OneToMany(mappedBy = "label")
   @JsonManagedReference(value = "label_tracks")
+  @OneToMany(mappedBy = "label")
   private List<Track> tracks;
 
-  @OneToMany
   @JsonManagedReference(value = "label_medias")
+  @OneToMany
   private List<Media> medias;
 
   @CreatedTimestamp

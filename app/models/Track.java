@@ -41,14 +41,14 @@ public class Track extends Model {
   @NotNull
   private String name;
 
+  @JsonBackReference(value = "tracks_artists")
   @ManyToMany
   @JoinTable(name = "track_artist")
-  @JsonBackReference(value = "tracks_artists")
   private List<Artist> artists;
 
+  @JsonBackReference(value = "tracks_remixers")
   @ManyToMany
   @JoinTable(name = "track_remixer")
-  @JsonBackReference(value = "tracks_remixers")
   private List<Artist> remixers;
 
   private String remixName;
@@ -63,8 +63,8 @@ public class Track extends Model {
 
   private LocalDate releaseDate;
 
-  @ManyToMany
   @JsonBackReference(value = "tracklists_tracks")
+  @ManyToMany
   private List<Tracklist> tracklists;
 
   @CreatedTimestamp
