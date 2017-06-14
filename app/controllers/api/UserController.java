@@ -99,6 +99,11 @@ public class UserController extends Controller {
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
+  /**
+   * Login into the system.
+   *
+   * @return An authentication Token.
+   */
   @BodyParser.Of(BodyParser.Json.class)
   public Result login() {
     return userService

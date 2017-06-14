@@ -15,6 +15,19 @@ public class ProgramRepository implements Repository<Program> {
     return find.orderBy().asc("name").findList();
   }
 
+  /**
+   * Find all Programs that belong to a Channel.
+   *
+   * @param channelId The Channel ID.
+   * @return A Collection of Programs.
+   */
+  public List<Program> findByChannel(long channelId) {
+    return find
+        .where().eq("channel_id", channelId)
+        .orderBy().asc("name")
+        .findList();
+  }
+
   @Override
   public Optional<Program> findById(long id) {
     return Optional.ofNullable(find.byId(id));

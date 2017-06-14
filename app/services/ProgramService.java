@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
 import io.atlassian.fugue.Either;
+import models.Artist;
 import models.Program;
 import play.data.Form;
 import play.data.FormFactory;
@@ -28,14 +29,24 @@ public class ProgramService {
   /**
    * Fetch all Programs.
    *
-   * @return A collection of all Programs in the DB.
+   * @return A collection of all Programs.
    */
   public List<Program> fetchAll() {
     return programRepository.findAll();
   }
 
   /**
-   * Find an Program by their ID.
+   * Fetch all Programs that belong to a Channel.
+   *
+   * @param channelId The Channel ID to search by.
+   * @return A collection of Programs
+   */
+  public List<Program> fetchByChannel(long channelId) {
+    return programRepository.findByChannel(channelId);
+  }
+
+  /**
+   * Find an Program by its ID.
    *
    * @param id  The ID to search for.
    * @return    An optional Program if found.
@@ -45,7 +56,7 @@ public class ProgramService {
   }
 
   /**
-   * Find an Program by their name.
+   * Find an Program by its name.
    *
    * @param name  The name to search for.
    * @return      An optional Program if found.
@@ -103,5 +114,19 @@ public class ProgramService {
 
     // return saved program
     return Either.right(newProgram);
+  }
+
+  /**
+   * Add an Artist as a host of a Program.
+   *
+   * @param program The Program.
+   * @param artist  The host (Artist).
+   * @return The updated Program.
+   */
+  public Program addHost(Program program, Artist artist) {
+    program.addHost(artist);
+    programRepository.update(program);
+
+    return program;
   }
 }

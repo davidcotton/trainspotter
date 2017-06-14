@@ -89,4 +89,8 @@ public class Program extends Model {
   public List<Artist> getHosts() {
     return hosts;
   }
+
+  public void addHost(Artist artist) {
+    hosts.add(artist);
+  }
 }
