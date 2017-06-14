@@ -75,6 +75,7 @@ public class ProgramController extends Controller {
   @BodyParser.Of(BodyParser.Json.class)
   public Result create(long channelId) {
     Optional<Channel> maybeChannel = channelService.findById(channelId);
+
     return programService
         .insert(fromJson(request().body().asJson(), Program.class))
         .fold(
@@ -123,12 +124,20 @@ public class ProgramController extends Controller {
    * @return The updated Program if successful else the errors.
    */
   public Result addHost(long programId, long artistId) {
-    return artistService
-        .findById(artistId)
-        .flatMap(artist -> programService
-            .findById(programId)
-            .map(program -> ok(toJson(programService.addHost(program, artist))))
-        )
-        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
+    Optional<Program> maybeProgram = programService.findById(programId);
+    Optional<Artist> maybeArtist = artistService.findById(artistId);
+    if (!maybeProgram.isPresent() || !maybeArtist.isPresent()) {
+      return notFound(errorsAsJson(MESSAGE_NOT_FOUND));
+    }
+
+    return ok(toJson(programService.addHost(maybeProgram.get(), maybeArtist.get())));
+
+//    return artistService
+//        .findById(artistId)
+//        .flatMap(artist -> programService
+//            .findById(programId)
+//            .map(program -> ok(toJson(programService.addHost(program, artist))))
+//        )
+//        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 }

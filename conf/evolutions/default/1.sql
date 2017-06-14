@@ -14,10 +14,16 @@ create table artist (
   constraint pk_artist primary key (id)
 );
 
-create table artist_program (
+create table track_artist (
   artist_id                     bigint not null,
-  program_id                    bigint not null,
-  constraint pk_artist_program primary key (artist_id,program_id)
+  track_id                      bigint not null,
+  constraint pk_track_artist primary key (artist_id,track_id)
+);
+
+create table track_remixer (
+  artist_id                     bigint not null,
+  track_id                      bigint not null,
+  constraint pk_track_remixer primary key (artist_id,track_id)
 );
 
 create table channel (
@@ -75,6 +81,12 @@ create table program (
   constraint pk_program primary key (id)
 );
 
+create table program_artist (
+  program_id                    bigint not null,
+  artist_id                     bigint not null,
+  constraint pk_program_artist primary key (program_id,artist_id)
+);
+
 create table token (
   id                            bigint auto_increment not null,
   user_id                       bigint not null,
@@ -94,18 +106,6 @@ create table track (
   created                       datetime not null,
   updated                       datetime not null,
   constraint pk_track primary key (id)
-);
-
-create table track_artist (
-  track_id                      bigint not null,
-  artist_id                     bigint not null,
-  constraint pk_track_artist primary key (track_id,artist_id)
-);
-
-create table track_remixer (
-  track_id                      bigint not null,
-  artist_id                     bigint not null,
-  constraint pk_track_remixer primary key (track_id,artist_id)
 );
 
 create table track_tracklist (
@@ -151,11 +151,17 @@ create table user (
   constraint pk_user primary key (id)
 );
 
-alter table artist_program add constraint fk_artist_program_artist foreign key (artist_id) references artist (id) on delete restrict on update restrict;
-create index ix_artist_program_artist on artist_program (artist_id);
+alter table track_artist add constraint fk_track_artist_artist foreign key (artist_id) references artist (id) on delete restrict on update restrict;
+create index ix_track_artist_artist on track_artist (artist_id);
 
-alter table artist_program add constraint fk_artist_program_program foreign key (program_id) references program (id) on delete restrict on update restrict;
-create index ix_artist_program_program on artist_program (program_id);
+alter table track_artist add constraint fk_track_artist_track foreign key (track_id) references track (id) on delete restrict on update restrict;
+create index ix_track_artist_track on track_artist (track_id);
+
+alter table track_remixer add constraint fk_track_remixer_artist foreign key (artist_id) references artist (id) on delete restrict on update restrict;
+create index ix_track_remixer_artist on track_remixer (artist_id);
+
+alter table track_remixer add constraint fk_track_remixer_track foreign key (track_id) references track (id) on delete restrict on update restrict;
+create index ix_track_remixer_track on track_remixer (track_id);
 
 alter table media add constraint fk_media_tracklist_id foreign key (tracklist_id) references tracklist (id) on delete restrict on update restrict;
 create index ix_media_tracklist_id on media (tracklist_id);
@@ -169,6 +175,12 @@ create index ix_media_label_id on media (label_id);
 alter table program add constraint fk_program_channel_id foreign key (channel_id) references channel (id) on delete restrict on update restrict;
 create index ix_program_channel_id on program (channel_id);
 
+alter table program_artist add constraint fk_program_artist_program foreign key (program_id) references program (id) on delete restrict on update restrict;
+create index ix_program_artist_program on program_artist (program_id);
+
+alter table program_artist add constraint fk_program_artist_artist foreign key (artist_id) references artist (id) on delete restrict on update restrict;
+create index ix_program_artist_artist on program_artist (artist_id);
+
 alter table token add constraint fk_token_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
 
 alter table track add constraint fk_track_genre_id foreign key (genre_id) references genre (id) on delete restrict on update restrict;
@@ -176,18 +188,6 @@ create index ix_track_genre_id on track (genre_id);
 
 alter table track add constraint fk_track_label_id foreign key (label_id) references label (id) on delete restrict on update restrict;
 create index ix_track_label_id on track (label_id);
-
-alter table track_artist add constraint fk_track_artist_track foreign key (track_id) references track (id) on delete restrict on update restrict;
-create index ix_track_artist_track on track_artist (track_id);
-
-alter table track_artist add constraint fk_track_artist_artist foreign key (artist_id) references artist (id) on delete restrict on update restrict;
-create index ix_track_artist_artist on track_artist (artist_id);
-
-alter table track_remixer add constraint fk_track_remixer_track foreign key (track_id) references track (id) on delete restrict on update restrict;
-create index ix_track_remixer_track on track_remixer (track_id);
-
-alter table track_remixer add constraint fk_track_remixer_artist foreign key (artist_id) references artist (id) on delete restrict on update restrict;
-create index ix_track_remixer_artist on track_remixer (artist_id);
 
 alter table track_tracklist add constraint fk_track_tracklist_track foreign key (track_id) references track (id) on delete restrict on update restrict;
 create index ix_track_tracklist_track on track_tracklist (track_id);
@@ -213,11 +213,17 @@ create index ix_tracklist_genre_genre on tracklist_genre (genre_id);
 
 # --- !Downs
 
-alter table artist_program drop foreign key fk_artist_program_artist;
-drop index ix_artist_program_artist on artist_program;
+alter table track_artist drop foreign key fk_track_artist_artist;
+drop index ix_track_artist_artist on track_artist;
 
-alter table artist_program drop foreign key fk_artist_program_program;
-drop index ix_artist_program_program on artist_program;
+alter table track_artist drop foreign key fk_track_artist_track;
+drop index ix_track_artist_track on track_artist;
+
+alter table track_remixer drop foreign key fk_track_remixer_artist;
+drop index ix_track_remixer_artist on track_remixer;
+
+alter table track_remixer drop foreign key fk_track_remixer_track;
+drop index ix_track_remixer_track on track_remixer;
 
 alter table media drop foreign key fk_media_tracklist_id;
 drop index ix_media_tracklist_id on media;
@@ -231,6 +237,12 @@ drop index ix_media_label_id on media;
 alter table program drop foreign key fk_program_channel_id;
 drop index ix_program_channel_id on program;
 
+alter table program_artist drop foreign key fk_program_artist_program;
+drop index ix_program_artist_program on program_artist;
+
+alter table program_artist drop foreign key fk_program_artist_artist;
+drop index ix_program_artist_artist on program_artist;
+
 alter table token drop foreign key fk_token_user_id;
 
 alter table track drop foreign key fk_track_genre_id;
@@ -238,18 +250,6 @@ drop index ix_track_genre_id on track;
 
 alter table track drop foreign key fk_track_label_id;
 drop index ix_track_label_id on track;
-
-alter table track_artist drop foreign key fk_track_artist_track;
-drop index ix_track_artist_track on track_artist;
-
-alter table track_artist drop foreign key fk_track_artist_artist;
-drop index ix_track_artist_artist on track_artist;
-
-alter table track_remixer drop foreign key fk_track_remixer_track;
-drop index ix_track_remixer_track on track_remixer;
-
-alter table track_remixer drop foreign key fk_track_remixer_artist;
-drop index ix_track_remixer_artist on track_remixer;
 
 alter table track_tracklist drop foreign key fk_track_tracklist_track;
 drop index ix_track_tracklist_track on track_tracklist;
@@ -274,7 +274,9 @@ drop index ix_tracklist_genre_genre on tracklist_genre;
 
 drop table if exists artist;
 
-drop table if exists artist_program;
+drop table if exists track_artist;
+
+drop table if exists track_remixer;
 
 drop table if exists channel;
 
@@ -286,13 +288,11 @@ drop table if exists media;
 
 drop table if exists program;
 
+drop table if exists program_artist;
+
 drop table if exists token;
 
 drop table if exists track;
-
-drop table if exists track_artist;
-
-drop table if exists track_remixer;
 
 drop table if exists track_tracklist;
 

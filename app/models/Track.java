@@ -41,14 +41,14 @@ public class Track extends Model {
   @NotNull
   private String name;
 
-  @ManyToMany
-  @JoinTable(name = "track_artist")
-  @JsonBackReference(value = "tracks_artists")
+  @JsonBackReference(value = "track_artist")
+  @ManyToMany(mappedBy = "tracks")
+//  @JoinTable(name = "track_artist")
   private List<Artist> artists;
 
-  @ManyToMany
-  @JoinTable(name = "track_remixer")
-  @JsonBackReference(value = "tracks_remixers")
+  @JsonBackReference(value = "track_remixer")
+  @ManyToMany(mappedBy = "remixes")
+//  @JoinTable(name = "track_remixer")
   private List<Artist> remixers;
 
   private String remixName;

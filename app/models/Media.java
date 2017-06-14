@@ -38,16 +38,16 @@ public class Media extends Model {
   @Column(unique = true, length = 191)
   private String url;
 
+  @JsonBackReference(value = "tracklists_media")
   @ManyToOne
-  @JsonBackReference(value = "tracklists_medias")
   private Tracklist tracklist;
 
+  @JsonBackReference(value = "artist_media")
   @ManyToOne
-  @JsonBackReference(value = "artist_medias")
   private Artist artist;
 
+  @JsonBackReference(value = "label_media")
   @ManyToOne
-  @JsonBackReference(value = "label_medias")
   private Label label;
 
   @CreatedTimestamp

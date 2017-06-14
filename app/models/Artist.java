@@ -7,11 +7,13 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.ZonedDateTime;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -46,24 +48,26 @@ public class Artist extends Model {
   @Column(columnDefinition = "text")
   private String description;
 
-  @ManyToMany(mappedBy = "artists")
-  @JsonManagedReference(value = "tracks_artists")
+  @JsonManagedReference(value = "track_artist")
+  @ManyToMany
+  @JoinTable(name = "track_artist")
   private List<Track> tracks;
 
-  @ManyToMany(mappedBy = "artists")
-  @JsonManagedReference(value = "tracks_remixers")
+  @JsonManagedReference(value = "track_remixer")
+  @ManyToMany
+  @JoinTable(name = "track_remixer")
   private List<Track> remixes;
 
+  @JsonBackReference(value = "artist_tracklist")
   @ManyToMany(mappedBy = "artists")
-  @JsonBackReference(value = "artists_tracklists")
   private List<Tracklist> tracklists;
 
-  @OneToMany
-  @JsonManagedReference(value = "artist_medias")
+  @JsonManagedReference(value = "artist_media")
+  @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
   private List<Media> medias;
 
-  @ManyToMany
-  @JsonBackReference(value = "programs_hosts")
+  @JsonBackReference(value = "program_host")
+  @ManyToMany(mappedBy = "hosts", cascade = CascadeType.ALL)
   private List<Program> programs;
 
   @CreatedTimestamp

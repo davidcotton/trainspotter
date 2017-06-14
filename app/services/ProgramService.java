@@ -125,6 +125,11 @@ public class ProgramService {
    */
   public Program addHost(Program program, Artist artist) {
     program.addHost(artist);
+
+//    List<Artist> artists = program.getHosts();
+//    artists.add(artist);
+//    program.setHosts(artists);
+
     programRepository.update(program);
 
     return program;
