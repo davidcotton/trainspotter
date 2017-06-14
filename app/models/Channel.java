@@ -6,6 +6,7 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.ZonedDateTime;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,7 +46,7 @@ public class Channel extends Model {
   private String description;
 
   @JsonManagedReference(value = "channel_program")
-  @OneToMany
+  @OneToMany(mappedBy = "channel", cascade = CascadeType.PERSIST)
   private List<Program> programs;
 
   @CreatedTimestamp

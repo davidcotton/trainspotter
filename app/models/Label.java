@@ -6,6 +6,7 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.ZonedDateTime;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,11 +46,11 @@ public class Label extends Model {
   private String description;
 
   @JsonManagedReference(value = "label_track")
-  @OneToMany(mappedBy = "label")
+  @OneToMany(mappedBy = "label", cascade = CascadeType.PERSIST)
   private List<Track> tracks;
 
   @JsonManagedReference(value = "label_media")
-  @OneToMany
+  @OneToMany(mappedBy = "label", cascade = CascadeType.PERSIST)
   private List<Media> medias;
 
   @CreatedTimestamp

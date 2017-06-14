@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.ZonedDateTime;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,7 +60,7 @@ public class Artist extends Model {
   private List<Tracklist> tracklists;
 
   @JsonManagedReference(value = "artist_media")
-  @OneToMany
+  @OneToMany(mappedBy = "artist", cascade = CascadeType.PERSIST)
   private List<Media> medias;
 
   @JsonBackReference(value = "program_host")

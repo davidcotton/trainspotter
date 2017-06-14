@@ -6,6 +6,7 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.time.ZonedDateTime;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,7 +42,7 @@ public class Genre extends Model {
   private String name;
 
   @JsonBackReference(value = "genre_track")
-  @OneToMany(mappedBy = "genre")
+  @OneToMany(mappedBy = "genre", cascade = CascadeType.PERSIST)
   private List<Track> tracks;
 
   @JsonBackReference(value = "genre_tracklist")
