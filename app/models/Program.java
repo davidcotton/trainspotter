@@ -46,11 +46,11 @@ public class Program extends Model {
   @Column(columnDefinition = "text")
   private String description;
 
-  @JsonBackReference(value = "channel_programs")
+  @JsonBackReference(value = "channel_program")
   @ManyToOne
   private Channel channel;
 
-  @JsonManagedReference(value = "programs_hosts")
+  @JsonManagedReference(value = "program_host")
   @ManyToMany(mappedBy = "programs")
   private List<Artist> hosts;
 

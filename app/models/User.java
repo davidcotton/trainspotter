@@ -70,7 +70,7 @@ public class User extends Model {
   @Column(columnDefinition = "char(29)")
   private String salt;
 
-  @JsonManagedReference(value = "user_tracklists")
+  @JsonManagedReference(value = "user_tracklist")
   @OneToMany(mappedBy = "user")
   private List<Tracklist> tracklists;
 

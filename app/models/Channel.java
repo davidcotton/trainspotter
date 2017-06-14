@@ -44,7 +44,7 @@ public class Channel extends Model {
   @Column(columnDefinition = "text")
   private String description;
 
-  @JsonManagedReference(value = "channel_programs")
+  @JsonManagedReference(value = "channel_program")
   @OneToMany
   private List<Program> programs;
 

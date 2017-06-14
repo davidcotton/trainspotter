@@ -41,29 +41,29 @@ public class Track extends Model {
   @NotNull
   private String name;
 
-  @JsonBackReference(value = "tracks_artists")
+  @JsonBackReference(value = "track_artist")
   @ManyToMany
   @JoinTable(name = "track_artist")
   private List<Artist> artists;
 
-  @JsonBackReference(value = "tracks_remixers")
+  @JsonBackReference(value = "track_remixer")
   @ManyToMany
   @JoinTable(name = "track_remixer")
   private List<Artist> remixers;
 
   private String remixName;
 
+  @JsonBackReference(value = "genre_track")
   @ManyToOne
-  @JsonBackReference(value = "genre_tracks")
   private Genre genre;
 
+  @JsonBackReference(value = "label_track")
   @ManyToOne
-  @JsonBackReference(value = "label_tracks")
   private Label label;
 
   private LocalDate releaseDate;
 
-  @JsonBackReference(value = "tracklists_tracks")
+  @JsonBackReference(value = "tracklist_track")
   @ManyToMany
   private List<Tracklist> tracklists;
 

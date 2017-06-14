@@ -44,23 +44,23 @@ public class Tracklist extends Model {
 
   private LocalDate date;
 
-  @JsonBackReference(value = "user_tracklists")
+  @JsonBackReference(value = "user_tracklist")
   @ManyToOne(optional = false)
   private User user;
 
-  @JsonManagedReference(value = "tracklists_tracks")
+  @JsonManagedReference(value = "tracklist_track")
   @ManyToMany(mappedBy = "tracklists")
   private List<Track> tracks;
 
-  @JsonManagedReference(value = "artists_tracklists")
+  @JsonManagedReference(value = "artist_tracklist")
   @ManyToMany
   private List<Artist> artists;
 
-  @JsonManagedReference(value = "genres_tracklists")
+  @JsonManagedReference(value = "genre_tracklist")
   @ManyToMany
   private List<Genre> genres;
 
-  @JsonManagedReference(value = "tracklists_medias")
+  @JsonManagedReference(value = "tracklist_media")
   @OneToMany
   private List<Media> medias;
 
