@@ -7,33 +7,34 @@ VALUES
 
 INSERT INTO `artist` (`name`, `image`, `description`, `created`, `updated`)
 VALUES
-  ('Sasha', 'sasha.jpg','' , NOW(), NOW()),
-  ('John Digweed', 'john-digweed.jpg','' , NOW(), NOW()),
-  ('Customer', null,'' , NOW(), NOW()),
-  ('Deetron', 'deetron.jpg','' , NOW(), NOW()),
-  ('Kaled', null,'' , NOW(), NOW()),
-  ('Lessons', null,'' , NOW(), NOW()),
-  ('Adam Port', 'adam-port.jpg','' , NOW(), NOW()),
-  ('Re.You', 're.you.jpg','' , NOW(), NOW()),
-  ('Tiefschwarz', 'tiefschwarz.jpg','' , NOW(), NOW()),
-  ('Yawk', null,'' , NOW(), NOW()),
-  ('Soame', null,'' , NOW(), NOW()),
-  ('Wigbert', null, '', NOW(), NOW()),
-  ('Citizen', 'citizen.jpg','' , NOW(), NOW()),
-  ('Kocleo', null,'' , NOW(), NOW()),
-  ('Scan Mode', null,'' , NOW(), NOW()),
-  ('Jesper Dahlback', 'jesper-dahlback.jpg','' , NOW(), NOW()),
-  ('Umek', 'umek.jpg','' , NOW(), NOW()),
-  ('Solomun', 'solomun.jpg','' , NOW(), NOW()),
-  ('Marc Romboy', 'marc_romboy.jpg','' , NOW(), NOW()),
-  ('Henry Saiz', 'henry-saiz.jpg','' , NOW(), NOW()),
-  ('Adam Beyer', 'adam-beyer.jpg','' , NOW(), NOW());
+  ('Sasha', 'sasha.jpg', null , NOW(), NOW()),
+  ('John Digweed', 'john-digweed.jpg', null , NOW(), NOW()),
+  ('Customer', null, null , NOW(), NOW()),
+  ('Deetron', 'deetron.jpg', null , NOW(), NOW()),
+  ('Kaled', null, null , NOW(), NOW()),
+  ('Lessons', null, null , NOW(), NOW()),
+  ('Adam Port', 'adam-port.jpg', null , NOW(), NOW()),
+  ('Re.You', 're.you.jpg', null , NOW(), NOW()),
+  ('Tiefschwarz', 'tiefschwarz.jpg', null , NOW(), NOW()),
+  ('Yawk', null, null , NOW(), NOW()),
+  ('Soame', null, null , NOW(), NOW()),
+  ('Wigbert', null, null, NOW(), NOW()),
+  ('Citizen', 'citizen.jpg', null , NOW(), NOW()),
+  ('Kocleo', null, null , NOW(), NOW()),
+  ('Scan Mode', null, null , NOW(), NOW()),
+  ('Jesper Dahlback', 'jesper-dahlback.jpg', null , NOW(), NOW()),
+  ('Umek', 'umek.jpg', 'For a long time, Slovenia is known for its great electronic parties, but as the local scene is of boutique dimensions, everyone, who wishes to take the art of mixing and producing to a professional level, has to go out there and enter the worldwide scene. Umek has done this step as early as in the middle of the 90s and so he became one of the most important techno players of the global techno scene, even before the end of the last millennium. Together with people, who shared the same views, he successfully captured the first era of researching and recreating the rules of the dance music in Recycled Loops, Consumer Recreation and Astrodisco platforms, which all put the sound of the Slovenian techno on the world map of electronic music.' , NOW(), NOW()),
+  ('Solomun', 'solomun.jpg', null , NOW(), NOW()),
+  ('Marc Romboy', 'marc_romboy.jpg', null , NOW(), NOW()),
+  ('Henry Saiz', 'henry-saiz.jpg', null , NOW(), NOW()),
+  ('Adam Beyer', 'adam-beyer.jpg', null , NOW(), NOW()),
+  ('Pete Tong', 'pete-tong.jpg', null , NOW(), NOW());
 
 INSERT INTO `channel` (`name`, `image`, `description`, `created`, `updated`) VALUES
   ('Proton Radio', 'proton-opengraph.gif','Welcome to Proton, a subscriber supported Internet radio station and music label.' , NOW(), NOW()),
-  ('Triple J', 'triple-j.jpg', '' , NOW(), NOW()),
-  ('BBC Radio 1', 'bbc.jpg', '' , NOW(), NOW()),
-  ('Kiss FM', 'kiss-fm.jpg', '' , NOW(), NOW()),
+  ('Triple J', 'triple-j.jpg', 'triple j is the national youth broadcaster for young Australians. We aim to bring you the latest, greatest music and the stories that matter on the radio (covering over 98% of the nation), online, on your phone and in print with J Annual.' , NOW(), NOW()),
+  ('BBC Radio 1', 'bbc.jpg', 'Listen to BBC Radio 1, home of the Official Chart, the Live Lounge and the world''s greatest DJs including Nick Grimshaw, Scott Mills, Clara Amfo, Greg James, Annie Mac and many more. Listen on DAB Radio, Digital TV, 97-99 FM, Online and Mobile.' , NOW(), NOW()),
+  ('KISS FM', 'kiss-fm.jpg', 'Kiss is a UK radio station which broadcasts on FM and National DAB and specialises in pop, hip hop, R&B, urban and electronic dance music.' , NOW(), NOW()),
   ('Energia 97 FM', null, '' , NOW(), NOW());
 
 INSERT INTO `label` (`name`, `image`, `description`, `created`, `updated`)
@@ -61,10 +62,11 @@ VALUES
 
 INSERT INTO `program` (name, image, description, channel_id, created, updated) VALUES
   ('Transitions', 'transitions.jpg', 'The most important radio show in house music needs no introduction, but here it goes anyway. John Digweed\'s long-standing weekly 2 hour program is legendary, airing for many years exclusively on Kiss 100 in London but now syndicated around the world and internet. In 2008, the show comes to Proton Radio. Expect upfront & unreleased tunes dished up by John Digweed alongside finely tuned guest mixes that are almost always exclusively prepared just for the show.', 1, NOW(), NOW()),
-  ('Behind The Iron Curtain', 'behind-the-iron-curtain.jpg', null, 1, NOW(), NOW()),
+  ('Behind The Iron Curtain', 'behind-the-iron-curtain.jpg', 'Welcome to UMEK’s hour-long trip behind the iron curtain. Hear it here on KISS FM every Tuesday 5 – 6 am. It would take a long essay to fully explain UMEK’s meaning to electronic music. The Slovenian born producer and DJ has been setting trends and rocking dance floors for two decades now — and still shows no signs of slowing down. He’s tireless in his techno and tech house production and with more than 100 gigs per year, probably one of the busiest techno DJs out there.', 1, NOW(), NOW()),
   ('Diynamic', 'diynamic.jpg', 'The weekly Diynamic radio show is hosted by Solomun & friends.', 1, NOW(), NOW()),
-  ('Systematic Session', 'Systematic-Session.jpg', 'Systematic Recordings from Germany has now finally its own exclusive radio show. The label which is run by the worldwide well known DJ/ producer Marc Romboy has released dozens of trendsetting and forwardthinking electronic house tracks, contributed by artists like Stephan Bodzin, Steve Lawler, Booka Shade, Chelonis R. Jones, John Dahlback and Robert Babicz, just to name a few. The show is called "Systematic Sessions" and serves you one hour of Dj mixed up-to-date records by their host Marc Romboy and other globally profiled DJs and producers. You want to know more about Marc Romboy and Systematic recordings? ', 1, NOW(), NOW()),
-  ('The Labyrinth', 'The_Labyrinth.jpg', 'Hi everybody, this is Henry Saiz, welcome to the labyrinth, my first online radio show. I would like to use this platform to share with you some ideas about music, I will try to develop a concept in every show, like a little sound research through musical styles or  production techniques. For this I will count on very special guests.', 1, NOW(), NOW());
+  ('Systematic Session', 'systematic.jpg', 'Systematic Recordings from Germany has now finally its own exclusive radio show. The label which is run by the worldwide well known DJ/ producer Marc Romboy has released dozens of trendsetting and forwardthinking electronic house tracks, contributed by artists like Stephan Bodzin, Steve Lawler, Booka Shade, Chelonis R. Jones, John Dahlback and Robert Babicz, just to name a few. The show is called "Systematic Sessions" and serves you one hour of Dj mixed up-to-date records by their host Marc Romboy and other globally profiled DJs and producers. You want to know more about Marc Romboy and Systematic recordings? ', 1, NOW(), NOW()),
+  ('The Labyrinth', 'henry-saiz.jpg', 'Hi everybody, this is Henry Saiz, welcome to the labyrinth, my first online radio show. I would like to use this platform to share with you some ideas about music, I will try to develop a concept in every show, like a little sound research through musical styles or  production techniques. For this I will count on very special guests.', 1, NOW(), NOW()),
+  ('Essential Mix', 'bbc-radio-one-essential-mix.jpg', '', 3, NOW(), NOW());
 
 INSERT INTO `track` (`name`, `remix_name`, `genre_id`, `label_id`, `release_date`, `created`, `updated`)
 VALUES

@@ -79,8 +79,26 @@ public class Program extends Model {
     return image;
   }
 
+  public String getImageLink() {
+    if (image == null) {
+      return null;
+    } else {
+      return String.format("images/program/%s", image);
+    }
+  }
+
   public String getDescription() {
     return description;
+  }
+
+  public String getTruncatedDescription() {
+    if (description == null) {
+      return null;
+    } else if (description.length() < 200) {
+      return description;
+    } else {
+      return description.substring(0, 200) + "...";
+    }
   }
 
   public Channel getChannel() {
