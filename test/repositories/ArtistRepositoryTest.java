@@ -85,7 +85,7 @@ public class ArtistRepositoryTest extends AbstractIntegrationTest {
     // ASSERT
     Optional<Artist> maybeArtist = artistRepository.findByName("Richie Hawtin");
     assertTrue(maybeArtist.isPresent());
-    // verify that the user saved correctly
+    // verify that the artist saved correctly
     assertThat(maybeArtist.get().getId(), is(3L));
     assertThat(maybeArtist.get().getName(), is("Richie Hawtin"));
     // verify that the original image field wasn't changed

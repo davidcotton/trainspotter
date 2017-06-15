@@ -39,10 +39,7 @@ public class DatabaseHelper {
     Ebean.execute(Ebean.createCallableSql(
         "INSERT INTO `channel` (`name`, `image`, `description`, `created`, `updated`) VALUES\n"
       + "  ('Proton Radio', 'proton-opengraph.gif','Welcome to Proton, a subscriber supported Internet radio station and music label.' , NOW(), NOW()),\n"
-      + "  ('Triple J', 'triple-j.jpg','' , NOW(), NOW()),\n"
-      + "  ('BBC Radio 1', 'bbc.jpg','' , NOW(), NOW()),\n"
-      + "  ('Kiss FM', 'kiss-fm.jpg','' , NOW(), NOW()),\n"
-      + "  ('Energia 97 FM', null,'' , NOW(), NOW());"
+      + "  ('Triple J', 'triple-j.jpg','' , NOW(), NOW());"
     ));
 //    Ebean.execute(Ebean.createCallableSql(""));
 //    Ebean.execute(Ebean.createCallableSql(""));

@@ -9,7 +9,7 @@
 
   <div class="media">
     @if(channel.getImage != null) {
-      <img class="d-flex mr-3" src="@routes.Assets.versioned(channel.getImage)" alt="@channel.getName">
+      <img class="d-flex mr-3" src="@routes.Assets.versioned(channel.getImageLink)" alt="@channel.getName">
     }
     <div class="media-body">
       <h1>@channel.getName</h1>

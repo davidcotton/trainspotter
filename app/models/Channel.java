@@ -70,6 +70,10 @@ public class Channel extends Model {
   }
 
   public String getImage() {
+    return image;
+  }
+
+  public String getImageLink() {
     if (image == null) {
       return null;
     } else {
