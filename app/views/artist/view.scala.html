@@ -25,18 +25,38 @@
     </div>
 
     <div class="col-md-8">
-      <h2>Tracklists</h2>
-      <div class="list-group">
-      @for(tracklist <- artist.getTracklists) {
-        <a href="@routes.TracklistController.view(tracklist.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">@tracklist.getName</h5>
-            <small>@tracklist.getPerformedDaysAgo days ago</small>
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item"><a href="#tracklists" class="nav-link active" data-toggle="tab">Tracklists</a></li>
+        <li class="nav-item"><a href="#tracks" class="nav-link" data-toggle="tab">Tracks</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="tracklists" role="tabpanel">
+          <h2>Tracklists</h2>
+          <div class="list-group">
+          @for(tracklist <- artist.getTracklists) {
+            <a href="@routes.TracklistController.view(tracklist.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">@tracklist.getName</h5>
+                <small>@tracklist.getPerformedDaysAgo days ago</small>
+              </div>
+              <p class="mb-1">@tracklist.getPerformed</p>
+              <small>@tracklist.getUser.getDisplayName</small>
+            </a>
+          }
           </div>
-          <p class="mb-1">@tracklist.getPerformed</p>
-          <small>@tracklist.getUser.getDisplayName</small>
-        </a>
-      }
+        </div>
+        <div class="tab-pane" id="tracks" role="tabpanel">
+          <h2>Tracks</h2>
+          <div class="list-group">
+          @for(track <- artist.getTracks) {
+            <a href="@routes.TrackController.view(track.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">@track.getName</h5>
+              </div>
+            </a>
+          }
+          </div>
+        </div>
       </div>
     </div>
   </div>
