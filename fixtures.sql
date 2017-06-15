@@ -31,23 +31,25 @@ VALUES
 
 INSERT INTO `channel` (`name`, `image`, `description`, `created`, `updated`) VALUES
   ('Proton Radio', 'proton-opengraph.gif','Welcome to Proton, a subscriber supported Internet radio station and music label.' , NOW(), NOW()),
-  ('Triple J', 'triple-j.jpg','' , NOW(), NOW()),
-  ('BBC Radio 1', 'bbc.jpg','' , NOW(), NOW()),
-  ('Kiss FM', 'kiss-fm.jpg','' , NOW(), NOW()),
-  ('Energia 97 FM', null,'' , NOW(), NOW());
+  ('Triple J', 'triple-j.jpg', '' , NOW(), NOW()),
+  ('BBC Radio 1', 'bbc.jpg', '' , NOW(), NOW()),
+  ('Kiss FM', 'kiss-fm.jpg', '' , NOW(), NOW()),
+  ('Energia 97 FM', null, '' , NOW(), NOW());
 
 INSERT INTO `label` (`name`, `image`, `description`, `created`, `updated`)
 VALUES
   ('Not on label', null,'' , NOW(), NOW()),
-  ('Bedrock Records', 'bedrock-records.jpg','' , NOW(), NOW()),
-  ('Get Wet', null,'' ,  NOW(), NOW()),
-  ('Sinnbus', 'sinnbus.jpg','' , NOW(), NOW()),
-  ('Mobilee', 'mobilee.jpg','' , NOW(), NOW()),
-  ('Souvenir', 'souvenir.jpg','' , NOW(), NOW()),
-  ('Colour Series', null,'' , NOW(), NOW()),
-  ('SCI+TEC', 'sci+tec.jpg','' , NOW(), NOW()),
-  ('IAM Music', 'iam-music.jpg','' , NOW(), NOW()),
-  ('Strange Idol', 'strange-idol.jpg','' , NOW(), NOW());
+  ('Bedrock Records', 'bedrock-records.jpg', 'Together John Digweed and Nick Muir are the key to what makes up the Bedrock record label tick. With the some of the cream of the progressive and breaks crop releases music on Bedrock the label constantly goes from strength to strength and provides the latest in quality beats. \nBedrock launched in 1999 with the classic progressive anthem Heaven Scent.' , NOW(), NOW()),
+  ('Get Wet', null, '' ,  NOW(), NOW()),
+  ('Sinnbus', 'sinnbus.jpg', '' , NOW(), NOW()),
+  ('Mobilee', 'mobilee.jpg', '' , NOW(), NOW()),
+  ('Souvenir', 'souvenir.jpg', '' , NOW(), NOW()),
+  ('Colour Series', null, '' , NOW(), NOW()),
+  ('SCI+TEC', 'sci+tec.jpg', '' , NOW(), NOW()),
+  ('IAM Music', 'iam-music.jpg', '' , NOW(), NOW()),
+  ('Strange Idol', 'strange-idol.jpg', '' , NOW(), NOW()),
+  ('Last Night On Earth', null, 'Label run by Sasha' , NOW(), NOW()),
+  ('Drumcode', 'drumcode.jpg', 'Techno label run by Adam Beyer.' , NOW(), NOW());
 
 INSERT INTO `genre` (name, created, updated)
 VALUES

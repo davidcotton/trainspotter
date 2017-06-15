@@ -42,10 +42,18 @@ public class DatabaseHelper {
       + "  ('Triple J', 'triple-j.jpg','' , NOW(), NOW());"
     ));
     Ebean.execute(Ebean.createCallableSql(
-        "INSERT INTO `genre` (name, created, updated)\n"
-        + "VALUES\n"
-        + "  ('House', NOW(), NOW()),\n"
-        + "  ('Techno', NOW(), NOW());"));
+      "INSERT INTO `genre` (name, created, updated)\n"
+      + "VALUES\n"
+      + "  ('House', NOW(), NOW()),\n"
+      + "  ('Techno', NOW(), NOW());"));
+    Ebean.execute(Ebean.createCallableSql(
+      "INSERT INTO `label` (`name`, `image`, `description`, `created`, `updated`)\n"
+      + "VALUES\n"
+      + "  ('Bedrock Records', 'bedrock-records.jpg','Together John Digweed and Nick Muir are the key to what makes up the Bedrock record label tick. With the some of the cream of the progressive and breaks crop releases music on Bedrock the label constantly goes from strength to strength and provides the latest in quality beats. \nBedrock launched in 1999 with the classic progressive anthem Heaven Scent.', NOW(), NOW()),\n"
+      + "  ('Last Night On Earth', null, 'Label run by Sasha.', NOW(), NOW()),\n"
+      + "  ('Drumcode', 'drumcode.jpg', '', NOW(), NOW());"
+    ));
+//    Ebean.execute(Ebean.createCallableSql(""));
 //    Ebean.execute(Ebean.createCallableSql(""));
 //    Ebean.execute(Ebean.createCallableSql(""));
 //    Ebean.execute(Ebean.createCallableSql(""));
