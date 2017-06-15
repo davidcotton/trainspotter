@@ -44,13 +44,13 @@ public class LabelRepositoryTest extends AbstractIntegrationTest {
     assertFalse(maybeLabel.isPresent());
   }
 
-  @Test public void findByEmail_successGivenEmailIdInDb() throws Exception {
+  @Test public void findByName_successGivenNameInDb() throws Exception {
     Optional<Label> maybeLabel = labelRepository.findByName("Bedrock Records");
     assertTrue(maybeLabel.isPresent());
     assertEquals("Bedrock Records", maybeLabel.get().getName());
   }
 
-  @Test public void findByEmail_failureGivenEmailNotInDb() throws Exception {
+  @Test public void findByName_failureGivenNameNotInDb() throws Exception {
     Optional<Label> maybeLabel = labelRepository.findByName("Defjam");
     assertFalse(maybeLabel.isPresent());
   }

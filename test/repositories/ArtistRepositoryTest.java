@@ -44,13 +44,13 @@ public class ArtistRepositoryTest extends AbstractIntegrationTest {
     assertFalse(maybeArtist.isPresent());
   }
 
-  @Test public void findByEmail_successGivenEmailIdInDb() throws Exception {
+  @Test public void findByName_successGivenNameInDb() throws Exception {
     Optional<Artist> maybeArtist = artistRepository.findByName("John Digweed");
     assertTrue(maybeArtist.isPresent());
     assertEquals("John Digweed", maybeArtist.get().getName());
   }
 
-  @Test public void findByEmail_failureGivenEmailNotInDb() throws Exception {
+  @Test public void findByName_failureGivenNameNotInDb() throws Exception {
     Optional<Artist> maybeArtist = artistRepository.findByName("Cher");
     assertFalse(maybeArtist.isPresent());
   }

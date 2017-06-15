@@ -44,13 +44,13 @@ public class ChannelRepositoryTest extends AbstractIntegrationTest {
     assertFalse(maybeChannel.isPresent());
   }
 
-  @Test public void findByEmail_successGivenEmailIdInDb() throws Exception {
+  @Test public void findByName_successGivenNameInDb() throws Exception {
     Optional<Channel> maybeChannel = channelRepository.findByName("Proton Radio");
     assertTrue(maybeChannel.isPresent());
     assertEquals("Proton Radio", maybeChannel.get().getName());
   }
 
-  @Test public void findByEmail_failureGivenEmailNotInDb() throws Exception {
+  @Test public void findByName_failureGivenNameNotInDb() throws Exception {
     Optional<Channel> maybeChannel = channelRepository.findByName("Nova FM");
     assertFalse(maybeChannel.isPresent());
   }

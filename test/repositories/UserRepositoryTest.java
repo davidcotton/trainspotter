@@ -64,7 +64,7 @@ public class UserRepositoryTest extends AbstractIntegrationTest {
     assertFalse(maybeUser.isPresent());
   }
 
-  @Test public void findByEmail_successGivenEmailIdInDb() throws Exception {
+  @Test public void findByEmail_successGivenEmailInDb() throws Exception {
     Optional<User> maybeUser = userRepository.findByEmail("brian.mcgee@simpsons.com");
 
     assertTrue(maybeUser.isPresent());
