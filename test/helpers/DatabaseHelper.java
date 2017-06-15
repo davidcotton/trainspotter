@@ -41,7 +41,11 @@ public class DatabaseHelper {
       + "  ('Proton Radio', 'proton-opengraph.gif','Welcome to Proton, a subscriber supported Internet radio station and music label.' , NOW(), NOW()),\n"
       + "  ('Triple J', 'triple-j.jpg','' , NOW(), NOW());"
     ));
-//    Ebean.execute(Ebean.createCallableSql(""));
+    Ebean.execute(Ebean.createCallableSql(
+        "INSERT INTO `genre` (name, created, updated)\n"
+        + "VALUES\n"
+        + "  ('House', NOW(), NOW()),\n"
+        + "  ('Techno', NOW(), NOW());"));
 //    Ebean.execute(Ebean.createCallableSql(""));
 //    Ebean.execute(Ebean.createCallableSql(""));
 //    Ebean.execute(Ebean.createCallableSql(""));
