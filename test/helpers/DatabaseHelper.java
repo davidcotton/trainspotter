@@ -8,39 +8,31 @@ import play.db.evolutions.Evolutions;
 
 public class DatabaseHelper {
 
-  private Database database;
-
-  public void init() {
-    database = Databases.createFrom(
+  public Database init() {
+    return Databases.createFrom(
         "com.mysql.jdbc.Driver",
-        "",
-        ImmutableMap.of("username", "")
+        System.getenv("MYSQL_DB_URL"),
+        ImmutableMap.of(
+            "username", System.getenv("MYSQL_DB_USER"),
+            "password", System.getenv("MYSQL_DB_PASS")
+        )
     );
-//    database = Databases.inMemory(
-//        "default",
-//        ImmutableMap.of("MODE", "MYSQL"),
-//        ImmutableMap.of("logStatements", true)
-//    );
   }
 
-  public void load() {
+  public void load(Database database) {
     Evolutions.applyEvolutions(database);
     Ebean.execute(Ebean.createCallableSql(
-        "INSERT INTO `user` (`email`, `hash`, `salt`, `display_name`, `status`, `created`, `updated`)\n" +
-            "VALUES\n" +
-            "  ('john.digweed@bedrock-records.com', '$2a$16$T1PaqXFutgw9qUmlK875Ge4wFRnn9TBMyJHfxyBpDXItcrNDL/OYa', '$2a$16$T1PaqXFutgw9qUmlK875Ge', 'John Digweed', 'active', NOW(), NOW()),\n" +
-            "  ('sasha@last-night-on-earth.com', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.xKIJUcj9lInDBANSKNmiS5WCKW7uvai', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.', 'Sasha', 'deleted', NOW(), NOW()),\n" +
-            "  ('adam.beyer@drumcode.com', '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', '$2a$16$aY..e8GAU2YGfdvLGqtahe', 'Adam Beyer', 'active', NOW(), NOW())\n" +
-            ";"
+        "INSERT INTO `user` (`email`, `hash`, `salt`, `display_name`, `status`, `created`, `updated`)\n"
+      + "VALUES\n"
+      + "  ('brian.mcgee@simpsons.com', '$2a$16$T1PaqXFutgw9qUmlK875Ge4wFRnn9TBMyJHfxyBpDXItcrNDL/OYa', '$2a$16$T1PaqXFutgw9qUmlK875Ge', 'Brian McGee', 'active', NOW(), NOW()),\n"
+      + "  ('rembrandt.q.einstein@simpsons.com', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.xKIJUcj9lInDBANSKNmiS5WCKW7uvai', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.', 'Rembrandt Q. Einstein', 'deleted', NOW(), NOW()),\n"
+      + "  ('rory.b.bellows@simpsons.com', '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', '$2a$16$aY..e8GAU2YGfdvLGqtahe', 'Rory B. Bellows', 'unverified', NOW(), NOW());\n"
+      + "\n"
     ));
   }
 
-  public void clean() {
+  public void clean(Database database) {
     Evolutions.cleanupEvolutions(database);
     database.shutdown();
-  }
-
-  public Database getDatabase() {
-    return database;
   }
 }
