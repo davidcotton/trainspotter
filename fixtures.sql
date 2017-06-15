@@ -79,23 +79,23 @@ VALUES
   ('You Can Relate', null, 2, 2, NOW(), NOW(), NOW()),
   ('Keep Faith', 'Scan Mode Remix', 2, 9, NOW(), NOW(), NOW());
 
-INSERT INTO `tracklist` (`name`, `date`, `user_id`, `created`, `updated`)
+INSERT INTO `tracklist` (`name`, `performed`, `image`, `user_id`, `created`, `updated`)
 VALUES
-  ('Sasha & John Digweed @ Carl Cox & Friends, Megastructure Stage, Ultra Music Festival Miami, MMW, United States', '2017-03-25', 1, NOW(), NOW()),
-  ('John Digweed & Joeski - Transitions 657', '2017-03-31', 1, NOW(), NOW()),
-  ('John Digweed & Quivver - Transitions 658', '2017-04-07', 1, NOW(), NOW()),
-  ('John Digweed & Jamie Anderson - Transitions 659', '2017-04-14', 1, NOW(), NOW()),
-  ('John Digweed & Jimmy Van M - Transitions 660', '2017-04-21', 1, NOW(), NOW()),
-  ('John Digweed & Undo - Transitions 661', '2017-04-28', 1, NOW(), NOW()),
-  ('John Digweed & Harvey McKay - Transitions 662', '2017-05-05', 1, NOW(), NOW()),
-  ('John Digweed & Dance Spirit - Transitions 663', '2017-05-12', 1, NOW(), NOW()),
-  ('John Digweed & Jesper Dahlback - Transitions 664', '2017-05-19', 1, NOW(), NOW()),
-  ('John Digweed & DJ Three - Transitions 665', '2017-05-26', 1, NOW(), NOW()),
-  ('John Digweed & Jeremy Olander - Transitions 666', '2017-06-02', 1, NOW(), NOW()),
-  ('John Digweed & Öona Dahl - Transitions 667', '2017-06-09', 1, NOW(), NOW()),
-  ('Solomun @ Space Closing Fiesta, Terraza, Space Ibiza, Spain (Be-At TV)', '2016-10-02', 3, NOW(), NOW()),
-  ('Adam Beyer @ Drumcode 354 (Metro City Perth, Australia 2017-04-24)', '2017-05-18', 1, NOW(), NOW()),
-  ('Sasha @ Last Night On Earth 025 (Coachella Festival, United States)', '2017-05-29', 2, NOW(), NOW());
+  ('Sasha & John Digweed @ Carl Cox & Friends, Megastructure Stage, Ultra Music Festival Miami, MMW, United States', '2017-03-25', 'artwork-umf-miami.jpg', 1, NOW(), NOW()),
+  ('John Digweed & Joeski - Transitions 657', '2017-03-31', null, 1, NOW(), NOW()),
+  ('John Digweed & Quivver - Transitions 658', '2017-04-07', null, 1, NOW(), NOW()),
+  ('John Digweed & Jamie Anderson - Transitions 659', '2017-04-14', null, 1, NOW(), NOW()),
+  ('John Digweed & Jimmy Van M - Transitions 660', '2017-04-21', null, 1, NOW(), NOW()),
+  ('John Digweed & Undo - Transitions 661', '2017-04-28', null, 1, NOW(), NOW()),
+  ('John Digweed & Harvey McKay - Transitions 662', '2017-05-05', null, 1, NOW(), NOW()),
+  ('John Digweed & Dance Spirit - Transitions 663', '2017-05-12', null, 1, NOW(), NOW()),
+  ('John Digweed & Jesper Dahlback - Transitions 664', '2017-05-19', null, 1, NOW(), NOW()),
+  ('John Digweed & DJ Three - Transitions 665', '2017-05-26', null, 1, NOW(), NOW()),
+  ('John Digweed & Jeremy Olander - Transitions 666', '2017-06-02', null, 1, NOW(), NOW()),
+  ('John Digweed & Öona Dahl - Transitions 667', '2017-06-09', null, 1, NOW(), NOW()),
+  ('Solomun @ Space Closing Fiesta, Terraza, Space Ibiza, Spain (Be-At TV)', '2016-10-02', null, 3, NOW(), NOW()),
+  ('Adam Beyer @ Drumcode 354 (Metro City Perth, Australia 2017-04-24)', '2017-05-18', null, 1, NOW(), NOW()),
+  ('Sasha @ Last Night On Earth 025 (Coachella Festival, United States)', '2017-05-29', null, 2, NOW(), NOW());
 
 INSERT INTO `media` (url, tracklist_id, artist_id, label_id, created, updated)
 VALUES

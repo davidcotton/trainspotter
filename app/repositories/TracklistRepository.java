@@ -1,7 +1,6 @@
 package repositories;
 
 import com.avaje.ebean.Model.Finder;
-
 import java.util.List;
 import java.util.Optional;
 import models.Tracklist;
@@ -13,8 +12,7 @@ public class TracklistRepository implements Repository<Tracklist> {
 
   @Override
   public List<Tracklist> findAll() {
-//    return find.all();
-    return find.orderBy().asc("created").findList();
+    return find.orderBy().desc("performed").findList();
   }
 
   @Override

@@ -117,7 +117,8 @@ create table track_tracklist (
 create table tracklist (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
-  date                          date,
+  performed                     date,
+  image                         varchar(255),
   user_id                       bigint not null,
   created                       datetime not null,
   updated                       datetime not null,

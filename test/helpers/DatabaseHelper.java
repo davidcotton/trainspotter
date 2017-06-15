@@ -50,7 +50,7 @@ public class DatabaseHelper {
       + "  ('Drumcode', 'drumcode.jpg', '', NOW(), NOW());"
     ));
     Ebean.execute(Ebean.createCallableSql(
-      "INSERT INTO `tracklist` (`name`, `date`, `user_id`, `created`, `updated`) VALUES\n"
+      "INSERT INTO `tracklist` (`name`, `performed`, `user_id`, `created`, `updated`) VALUES\n"
       + "  ('Sasha & John Digweed @ Carl Cox & Friends, Megastructure Stage, Ultra Music Festival Miami, MMW, United States', '2017-03-25', 1, NOW(), NOW()),\n"
       + "  ('John Digweed & Joeski - Transitions 657', '2017-03-31', 1, NOW(), NOW()),\n"
       + "  ('Adam Beyer @ Drumcode 354 (Metro City Perth, Australia 2017-04-24)', '2017-05-18', 1, NOW(), NOW()),\n"

@@ -26,17 +26,16 @@
 
     <div class="col-md-8">
       <h2>Tracklists</h2>
-      <div class="card-group">
+      <div class="list-group">
       @for(tracklist <- artist.getTracklists) {
-        <div class="card">
-          <a href="@routes.TracklistController.view(tracklist.getId)">
-            <div class="card-block">
-              <h5>@tracklist.getName</h5>
-              <p>@tracklist.getDate</p>
-              <p>@tracklist.getUser.getDisplayName</p>
-            </div>
-          </a>
-        </div>
+        <a href="@routes.TracklistController.view(tracklist.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">@tracklist.getName</h5>
+            <small>@tracklist.getPerformedDaysAgo days ago</small>
+          </div>
+          <p class="mb-1">@tracklist.getPerformed</p>
+          <small>@tracklist.getUser.getDisplayName</small>
+        </a>
       }
       </div>
     </div>
