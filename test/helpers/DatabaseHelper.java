@@ -29,6 +29,25 @@ public class DatabaseHelper {
       + "  ('rory.b.bellows@simpsons.com', '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', '$2a$16$aY..e8GAU2YGfdvLGqtahe', 'Rory B. Bellows', 'unverified', NOW(), NOW());\n"
       + "\n"
     ));
+    Ebean.execute(Ebean.createCallableSql(
+        "INSERT INTO `artist` (`name`, `image`, `description`, `created`, `updated`)\n"
+      + "VALUES\n"
+      + "  ('John Digweed', 'john-digweed.jpg','' , NOW(), NOW()),\n"
+      + "  ('Sasha', 'sasha.jpg','' , NOW(), NOW()),\n"
+      + "  ('Adam Beyer', 'adam-beyer.jpg','' , NOW(), NOW());"
+    ));
+    Ebean.execute(Ebean.createCallableSql(
+        "INSERT INTO `channel` (`name`, `image`, `description`, `created`, `updated`) VALUES\n"
+      + "  ('Proton Radio', 'proton-opengraph.gif','Welcome to Proton, a subscriber supported Internet radio station and music label.' , NOW(), NOW()),\n"
+      + "  ('Triple J', 'triple-j.jpg','' , NOW(), NOW()),\n"
+      + "  ('BBC Radio 1', 'bbc.jpg','' , NOW(), NOW()),\n"
+      + "  ('Kiss FM', 'kiss-fm.jpg','' , NOW(), NOW()),\n"
+      + "  ('Energia 97 FM', null,'' , NOW(), NOW());"
+    ));
+//    Ebean.execute(Ebean.createCallableSql(""));
+//    Ebean.execute(Ebean.createCallableSql(""));
+//    Ebean.execute(Ebean.createCallableSql(""));
+//    Ebean.execute(Ebean.createCallableSql(""));
   }
 
   public void clean(Database database) {

@@ -2,7 +2,6 @@ package services;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
-
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -14,9 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import java.util.Optional;
-
 import models.Token;
 import models.User;
 import repositories.TokenRepository;

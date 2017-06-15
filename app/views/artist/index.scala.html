@@ -1,4 +1,4 @@
-@(artists: List[Artist])
+@(artists: java.util.List[Artist])
 
 @main("List Artists") {
   <ol class="breadcrumb">
@@ -12,7 +12,7 @@
   @for(artist <- artists) {
     <div class="col-sm-6 col-md-4">
       @if(artist.getImage != null) {
-        <img class="d-flex mr-3" src="@routes.Assets.versioned(artist.getImage)" alt="@artist.getName">
+        <img class="d-flex mr-3" src="@routes.Assets.versioned(artist.getImageLink)" alt="@artist.getName">
       }
       <div class="caption">
         <h3>@artist.getName</h3>

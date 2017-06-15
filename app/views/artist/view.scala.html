@@ -12,7 +12,7 @@
   <div class="row">
     <div class="col-md-4">
       @if(artist.getImage != null) {
-        <img class="d-flex mr-3" src="@routes.Assets.versioned(artist.getImage)" alt="@artist.getName">
+        <img class="d-flex mr-3" src="@routes.Assets.versioned(artist.getImageLink)" alt="@artist.getName">
       }
       <p>@artist.getDescription</p>
       <ul>

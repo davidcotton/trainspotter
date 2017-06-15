@@ -5,6 +5,12 @@
 }
 
 @main(tracklist.getName) {
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item"><a href="@routes.TracklistController.index">Tracklists</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.TracklistController.view(tracklist.getId)">@tracklist.getName</a></li>
+  </ol>
+
   <h1>@tracklist.getName</h1>
   <div class="media">
     <ul>
@@ -18,9 +24,6 @@
     <div class="col-sm-4">
       <table class="table table-striped">
         <tbody>
-          <tr>
-            <td colspan="2"><img src="@tracklist.getArtists.head.getImage"></td>
-          </tr>
           <tr>
             <td>Artists</td>
             <td>

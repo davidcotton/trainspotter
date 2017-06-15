@@ -12,9 +12,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import models.CreateUser;
@@ -108,31 +105,23 @@ public class UserRepositoryTest extends AbstractIntegrationTest {
 
   @Test public void update_success() throws Exception {
     // ARRANGE
-    // insert a user
-    User user = new User(new CreateUser("solomun@diynamic.com", "Solomun", "password1!"));
-    userRepository.insert(user);
-    // fetch the inserted user
-    User savedUser = userRepository.findByEmail("solomun@diynamic.com").orElseThrow(Exception::new);
-    // update data
-    savedUser.setEmail("richie.hawtin@minus.com");
-    savedUser.setStatus(User.Status.active);
-    ZonedDateTime created = user.getCreated();
+    // fetch a user to update
+    User user = userRepository.findById(3L).orElseThrow(Exception::new);
+    // change some data
+    user.setEmail("joey-jo-jo-junior-shabadoo@simpsons.com");
+    user.setStatus(User.Status.active);
 
     // ACT
-    userRepository.update(savedUser);
+    userRepository.update(user);
 
     // ASSERT
-    Optional<User> maybeUser = userRepository.findByEmail("richie.hawtin@minus.com");
+    Optional<User> maybeUser = userRepository.findById(3L);
     assertTrue(maybeUser.isPresent());
     // verify that the user saved correctly
-    assertThat(maybeUser.get().getId(), is(4L));
+    assertThat(maybeUser.get().getId(), is(3L));
+    assertThat(maybeUser.get().getEmail(), is("joey-jo-jo-junior-shabadoo@simpsons.com"));
     assertThat(maybeUser.get().getStatus(), is(User.Status.active));
     assertNotNull(maybeUser.get().getSalt());
     assertNotNull(maybeUser.get().getHash());
-    // there appears to be about 100ms gap during DB inserts
-    // I think it might be due to MySQL timestamp truncating the unix time
-    Comparator<ZonedDateTime> comparator = Comparator.comparing(zdt -> zdt.truncatedTo(ChronoUnit.SECONDS));
-    assertThat(comparator.compare(maybeUser.get().getCreated(), created), is(0));
-    assertNotNull(maybeUser.get().getUpdated());
   }
 }
