@@ -1,0 +1,18 @@
+@(loginForm: play.data.Form[LoginUser])
+
+@implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
+
+@main("Login") {
+  <div class="card mt-5">
+    <h3 class="card-header">Login</h3>
+    <div class="card-block">
+      @b4.form(routes.UserController.loginSubmit()) {
+        <fieldset>
+          @b4.email(loginForm("email"), '_label -> "Email", 'placeholder -> "example@mail.com")
+          @b4.password(loginForm("password"), '_label -> "Password", 'placeholder -> "Password")
+          @b4.submit('class -> "btn btn-primary") { Sign in }
+        </fieldset>
+      }
+    </div>
+  </div>
+}

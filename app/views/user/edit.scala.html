@@ -1,10 +1,19 @@
-@(id: Long, userForm: play.data.Form[User])
+@(id: Long, userForm: play.data.Form[UpdateUser])
 
-@import helper._
+@implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
-@main("Edit User") {
-  <h1>Edit User</h1>
-  @* @form(editd)) {
-
-  } *@
+@main("Edit Profile") {
+  <div class="card mt-5">
+    <h3 class="card-header">Edit Profile</h3>
+    <div class="card-block">
+    @b4.form(routes.UserController.editUserSubmit(id)) {
+      <fieldset>
+        @b4.email(userForm("email"), '_label -> "Email", 'placeholder -> "example@mail.com")
+        @b4.text(userForm("displayName"), '_label -> "Display Name", 'placeholder -> "Display name")
+        @b4.password(userForm("password"), '_label -> "Password", 'placeholder -> "Password")
+        @b4.submit('class -> "btn btn-primary") { Sign up }
+      </fieldset>
+    }
+    </div>
+  </div>
 }

@@ -19,20 +19,23 @@
     <meta name="description" content="Trainspotter">
     <title>Trainspotter - @title</title>
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/bootstrap-4.min.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/font-awesome.min.css")">
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
   </head>
   <body>
-    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse bg-faded">
       <div class="container">
-        <a class="navbar-brand" href="@routes.ApplicationController.index">Trainspotter</a>
+        <!-- Nav bar -->
+        <a class="navbar-brand" href="@routes.ApplicationController.index()">Trainspotter</a>
         <div id="navbar" class="collapse navbar-collapse">
+
           <ul class="navbar-nav mr-auto">
             <li class="nav-item @activeLink(routes.TracklistController.index.toString)">
-              <a href="@routes.TracklistController.index" class="nav-link">Tracklists</a>
+              <a href="@routes.TracklistController.index()" class="nav-link">Tracklists</a>
             </li>
             <li class="nav-item dropdown @activeLink(routes.GenreController.index.toString)">
-              <a href="@routes.GenreController.index" class="nav-link dropdown-toggle" data-toggle="dropdown">Genres</a>
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Genres</a>
               <div class="dropdown-menu">
                 <a href="@routes.GenreController.view(1)" class="dropdown-item">House</a>
                 <a href="@routes.GenreController.view(2)" class="dropdown-item">Techno</a>
@@ -41,30 +44,46 @@
                 <a href="@routes.GenreController.view(5)" class="dropdown-item">Progressive</a>
               </div>
             </li>
+            <li class="nav-item @activeLink(routes.ChannelController.index.toString)">
+              <a href="@routes.ChannelController.index" class="nav-link">Channels</a>
+            </li>
             <li class="nav-item @activeLink(routes.ArtistController.index.toString)">
               <a href="@routes.ArtistController.index" class="nav-link">Artists</a>
             </li>
             <li class="nav-item @activeLink(routes.LabelController.index.toString)">
               <a href="@routes.LabelController.index" class="nav-link">Labels</a>
             </li>
-            <li class="nav-item @activeLink(routes.TrackController.index.toString)"
-            ><a href="@routes.TrackController.index" class="nav-link">Tracks</a>
-            </li>
-            <li class="nav-item @activeLink(routes.ChannelController.index.toString)">
-              <a href="@routes.ChannelController.index" class="nav-link">Channels</a>
-            </li>
-            <li class="nav-item @activeLink(routes.UserController.index.toString)">
-              <a href="@routes.UserController.index" class="nav-link">Users</a>
+          </ul>
+
+          <ul class="navbar-nav">
+            <li class="navbar-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Register/Login</a>
+              <div class="dropdown-menu">
+                <a href="@routes.UserController.registerForm()" class="dropdown-item">Register</a>
+                <a href="@routes.UserController.loginForm()" class="dropdown-item">Login</a>
+              </div>
             </li>
           </ul>
+
         </div>
       </div>
     </nav>
 
+    <!-- Search bar -->
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+      <div class="container">
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search">
+          <button class="btn btn-outline-primary my-2 my-sm-0"><i class="fa fa-search"></i></button>
+        </form>
+      </div>
+    </nav>
+
+      <!-- Main content -->
     <div class="container" role="main">@content</div>
 
     <script src="@routes.Assets.versioned("javascripts/jquery-3.2.1.min.js")" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="@routes.Assets.versioned("javascripts/tether.min.js")" type="text/javascript"></script>
     <script src="@routes.Assets.versioned("javascripts/bootstrap-4.min.js")" type="text/javascript"></script>
   </body>
 </html>

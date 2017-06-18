@@ -78,71 +78,77 @@ DELETE  /api/track/:id                  controllers.api.TrackController.delete(i
 ##############
 
 # Home
-GET     /                       controllers.ApplicationController.index
+GET     /                           controllers.ApplicationController.index
 
 # Users
-GET     /user                   controllers.UserController.index
-GET     /user/new               controllers.UserController.add
-POST    /user                   controllers.UserController.submit
-GET     /user/:id               controllers.UserController.view(id:Long)
-PUT     /user/:id               controllers.UserController.edit(id:Long)
-DELETE  /user/:id               controllers.UserController.delete(id:Long)
+GET     /user                       controllers.UserController.index
+GET     /register                   controllers.UserController.registerForm
+POST    /register                   controllers.UserController.registerSubmit
+GET     /user/:id                   controllers.UserController.view(id:Long)
+GET     /user/:id/edit              controllers.UserController.editForm(id:Long)
+POST    /user/:id/editUser          controllers.UserController.editUserSubmit(id:Long)
+POST    /user/:id/editPassword      controllers.UserController.editPasswordSubmit(id:Long)
+POST    /user/:id                   controllers.UserController.delete(id:Long)
+GET     /login                      controllers.UserController.loginForm
+POST    /login                      controllers.UserController.loginSubmit
+POST    /logout                     controllers.UserController.logout
 
 # Artists
-GET     /artist                 controllers.ArtistController.index
-GET     /artist/new             controllers.ArtistController.add
-POST    /artist                 controllers.ArtistController.add
-GET     /artist/:id             controllers.ArtistController.view(id:Long)
-PUT     /artist/:id             controllers.ArtistController.edit(id:Long)
-DELETE  /artist/:id             controllers.ArtistController.delete(id:Long)
+GET     /artist                     controllers.ArtistController.index
+GET     /artist/new                 controllers.ArtistController.add
+POST    /artist/new                 controllers.ArtistController.add
+GET     /artist/:id                 controllers.ArtistController.view(id:Long)
+GET     /artist/:id/edit            controllers.ArtistController.edit(id:Long)
+POST    /artist/:id/edit            controllers.ArtistController.edit(id:Long)
+POST    /artist/:id                 controllers.ArtistController.delete(id:Long)
 
 # Channels
-GET     /channel                controllers.ChannelController.index
-GET     /channel/new            controllers.ChannelController.add
-POST    /channel                controllers.ChannelController.add
-GET     /channel/:id            controllers.ChannelController.view(id:Long)
-PUT     /channel/:id            controllers.ChannelController.edit(id:Long)
-DELETE  /channel/:id            controllers.ChannelController.delete(id:Long)
+GET     /channel                    controllers.ChannelController.index
+GET     /channel/new                controllers.ChannelController.add
+POST    /channel                    controllers.ChannelController.add
+GET     /channel/:id                controllers.ChannelController.view(id:Long)
+PUT     /channel/:id                controllers.ChannelController.edit(id:Long)
+DELETE  /channel/:id                controllers.ChannelController.delete(id:Long)
 
 # Programs
-GET     /channel/:cId/program        controllers.ProgramController.index(cId:Long)
-GET     /channel/:cId/program/new    controllers.ProgramController.add(cId:Long)
-POST    /channel/:cId/program        controllers.ProgramController.add(cId:Long)
-GET     /channel/:cId/program/:id    controllers.ProgramController.view(id:Long, cId:Long)
-PUT     /channel/:cId/program/:id    controllers.ProgramController.edit(id:Long, cId:Long)
-DELETE  /channel/:cId/program/:id    controllers.ProgramController.delete(id:Long, cId:Long)
+GET     /channel/:cId/program       controllers.ProgramController.index(cId:Long)
+GET     /channel/:cId/program/new   controllers.ProgramController.add(cId:Long)
+POST    /channel/:cId/program       controllers.ProgramController.add(cId:Long)
+GET     /channel/:cId/program/:id   controllers.ProgramController.view(id:Long, cId:Long)
+PUT     /channel/:cId/program/:id   controllers.ProgramController.edit(id:Long, cId:Long)
+DELETE  /channel/:cId/program/:id   controllers.ProgramController.delete(id:Long, cId:Long)
 
 
 # Genres
-GET     /genre                  controllers.GenreController.index
-GET     /genre/new              controllers.GenreController.add
-POST    /genre                  controllers.GenreController.add
-GET     /genre/:id              controllers.GenreController.view(id:Long)
-PUT     /genre/:id              controllers.GenreController.edit(id:Long)
-DELETE  /genre/:id              controllers.GenreController.delete(id:Long)
+GET     /genre                      controllers.GenreController.index
+GET     /genre/new                  controllers.GenreController.add
+POST    /genre                      controllers.GenreController.add
+GET     /genre/:id                  controllers.GenreController.view(id:Long)
+PUT     /genre/:id                  controllers.GenreController.edit(id:Long)
+DELETE  /genre/:id                  controllers.GenreController.delete(id:Long)
 
 # Labels
-GET     /label                  controllers.LabelController.index
-GET     /label/new              controllers.LabelController.add
-POST    /label                  controllers.LabelController.add
-GET     /label/:id              controllers.LabelController.view(id:Long)
-PUT     /label/:id              controllers.LabelController.edit(id:Long)
-DELETE  /label/:id              controllers.LabelController.delete(id:Long)
+GET     /label                      controllers.LabelController.index
+GET     /label/new                  controllers.LabelController.add
+POST    /label                      controllers.LabelController.add
+GET     /label/:id                  controllers.LabelController.view(id:Long)
+PUT     /label/:id                  controllers.LabelController.edit(id:Long)
+DELETE  /label/:id                  controllers.LabelController.delete(id:Long)
 
 # Tracks
-GET     /track                  controllers.TrackController.index
-POST    /track                  controllers.TrackController.add
-GET     /track/:id              controllers.TrackController.view(id:Long)
-PUT     /track/:id              controllers.TrackController.edit(id:Long)
-DELETE  /track/:id              controllers.TrackController.delete(id:Long)
+GET     /track                      controllers.TrackController.index
+POST    /track                      controllers.TrackController.add
+GET     /track/:id                  controllers.TrackController.view(id:Long)
+PUT     /track/:id                  controllers.TrackController.edit(id:Long)
+DELETE  /track/:id                  controllers.TrackController.delete(id:Long)
 
 # Tracklists
-GET     /tracklist              controllers.TracklistController.index
-POST    /tracklist              controllers.TracklistController.add
-GET     /tracklist/:id          controllers.TracklistController.view(id:Long)
-PUT     /tracklist/:id          controllers.TracklistController.edit(id:Long)
-DELETE  /tracklist/:id          controllers.TracklistController.delete(id:Long)
+GET     /tracklist                  controllers.TracklistController.index
+POST    /tracklist                  controllers.TracklistController.add
+GET     /tracklist/:id              controllers.TracklistController.view(id:Long)
+PUT     /tracklist/:id              controllers.TracklistController.edit(id:Long)
+DELETE  /tracklist/:id              controllers.TracklistController.delete(id:Long)
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
