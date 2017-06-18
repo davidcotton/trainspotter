@@ -1,7 +1,12 @@
 @(programs: java.util.List[Program], channel: Channel)
 
-@main("Programs") {
-  <h1>Programs</h1>
+@main("@channel.getName Programs") {
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.ProgramController.index(channel.getId)">@channel.getName Programs</a></li>
+  </ol>
+
+  <h1>@channel.getName Programs</h1>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -15,11 +20,9 @@
       <tr>
         <td><a href="@routes.ProgramController.view(program.getId, channel.getId)">@program.getName</a></td>
         <td>
-          <ul>
-            @for(host <- program.getHosts) {
-              <li><a href="@routes.ArtistController.view(host.getId)">@host.getName</a></li>
-            }
-          </ul>
+        @for(host <- program.getHosts) {
+          <a href="@routes.ArtistController.view(host.getId)">@host.getName</a>,
+        }
         </td>
         <td class="text-right">
           <a href="@routes.ProgramController.edit(program.getId, channel.getId)" class="btn btn-xs btn-warning">

@@ -8,7 +8,7 @@
   </ol>
 
   <h1>@program.getName</h1>
-  <p><img src="@program.getImage" alt="@program.getName">@program.getDescription</p>
+  <p><img src="@routes.Assets.versioned(program.getImageLink)" alt="@program.getName">@program.getDescription</p>
 
   <table class="table table-striped">
     <tbody>
@@ -19,13 +19,9 @@
       <tr>
         <td>Hosts</td>
         <td>
-          <ul>
-          @for(host <- program.getHosts) {
-            <li>
-              <a href="@routes.ArtistController.view(host.getId)">@host.getName</a>
-            </li>
-          }
-          </ul>
+        @for(host <- program.getHosts) {
+          <a href="@routes.ArtistController.view(host.getId)">@host.getName</a>,
+        }
         </td>
       </tr>
       <tr>

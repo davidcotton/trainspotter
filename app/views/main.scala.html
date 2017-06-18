@@ -31,8 +31,15 @@
             <li class="nav-item @activeLink(routes.TracklistController.index.toString)">
               <a href="@routes.TracklistController.index" class="nav-link">Tracklists</a>
             </li>
-            <li class="nav-item @activeLink(routes.GenreController.index.toString)">
-              <a href="@routes.GenreController.index" class="nav-link">Genres</a>
+            <li class="nav-item dropdown @activeLink(routes.GenreController.index.toString)">
+              <a href="@routes.GenreController.index" class="nav-link dropdown-toggle" data-toggle="dropdown">Genres</a>
+              <div class="dropdown-menu">
+                <a href="@routes.GenreController.view(1)" class="dropdown-item">House</a>
+                <a href="@routes.GenreController.view(2)" class="dropdown-item">Techno</a>
+                <a href="@routes.GenreController.view(3)" class="dropdown-item">Deep House</a>
+                <a href="@routes.GenreController.view(4)" class="dropdown-item">Tech House</a>
+                <a href="@routes.GenreController.view(5)" class="dropdown-item">Progressive</a>
+              </div>
             </li>
             <li class="nav-item @activeLink(routes.ArtistController.index.toString)">
               <a href="@routes.ArtistController.index" class="nav-link">Artists</a>

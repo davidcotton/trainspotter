@@ -1,6 +1,12 @@
 @(label: Label)
 
 @main(label.getName) {
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item"><a href="@routes.LabelController.index">Labels</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.LabelController.view(label.getId)">@label.getName</a></li>
+  </ol>
+
   <h1>@label.getName</h1>
   <table class="table table-striped">
     <tbody>

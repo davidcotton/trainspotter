@@ -1,6 +1,11 @@
 @(labels: java.util.List[models.Label])
 
 @main("Labels") {
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.LabelController.index">Labels</a></li>
+  </ol>
+
   <h1>Labels</h1>
   <table class="table table-striped">
     <thead>

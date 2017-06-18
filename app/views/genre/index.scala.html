@@ -1,6 +1,11 @@
 @(genres: java.util.List[Genre])
 
 @main("Genres") {
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.GenreController.index">Genres</a></li>
+  </ol>
+
   <h1>Genres</h1>
   <table class="table table-striped">
     <thead>

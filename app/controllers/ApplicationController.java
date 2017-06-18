@@ -1,7 +1,6 @@
 package controllers;
 
 import javax.inject.Inject;
-
 import play.mvc.Controller;
 import play.mvc.Result;
 import repositories.TracklistRepository;
@@ -21,5 +20,4 @@ public class ApplicationController extends Controller {
   public Result index() {
     return ok(index.render(tracklistRepository.findAll()));
   }
-
 }

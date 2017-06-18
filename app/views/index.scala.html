@@ -1,7 +1,3 @@
-@*
-* This template takes a single argument, a String containing a
-* message to display.
-*@
 @(tracklists: java.util.List[models.Tracklist])
 
 @renderArtist(artist: models.Artist) = {
@@ -9,9 +5,9 @@
 }
 
 @main("Trainspotter") {
-  <div class="row">
-    <div class="col-sm-8">
-      <div class="jumbotron">
+  <div class="row mt-2">
+    <div class="col-sm-6">
+      <div class="jumbotron mt-5">
         <form class="form-inline">
           <div class="form-group">
             <input type="text" class="form-control">
@@ -22,24 +18,20 @@
       </div>
     </div>
 
-    <div class="col-sm-4">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th><h3>Top Tracklists</h3></th>
-          </tr>
-        </thead>
-        <tbody>
-        @for(tracklist <- tracklists) {
-          <tr>
-            <td>
-              <a href="@routes.TracklistController.view(tracklist.getId)">@tracklist.getName</a><br>
-              @{tracklist.getArtists.map(renderArtist)}
-            </td>
-          </tr>
-        }
-        </tbody>
-      </table>
+    <div class="col-sm-6">
+      <h1>Top Tracklists</h1>
+      <div class="list-group">
+      @for(tracklist <- tracklists) {
+        <a href="@routes.TracklistController.view(tracklist.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">@tracklist.getArtists.map(_.getName).mkString(", ")</h5>
+            <small>@tracklist.getPerformedDaysAgo days ago</small>
+          </div>
+          <p class="mb-1">@tracklist.getName</p>
+          <small>@tracklist.getUser.getDisplayName</small>
+        </a>
+      }
+      </div>
     </div>
   </div>
 }
