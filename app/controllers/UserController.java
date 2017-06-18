@@ -55,8 +55,9 @@ public class UserController extends Controller {
    * @return A user page if found.
    */
   public Result view(long id) {
-    Optional<User> maybeUser = userRepository.findById(id);
-    return ok(view.render(maybeUser.get()));
+    return userRepository.findActiveById(id)
+        .map(user -> ok(view.render(user)))
+        .orElse(notFound(notFound.render()));
   }
 
   /**
@@ -83,15 +84,19 @@ public class UserController extends Controller {
     return Results.redirect(routes.ApplicationController.index());
   }
 
+  /**
+   * Display an edit user page.
+   *
+   * @param id The user's ID.
+   * @return An edit user page if user is found else not found page.
+   */
   public Result editForm(long id) {
-    Optional<User> maybeUser = userRepository.findById(id);
-    if (maybeUser.isPresent()) {
-      UpdateUser updateUser = new UpdateUser(maybeUser.get());
-      Form<UpdateUser> userForm = formFactory.form(UpdateUser.class).fill(updateUser);
-      return ok(edit.render(id, userForm));
-    } else {
-      return notFound(notFound.render());
-    }
+    return userRepository.findById(id)
+        .map(user -> ok(edit.render(
+            id,
+            formFactory.form(UpdateUser.class).fill(new UpdateUser(user)))
+        ))
+        .orElse(notFound(notFound.render()));
   }
 
   public Result editUserSubmit(long id) {

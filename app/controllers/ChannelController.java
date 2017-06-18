@@ -8,12 +8,16 @@ import models.Channel;
 import play.mvc.Controller;
 import play.mvc.Result;
 import repositories.ChannelRepository;
+import views.html.channel.add;
+import views.html.channel.edit;
 import views.html.channel.index;
 import views.html.channel.view;
+import views.html.notFound;
 
 public class ChannelController extends Controller {
 
   private final ChannelRepository channelRepository;
+
 
   @Inject
   public ChannelController(ChannelRepository channelRepository) {
@@ -32,19 +36,29 @@ public class ChannelController extends Controller {
   /**
    * View a single channel.
    *
-   * @param id The channel's ID.
-   * @return An channel page if found.
+   * @param id The ID of the channel.
+   * @return A channel page if found.
    */
   public Result view(long id) {
-    Optional<Channel> maybeChannel = channelRepository.findById(id);
-    return ok(view.render(maybeChannel.get()));
+    return channelRepository.findById(id)
+        .map(channel -> ok(view.render(channel)))
+        .orElse(notFound(notFound.render()));
   }
 
-  public Result add() {
+  public Result addForm() {
+    return TODO;
+//    return ok(add.render(formF));
+  }
+
+  public Result addSubmit() {
     return TODO;
   }
 
-  public Result edit(long id) {
+  public Result editForm(long id) {
+    return TODO;
+  }
+
+  public Result editSubmit(long id) {
     return TODO;
   }
 

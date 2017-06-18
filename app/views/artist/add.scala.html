@@ -1,10 +1,20 @@
-@(userForm: play.data.Form[User])
+@(artistForm: play.data.Form[Artist])
 
-@import helper._
+@implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
-@main("Create User") {
-  <h1>Create User</h1>
-  @* @form(add
-
-  }*@
+@main("Create Artist") {
+  <div class="card mt-5">
+    <h3 class="card-header">Create Artist</h3>
+    <div class="card-block">
+    @b4.form(routes.UserController.registerSubmit()) {
+      <fieldset>
+        @b4.text(artistForm("name"), '_label -> "Name", 'placeholder -> "Name")
+        @b4.text(artistForm("image"), '_label -> "Image", 'placeholder -> "Image")
+        @b4.text(artistForm("description"), '_label -> "Description", 'placeholder -> "Description")
+        @b4.submit('class -> "btn btn-primary") { Create }
+      </fieldset>
+    }
+    </div>
+  </div>
 }
+
