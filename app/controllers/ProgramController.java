@@ -10,6 +10,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import repositories.ChannelRepository;
 import repositories.ProgramRepository;
+import views.html.notFound;
 import views.html.program.add;
 import views.html.program.edit;
 import views.html.program.index;
@@ -37,21 +38,27 @@ public class ProgramController extends Controller {
    * @return A page with all programs.
    */
   public Result index(long channelId) {
-    Channel channel = channelRepository.findById(channelId).orElseThrow(RuntimeException::new);
-    return ok(index.render(programRepository.findAll(), channel));
+    return channelRepository
+        .findById(channelId)
+        .map(channel -> ok(index.render(programRepository.findAll(), channel)))
+        .orElse(notFound(notFound.render()));
   }
 
   /**
    * View a single program.
    *
-   * @param id        The program's ID.
+   * @param programId The program ID.
    * @param channelId The channel ID.
    * @return A program page if found.
    */
-  public Result view(long id, long channelId) {
-    Channel channel = channelRepository.findById(channelId).orElseThrow(RuntimeException::new);
-    Optional<Program> maybeProgram = programRepository.findById(id);
-    return ok(view.render(maybeProgram.get(), channel));
+  public Result view(long programId, long channelId) {
+    return channelRepository
+        .findById(channelId)
+        .flatMap(channel -> programRepository
+            .findById(programId)
+            .map(program -> ok(view.render(program, channel)))
+        )
+        .orElse(notFound(notFound.render()));
   }
 
   public Result add(long channelId) {

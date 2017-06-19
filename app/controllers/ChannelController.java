@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.Optional;
 import javax.inject.Inject;
 import models.Channel;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import repositories.ChannelRepository;
@@ -17,11 +18,12 @@ import views.html.notFound;
 public class ChannelController extends Controller {
 
   private final ChannelRepository channelRepository;
-
+  private final FormFactory formFactory;
 
   @Inject
-  public ChannelController(ChannelRepository channelRepository) {
+  public ChannelController(ChannelRepository channelRepository, FormFactory formFactory) {
     this.channelRepository = requireNonNull(channelRepository);
+    this.formFactory = requireNonNull(formFactory);
   }
 
   /**

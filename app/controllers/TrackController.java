@@ -9,6 +9,7 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import repositories.TrackRepository;
+import views.html.notFound;
 import views.html.track.add;
 import views.html.track.edit;
 import views.html.track.index;
@@ -41,8 +42,9 @@ public class TrackController extends Controller {
    * @return A track page if found.
    */
   public Result view(long id) {
-    Optional<Track> maybeTrack = trackRepository.findById(id);
-    return ok(view.render(maybeTrack.get()));
+    return trackRepository.findById(id)
+        .map(track -> ok(view.render(track)))
+        .orElse(notFound(notFound.render()));
   }
 
   public Result add() {

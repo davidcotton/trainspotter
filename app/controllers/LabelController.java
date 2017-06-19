@@ -13,6 +13,7 @@ import views.html.label.add;
 import views.html.label.edit;
 import views.html.label.index;
 import views.html.label.view;
+import views.html.notFound;
 
 public class LabelController extends Controller {
 
@@ -41,8 +42,9 @@ public class LabelController extends Controller {
    * @return A label page if found.
    */
   public Result view(long id) {
-    Optional<Label> maybeLabel = labelRepository.findById(id);
-    return ok(view.render(maybeLabel.get()));
+    return labelRepository.findById(id)
+        .map(label -> ok(view.render(label)))
+        .orElse(notFound(notFound.render()));
   }
 
   /**

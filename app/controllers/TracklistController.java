@@ -9,6 +9,7 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import repositories.TracklistRepository;
+import views.html.notFound;
 import views.html.tracklist.add;
 import views.html.tracklist.edit;
 import views.html.tracklist.index;
@@ -41,8 +42,9 @@ public class TracklistController extends Controller {
    * @return A tracklist page if found.
    */
   public Result view(long id) {
-    Optional<Tracklist> maybeTracklist = tracklistRepository.findById(id);
-    return ok(view.render(maybeTracklist.get()));
+    return tracklistRepository.findById(id)
+        .map(tracklist -> ok(view.render(tracklist)))
+        .orElse(notFound(notFound.render()));
   }
 
   public Result add() {

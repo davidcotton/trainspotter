@@ -13,6 +13,7 @@ import views.html.genre.add;
 import views.html.genre.edit;
 import views.html.genre.index;
 import views.html.genre.view;
+import views.html.notFound;
 
 public class GenreController extends Controller {
 
@@ -41,8 +42,9 @@ public class GenreController extends Controller {
    * @return A genre page if found.
    */
   public Result view(long id) {
-    Optional<Genre> maybeGenre = genreRepository.findById(id);
-    return ok(view.render(maybeGenre.get()));
+    return genreRepository.findById(id)
+        .map(genre -> ok(view.render(genre)))
+        .orElse(notFound(notFound.render()));
   }
 
   public Result add() {

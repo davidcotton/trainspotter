@@ -6,7 +6,7 @@
   <div class="card mt-5">
     <h3 class="card-header">Create Artist</h3>
     <div class="card-block">
-    @b4.form(routes.UserController.registerSubmit()) {
+    @b4.form(routes.ArtistController.addSubmit()) {
       <fieldset>
         @b4.text(artistForm("name"), '_label -> "Name", 'placeholder -> "Name")
         @b4.text(artistForm("image"), '_label -> "Image", 'placeholder -> "Image")
@@ -17,4 +17,3 @@
     </div>
   </div>
 }
-
