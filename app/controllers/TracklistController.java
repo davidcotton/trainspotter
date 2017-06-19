@@ -49,7 +49,7 @@ public class TracklistController extends Controller {
   }
 
   public Result addForm() {
-    return TODO;
+    return ok(add.render(formFactory.form(Tracklist.class)));
   }
 
   public Result addSubmit() {

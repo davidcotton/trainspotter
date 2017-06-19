@@ -49,7 +49,7 @@ public class ChannelController extends Controller {
   }
 
   public Result addForm() {
-    return TODO;
+    return ok(add.render(formFactory.form(Channel.class)));
   }
 
   public Result addSubmit() {

@@ -6,7 +6,7 @@
   <div class="card mt-5">
     <h3 class="card-header">Create Channel</h3>
     <div class="card-block">
-    @b4.form(routes.ArtistController.addSubmit()) {
+    @b4.form(routes.ChannelController.addSubmit()) {
       <fieldset>
         @b4.text(channelForm("name"), '_label -> "Name", 'placeholder -> "Name")
         @b4.text(channelForm("image"), '_label -> "Image", 'placeholder -> "Image")

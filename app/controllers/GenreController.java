@@ -49,7 +49,7 @@ public class GenreController extends Controller {
   }
 
   public Result addForm() {
-    return TODO;
+    return ok(add.render(formFactory.form(Genre.class)));
   }
 
   public Result addSubmit() {

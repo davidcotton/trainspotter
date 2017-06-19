@@ -49,7 +49,7 @@ public class LabelController extends Controller {
   }
 
   public Result addForm() {
-    return TODO;
+    return ok(add.render(formFactory.form(Label.class)));
   }
 
   public Result addSubmit() {
