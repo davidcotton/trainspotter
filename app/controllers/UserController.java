@@ -170,6 +170,8 @@ public class UserController extends Controller {
     if (result) {
       session().clear();
       session("email", user.getEmail());
+      session("user_id", String.valueOf(user.getId()));
+      session("user_name", user.getDisplayName());
       return Results.redirect(routes.ApplicationController.index());
     } else {
       return badRequest(login.render(loginForm));

@@ -45,26 +45,48 @@
               </div>
             </li>
             <li class="nav-item @activeLink(routes.ChannelController.index.toString)">
-              <a href="@routes.ChannelController.index" class="nav-link">Channels</a>
+              <a href="@routes.ChannelController.index()" class="nav-link">Channels</a>
             </li>
             <li class="nav-item @activeLink(routes.ArtistController.index.toString)">
-              <a href="@routes.ArtistController.index" class="nav-link">Artists</a>
+              <a href="@routes.ArtistController.index()" class="nav-link">Artists</a>
             </li>
             <li class="nav-item @activeLink(routes.LabelController.index.toString)">
-              <a href="@routes.LabelController.index" class="nav-link">Labels</a>
+              <a href="@routes.LabelController.index()" class="nav-link">Labels</a>
             </li>
           </ul>
 
           <ul class="navbar-nav">
             <li class="navbar-item dropdown">
+            @if(session.get("email") == null) {
               <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Register/Login</a>
               <div class="dropdown-menu">
-                <a href="@routes.UserController.registerForm()" class="dropdown-item">Register</a>
-                <a href="@routes.UserController.loginForm()" class="dropdown-item">Login</a>
+                <a href="@routes.UserController.registerForm()" class="dropdown-item">
+                  <i class="fa fa-user-plus" title="Profile" aria-hidden="true"></i>
+                  Register
+                </a>
+                <a href="@routes.UserController.loginForm()" class="dropdown-item">
+                  <i class="fa fa-sign-in" title="Profile" aria-hidden="true"></i>
+                  Login
+                </a>
               </div>
+            } else {
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-user" title="@session.get("user_name")" aria-hidden="true"></i>
+                @session.get("user_name")
+              </a>
+              <div class="dropdown-menu">
+                <a href="@routes.UserController.editForm(session.get("user_id").toLong)" class="dropdown-item">
+                  <i class="fa fa-dashboard" title="Profile" aria-hidden="true"></i> Profile
+                </a>
+                <form action="@routes.UserController.logout()" method="post">
+                  <button type="submit" class="dropdown-item">
+                    <i class="fa fa-sign-out" title="Profile" aria-hidden="true"></i> Logout
+                  </button>
+                </form>
+              </div>
+            }
             </li>
           </ul>
-
         </div>
       </div>
     </nav>
