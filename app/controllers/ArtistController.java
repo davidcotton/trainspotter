@@ -30,8 +30,8 @@ public class ArtistController extends Controller {
    *
    * @return A page with all artists.
    */
-  public Result index() {
-    return ok(index.render(artistRepository.findAll()));
+  public Result index(int page) {
+    return ok(index.render(artistRepository.findAllPaged(--page)));
   }
 
   /**

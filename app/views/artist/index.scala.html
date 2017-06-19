@@ -1,25 +1,59 @@
-@(artists: java.util.List[Artist])
+@(artists: com.avaje.ebean.PagedList[Artist])
 
 @main("List Artists") {
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
-    <li class="breadcrumb-item active"><a href="@routes.ArtistController.index">Artists</a></li>
+    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index()">Home</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.ArtistController.index(1)">Artists</a></li>
   </ol>
 
   <h1>Artists</h1>
 
   <div class="row">
-  @for(artist <- artists) {
-    <div class="col-sm-6 col-md-4">
-      @if(artist.getImage != null) {
-        <img class="d-flex mr-3" src="@routes.Assets.versioned(artist.getImageLink)" alt="@artist.getName">
-      }
-      <div class="caption">
-        <h3>@artist.getName</h3>
-        <p>@artist.getDescription</p>
-        <p><a href="@routes.ArtistController.view(artist.getId)" class="btn btn-primary" role="button">Explore</a></p>
+  @if(artists.getTotalRowCount == 0) {
+    <p>No artists found</p>
+  } else {
+    @for(artist <- artists.getList) {
+      <div class="col-sm-6 col-md-4">
+        @if(artist.getImage != null) {
+          <img class="d-flex mr-3" src="@routes.Assets.versioned(artist.getImageLink)" alt="@artist.getName">
+        }
+        <div class="caption">
+          <h3>@artist.getName</h3>
+          <p>@artist.getDescription</p>
+          <p><a href="@routes.ArtistController.view(artist.getId)" class="btn btn-primary" role="button">Explore</a></p>
+        </div>
       </div>
-    </div>
+    }
   }
   </div>
+
+  <nav class="mt-2" aria-label="Pagination">
+    <ul class="pagination justify-content-center">
+      @if(artists.hasPrev) {
+        <li class="page-item">
+          <a class="page-link" href="@routes.ArtistController.index(artists.getPageIndex)" tabindex="-1">Previous</a>
+        </li>
+      } else {
+        <li class="page-item disabled">
+          <a class="page-link" tabindex="-1">Previous</a>
+        </li>
+      }
+
+      @for(i <- 1 until (artists.getTotalPageCount + 1)) {
+        <li class="page-item @if((i - 1) == artists.getPageIndex) {active}">
+          <a class="page-link" href="@routes.ArtistController.index(i)">@(i)</a>
+        </li>
+      }
+
+      @if(artists.hasNext) {
+        <li class="page-item">
+          <a class="page-link" href="@routes.ArtistController.index(artists.getPageIndex + 2)">Next</a>
+        </li>
+      } else {
+        <li class="page-item disabled">
+          <a class="page-link">Next</a>
+        </li>
+      }
+    </ul>
+  </nav>
 }

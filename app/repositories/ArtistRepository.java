@@ -1,6 +1,8 @@
 package repositories;
 
 import com.avaje.ebean.Model.Finder;
+import com.avaje.ebean.PagedList;
+
 import java.util.List;
 import java.util.Optional;
 import models.Artist;
@@ -10,9 +12,17 @@ public class ArtistRepository implements Repository<Artist> {
   /** Ebean helper */
   private static Finder<Long, Artist> find = new Finder<>(Artist.class);
 
+  private static final int PAGE_SIZE = 9;
+
   @Override
   public List<Artist> findAll() {
-    return find.orderBy().asc("name").findList();
+    return find.orderBy("name").findList();
+  }
+
+  public PagedList<Artist> findAllPaged(int page) {
+    return find
+        .orderBy("name")
+        .findPagedList(page, PAGE_SIZE);
   }
 
   @Override
