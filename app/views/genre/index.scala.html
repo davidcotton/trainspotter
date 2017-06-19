@@ -19,7 +19,7 @@
       <tr>
         <td><a href="@routes.GenreController.view(genre.getId)">@genre.getName</a></td>
         <td class="text-right">
-          <a href="@routes.GenreController.edit(genre.getId)" class="btn btn-xs btn-warning">
+          <a href="@routes.GenreController.editForm(genre.getId)" class="btn btn-xs btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
           <a href="@routes.GenreController.delete(genre.getId)" class="btn btn-xs btn-danger">
@@ -32,7 +32,7 @@
     <tfoot>
       <tr>
         <td colspan="2">
-          <a href="@routes.GenreController.add" class="btn btn-sm btn-primary">
+          <a href="@routes.GenreController.addForm()" class="btn btn-sm btn-primary">
             New Genre <i class="fa fa-plus" title="New Genre" aria-hidden="true"></i>
           </a>
         </td>

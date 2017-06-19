@@ -81,74 +81,80 @@ DELETE  /api/track/:id                  controllers.api.TrackController.delete(i
 GET     /                           controllers.ApplicationController.index
 
 # Users
-GET     /user                       controllers.UserController.index
-GET     /register                   controllers.UserController.registerForm
-POST    /register                   controllers.UserController.registerSubmit
+GET     /user                       controllers.UserController.index()
+GET     /register                   controllers.UserController.registerForm()
+POST    /register                   controllers.UserController.registerSubmit()
 GET     /user/:id                   controllers.UserController.view(id:Long)
 GET     /user/:id/edit              controllers.UserController.editForm(id:Long)
 POST    /user/:id/editUser          controllers.UserController.editUserSubmit(id:Long)
 POST    /user/:id/editPassword      controllers.UserController.editPasswordSubmit(id:Long)
-POST    /user/:id                   controllers.UserController.delete(id:Long)
-GET     /login                      controllers.UserController.loginForm
-POST    /login                      controllers.UserController.loginSubmit
-POST    /logout                     controllers.UserController.logout
+POST    /user/:id/delete            controllers.UserController.delete(id:Long)
+GET     /login                      controllers.UserController.loginForm()
+POST    /login                      controllers.UserController.loginSubmit()
+POST    /logout                     controllers.UserController.logout()
 
 # Artists
-GET     /artist                     controllers.ArtistController.index
-GET     /artist/new                 controllers.ArtistController.addForm
-POST    /artist/new                 controllers.ArtistController.addSubmit
+GET     /artist                     controllers.ArtistController.index()
+GET     /artist/new                 controllers.ArtistController.addForm()
+POST    /artist/new                 controllers.ArtistController.addSubmit()
 GET     /artist/:id                 controllers.ArtistController.view(id:Long)
 GET     /artist/:id/edit            controllers.ArtistController.editForm(id:Long)
 POST    /artist/:id/edit            controllers.ArtistController.editSubmit(id:Long)
-POST    /artist/:id                 controllers.ArtistController.delete(id:Long)
+POST    /artist/:id/delete          controllers.ArtistController.delete(id:Long)
 
 # Channels
-GET     /channel                    controllers.ChannelController.index
-GET     /channel/new                controllers.ChannelController.addForm
-POST    /channel/new                controllers.ChannelController.addSubmit
+GET     /channel                    controllers.ChannelController.index()
+GET     /channel/new                controllers.ChannelController.addForm()
+POST    /channel/new                controllers.ChannelController.addSubmit()
 GET     /channel/:id                controllers.ChannelController.view(id:Long)
 GET     /channel/:id/edit           controllers.ChannelController.editForm(id:Long)
 POST    /channel/:id/edit           controllers.ChannelController.editSubmit(id:Long)
-DELETE  /channel/:id                controllers.ChannelController.delete(id:Long)
+POST    /channel/:id/delete         controllers.ChannelController.delete(id:Long)
 
 # Programs
-GET     /channel/:cId/program       controllers.ProgramController.index(cId:Long)
-GET     /channel/:cId/program/new   controllers.ProgramController.add(cId:Long)
-POST    /channel/:cId/program       controllers.ProgramController.add(cId:Long)
-GET     /channel/:cId/program/:id   controllers.ProgramController.view(id:Long, cId:Long)
-PUT     /channel/:cId/program/:id   controllers.ProgramController.edit(id:Long, cId:Long)
-DELETE  /channel/:cId/program/:id   controllers.ProgramController.delete(id:Long, cId:Long)
-
+GET     /channel/:id/program        controllers.ProgramController.index(id:Long)
+GET     /channel/:id/program/new    controllers.ProgramController.addForm(id:Long)
+POST    /channel/:id/program        controllers.ProgramController.addSubmit(id:Long)
+GET     /program/:id                controllers.ProgramController.view(id:Long)
+GET     /program/:id/edit           controllers.ProgramController.editForm(id:Long)
+POST    /program/:id/edit           controllers.ProgramController.editSubmit(id:Long)
+POST    /program/:id/delete         controllers.ProgramController.delete(id:Long)
 
 # Genres
-GET     /genre                      controllers.GenreController.index
-GET     /genre/new                  controllers.GenreController.add
-POST    /genre                      controllers.GenreController.add
+GET     /genre                      controllers.GenreController.index()
+GET     /genre/new                  controllers.GenreController.addForm()
+POST    /genre/new                  controllers.GenreController.addSubmit()
 GET     /genre/:id                  controllers.GenreController.view(id:Long)
-PUT     /genre/:id                  controllers.GenreController.edit(id:Long)
-DELETE  /genre/:id                  controllers.GenreController.delete(id:Long)
+GET     /genre/:id/edit             controllers.GenreController.editForm(id:Long)
+POST    /genre/:id/edit             controllers.GenreController.editSubmit(id:Long)
+POST    /genre/:id/delete           controllers.GenreController.delete(id:Long)
 
 # Labels
-GET     /label                      controllers.LabelController.index
-GET     /label/new                  controllers.LabelController.add
-POST    /label                      controllers.LabelController.add
+GET     /label                      controllers.LabelController.index()
+GET     /label/new                  controllers.LabelController.addForm()
+POST    /label/new                  controllers.LabelController.addSubmit()
 GET     /label/:id                  controllers.LabelController.view(id:Long)
-PUT     /label/:id                  controllers.LabelController.edit(id:Long)
-DELETE  /label/:id                  controllers.LabelController.delete(id:Long)
+GET     /label/:id/edit             controllers.LabelController.editForm(id:Long)
+POST    /label/:id/edit             controllers.LabelController.editSubmit(id:Long)
+POST    /label/:id/delete           controllers.LabelController.delete(id:Long)
 
 # Tracks
-GET     /track                      controllers.TrackController.index
-POST    /track                      controllers.TrackController.add
+GET     /track                      controllers.TrackController.index()
+GET     /track/new                  controllers.TrackController.addForm()
+POST    /track/new                  controllers.TrackController.addSubmit()
 GET     /track/:id                  controllers.TrackController.view(id:Long)
-PUT     /track/:id                  controllers.TrackController.edit(id:Long)
-DELETE  /track/:id                  controllers.TrackController.delete(id:Long)
+GET     /track/:id/edit             controllers.TrackController.editForm(id:Long)
+POST    /track/:id/edit             controllers.TrackController.editSubmit(id:Long)
+POST    /track/:id/delete           controllers.TrackController.delete(id:Long)
 
 # Tracklists
-GET     /tracklist                  controllers.TracklistController.index
-POST    /tracklist                  controllers.TracklistController.add
+GET     /tracklist                  controllers.TracklistController.index()
+GET     /tracklist/new              controllers.TracklistController.addForm()
+POST    /tracklist/new              controllers.TracklistController.addSubmit()
 GET     /tracklist/:id              controllers.TracklistController.view(id:Long)
-PUT     /tracklist/:id              controllers.TracklistController.edit(id:Long)
-DELETE  /tracklist/:id              controllers.TracklistController.delete(id:Long)
+GET     /tracklist/:id/edit         controllers.TracklistController.editForm(id:Long)
+POST    /tracklist/:id/edit         controllers.TracklistController.editSubmit(id:Long)
+POST    /tracklist/:id/delete       controllers.TracklistController.delete(id:Long)
 
 
 # Map static resources from the /public folder to the /assets URL path

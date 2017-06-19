@@ -42,16 +42,25 @@ public class TrackController extends Controller {
    * @return A track page if found.
    */
   public Result view(long id) {
-    return trackRepository.findById(id)
+    return trackRepository
+        .findById(id)
         .map(track -> ok(view.render(track)))
         .orElse(notFound(notFound.render()));
   }
 
-  public Result add() {
+  public Result addForm() {
     return TODO;
   }
 
-  public Result edit(long id) {
+  public Result addSubmit() {
+    return TODO;
+  }
+
+  public Result editForm(long id) {
+    return TODO;
+  }
+
+  public Result editSubmit(long id) {
     return TODO;
   }
 

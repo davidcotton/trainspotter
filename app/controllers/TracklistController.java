@@ -42,16 +42,25 @@ public class TracklistController extends Controller {
    * @return A tracklist page if found.
    */
   public Result view(long id) {
-    return tracklistRepository.findById(id)
+    return tracklistRepository
+        .findById(id)
         .map(tracklist -> ok(view.render(tracklist)))
         .orElse(notFound(notFound.render()));
   }
 
-  public Result add() {
+  public Result addForm() {
     return TODO;
   }
 
-  public Result edit(long id) {
+  public Result addSubmit() {
+    return TODO;
+  }
+
+  public Result editForm(long id) {
+    return TODO;
+  }
+
+  public Result editSubmit(long id) {
     return TODO;
   }
 

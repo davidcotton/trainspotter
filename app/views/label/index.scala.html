@@ -19,7 +19,7 @@
       <tr>
         <td><a href="@routes.LabelController.view(label.getId)">@label.getName</a></td>
         <td class="text-right">
-          <a href="@routes.LabelController.edit(label.getId)" class="btn btn-xs btn-warning">
+          <a href="@routes.LabelController.editForm(label.getId)" class="btn btn-xs btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
           <a href="@routes.LabelController.delete(label.getId)" class="btn btn-xs btn-danger">
@@ -32,7 +32,7 @@
     <tfoot>
       <tr>
         <td colspan="2">
-          <a href="@routes.LabelController.add" class="btn btn-sm btn-primary">
+          <a href="@routes.LabelController.addForm()" class="btn btn-sm btn-primary">
             New Artist <i class="fa fa-plus" title="New Artist" aria-hidden="true"></i>
           </a>
         </td>

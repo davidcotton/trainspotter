@@ -51,25 +51,30 @@ public class ProgramController extends Controller {
    * @param channelId The channel ID.
    * @return A program page if found.
    */
-  public Result view(long programId, long channelId) {
-    return channelRepository
-        .findById(channelId)
-        .flatMap(channel -> programRepository
-            .findById(programId)
-            .map(program -> ok(view.render(program, channel)))
-        )
+  public Result view(long id) {
+    return programRepository
+        .findById(id)
+        .map(program -> ok(view.render(program)))
         .orElse(notFound(notFound.render()));
   }
 
-  public Result add(long channelId) {
+  public Result addForm(long channelId) {
     return TODO;
   }
 
-  public Result edit(long id, long channelId) {
+  public Result addSubmit(long channelId) {
     return TODO;
   }
 
-  public Result delete(long id, long channelId) {
+  public Result editForm(long id) {
+    return TODO;
+  }
+
+  public Result editSubmit(long id) {
+    return TODO;
+  }
+
+  public Result delete(long id) {
     return TODO;
   }
 }

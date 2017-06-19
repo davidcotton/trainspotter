@@ -55,7 +55,8 @@ public class UserController extends Controller {
    * @return A user page if found.
    */
   public Result view(long id) {
-    return userRepository.findActiveById(id)
+    return userRepository
+        .findActiveById(id)
         .map(user -> ok(view.render(user)))
         .orElse(notFound(notFound.render()));
   }
@@ -91,7 +92,8 @@ public class UserController extends Controller {
    * @return An edit user page if user is found else not found page.
    */
   public Result editForm(long id) {
-    return userRepository.findById(id)
+    return userRepository.
+        findById(id)
         .map(user -> ok(edit.render(
             id,
             formFactory.form(UpdateUser.class).fill(new UpdateUser(user)))

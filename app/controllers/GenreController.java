@@ -42,16 +42,25 @@ public class GenreController extends Controller {
    * @return A genre page if found.
    */
   public Result view(long id) {
-    return genreRepository.findById(id)
+    return genreRepository
+        .findById(id)
         .map(genre -> ok(view.render(genre)))
         .orElse(notFound(notFound.render()));
   }
 
-  public Result add() {
+  public Result addForm() {
     return TODO;
   }
 
-  public Result edit(long id) {
+  public Result addSubmit() {
+    return TODO;
+  }
+
+  public Result editForm(long id) {
+    return TODO;
+  }
+
+  public Result editSubmit(long id) {
     return TODO;
   }
 

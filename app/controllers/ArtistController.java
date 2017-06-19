@@ -41,7 +41,8 @@ public class ArtistController extends Controller {
    * @return An artist page if found.
    */
   public Result view(long id) {
-    return artistRepository.findById(id)
+    return artistRepository
+        .findById(id)
         .map(artist -> ok(view.render(artist)))
         .orElse(notFound(notFound.render()));
   }

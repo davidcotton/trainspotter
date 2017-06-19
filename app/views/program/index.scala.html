@@ -18,17 +18,17 @@
     <tbody>
     @for(program <- programs) {
       <tr>
-        <td><a href="@routes.ProgramController.view(program.getId, channel.getId)">@program.getName</a></td>
+        <td><a href="@routes.ProgramController.view(program.getId)">@program.getName</a></td>
         <td>
         @for(host <- program.getHosts) {
           <a href="@routes.ArtistController.view(host.getId)">@host.getName</a>,
         }
         </td>
         <td class="text-right">
-          <a href="@routes.ProgramController.edit(program.getId, channel.getId)" class="btn btn-xs btn-warning">
+          <a href="@routes.ProgramController.editForm(program.getId)" class="btn btn-xs btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
-          <a href="@routes.ProgramController.delete(program.getId, channel.getId)" class="btn btn-xs btn-danger">
+          <a href="@routes.ProgramController.delete(program.getId)" class="btn btn-xs btn-danger">
             <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
           </a>
         </td>
@@ -38,7 +38,7 @@
     <tfoot>
       <tr>
         <td colspan="2">
-          <a href="@routes.ProgramController.add(channel.getId)" class="btn btn-sm btn-primary">
+          <a href="@routes.ProgramController.addForm(channel.getId)" class="btn btn-sm btn-primary">
             New Program <i class="fa fa-plus" title="New Program" aria-hidden="true"></i>
           </a>
         </td>

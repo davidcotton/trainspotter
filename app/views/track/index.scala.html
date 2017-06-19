@@ -32,7 +32,7 @@
         }
         </td>
         <td class="text-right">
-          <a href="@routes.TrackController.edit(track.getId)" class="btn btn-xs btn-warning">
+          <a href="@routes.TrackController.editForm(track.getId)" class="btn btn-xs btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
           <a href="@routes.TrackController.delete(track.getId)" class="btn btn-xs btn-danger">
@@ -45,7 +45,7 @@
     <tfoot>
       <tr>
         <td colspan="2">
-          <a href="@routes.TrackController.add" class="btn btn-xs btn-primary">
+          <a href="@routes.TrackController.addForm()" class="btn btn-xs btn-primary">
             New Track <i class="fa fa-plus" title="New Track" aria-hidden="true"></i>
           </a>
         </td>

@@ -42,14 +42,14 @@ public class ChannelController extends Controller {
    * @return A channel page if found.
    */
   public Result view(long id) {
-    return channelRepository.findById(id)
+    return channelRepository
+        .findById(id)
         .map(channel -> ok(view.render(channel)))
         .orElse(notFound(notFound.render()));
   }
 
   public Result addForm() {
     return TODO;
-//    return ok(add.render(formF));
   }
 
   public Result addSubmit() {
