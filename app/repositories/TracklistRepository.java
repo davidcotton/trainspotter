@@ -1,6 +1,8 @@
 package repositories;
 
 import com.avaje.ebean.Model.Finder;
+import com.avaje.ebean.PagedList;
+
 import java.util.List;
 import java.util.Optional;
 import models.Tracklist;
@@ -10,13 +12,17 @@ public class TracklistRepository implements Repository<Tracklist> {
   /** Ebean helper */
   private static Finder<Long, Tracklist> find = new Finder<>(Tracklist.class);
 
+  private static final int PAGE_SIZE = 5;
+
   @Override
   public List<Tracklist> findAll() {
     return find.orderBy().desc("performed").findList();
   }
 
-  public List<Tracklist> findAllPaged(int page) {
-    return find.orderBy().desc("performed").findPagedList(page, 5).getList();
+  public PagedList<Tracklist> findAllPaged(int page) {
+    return find
+        .orderBy().desc("performed")
+        .findPagedList(page, PAGE_SIZE);
   }
 
   @Override
