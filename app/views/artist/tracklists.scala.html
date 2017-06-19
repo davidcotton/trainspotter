@@ -1,4 +1,4 @@
-@(artist: Artist)
+@(artist: Artist, tracklists: com.avaje.ebean.PagedList[Tracklist])
 
 @main("Tracklists") {
   <ol class="breadcrumb">
@@ -7,5 +7,5 @@
     <li class="breadcrumb-item active"><a href="@routes.ArtistController.view(artist.getId)">@artist.getName</a></li>
   </ol>
 
-  <h1>@artist.getName Tracklists</h1>
+  <h1>@artist.getName's Tracklists</h1>
 }

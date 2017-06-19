@@ -5,6 +5,8 @@ import com.avaje.ebean.PagedList;
 
 import java.util.List;
 import java.util.Optional;
+
+import models.Artist;
 import models.Tracklist;
 
 public class TracklistRepository implements Repository<Tracklist> {
@@ -21,6 +23,13 @@ public class TracklistRepository implements Repository<Tracklist> {
 
   public PagedList<Tracklist> findAllPaged(int page) {
     return find
+        .orderBy().desc("performed")
+        .findPagedList(page, PAGE_SIZE);
+  }
+
+  public PagedList<Tracklist> findAllPagedByArtist(Artist artist, int page) {
+    return find
+        .where().eq("artist_id", artist.getId())
         .orderBy().desc("performed")
         .findPagedList(page, PAGE_SIZE);
   }
