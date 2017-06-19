@@ -31,7 +31,7 @@
       </ul>
       <div class="tab-content">
         <div class="tab-pane active" id="tracklists" role="tabpanel">
-          <h2>Tracklists</h2>
+          <h2>Popular Tracklists</h2>
           <div class="list-group">
           @for(tracklist <- artist.getTracklists) {
             <a href="@routes.TracklistController.view(tracklist.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
@@ -40,13 +40,16 @@
                 <small>@tracklist.getPerformedDaysAgo days ago</small>
               </div>
               <p class="mb-1">@tracklist.getPerformed</p>
-              <small>@tracklist.getUser.getDisplayName</small>
+              <small>
+                <i class="fa fa-user" title="@tracklist.getUser.getDisplayName" aria-hidden="true"></i>
+                @tracklist.getUser.getDisplayName
+              </small>
             </a>
           }
           </div>
         </div>
         <div class="tab-pane" id="tracks" role="tabpanel">
-          <h2>Tracks</h2>
+          <h2>Popular Tracks</h2>
           <div class="list-group">
           @for(track <- artist.getTracks) {
             <a href="@routes.TrackController.view(track.getId)" class="list-group-item list-group-item-action flex-column align-items-start">

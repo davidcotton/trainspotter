@@ -10,18 +10,20 @@
 
   <div class="row">
   @if(artists.getTotalRowCount == 0) {
-    <p>No artists found</p>
+    <div class="card">
+      <div class="card-block">
+        <h3>No artists found</h3>
+      </div>
+    </div>
   } else {
     @for(artist <- artists.getList) {
-      <div class="col-sm-6 col-md-4">
-        @if(artist.getImage != null) {
-          <img class="d-flex mr-3" src="@routes.Assets.versioned(artist.getImageLink)" alt="@artist.getName">
-        }
-        <div class="caption">
-          <h3>@artist.getName</h3>
-          <p>@artist.getDescription</p>
-          <p><a href="@routes.ArtistController.view(artist.getId)" class="btn btn-primary" role="button">Explore</a></p>
-        </div>
+      <div class="col-sm-4">
+        <a href="@routes.ArtistController.view(artist.getId)" class="card card-inverse">
+          <img class="card-img" src="@routes.Assets.versioned(artist.getImageLink)" alt="@artist.getName">
+          <div class="card-img-overlay">
+            <h3 class="card-title">@artist.getName</h3>
+          </div>
+        </a>
       </div>
     }
   }
