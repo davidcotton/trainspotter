@@ -2,7 +2,6 @@ package controllers;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Optional;
 import javax.inject.Inject;
 import models.Track;
 import play.data.FormFactory;
@@ -57,7 +56,10 @@ public class TrackController extends Controller {
   }
 
   public Result editForm(long id) {
-    return TODO;
+    return trackRepository
+        .findById(id)
+        .map(track -> ok(edit.render(id, formFactory.form(Track.class).fill(track))))
+        .orElse(notFound(notFound.render()));
   }
 
   public Result editSubmit(long id) {

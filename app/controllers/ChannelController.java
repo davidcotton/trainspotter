@@ -2,7 +2,6 @@ package controllers;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Optional;
 import javax.inject.Inject;
 import models.Channel;
 import play.data.FormFactory;
@@ -57,7 +56,10 @@ public class ChannelController extends Controller {
   }
 
   public Result editForm(long id) {
-    return TODO;
+    return channelRepository
+        .findById(id)
+        .map(channel -> ok(edit.render(id, formFactory.form(Channel.class).fill(channel))))
+        .orElse(notFound(notFound.render()));
   }
 
   public Result editSubmit(long id) {

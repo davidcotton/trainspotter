@@ -1,9 +1,6 @@
 package controllers;
 
-import java.util.Optional;
 import javax.inject.Inject;
-
-import models.Channel;
 import models.Program;
 import play.data.FormFactory;
 import play.mvc.Controller;
@@ -47,8 +44,7 @@ public class ProgramController extends Controller {
   /**
    * View a single program.
    *
-   * @param programId The program ID.
-   * @param channelId The channel ID.
+   * @param id The program ID.
    * @return A program page if found.
    */
   public Result view(long id) {
@@ -59,7 +55,10 @@ public class ProgramController extends Controller {
   }
 
   public Result addForm(long channelId) {
-    return TODO;
+    return channelRepository
+        .findById(channelId)
+        .map(channel -> ok(add.render(formFactory.form(Program.class), channel)))
+        .orElse(notFound(notFound.render()));
   }
 
   public Result addSubmit(long channelId) {
@@ -67,7 +66,10 @@ public class ProgramController extends Controller {
   }
 
   public Result editForm(long id) {
-    return TODO;
+    return programRepository
+        .findById(id)
+        .map(program -> ok(edit.render(id, formFactory.form(Program.class).fill(program))))
+        .orElse(notFound(notFound.render()));
   }
 
   public Result editSubmit(long id) {

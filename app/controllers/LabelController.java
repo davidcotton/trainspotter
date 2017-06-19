@@ -2,7 +2,6 @@ package controllers;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Optional;
 import javax.inject.Inject;
 import models.Label;
 import play.data.FormFactory;
@@ -57,7 +56,10 @@ public class LabelController extends Controller {
   }
 
   public Result editForm(long id) {
-    return TODO;
+    return labelRepository
+        .findById(id)
+        .map(label -> ok(edit.render(id, formFactory.form(Label.class).fill(label))))
+        .orElse(notFound(notFound.render()));
   }
 
   public Result editSubmit(long id) {

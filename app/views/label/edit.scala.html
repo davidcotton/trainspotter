@@ -1,10 +1,19 @@
 @(id: Long, labelForm: play.data.Form[Label])
 
-@import helper._
+@implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
 @main("Edit Label") {
-  <h1>Edit Label</h1>
-  @* @form(editd)) {
-
-  } *@
+  <div class="card mt-5">
+    <h3 class="card-header">Edit Label</h3>
+    <div class="card-block">
+    @b4.form(routes.LabelController.editSubmit(id)) {
+      <fieldset>
+        @b4.text(labelForm("name"), '_label -> "Name", 'placeholder -> "Name")
+        @b4.text(labelForm("image"), '_label -> "Image", 'placeholder -> "Image")
+        @b4.text(labelForm("description"), '_label -> "Description", 'placeholder -> "Description")
+        @b4.submit('class -> "btn btn-primary") { Save }
+      </fieldset>
+    }
+    </div>
+  </div>
 }

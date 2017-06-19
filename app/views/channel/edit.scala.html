@@ -1,10 +1,19 @@
-@(id: Long, channelForm: play.data.Form[models.Channel])
+@(id: Long, channelForm: play.data.Form[Channel])
 
-@import helper._
+@implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
 @main("Edit Channel") {
-  <h1>Edit Channel</h1>
-  @* @form(editd)) {
-
-  } *@
+  <div class="card mt-5">
+    <h3 class="card-header">Edit Channel</h3>
+    <div class="card-block">
+    @b4.form(routes.ChannelController.editSubmit(id)) {
+      <fieldset>
+        @b4.text(channelForm("name"), '_label -> "Name", 'placeholder -> "Name")
+        @b4.text(channelForm("image"), '_label -> "Image", 'placeholder -> "Image")
+        @b4.text(channelForm("description"), '_label -> "Description", 'placeholder -> "Description")
+        @b4.submit('class -> "btn btn-primary") { Save }
+      </fieldset>
+    }
+    </div>
+  </div>
 }

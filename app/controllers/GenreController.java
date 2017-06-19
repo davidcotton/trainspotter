@@ -2,7 +2,6 @@ package controllers;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Optional;
 import javax.inject.Inject;
 import models.Genre;
 import play.data.FormFactory;
@@ -57,7 +56,10 @@ public class GenreController extends Controller {
   }
 
   public Result editForm(long id) {
-    return TODO;
+    return genreRepository
+        .findById(id)
+        .map(genre -> ok(edit.render(id, formFactory.form(Genre.class).fill(genre))))
+        .orElse(notFound(notFound.render()));
   }
 
   public Result editSubmit(long id) {

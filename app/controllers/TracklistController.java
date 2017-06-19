@@ -2,7 +2,6 @@ package controllers;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Optional;
 import javax.inject.Inject;
 import models.Tracklist;
 import play.data.FormFactory;
@@ -57,7 +56,10 @@ public class TracklistController extends Controller {
   }
 
   public Result editForm(long id) {
-    return TODO;
+    return tracklistRepository
+        .findById(id)
+        .map(tracklist -> ok(edit.render(id, formFactory.form(Tracklist.class).fill(tracklist))))
+        .orElse(notFound(notFound.render()));
   }
 
   public Result editSubmit(long id) {

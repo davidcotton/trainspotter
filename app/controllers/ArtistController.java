@@ -67,11 +67,9 @@ public class ArtistController extends Controller {
    * @return An edit artist page if artist is found else not found page.
    */
   public Result editForm(long id) {
-    return artistRepository.findById(id)
-        .map(artist -> ok(edit.render(
-            id,
-            formFactory.form(Artist.class).fill(artist))
-        ))
+    return artistRepository
+        .findById(id)
+        .map(artist -> ok(edit.render(id, formFactory.form(Artist.class).fill(artist))))
         .orElse(notFound(notFound.render()));
   }
 

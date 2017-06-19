@@ -1,10 +1,19 @@
-@(id: Long, userForm: play.data.Form[User])
+@(id: Long, tracklistForm: play.data.Form[Tracklist])
 
-@import helper._
+@implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
-@main("Edit User") {
-  <h1>Edit User</h1>
-  @* @form(editd)) {
-
-  } *@
+@main("Edit Tracklist") {
+  <div class="card mt-5">
+    <h3 class="card-header">Edit Tracklist</h3>
+    <div class="card-block">
+    @b4.form(routes.TracklistController.editSubmit(id)) {
+      <fieldset>
+        @b4.text(tracklistForm("name"), '_label -> "Name", 'placeholder -> "Name")
+        @b4.text(tracklistForm("image"), '_label -> "Image", 'placeholder -> "Image")
+        @b4.text(tracklistForm("description"), '_label -> "Description", 'placeholder -> "Description")
+        @b4.submit('class -> "btn btn-primary") { Save }
+      </fieldset>
+    }
+    </div>
+  </div>
 }
