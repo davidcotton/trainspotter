@@ -148,7 +148,7 @@ POST    /track/:id/edit             controllers.TrackController.editSubmit(id:Lo
 POST    /track/:id/delete           controllers.TrackController.delete(id:Long)
 
 # Tracklists
-GET     /tracklist                  controllers.TracklistController.index()
+GET     /tracklist                  controllers.TracklistController.index(page:Int ?= 1)
 GET     /tracklist/new              controllers.TracklistController.addForm()
 POST    /tracklist/new              controllers.TracklistController.addSubmit()
 GET     /tracklist/:id              controllers.TracklistController.view(id:Long)

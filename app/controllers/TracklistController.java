@@ -30,8 +30,8 @@ public class TracklistController extends Controller {
    *
    * @return A page with all tracklists.
    */
-  public Result index() {
-    return ok(index.render(tracklistRepository.findAll()));
+  public Result index(int page) {
+    return ok(index.render(tracklistRepository.findAllPaged(page)));
   }
 
   /**

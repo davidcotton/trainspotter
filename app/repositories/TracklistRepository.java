@@ -15,6 +15,10 @@ public class TracklistRepository implements Repository<Tracklist> {
     return find.orderBy().desc("performed").findList();
   }
 
+  public List<Tracklist> findAllPaged(int page) {
+    return find.orderBy().desc("performed").findPagedList(page, 5).getList();
+  }
+
   @Override
   public Optional<Tracklist> findById(long id) {
     return Optional.ofNullable(find.byId(id));
