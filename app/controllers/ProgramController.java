@@ -1,5 +1,7 @@
 package controllers;
 
+import static java.util.Objects.requireNonNull;
+
 import javax.inject.Inject;
 import models.Program;
 import play.data.FormFactory;
@@ -13,8 +15,6 @@ import views.html.program.edit;
 import views.html.program.index;
 import views.html.program.view;
 
-import static java.util.Objects.requireNonNull;
-
 public class ProgramController extends Controller {
 
   private final ProgramRepository programRepository;
@@ -22,7 +22,11 @@ public class ProgramController extends Controller {
   private final ChannelRepository channelRepository;
 
   @Inject
-  public ProgramController(ProgramRepository programRepository, FormFactory formFactory, ChannelRepository channelRepository) {
+  public ProgramController(
+      ProgramRepository programRepository,
+      FormFactory formFactory,
+      ChannelRepository channelRepository
+  ) {
     this.programRepository = requireNonNull(programRepository);
     this.formFactory = requireNonNull(formFactory);
     this.channelRepository = requireNonNull(channelRepository);
