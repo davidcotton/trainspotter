@@ -77,6 +77,14 @@ public class Label extends Model {
     return image;
   }
 
+  public String getImageLink() {
+    if (image != null) {
+      return String.format("images/label/%s", image);
+    } else {
+      return null;
+    }
+  }
+
   public String getDescription() {
     return description;
   }

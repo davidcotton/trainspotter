@@ -8,47 +8,45 @@
   </ol>
 
   <h1>@label.getName</h1>
-  <table class="table table-striped">
-    <tbody>
-      <tr>
-        <td>Name</td>
-        <td>@label.getName</td>
-      </tr>
-      <tr>
-        <td>Tracks</td>
-        <td>
-          <ul>
-          @for(track <- label.getTracks) {
-            <li>
-              <a href="@routes.TrackController.view(track.getId)">@track.getName</a>
-            </li>
-          }
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td>Media</td>
-        <td>
-          <ul>
-          @for(media <- label.getMedias) {
-            <li>
-              <a href="@media.getUrl">@media.getUrl</a>
-            </li>
-          }
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>
-          <a href="@routes.LabelController.editForm(label.getId)" class="btn btn-sm btn-warning">
-            <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
-          </a>
-          <a href="@routes.LabelController.delete(label.getId)" class="btn btn-sm btn-danger">
-            <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
-          </a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+
+  <div class="media">
+    <ul>
+    @for(media <- label.getMedias) {
+      <li><a href="@media.getUrl">@media.getUrl</a></li>
+    }
+    </ul>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <img src="@routes.Assets.versioned(label.getImageLink)" alt="@label.getName">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">@label.getName</h5>
+          <small>@label.getDescription</small>
+        </div>
+        <a href="@routes.LabelController.editForm(label.getId)" class="btn btn-sm btn-warning">
+          <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
+        </a>
+        <a href="@routes.LabelController.delete(label.getId)" class="btn btn-sm btn-danger">
+          <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-sm-8">
+      <div class="list-group">
+      @for(track <- label.getTracks) {
+        <a href="@routes.TrackController.view(track.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">@track.getArtists.map(_.getName).mkString(", ")</h5>
+            <small>@track.getReleaseDate</small>
+          </div>
+          <p class="mb-1">@track.getName</p>
+        </a>
+      }
+      </div>
+    </div>
+  </div>
+
 }
