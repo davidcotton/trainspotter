@@ -19,6 +19,12 @@ public class ArtistRepository implements Repository<Artist> {
     return find.orderBy("name").findList();
   }
 
+  /**
+   * Fetch a paginated collection of Artists.
+   *
+   * @param page The page number to fetch (offset).
+   * @return A paginated list of Artists ordered by name.
+   */
   public PagedList<Artist> findAllPaged(int page) {
     return find
         .orderBy("name")

@@ -1,7 +1,5 @@
 package repositories;
 
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
@@ -10,6 +8,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import com.avaje.ebean.PagedList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import models.Artist;
@@ -28,9 +28,19 @@ public class ArtistRepositoryTest extends AbstractIntegrationTest {
     List<Artist> artists = artistRepository.findAll();
     assertThat(artists, not(IsEmptyCollection.empty()));
     assertThat(artists.size(), is(6));
-    assertThat(artists, hasItem(hasProperty("name", is("John Digweed"))));
-    assertThat(artists, hasItem(hasProperty("name", is("Sasha"))));
-    assertThat(artists, hasItem(hasProperty("name", is("Adam Beyer"))));
+    // verify ordered alphabetically by name
+    assertThat(artists.get(0).getName(), is("Adam Beyer"));
+    assertThat(artists.get(1).getName(), is("John Digweed"));
+    assertThat(artists.get(2).getName(), is("Marc Romboy"));
+  }
+
+  @Test public void findAllPaged() throws Exception {
+    PagedList<Artist> pagedArtists = artistRepository.findAllPaged(1);
+    // verify the page object attributes
+    assertThat(pagedArtists.getPageSize(), is(9));
+
+//    List<Artist> listArtists = pagedArtists.getList();
+//    assertTrue(!listArtists.isEmpty());
   }
 
   @Test public void findById_successGivenIdInDb() throws Exception {

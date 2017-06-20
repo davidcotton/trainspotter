@@ -40,7 +40,8 @@ public class DatabaseHelper {
     Ebean.execute(Ebean.createCallableSql(
         "INSERT INTO `channel` (`name`, `image`, `description`, `created`, `updated`) VALUES\n"
       + "  ('Proton Radio', 'proton-opengraph.gif','Welcome to Proton, a subscriber supported Internet radio station and music label.' , NOW(), NOW()),\n"
-      + "  ('Triple J', 'triple-j.jpg','' , NOW(), NOW());"
+      + "  ('Triple J', 'triple-j.jpg','' , NOW(), NOW()),\n"
+      + "  ('BBC Radio 1', 'bbc.jpg', 'Listen to BBC Radio 1, home of the Official Chart, the Live Lounge and the world''s greatest DJs including Nick Grimshaw, Scott Mills, Clara Amfo, Greg James, Annie Mac and many more. Listen on DAB Radio, Digital TV, 97-99 FM, Online and Mobile.' , NOW(), NOW());"
     ));
     Ebean.execute(Ebean.createCallableSql(
       "INSERT INTO `genre` (name, created, updated) VALUES\n"

@@ -1,9 +1,6 @@
 package repositories;
 
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -13,7 +10,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Optional;
 import models.Channel;
-import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
 
 public class ChannelRepositoryTest extends AbstractIntegrationTest {
@@ -26,10 +22,11 @@ public class ChannelRepositoryTest extends AbstractIntegrationTest {
 
   @Test public void findAll() throws Exception {
     List<Channel> channels = channelRepository.findAll();
-    assertThat(channels, not(IsEmptyCollection.empty()));
-    assertThat(channels.size(), is(2));
-    assertThat(channels, hasItem(hasProperty("name", is("Proton Radio"))));
-    assertThat(channels, hasItem(hasProperty("name", is("Triple J"))));
+    assertThat(channels.size(), is(3));
+    // verify ordered alphabetically by name
+    assertThat(channels.get(0).getName(), is("BBC Radio 1"));
+    assertThat(channels.get(1).getName(), is("Proton Radio"));
+    assertThat(channels.get(2).getName(), is("Triple J"));
   }
 
   @Test public void findById_successGivenIdInDb() throws Exception {
@@ -91,10 +88,10 @@ public class ChannelRepositoryTest extends AbstractIntegrationTest {
     assertThat(maybeChannel.get().getImage(), is("triple-j.jpg"));
   }
 
-  @Test public void delete() throws Exception {
-    Channel channel = channelRepository.findById(1L).orElseThrow(Exception::new);
+  @Test public void delete_successGivenNoDependantPrograms() throws Exception {
+    Channel channel = channelRepository.findById(3L).orElseThrow(Exception::new);
     channelRepository.delete(channel);
-    Optional<Channel> maybeChannel = channelRepository.findById(1L);
+    Optional<Channel> maybeChannel = channelRepository.findById(3L);
     assertFalse(maybeChannel.isPresent());
   }
 }
