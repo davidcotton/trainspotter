@@ -25,12 +25,14 @@
           <h5 class="mb-1">@label.getName</h5>
           <small>@label.getDescription</small>
         </div>
-        <a href="@routes.LabelController.editForm(label.getId)" class="btn btn-sm btn-warning">
-          <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
-        </a>
-        <a href="@routes.LabelController.delete(label.getId)" class="btn btn-sm btn-danger">
-          <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
-        </a>
+        <div class="btn-group" role="group">
+          <a href="@routes.LabelController.editForm(label.getId)" class="btn btn-sm btn-warning">
+            <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
+          </a>
+          <a href="@routes.LabelController.delete(label.getId)" class="btn btn-sm btn-danger">
+            <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
+          </a>
+        </div>
       </div>
     </div>
 
