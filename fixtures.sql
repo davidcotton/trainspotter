@@ -41,43 +41,43 @@ VALUES
   ('Öona Dahl', 'oona-dahl', null, null , NOW(), NOW()),
   ('Pete Tong', 'pete-tong', 'pete-tong.jpg', null , NOW(), NOW());
 
-INSERT INTO `channel` (`name`, `image`, `description`, `created`, `updated`) VALUES
-  ('Proton Radio', 'proton-opengraph.gif','Welcome to Proton, a subscriber supported Internet radio station and music label.' , NOW(), NOW()),
-  ('Triple J', 'triple-j.jpg', 'triple j is the national youth broadcaster for young Australians. We aim to bring you the latest, greatest music and the stories that matter on the radio (covering over 98% of the nation), online, on your phone and in print with J Annual.' , NOW(), NOW()),
-  ('BBC Radio 1', 'bbc.jpg', 'Listen to BBC Radio 1, home of the Official Chart, the Live Lounge and the world''s greatest DJs including Nick Grimshaw, Scott Mills, Clara Amfo, Greg James, Annie Mac and many more. Listen on DAB Radio, Digital TV, 97-99 FM, Online and Mobile.' , NOW(), NOW()),
-  ('KISS FM', 'kiss-fm.jpg', 'Kiss is a UK radio station which broadcasts on FM and National DAB and specialises in pop, hip hop, R&B, urban and electronic dance music.' , NOW(), NOW()),
-  ('Energia 97 FM', null, '' , NOW(), NOW());
+INSERT INTO `channel` (`name`, `route`, `image`, `description`, `created`, `updated`) VALUES
+  ('Proton Radio', 'proton-radio', 'proton-opengraph.gif','Welcome to Proton, a subscriber supported Internet radio station and music label.' , NOW(), NOW()),
+  ('Triple J', 'triple-j', 'triple-j.jpg', 'triple j is the national youth broadcaster for young Australians. We aim to bring you the latest, greatest music and the stories that matter on the radio (covering over 98% of the nation), online, on your phone and in print with J Annual.' , NOW(), NOW()),
+  ('BBC Radio 1', 'bbc-radio-1', 'bbc.jpg', 'Listen to BBC Radio 1, home of the Official Chart, the Live Lounge and the world''s greatest DJs including Nick Grimshaw, Scott Mills, Clara Amfo, Greg James, Annie Mac and many more. Listen on DAB Radio, Digital TV, 97-99 FM, Online and Mobile.' , NOW(), NOW()),
+  ('KISS FM', 'kiss-fm', 'kiss-fm.jpg', 'Kiss is a UK radio station which broadcasts on FM and National DAB and specialises in pop, hip hop, R&B, urban and electronic dance music.' , NOW(), NOW()),
+  ('Energia 97 FM', 'energia-97-fm', null, '' , NOW(), NOW());
 
-INSERT INTO `label` (`name`, `image`, `description`, `created`, `updated`)
+INSERT INTO `label` (`name`, `route`, `image`, `description`, `created`, `updated`)
 VALUES
-  ('Not on label', null,'' , NOW(), NOW()),
-  ('Bedrock Records', 'bedrock-records.jpg', 'Together John Digweed and Nick Muir are the key to what makes up the Bedrock record label tick. With the some of the cream of the progressive and breaks crop releases music on Bedrock the label constantly goes from strength to strength and provides the latest in quality beats. \nBedrock launched in 1999 with the classic progressive anthem Heaven Scent.' , NOW(), NOW()),
-  ('Get Wet', null, '' ,  NOW(), NOW()),
-  ('Sinnbus', 'sinnbus.jpg', '' , NOW(), NOW()),
-  ('Mobilee', 'mobilee.jpg', '' , NOW(), NOW()),
-  ('Souvenir', 'souvenir.jpg', '' , NOW(), NOW()),
-  ('Colour Series', null, '' , NOW(), NOW()),
-  ('SCI+TEC', 'sci+tec.jpg', '' , NOW(), NOW()),
-  ('IAM Music', 'iam-music.jpg', '' , NOW(), NOW()),
-  ('Strange Idol', 'strange-idol.jpg', '' , NOW(), NOW()),
-  ('Last Night On Earth', null, 'Label run by Sasha' , NOW(), NOW()),
-  ('Drumcode', 'drumcode.jpg', 'Techno label run by Adam Beyer.' , NOW(), NOW());
+  ('Not on label', 'not-on-label', null,'' , NOW(), NOW()),
+  ('Bedrock Records', 'bedrock-records', 'bedrock-records.jpg', 'Together John Digweed and Nick Muir are the key to what makes up the Bedrock record label tick. With the some of the cream of the progressive and breaks crop releases music on Bedrock the label constantly goes from strength to strength and provides the latest in quality beats. \nBedrock launched in 1999 with the classic progressive anthem Heaven Scent.' , NOW(), NOW()),
+  ('Get Wet', 'get-wet', null, '' ,  NOW(), NOW()),
+  ('Sinnbus', 'sinnbus', 'sinnbus.jpg', '' , NOW(), NOW()),
+  ('Mobilee', 'mobilee', 'mobilee.jpg', '' , NOW(), NOW()),
+  ('Souvenir', 'souvenir', 'souvenir.jpg', '' , NOW(), NOW()),
+  ('Colour Series', 'colour-series', null, '' , NOW(), NOW()),
+  ('SCI+TEC', 'sci+tec', 'sci+tec.jpg', '' , NOW(), NOW()),
+  ('IAM Music', 'iam-music', 'iam-music.jpg', '' , NOW(), NOW()),
+  ('Strange Idol', 'strange-idol', 'strange-idol.jpg', '' , NOW(), NOW()),
+  ('Last Night On Earth', 'last-night-on-earth', null, 'Label run by Sasha' , NOW(), NOW()),
+  ('Drumcode', 'drumcode', 'drumcode.jpg', 'Techno label run by Adam Beyer.' , NOW(), NOW());
 
-INSERT INTO `genre` (name, created, updated)
+INSERT INTO `genre` (`name`, `route`, `created`, `updated`)
 VALUES
-  ('House', NOW(), NOW()),
-  ('Techno', NOW(), NOW()),
-  ('Deep House', NOW(), NOW()),
-  ('Tech House', NOW(), NOW()),
-  ('Progressive', NOW(), NOW());
+  ('House', 'house', NOW(), NOW()),
+  ('Techno', 'techno', NOW(), NOW()),
+  ('Deep House', 'deep-house', NOW(), NOW()),
+  ('Tech House', 'tech-house', NOW(), NOW()),
+  ('Progressive House', 'progressive-house', NOW(), NOW());
 
-INSERT INTO `program` (name, image, description, channel_id, created, updated) VALUES
-  ('Transitions', 'transitions.jpg', 'The most important radio show in house music needs no introduction, but here it goes anyway. John Digweed\'s long-standing weekly 2 hour program is legendary, airing for many years exclusively on Kiss 100 in London but now syndicated around the world and internet. In 2008, the show comes to Proton Radio. Expect upfront & unreleased tunes dished up by John Digweed alongside finely tuned guest mixes that are almost always exclusively prepared just for the show.', 1, NOW(), NOW()),
-  ('Behind The Iron Curtain', 'behind-the-iron-curtain.jpg', 'Welcome to UMEK’s hour-long trip behind the iron curtain. Hear it here on KISS FM every Tuesday 5 – 6 am. It would take a long essay to fully explain UMEK’s meaning to electronic music. The Slovenian born producer and DJ has been setting trends and rocking dance floors for two decades now — and still shows no signs of slowing down. He’s tireless in his techno and tech house production and with more than 100 gigs per year, probably one of the busiest techno DJs out there.', 1, NOW(), NOW()),
-  ('Diynamic', 'diynamic.jpg', 'The weekly Diynamic radio show is hosted by Solomun & friends.', 1, NOW(), NOW()),
-  ('Systematic Session', 'systematic.jpg', 'Systematic Recordings from Germany has now finally its own exclusive radio show. The label which is run by the worldwide well known DJ/ producer Marc Romboy has released dozens of trendsetting and forwardthinking electronic house tracks, contributed by artists like Stephan Bodzin, Steve Lawler, Booka Shade, Chelonis R. Jones, John Dahlback and Robert Babicz, just to name a few. The show is called "Systematic Sessions" and serves you one hour of Dj mixed up-to-date records by their host Marc Romboy and other globally profiled DJs and producers. You want to know more about Marc Romboy and Systematic recordings? ', 1, NOW(), NOW()),
-  ('The Labyrinth', 'henry-saiz.jpg', 'Hi everybody, this is Henry Saiz, welcome to the labyrinth, my first online radio show. I would like to use this platform to share with you some ideas about music, I will try to develop a concept in every show, like a little sound research through musical styles or  production techniques. For this I will count on very special guests.', 1, NOW(), NOW()),
-  ('Essential Mix', 'bbc-radio-one-essential-mix.jpg', '', 3, NOW(), NOW());
+INSERT INTO `program` (`name`, `route`, `image`, `description`, `channel_id`, `created`, `updated`) VALUES
+  ('Transitions', 'transitions', 'transitions.jpg', 'The most important radio show in house music needs no introduction, but here it goes anyway. John Digweed\'s long-standing weekly 2 hour program is legendary, airing for many years exclusively on Kiss 100 in London but now syndicated around the world and internet. In 2008, the show comes to Proton Radio. Expect upfront & unreleased tunes dished up by John Digweed alongside finely tuned guest mixes that are almost always exclusively prepared just for the show.', 1, NOW(), NOW()),
+  ('Behind The Iron Curtain', 'behind-the-iron-curtain', 'behind-the-iron-curtain.jpg', 'Welcome to UMEK’s hour-long trip behind the iron curtain. Hear it here on KISS FM every Tuesday 5 – 6 am. It would take a long essay to fully explain UMEK’s meaning to electronic music. The Slovenian born producer and DJ has been setting trends and rocking dance floors for two decades now — and still shows no signs of slowing down. He’s tireless in his techno and tech house production and with more than 100 gigs per year, probably one of the busiest techno DJs out there.', 1, NOW(), NOW()),
+  ('Diynamic', 'diynamic', 'diynamic.jpg', 'The weekly Diynamic radio show is hosted by Solomun & friends.', 1, NOW(), NOW()),
+  ('Systematic Session', 'systematic-session', 'systematic.jpg', 'Systematic Recordings from Germany has now finally its own exclusive radio show. The label which is run by the worldwide well known DJ/ producer Marc Romboy has released dozens of trendsetting and forwardthinking electronic house tracks, contributed by artists like Stephan Bodzin, Steve Lawler, Booka Shade, Chelonis R. Jones, John Dahlback and Robert Babicz, just to name a few. The show is called "Systematic Sessions" and serves you one hour of Dj mixed up-to-date records by their host Marc Romboy and other globally profiled DJs and producers. You want to know more about Marc Romboy and Systematic recordings? ', 1, NOW(), NOW()),
+  ('The Labyrinth', 'the-labyrinth', 'henry-saiz.jpg', 'Hi everybody, this is Henry Saiz, welcome to the labyrinth, my first online radio show. I would like to use this platform to share with you some ideas about music, I will try to develop a concept in every show, like a little sound research through musical styles or  production techniques. For this I will count on very special guests.', 1, NOW(), NOW()),
+  ('Essential Mix', 'essential-mix', 'bbc-radio-one-essential-mix.jpg', '', 3, NOW(), NOW());
 
 INSERT INTO `track` (`name`, `remix_name`, `genre_id`, `label_id`, `release_date`, `created`, `updated`)
 VALUES
@@ -92,23 +92,23 @@ VALUES
   ('You Can Relate', null, 2, 2, NOW(), NOW(), NOW()),
   ('Keep Faith', 'Scan Mode Remix', 2, 9, NOW(), NOW(), NOW());
 
-INSERT INTO `tracklist` (`name`, `performed`, `image`, `user_id`, `created`, `updated`)
+INSERT INTO `tracklist` (`name`, `route`, `performed`, `image`, `user_id`, `created`, `updated`)
 VALUES
-  ('Sasha & John Digweed @ Carl Cox & Friends, Megastructure Stage, Ultra Music Festival Miami, MMW, United States', '2017-03-25', 'artwork-umf-miami.jpg', 1, NOW(), NOW()),
-  ('Transitions 657', '2017-03-31', null, 1, NOW(), NOW()),
-  ('Transitions 658', '2017-04-07', null, 1, NOW(), NOW()),
-  ('Transitions 659', '2017-04-14', null, 1, NOW(), NOW()),
-  ('Transitions 660', '2017-04-21', null, 1, NOW(), NOW()),
-  ('Transitions 661', '2017-04-28', null, 1, NOW(), NOW()),
-  ('Transitions 662', '2017-05-05', null, 1, NOW(), NOW()),
-  ('Transitions 663', '2017-05-12', null, 1, NOW(), NOW()),
-  ('Transitions 664', '2017-05-19', null, 1, NOW(), NOW()),
-  ('Transitions 665', '2017-05-26', null, 1, NOW(), NOW()),
-  ('Transitions 666', '2017-06-02', null, 1, NOW(), NOW()),
-  ('Transitions 667', '2017-06-09', null, 1, NOW(), NOW()),
-  ('Solomun @ Space Closing Fiesta, Terraza, Space Ibiza, Spain (Be-At TV)', '2016-10-02', null, 3, NOW(), NOW()),
-  ('Adam Beyer @ Drumcode 354 (Metro City Perth, Australia 2017-04-24)', '2017-05-18', null, 1, NOW(), NOW()),
-  ('Sasha @ Last Night On Earth 025 (Coachella Festival, United States)', '2017-05-29', null, 2, NOW(), NOW());
+  ('Sasha & John Digweed @ Carl Cox & Friends, Megastructure Stage, Ultra Music Festival Miami, MMW, United States', '', '2017-03-25', 'artwork-umf-miami.jpg', 1, NOW(), NOW()),
+  ('Transitions 657', 'transitions-657', '2017-03-31', null, 1, NOW(), NOW()),
+  ('Transitions 658', 'transitions-658', '2017-04-07', null, 1, NOW(), NOW()),
+  ('Transitions 659', 'transitions-659', '2017-04-14', null, 1, NOW(), NOW()),
+  ('Transitions 660', 'transitions-660', '2017-04-21', null, 1, NOW(), NOW()),
+  ('Transitions 661', 'transitions-661', '2017-04-28', null, 1, NOW(), NOW()),
+  ('Transitions 662', 'transitions-662', '2017-05-05', null, 1, NOW(), NOW()),
+  ('Transitions 663', 'transitions-663', '2017-05-12', null, 1, NOW(), NOW()),
+  ('Transitions 664', 'transitions-664', '2017-05-19', null, 1, NOW(), NOW()),
+  ('Transitions 665', 'transitions-665', '2017-05-26', null, 1, NOW(), NOW()),
+  ('Transitions 666', 'transitions-666', '2017-06-02', null, 1, NOW(), NOW()),
+  ('Transitions 667', 'transitions-667', '2017-06-09', null, 1, NOW(), NOW()),
+  ('Solomun @ Space Closing Fiesta, Terraza, Space Ibiza, Spain (Be-At TV)', 'space-closing-fiesta', '2016-10-02', null, 3, NOW(), NOW()),
+  ('Adam Beyer @ Drumcode 354 (Metro City Perth, Australia 2017-04-24)', 'drumcode-354', '2017-05-18', null, 1, NOW(), NOW()),
+  ('Sasha @ Last Night On Earth 025 (Coachella Festival, United States)', 'last-night-on-earth-025', '2017-05-29', null, 2, NOW(), NOW());
 
 INSERT INTO `media` (url, tracklist_id, artist_id, label_id, created, updated)
 VALUES

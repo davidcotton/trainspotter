@@ -45,6 +45,11 @@ public class Tracklist extends Model {
   @Constraints.Required
   private String name;
 
+  @NotNull
+  @Constraints.Required
+  @Column(unique = true, length = 191)
+  private String route;
+
   private LocalDate performed;
 
   private String image;

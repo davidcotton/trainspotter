@@ -42,6 +42,11 @@ public class Program extends Model {
   @Column(unique = true, length = 191)
   private String name;
 
+  @NotNull
+  @Constraints.Required
+  @Column(unique = true, length = 191)
+  private String route;
+
   private String image;
 
   @Column(columnDefinition = "text")

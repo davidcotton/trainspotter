@@ -25,31 +25,37 @@ create table artist_program (
 create table channel (
   id                            bigint auto_increment not null,
   name                          varchar(191) not null,
+  route                         varchar(191) not null,
   image                         varchar(255),
   description                   text,
   created                       datetime not null,
   updated                       datetime not null,
   constraint uq_channel_name unique (name),
+  constraint uq_channel_route unique (route),
   constraint pk_channel primary key (id)
 );
 
 create table genre (
   id                            bigint auto_increment not null,
   name                          varchar(191) not null,
+  route                         varchar(191) not null,
   created                       datetime not null,
   updated                       datetime not null,
   constraint uq_genre_name unique (name),
+  constraint uq_genre_route unique (route),
   constraint pk_genre primary key (id)
 );
 
 create table label (
   id                            bigint auto_increment not null,
   name                          varchar(191) not null,
+  route                         varchar(191) not null,
   image                         varchar(255),
   description                   text,
   created                       datetime not null,
   updated                       datetime not null,
   constraint uq_label_name unique (name),
+  constraint uq_label_route unique (route),
   constraint pk_label primary key (id)
 );
 
@@ -68,12 +74,14 @@ create table media (
 create table program (
   id                            bigint auto_increment not null,
   name                          varchar(191) not null,
+  route                         varchar(191) not null,
   image                         varchar(255),
   description                   text,
   channel_id                    bigint,
   created                       datetime not null,
   updated                       datetime not null,
   constraint uq_program_name unique (name),
+  constraint uq_program_route unique (route),
   constraint pk_program primary key (id)
 );
 
@@ -119,11 +127,13 @@ create table track_tracklist (
 create table tracklist (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
+  route                         varchar(191) not null,
   performed                     date,
   image                         varchar(255),
   user_id                       bigint not null,
   created                       datetime not null,
   updated                       datetime not null,
+  constraint uq_tracklist_route unique (route),
   constraint pk_tracklist primary key (id)
 );
 
