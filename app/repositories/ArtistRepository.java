@@ -12,7 +12,7 @@ public class ArtistRepository implements Repository<Artist> {
   /** Ebean helper */
   private static Finder<Long, Artist> find = new Finder<>(Artist.class);
 
-  private static final int PAGE_SIZE = 9;
+  private static final int PAGE_SIZE = 16;
 
   @Override
   public List<Artist> findAll() {
