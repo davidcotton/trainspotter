@@ -20,7 +20,7 @@
         <td>Hosts</td>
         <td>
         @for(host <- program.getHosts) {
-          <a href="@routes.ArtistController.view(host.getId)">@host.getName</a>,
+          <a href="@routes.ArtistController.view(host.getRoute)">@host.getName</a>,
         }
         </td>
       </tr>

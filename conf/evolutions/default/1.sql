@@ -6,11 +6,13 @@
 create table artist (
   id                            bigint auto_increment not null,
   name                          varchar(191) not null,
+  route                         varchar(191) not null,
   image                         varchar(255),
   description                   text,
   created                       datetime not null,
   updated                       datetime not null,
   constraint uq_artist_name unique (name),
+  constraint uq_artist_route unique (route),
   constraint pk_artist primary key (id)
 );
 

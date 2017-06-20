@@ -48,9 +48,9 @@ public class ArtistController extends Controller {
    * @param id The artist's ID.
    * @return An artist page if found.
    */
-  public Result view(long id) {
+  public Result view(String route) {
     return artistRepository
-        .findById(id)
+        .findByRoute(route)
         .map(artist -> ok(view.render(artist)))
         .orElse(notFound(notFound.render()));
   }
@@ -98,5 +98,9 @@ public class ArtistController extends Controller {
             )
         )
         .orElse(notFound(notFound.render()));
+  }
+
+  public String fixName(String name) {
+    return name.replaceAll("\\s+", "-").toLowerCase();
   }
 }

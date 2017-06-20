@@ -46,6 +46,16 @@ public class ArtistRepository implements Repository<Artist> {
     return Optional.ofNullable(find.where().eq("name", name).findUnique());
   }
 
+  /**
+   * Find an Artist by their route.
+   *
+   * @param route The route of the Artist.
+   * @return An optional Artist if found.
+   */
+  public Optional<Artist> findByRoute(String route) {
+    return Optional.ofNullable(find.where().eq("route", route).findUnique());
+  }
+
   @Override
   public void insert(Artist artist) {
     artist.insert();
