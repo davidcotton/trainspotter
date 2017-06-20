@@ -91,4 +91,11 @@ public class LabelRepositoryTest extends AbstractIntegrationTest {
     // verify that the original image field wasn't changed
     assertThat(maybeLabel.get().getImage(), is("drumcode.jpg"));
   }
+
+  @Test public void delete() throws Exception {
+    Label label = labelRepository.findById(1L).orElseThrow(Exception::new);
+    labelRepository.delete(label);
+    Optional<Label> maybeLabel = labelRepository.findById(1L);
+    assertFalse(maybeLabel.isPresent());
+  }
 }

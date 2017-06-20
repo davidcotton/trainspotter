@@ -24,8 +24,7 @@ public class ChannelRepositoryTest extends AbstractIntegrationTest {
     channelRepository = new ChannelRepository();
   }
 
-  @Test
-  public void findAll() throws Exception {
+  @Test public void findAll() throws Exception {
     List<Channel> channels = channelRepository.findAll();
     assertThat(channels, not(IsEmptyCollection.empty()));
     assertThat(channels.size(), is(2));
@@ -90,5 +89,12 @@ public class ChannelRepositoryTest extends AbstractIntegrationTest {
     assertThat(maybeChannel.get().getName(), is("FBi Radio"));
     // verify that the original image field wasn't changed
     assertThat(maybeChannel.get().getImage(), is("triple-j.jpg"));
+  }
+
+  @Test public void delete() throws Exception {
+    Channel channel = channelRepository.findById(1L).orElseThrow(Exception::new);
+    channelRepository.delete(channel);
+    Optional<Channel> maybeChannel = channelRepository.findById(1L);
+    assertFalse(maybeChannel.isPresent());
   }
 }

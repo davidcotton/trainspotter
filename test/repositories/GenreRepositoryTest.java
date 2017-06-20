@@ -24,8 +24,7 @@ public class GenreRepositoryTest extends AbstractIntegrationTest {
     genreRepository = new GenreRepository();
   }
 
-  @Test
-  public void findAll() throws Exception {
+  @Test public void findAll() throws Exception {
     List<Genre> genres = genreRepository.findAll();
     assertThat(genres, not(IsEmptyCollection.empty()));
     assertThat(genres.size(), is(2));
@@ -88,5 +87,12 @@ public class GenreRepositoryTest extends AbstractIntegrationTest {
     // verify that the genre saved correctly
     assertThat(maybeGenre.get().getId(), is(2L));
     assertThat(maybeGenre.get().getName(), is("Deep House"));
+  }
+
+  @Test public void delete() throws Exception {
+    Genre genre = genreRepository.findById(1L).orElseThrow(Exception::new);
+    genreRepository.delete(genre);
+    Optional<Genre> maybeGenre = genreRepository.findById(1L);
+    assertFalse(maybeGenre.isPresent());
   }
 }

@@ -17,7 +17,7 @@ import models.Media;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
 
-public class MediaRepositoryTest {
+public class MediaRepositoryTest extends AbstractIntegrationTest {
 
   private MediaRepository mediaRepository;
   private ArtistRepository artistRepository;
@@ -27,8 +27,7 @@ public class MediaRepositoryTest {
     artistRepository = new ArtistRepository();
   }
 
-  @Test
-  public void findAll() throws Exception {
+  @Test public void findAll() throws Exception {
     List<Media> medias = mediaRepository.findAll();
     assertThat(medias, not(IsEmptyCollection.empty()));
     assertThat(medias.size(), is(3));
@@ -79,5 +78,12 @@ public class MediaRepositoryTest {
     // verify that the media saved correctly
     assertThat(maybeMedia.get().getId(), is(3L));
     assertThat(maybeMedia.get().getUrl(), is("https://www.facebook.com/djjohndigweed"));
+  }
+
+  @Test public void delete() throws Exception {
+    Media media = mediaRepository.findById(1L).orElseThrow(Exception::new);
+    mediaRepository.delete(media);
+    Optional<Media> maybeMedia = mediaRepository.findById(1L);
+    assertFalse(maybeMedia.isPresent());
   }
 }

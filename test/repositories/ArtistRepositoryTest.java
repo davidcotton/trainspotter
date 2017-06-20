@@ -27,7 +27,7 @@ public class ArtistRepositoryTest extends AbstractIntegrationTest {
   @Test public void findAll() throws Exception {
     List<Artist> artists = artistRepository.findAll();
     assertThat(artists, not(IsEmptyCollection.empty()));
-    assertThat(artists.size(), is(3));
+    assertThat(artists.size(), is(6));
     assertThat(artists, hasItem(hasProperty("name", is("John Digweed"))));
     assertThat(artists, hasItem(hasProperty("name", is("Sasha"))));
     assertThat(artists, hasItem(hasProperty("name", is("Adam Beyer"))));
@@ -90,5 +90,12 @@ public class ArtistRepositoryTest extends AbstractIntegrationTest {
     assertThat(maybeArtist.get().getName(), is("Richie Hawtin"));
     // verify that the original image field wasn't changed
     assertThat(maybeArtist.get().getImage(), is("adam-beyer.jpg"));
+  }
+
+  @Test public void delete() throws Exception {
+    Artist artist = artistRepository.findById(1L).orElseThrow(Exception::new);
+    artistRepository.delete(artist);
+    Optional<Artist> maybeArtist = artistRepository.findById(1L);
+    assertFalse(maybeArtist.isPresent());
   }
 }
