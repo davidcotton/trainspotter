@@ -36,10 +36,10 @@ public class ArtistController extends Controller {
   /**
    * View all artists.
    *
-   * @return A page with all artists.
+   * @return A paginated page of artists.
    */
   public Result index(int page) {
-    return ok(index.render(artistRepository.findAllPaged(--page)));
+    return ok(index.render(artistRepository.findAllPaged(page)));
   }
 
   /**

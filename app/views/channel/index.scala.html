@@ -1,25 +1,32 @@
-@(channels: java.util.List[models.Channel])
+@(channels: com.avaje.ebean.PagedList[Channel])
 
-@main("Channels") {
+@main("All Channels") {
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
-    <li class="breadcrumb-item active"><a href="@routes.ChannelController.index">Channels</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.ChannelController.index(1)">Channels</a></li>
   </ol>
 
   <h1>Channels</h1>
 
   <div class="row">
-  @for(channel <- channels) {
-    <div class="col-sm-6 col-md-4">
-      @if(channel.getImage != null) {
-        <img class="d-flex mr-3" src="@routes.Assets.versioned(channel.getImageLink)" alt="@channel.getName">
-      }
-      <div class="caption">
-        <h3>@channel.getName</h3>
-        <p>@channel.getDescription</p>
-        <p><a href="@routes.ChannelController.view(channel.getSlug)" class="btn btn-primary" role="button">Explore</a></p>
+  @if(channels.getTotalRowCount == 0) {
+    <div class="col-sm-12">
+      <div class="alert alert-warning" role="alert">
+        <h3 class="alert-heading">No channels found</h3>
       </div>
     </div>
+  } else {
+    @for(channel <- channels.getList) {
+    <div class="col-sm-6 col-lg-4">
+      <a href="@routes.ChannelController.view(channel.getSlug)" class="card card-inverse">
+        <img class="card-img" src="@routes.Assets.versioned(channel.getImageLink)" alt="@channel.getName">
+        <div class="card-block">
+          <h3 class="card-title">@channel.getName</h3>
+          <p class="card-text">@channel.getDescription</p>
+        </div>
+      </a>
+    </div>
+    }
   }
   </div>
 }

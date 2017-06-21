@@ -3,7 +3,7 @@
 @main(channel.getName) {
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
-    <li class="breadcrumb-item"><a href="@routes.ChannelController.index">Channels</a></li>
+    <li class="breadcrumb-item"><a href="@routes.ChannelController.index(1)">Channels</a></li>
     <li class="breadcrumb-item active"><a href="@routes.ChannelController.view(channel.getSlug)">@channel.getName</a></li>
   </ol>
 
