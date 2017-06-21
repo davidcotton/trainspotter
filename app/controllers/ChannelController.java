@@ -37,16 +37,21 @@ public class ChannelController extends Controller {
   /**
    * View a single channel.
    *
-   * @param id The ID of the channel.
+   * @param slug The slug of the channel.
    * @return A channel page if found.
    */
-  public Result view(long id) {
+  public Result view(String slug) {
     return channelRepository
-        .findById(id)
+        .findByRoute(slug)
         .map(channel -> ok(view.render(channel)))
         .orElse(notFound(notFound.render()));
   }
 
+  /**
+   * Display an add channel page.
+   *
+   * @return A page to add a new channel.
+   */
   public Result addForm() {
     return ok(add.render(formFactory.form(Channel.class)));
   }
@@ -55,10 +60,18 @@ public class ChannelController extends Controller {
     return TODO;
   }
 
-  public Result editForm(long id) {
+  /**
+   * Display an edit channel page.
+   *
+   * @param slug The slug of the channel.
+   * @return An edit channel page if found else not found page.
+   */
+  public Result editForm(String slug) {
     return channelRepository
-        .findById(id)
-        .map(channel -> ok(edit.render(id, formFactory.form(Channel.class).fill(channel))))
+        .findByRoute(slug)
+        .map(channel -> ok(
+            edit.render(channel.getId(), formFactory.form(Channel.class).fill(channel))
+        ))
         .orElse(notFound(notFound.render()));
   }
 

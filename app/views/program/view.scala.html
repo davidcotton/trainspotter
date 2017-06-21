@@ -3,7 +3,7 @@
 @main(program.getName) {
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
-    <li class="breadcrumb-item"><a href="@routes.ChannelController.view(program.getChannel.getId)">@program.getChannel.getName</a></li>
+    <li class="breadcrumb-item"><a href="@routes.ChannelController.view(program.getChannel.getRoute)">@program.getChannel.getName</a></li>
     <li class="breadcrumb-item active">@program.getName</li>
   </ol>
 
@@ -26,7 +26,7 @@
       </tr>
       <tr>
         <td>Channel</td>
-        <td><a href="@routes.ChannelController.view(program.getChannel.getId)">@program.getChannel.getName</a></td>
+        <td><a href="@routes.ChannelController.view(program.getChannel.getRoute)">@program.getChannel.getName</a></td>
       </tr>
       <tr>
         <td>&nbsp;</td>

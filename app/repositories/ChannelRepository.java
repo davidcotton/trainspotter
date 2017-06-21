@@ -3,8 +3,6 @@ package repositories;
 import com.avaje.ebean.Model.Finder;
 import java.util.List;
 import java.util.Optional;
-
-import models.Artist;
 import models.Channel;
 
 public class ChannelRepository implements Repository<Channel> {
@@ -30,6 +28,16 @@ public class ChannelRepository implements Repository<Channel> {
    */
   public Optional<Channel> findByName(String name) {
     return Optional.ofNullable(find.where().eq("name", name).findUnique());
+  }
+
+  /**
+   * Find an Channel by its route.
+   *
+   * @param route The route of the Channel.
+   * @return An optional Channel if found.
+   */
+  public Optional<Channel> findByRoute(String route) {
+    return Optional.ofNullable(find.where().eq("route", route).findUnique());
   }
 
   @Override

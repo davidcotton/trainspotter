@@ -107,8 +107,8 @@ GET     /artist/:name/tracklist     controllers.ArtistController.tracklists(name
 GET     /channel                    controllers.ChannelController.index()
 GET     /channel/new                controllers.ChannelController.addForm()
 POST    /channel/new                controllers.ChannelController.addSubmit()
-GET     /channel/:id                controllers.ChannelController.view(id:Long)
-GET     /channel/:id/edit           controllers.ChannelController.editForm(id:Long)
+GET     /channel/:name              controllers.ChannelController.view(name:String)
+GET     /channel/:name/edit         controllers.ChannelController.editForm(name:String)
 POST    /channel/:id/edit           controllers.ChannelController.editSubmit(id:Long)
 POST    /channel/:id/delete         controllers.ChannelController.delete(id:Long)
 
