@@ -2,10 +2,8 @@ package repositories;
 
 import com.avaje.ebean.Model.Finder;
 import com.avaje.ebean.PagedList;
-
 import java.util.List;
 import java.util.Optional;
-
 import models.Artist;
 import models.Tracklist;
 
@@ -37,6 +35,16 @@ public class TracklistRepository implements Repository<Tracklist> {
   @Override
   public Optional<Tracklist> findById(long id) {
     return Optional.ofNullable(find.byId(id));
+  }
+
+  /**
+   * Find an Tracklist by their slug.
+   *
+   * @param slug The slug of the Tracklist.
+   * @return An optional Tracklist if found.
+   */
+  public Optional<Tracklist> findBySlug(String slug) {
+    return Optional.ofNullable(find.where().eq("slug", slug).findUnique());
   }
 
   @Override

@@ -77,15 +77,15 @@ public class ArtistController extends Controller {
   public Result editForm(String slug) {
     return artistRepository
         .findBySlug(slug)
-        .map(artist -> ok(edit.render(artist.getId(), formFactory.form(Artist.class).fill(artist))))
+        .map(artist -> ok(edit.render(artist, formFactory.form(Artist.class).fill(artist))))
         .orElse(notFound(notFound.render()));
   }
 
-  public Result editSubmit(long id) {
+  public Result editSubmit(String slug) {
     return TODO;
   }
 
-  public Result delete(long id) {
+  public Result delete(String slug) {
     return TODO;
   }
 

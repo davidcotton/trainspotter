@@ -2,7 +2,6 @@ package repositories;
 
 import com.avaje.ebean.Model.Finder;
 import com.avaje.ebean.PagedList;
-
 import java.util.List;
 import java.util.Optional;
 import models.Artist;

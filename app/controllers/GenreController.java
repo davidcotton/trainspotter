@@ -37,12 +37,12 @@ public class GenreController extends Controller {
   /**
    * View a single genre.
    *
-   * @param id The genre's ID.
+   * @param slug The genre's ID.
    * @return A genre page if found.
    */
-  public Result view(long id) {
+  public Result view(String slug) {
     return genreRepository
-        .findById(id)
+        .findBySlug(slug)
         .map(genre -> ok(view.render(genre)))
         .orElse(notFound(notFound.render()));
   }
@@ -55,18 +55,18 @@ public class GenreController extends Controller {
     return TODO;
   }
 
-  public Result editForm(long id) {
+  public Result editForm(String slug) {
     return genreRepository
-        .findById(id)
-        .map(genre -> ok(edit.render(id, formFactory.form(Genre.class).fill(genre))))
+        .findBySlug(slug)
+        .map(genre -> ok(edit.render(genre, formFactory.form(Genre.class).fill(genre))))
         .orElse(notFound(notFound.render()));
   }
 
-  public Result editSubmit(long id) {
+  public Result editSubmit(String slug) {
     return TODO;
   }
 
-  public Result delete(long id) {
+  public Result delete(String slug) {
     return TODO;
   }
 }

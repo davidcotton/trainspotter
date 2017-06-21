@@ -1,4 +1,4 @@
-@(id: Long, channelForm: play.data.Form[Channel])
+@(channel: Channel, channelForm: play.data.Form[Channel])
 
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
@@ -6,7 +6,7 @@
   <div class="card mt-5">
     <h3 class="card-header">Edit Channel</h3>
     <div class="card-block">
-    @b4.form(routes.ChannelController.editSubmit(id)) {
+    @b4.form(routes.ChannelController.editSubmit(channel.getSlug)) {
       <fieldset>
         @b4.text(channelForm("name"), '_label -> "Name", 'placeholder -> "Name")
         @b4.text(channelForm("image"), '_label -> "Image", 'placeholder -> "Image")

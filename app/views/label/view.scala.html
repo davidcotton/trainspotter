@@ -4,7 +4,7 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
     <li class="breadcrumb-item"><a href="@routes.LabelController.index">Labels</a></li>
-    <li class="breadcrumb-item active"><a href="@routes.LabelController.view(label.getId)">@label.getName</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.LabelController.view(label.getSlug)">@label.getName</a></li>
   </ol>
 
   <h1>@label.getName</h1>
@@ -26,10 +26,10 @@
           <small>@label.getDescription</small>
         </div>
         <div class="btn-group" role="group">
-          <a href="@routes.LabelController.editForm(label.getId)" class="btn btn-sm btn-warning">
+          <a href="@routes.LabelController.editForm(label.getSlug)" class="btn btn-sm btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
-          <a href="@routes.LabelController.delete(label.getId)" class="btn btn-sm btn-danger">
+          <a href="@routes.LabelController.delete(label.getSlug)" class="btn btn-sm btn-danger">
             <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
           </a>
         </div>

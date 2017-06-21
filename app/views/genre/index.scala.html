@@ -17,12 +17,12 @@
     <tbody>
     @for(genre <- genres) {
       <tr>
-        <td><a href="@routes.GenreController.view(genre.getId)">@genre.getName</a></td>
+        <td><a href="@routes.GenreController.view(genre.getSlug)">@genre.getName</a></td>
         <td class="text-right">
-          <a href="@routes.GenreController.editForm(genre.getId)" class="btn btn-sm btn-warning">
+          <a href="@routes.GenreController.editForm(genre.getSlug)" class="btn btn-sm btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
-          <a href="@routes.GenreController.delete(genre.getId)" class="btn btn-sm btn-danger">
+          <a href="@routes.GenreController.delete(genre.getSlug)" class="btn btn-sm btn-danger">
             <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
           </a>
         </td>

@@ -3,7 +3,7 @@
 @main("@channel.getName Programs") {
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
-    <li class="breadcrumb-item active"><a href="@routes.ProgramController.index(channel.getId)">@channel.getName Programs</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.ProgramController.index(channel.getSlug)">@channel.getName Programs</a></li>
   </ol>
 
   <h1>@channel.getName Programs</h1>
@@ -18,17 +18,17 @@
     <tbody>
     @for(program <- programs) {
       <tr>
-        <td><a href="@routes.ProgramController.view(program.getId)">@program.getName</a></td>
+        <td><a href="@routes.ProgramController.view(program.getSlug)">@program.getName</a></td>
         <td>
         @for(host <- program.getHosts) {
           <a href="@routes.ArtistController.view(host.getSlug)">@host.getName</a>,
         }
         </td>
         <td class="text-right">
-          <a href="@routes.ProgramController.editForm(program.getId)" class="btn btn-sm btn-warning">
+          <a href="@routes.ProgramController.editForm(program.getSlug)" class="btn btn-sm btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
-          <a href="@routes.ProgramController.delete(program.getId)" class="btn btn-sm btn-danger">
+          <a href="@routes.ProgramController.delete(program.getSlug)" class="btn btn-sm btn-danger">
             <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
           </a>
         </td>
@@ -38,7 +38,7 @@
     <tfoot>
       <tr>
         <td colspan="2">
-          <a href="@routes.ProgramController.addForm(channel.getId)" class="btn btn-sm btn-primary">
+          <a href="@routes.ProgramController.addForm(channel.getSlug)" class="btn btn-sm btn-primary">
             New Program <i class="fa fa-plus" title="New Program" aria-hidden="true"></i>
           </a>
         </td>

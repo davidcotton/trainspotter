@@ -1,4 +1,4 @@
-@(id: Long, programForm: play.data.Form[Program])
+@(program: Program, programForm: play.data.Form[Program])
 
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
@@ -6,7 +6,7 @@
   <div class="card mt-5">
     <h3 class="card-header">Edit Program</h3>
     <div class="card-block">
-    @b4.form(routes.ProgramController.editSubmit(id)) {
+    @b4.form(routes.ProgramController.editSubmit(program.getSlug)) {
       <fieldset>
         @b4.text(programForm("name"), '_label -> "Name", 'placeholder -> "Name")
         @b4.text(programForm("image"), '_label -> "Image", 'placeholder -> "Image")

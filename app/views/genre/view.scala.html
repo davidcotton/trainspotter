@@ -4,7 +4,7 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
     <li class="breadcrumb-item"><a href="@routes.GenreController.index">Genres</a></li>
-    <li class="breadcrumb-item active"><a href="@routes.GenreController.view(genre.getId)">@genre.getName</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.GenreController.view(genre.getSlug)">@genre.getName</a></li>
   </ol>
 
   <h1>Top @genre.getName Tracklists</h1>

@@ -70,16 +70,16 @@ public class ChannelController extends Controller {
     return channelRepository
         .findBySlug(slug)
         .map(channel -> ok(
-            edit.render(channel.getId(), formFactory.form(Channel.class).fill(channel))
+            edit.render(channel, formFactory.form(Channel.class).fill(channel))
         ))
         .orElse(notFound(notFound.render()));
   }
 
-  public Result editSubmit(long id) {
+  public Result editSubmit(String slug) {
     return TODO;
   }
 
-  public Result delete(long id) {
+  public Result delete(String slug) {
     return TODO;
   }
 }

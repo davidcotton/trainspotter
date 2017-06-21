@@ -20,7 +20,7 @@
   <div class="row">
   @for(program <- channel.getPrograms) {
     <div class="col-sm-4">
-      <a href="@routes.ProgramController.view(program.getId)" class="card">
+      <a href="@routes.ProgramController.view(program.getSlug)" class="card">
         <img src="@routes.Assets.versioned(program.getImageLink)" alt="@program.getName" class="card-img-top">
         <div class="card-block">
           <h3 class="card-title">@program.getName</h3>

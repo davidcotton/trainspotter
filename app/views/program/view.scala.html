@@ -31,10 +31,10 @@
       <tr>
         <td>&nbsp;</td>
         <td>
-          <a href="@routes.ProgramController.editForm(program.getId)" class="btn btn-sm btn-warning">
+          <a href="@routes.ProgramController.editForm(program.getSlug)" class="btn btn-sm btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
-          <a href="@routes.ProgramController.delete(program.getId)" class="btn btn-sm btn-danger">
+          <a href="@routes.ProgramController.delete(program.getSlug)" class="btn btn-sm btn-danger">
             <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
           </a>
         </td>

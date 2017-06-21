@@ -37,11 +37,11 @@
             <li class="nav-item dropdown @activeLink(routes.GenreController.index.toString)">
               <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Genres</a>
               <div class="dropdown-menu">
-                <a href="@routes.GenreController.view(1)" class="dropdown-item">House</a>
-                <a href="@routes.GenreController.view(2)" class="dropdown-item">Techno</a>
-                <a href="@routes.GenreController.view(3)" class="dropdown-item">Deep House</a>
-                <a href="@routes.GenreController.view(4)" class="dropdown-item">Tech House</a>
-                <a href="@routes.GenreController.view(5)" class="dropdown-item">Progressive</a>
+                <a href="@routes.GenreController.view("house")" class="dropdown-item">House</a>
+                <a href="@routes.GenreController.view("techno")" class="dropdown-item">Techno</a>
+                <a href="@routes.GenreController.view("deep-house")" class="dropdown-item">Deep House</a>
+                <a href="@routes.GenreController.view("tech-house")" class="dropdown-item">Tech House</a>
+                <a href="@routes.GenreController.view("progressive-house")" class="dropdown-item">Progressive House</a>
               </div>
             </li>
             <li class="nav-item @activeLink(routes.ChannelController.index.toString)">

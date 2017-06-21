@@ -37,12 +37,12 @@ public class LabelController extends Controller {
   /**
    * View a single label.
    *
-   * @param id The label's ID.
+   * @param slug The label's ID.
    * @return A label page if found.
    */
-  public Result view(long id) {
+  public Result view(String slug) {
     return labelRepository
-        .findById(id)
+        .findBySlug(slug)
         .map(label -> ok(view.render(label)))
         .orElse(notFound(notFound.render()));
   }
@@ -55,18 +55,18 @@ public class LabelController extends Controller {
     return TODO;
   }
 
-  public Result editForm(long id) {
+  public Result editForm(String slug) {
     return labelRepository
-        .findById(id)
-        .map(label -> ok(edit.render(id, formFactory.form(Label.class).fill(label))))
+        .findBySlug(slug)
+        .map(label -> ok(edit.render(label, formFactory.form(Label.class).fill(label))))
         .orElse(notFound(notFound.render()));
   }
 
-  public Result editSubmit(long id) {
+  public Result editSubmit(String slug) {
     return TODO;
   }
 
-  public Result delete(long id) {
+  public Result delete(String slug) {
     return TODO;
   }
 }

@@ -6,7 +6,7 @@
   <div class="card mt-5">
     <h3 class="card-header">Create Program</h3>
     <div class="card-block">
-    @b4.form(routes.ProgramController.addSubmit(channel.getId)) {
+    @b4.form(routes.ProgramController.addSubmit(channel.getSlug)) {
       <fieldset>
         @b4.text(programForm("name"), '_label -> "Name", 'placeholder -> "Name")
         @b4.text(programForm("image"), '_label -> "Image", 'placeholder -> "Image")

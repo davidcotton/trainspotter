@@ -35,12 +35,12 @@ public class ProgramController extends Controller {
   /**
    * View all programs.
    *
-   * @param channelId The channel ID.
+   * @param channelSlug The channel ID.
    * @return A page with all programs.
    */
-  public Result index(long channelId) {
+  public Result index(String channelSlug) {
     return channelRepository
-        .findById(channelId)
+        .findBySlug(channelSlug)
         .map(channel -> ok(index.render(programRepository.findAll(), channel)))
         .orElse(notFound(notFound.render()));
   }
@@ -48,39 +48,39 @@ public class ProgramController extends Controller {
   /**
    * View a single program.
    *
-   * @param id The program ID.
+   * @param programSlug The program ID.
    * @return A program page if found.
    */
-  public Result view(long id) {
+  public Result view(String programSlug) {
     return programRepository
-        .findById(id)
+        .findBySlug(programSlug)
         .map(program -> ok(view.render(program)))
         .orElse(notFound(notFound.render()));
   }
 
-  public Result addForm(long channelId) {
+  public Result addForm(String channelSlug) {
     return channelRepository
-        .findById(channelId)
+        .findBySlug(channelSlug)
         .map(channel -> ok(add.render(formFactory.form(Program.class), channel)))
         .orElse(notFound(notFound.render()));
   }
 
-  public Result addSubmit(long channelId) {
+  public Result addSubmit(String channelSlug) {
     return TODO;
   }
 
-  public Result editForm(long id) {
+  public Result editForm(String programSlug) {
     return programRepository
-        .findById(id)
-        .map(program -> ok(edit.render(id, formFactory.form(Program.class).fill(program))))
+        .findBySlug(programSlug)
+        .map(program -> ok(edit.render(program, formFactory.form(Program.class).fill(program))))
         .orElse(notFound(notFound.render()));
   }
 
-  public Result editSubmit(long id) {
+  public Result editSubmit(String slug) {
     return TODO;
   }
 
-  public Result delete(long id) {
+  public Result delete(String slug) {
     return TODO;
   }
 }

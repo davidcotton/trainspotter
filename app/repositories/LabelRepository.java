@@ -30,6 +30,16 @@ public class LabelRepository implements Repository<Label> {
     return Optional.ofNullable(find.where().eq("name", name).findUnique());
   }
 
+  /**
+   * Find an Label by their slug.
+   *
+   * @param slug The slug of the Label.
+   * @return An optional Label if found.
+   */
+  public Optional<Label> findBySlug(String slug) {
+    return Optional.ofNullable(find.where().eq("slug", slug).findUnique());
+  }
+
   @Override
   public void insert(Label label) {
     label.insert();
