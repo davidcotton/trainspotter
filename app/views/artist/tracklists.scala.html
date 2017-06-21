@@ -4,7 +4,7 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
     <li class="breadcrumb-item"><a href="@routes.ArtistController.index()">Artists</a></li>
-    <li class="breadcrumb-item active"><a href="@routes.ArtistController.tracklists(artist.getRoute)">@artist.getName</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.ArtistController.tracklists(artist.getSlug)">@artist.getName</a></li>
   </ol>
 
   <h1>@artist.getName's Tracklists</h1>

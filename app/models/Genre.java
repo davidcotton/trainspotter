@@ -44,7 +44,7 @@ public class Genre extends Model {
   @NotNull
   @Constraints.Required
   @Column(unique = true, length = 191)
-  private String route;
+  private String slug;
 
   @JsonBackReference(value = "genre_track")
   @OneToMany(mappedBy = "genre", cascade = CascadeType.PERSIST)
@@ -72,6 +72,10 @@ public class Genre extends Model {
 
   public String getName() {
     return name;
+  }
+
+  public String getSlug() {
+    return slug;
   }
 
   public List<Track> getTracks() {

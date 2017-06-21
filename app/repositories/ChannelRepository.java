@@ -31,13 +31,13 @@ public class ChannelRepository implements Repository<Channel> {
   }
 
   /**
-   * Find an Channel by its route.
+   * Find an Channel by its slug.
    *
-   * @param route The route of the Channel.
+   * @param slug The slug of the Channel.
    * @return An optional Channel if found.
    */
-  public Optional<Channel> findByRoute(String route) {
-    return Optional.ofNullable(find.where().eq("route", route).findUnique());
+  public Optional<Channel> findBySlug(String slug) {
+    return Optional.ofNullable(find.where().eq("slug", slug).findUnique());
   }
 
   @Override

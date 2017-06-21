@@ -1,7 +1,7 @@
 @(tracklist: Tracklist)
 
 @renderArtist(artist: models.Artist) = {
-  <strong><a href="@routes.ArtistController.view(artist.getRoute)">@artist.getName</a></strong>
+  <strong><a href="@routes.ArtistController.view(artist.getSlug)">@artist.getName</a></strong>
 }
 
 @main(tracklist.getName) {
@@ -28,7 +28,7 @@
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1">
           @for(artist <- tracklist.getArtists) {
-            <a href="@routes.ArtistController.view(artist.getRoute)">@artist.getName</a>,
+            <a href="@routes.ArtistController.view(artist.getSlug)">@artist.getName</a>,
           }
           </h5>
           <small>@tracklist.getPerformed</small>

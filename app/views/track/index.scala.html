@@ -21,14 +21,14 @@
       <tr>
         <td>
         @for(artist <- track.getArtists) {
-          <a href="@routes.ArtistController.view(artist.getRoute)">@artist.getName</a>,
+          <a href="@routes.ArtistController.view(artist.getSlug)">@artist.getName</a>,
         }
         </td>
         <td><a href="@routes.TrackController.view(track.getId)">@track.getName</a></td>
         <td>@partials.tracklink(track)</td>
         <td>
         @for(remixer <- track.getRemixers) {
-          <a href="@routes.ArtistController.view(remixer.getRoute)">@remixer.getName</a>,
+          <a href="@routes.ArtistController.view(remixer.getSlug)">@remixer.getName</a>,
         }
         </td>
         <td class="text-right">

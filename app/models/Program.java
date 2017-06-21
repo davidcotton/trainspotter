@@ -45,7 +45,7 @@ public class Program extends Model {
   @NotNull
   @Constraints.Required
   @Column(unique = true, length = 191)
-  private String route;
+  private String slug;
 
   private String image;
 
@@ -78,6 +78,10 @@ public class Program extends Model {
 
   public String getName() {
     return name;
+  }
+
+  public String getSlug() {
+    return slug;
   }
 
   public String getImage() {

@@ -47,13 +47,13 @@ public class ArtistRepository implements Repository<Artist> {
   }
 
   /**
-   * Find an Artist by their route.
+   * Find an Artist by their slug.
    *
-   * @param route The route of the Artist.
+   * @param slug The slug of the Artist.
    * @return An optional Artist if found.
    */
-  public Optional<Artist> findByRoute(String route) {
-    return Optional.ofNullable(find.where().eq("route", route).findUnique());
+  public Optional<Artist> findBySlug(String slug) {
+    return Optional.ofNullable(find.where().eq("slug", slug).findUnique());
   }
 
   @Override

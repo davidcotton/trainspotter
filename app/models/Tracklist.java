@@ -48,7 +48,7 @@ public class Tracklist extends Model {
   @NotNull
   @Constraints.Required
   @Column(unique = true, length = 191)
-  private String route;
+  private String slug;
 
   private LocalDate performed;
 
@@ -94,14 +94,16 @@ public class Tracklist extends Model {
     return name;
   }
 
+  public String getSlug() {
+    return slug;
+  }
+
   public LocalDate getPerformed() {
     return performed;
   }
 
   /**
    * Get the number of days ago the set was performed.
-   *
-   * @return The number days since this was performed.
    */
   public long getPerformedDaysAgo() {
     return Duration.between(performed.atStartOfDay(), LocalDate.now().atStartOfDay()).toDays();
@@ -111,6 +113,9 @@ public class Tracklist extends Model {
     return image;
   }
 
+  /**
+   * Get a formatted image URL.
+   */
   public String getImageLink() {
     if (image != null) {
       return String.format("images/tracklist/%s", image);

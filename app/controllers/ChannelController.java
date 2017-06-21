@@ -42,7 +42,7 @@ public class ChannelController extends Controller {
    */
   public Result view(String slug) {
     return channelRepository
-        .findByRoute(slug)
+        .findBySlug(slug)
         .map(channel -> ok(view.render(channel)))
         .orElse(notFound(notFound.render()));
   }
@@ -68,7 +68,7 @@ public class ChannelController extends Controller {
    */
   public Result editForm(String slug) {
     return channelRepository
-        .findByRoute(slug)
+        .findBySlug(slug)
         .map(channel -> ok(
             edit.render(channel.getId(), formFactory.form(Channel.class).fill(channel))
         ))

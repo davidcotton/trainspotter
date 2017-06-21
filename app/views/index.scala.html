@@ -1,7 +1,7 @@
 @(tracklists: java.util.List[models.Tracklist])
 
 @renderArtist(artist: models.Artist) = {
-  <strong><a href="@routes.ArtistController.view(artist.getRoute)">@artist.getName</a></strong>
+  <strong><a href="@routes.ArtistController.view(artist.getSlug)">@artist.getName</a></strong>
 }
 
 @main("Trainspotter") {

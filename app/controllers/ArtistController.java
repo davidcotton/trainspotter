@@ -45,12 +45,12 @@ public class ArtistController extends Controller {
   /**
    * View a single artist.
    *
-   * @param route The artist's route.
-   * @return An artist page if found.
+   * @param slug The artist's slug.
+   * @return An artist page if found else not found page.
    */
-  public Result view(String route) {
+  public Result view(String slug) {
     return artistRepository
-        .findByRoute(route)
+        .findBySlug(slug)
         .map(artist -> ok(view.render(artist)))
         .orElse(notFound(notFound.render()));
   }
@@ -71,12 +71,12 @@ public class ArtistController extends Controller {
   /**
    * Display an edit artist page.
    *
-   * @param route The artist's route.
+   * @param slug The artist's slug.
    * @return An edit artist page if artist is found else not found page.
    */
-  public Result editForm(String route) {
+  public Result editForm(String slug) {
     return artistRepository
-        .findByRoute(route)
+        .findBySlug(slug)
         .map(artist -> ok(edit.render(artist.getId(), formFactory.form(Artist.class).fill(artist))))
         .orElse(notFound(notFound.render()));
   }
@@ -89,9 +89,9 @@ public class ArtistController extends Controller {
     return TODO;
   }
 
-  public Result tracklists(String route, int page) {
+  public Result tracklists(String slug, int page) {
     return artistRepository
-        .findByRoute(route)
+        .findBySlug(slug)
         .map(
             artist -> ok(
                 tracklists.render(artist, tracklistRepository.findAllPagedByArtist(artist, page))

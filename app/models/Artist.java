@@ -45,7 +45,7 @@ public class Artist extends Model {
   @NotNull
   @Constraints.Required
   @Column(unique = true, length = 191)
-  private String route;
+  private String slug;
 
   private String image;
 
@@ -92,8 +92,8 @@ public class Artist extends Model {
     return name;
   }
 
-  public String getRoute() {
-    return route;
+  public String getSlug() {
+    return slug;
   }
 
   public String getImage() {
