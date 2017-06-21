@@ -67,7 +67,7 @@ public class ArtistRepositoryTest extends AbstractIntegrationTest {
 
   @Test public void insert_success() throws Exception {
     // ARRANGE
-    Artist artist = new Artist(null, "Sven Vath", null, null, null, null, null, null, null, null, null);
+    Artist artist = new Artist(null, "Sven Vath", "sven-vath", null, null, null, null, null, null, null, null, null);
 
     // ACT
     artistRepository.insert(artist);

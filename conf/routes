@@ -98,10 +98,10 @@ GET     /artist                     controllers.ArtistController.index(page:Int 
 GET     /artist/new                 controllers.ArtistController.addForm()
 POST    /artist/new                 controllers.ArtistController.addSubmit()
 GET     /artist/:name               controllers.ArtistController.view(name:String)
-GET     /artist/:id/edit            controllers.ArtistController.editForm(id:Long)
+GET     /artist/:name/edit          controllers.ArtistController.editForm(name:String)
 POST    /artist/:id/edit            controllers.ArtistController.editSubmit(id:Long)
 POST    /artist/:id/delete          controllers.ArtistController.delete(id:Long)
-GET     /artist/:id/tracklist       controllers.ArtistController.tracklists(id:Long, page:Int ?=1)
+GET     /artist/:name/tracklist     controllers.ArtistController.tracklists(name:String, page:Int ?=1)
 
 # Channels
 GET     /channel                    controllers.ChannelController.index()
