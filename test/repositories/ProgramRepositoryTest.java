@@ -66,7 +66,7 @@ public class ProgramRepositoryTest extends AbstractIntegrationTest {
     Channel triplej = channelRepository.findById(2L).orElseThrow(Exception::new);
     Artist artist = artistRepository.findById(1L).orElseThrow(Exception::new);
     Program program = new Program(
-        null, "Mix Up", null,
+        null, "Mix Up", "mix-up", null,
         "We bring you \"Excluuuussssivvvvveeee\" mixes from some of the best DJs locally and from around the globe. Make sure you are wearing the right shoes, or you might not get in.",
         triplej, new ArrayList<Artist>() {{ add(artist); }}, null, null
     );

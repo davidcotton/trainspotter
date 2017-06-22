@@ -53,7 +53,7 @@ public class ChannelRepositoryTest extends AbstractIntegrationTest {
 
   @Test public void insert_success() throws Exception {
     // ARRANGE
-    Channel channel = new Channel(null, "FBi Radio", null, null, null, null, null);
+    Channel channel = new Channel(null, "FBi Radio", "fbi-radio", null, null, null, null, null);
 
     // ACT
     channelRepository.insert(channel);

@@ -15,6 +15,7 @@ import java.util.Optional;
 import models.Artist;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
+import play.Logger;
 
 public class ArtistRepositoryTest extends AbstractIntegrationTest {
 
@@ -36,11 +37,19 @@ public class ArtistRepositoryTest extends AbstractIntegrationTest {
 
   @Test public void findAllPaged() throws Exception {
     PagedList<Artist> pagedArtists = artistRepository.findAllPaged(1);
-    // verify the page object attributes
-    assertThat(pagedArtists.getPageSize(), is(9));
 
-//    List<Artist> listArtists = pagedArtists.getList();
-//    assertTrue(!listArtists.isEmpty());
+    // verify the pagination object attributes
+    assertThat(pagedArtists.getPageSize(), is(16));
+    assertThat(pagedArtists.getTotalRowCount(), is(6));
+
+    // verify the paginated list
+    List<Artist> artists = pagedArtists.getList();
+    assertThat(artists.get(0).getName(), is("Adam Beyer"));
+    assertThat(artists.get(1).getName(), is("John Digweed"));
+    assertThat(artists.get(2).getName(), is("Marc Romboy"));
+    assertThat(artists.get(3).getName(), is("Sasha"));
+    assertThat(artists.get(4).getName(), is("Solomun"));
+    assertThat(artists.get(5).getName(), is("Umek"));
   }
 
   @Test public void findById_successGivenIdInDb() throws Exception {

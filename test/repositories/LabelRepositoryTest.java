@@ -57,7 +57,7 @@ public class LabelRepositoryTest extends AbstractIntegrationTest {
 
   @Test public void insert_success() throws Exception {
     // ARRANGE
-    Label label = new Label(null, "Kompakt", null, null, null, null, null, null);
+    Label label = new Label(null, "Kompakt", "kompakt", null, null, null, null, null, null);
 
     // ACT
     labelRepository.insert(label);

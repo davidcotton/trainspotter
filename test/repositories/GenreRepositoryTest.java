@@ -56,7 +56,7 @@ public class GenreRepositoryTest extends AbstractIntegrationTest {
 
   @Test public void insert_success() throws Exception {
     // ARRANGE
-    Genre genre = new Genre(null, "Tech House", null, null, null, null);
+    Genre genre = new Genre(null, "Tech House", "tech-house", null, null, null, null);
 
     // ACT
     genreRepository.insert(genre);
