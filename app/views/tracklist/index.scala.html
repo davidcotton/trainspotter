@@ -30,15 +30,9 @@
 
   <nav class="mt-2" aria-label="Pagination">
     <ul class="pagination justify-content-center">
-      @if(tracklists.hasPrev) {
-        <li class="page-item">
-          <a class="page-link" href="@routes.TracklistController.index(tracklists.getPageIndex)" tabindex="-1">Previous</a>
-        </li>
-      } else {
-        <li class="page-item disabled">
-          <a class="page-link" tabindex="-1">Previous</a>
-        </li>
-      }
+      <li class="page-item @if(!tracklists.hasPrev) {disabled}">
+        <a class="page-link" @if(tracklists.hasPrev) {href="@routes.TracklistController.index(tracklists.getPageIndex)"} tabindex="-1">&laquo;</a>
+      </li>
 
       @for(i <- 1 until (tracklists.getTotalPageCount + 1)) {
         <li class="page-item @if((i - 1) == tracklists.getPageIndex) {active}">
@@ -46,15 +40,9 @@
         </li>
       }
 
-      @if(tracklists.hasNext) {
-        <li class="page-item">
-          <a class="page-link" href="@routes.TracklistController.index(tracklists.getPageIndex + 2)">Next</a>
-        </li>
-      } else {
-        <li class="page-item disabled">
-          <a class="page-link">Next</a>
-        </li>
-      }
+      <li class="page-item @if(!tracklists.hasNext) {disabled}">
+        <a class="page-link" @if(tracklists.hasNext) {href="@routes.TracklistController.index(tracklists.getPageIndex + 2)"}>&raquo;</a>
+      </li>
     </ul>
   </nav>
 }

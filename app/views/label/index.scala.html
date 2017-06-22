@@ -1,9 +1,9 @@
-@(labels: java.util.List[models.Label])
+@(labels: com.avaje.ebean.PagedList[models.Label])
 
-@main("Labels") {
+@main("All Labels") {
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
-    <li class="breadcrumb-item active"><a href="@routes.LabelController.index">Labels</a></li>
+    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index()">Home</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.LabelController.index()">Labels</a></li>
   </ol>
 
   <h1>Labels</h1>
@@ -15,18 +15,22 @@
       </tr>
     </thead>
     <tbody>
-    @for(label <- labels) {
-      <tr>
-        <td><a href="@routes.LabelController.view(label.getSlug)">@label.getName</a></td>
-        <td class="text-right">
-          <a href="@routes.LabelController.editForm(label.getSlug)" class="btn btn-sm btn-warning">
-            <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
-          </a>
-          <a href="@routes.LabelController.delete(label.getSlug)" class="btn btn-sm btn-danger">
-            <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
-          </a>
-        </td>
-      </tr>
+    @if(labels.getTotalRowCount == 0) {
+      <tr><td colspan="2">No labels found</td></tr>
+    } else {
+      @for(label <- labels.getList) {
+        <tr>
+          <td><a href="@routes.LabelController.view(label.getSlug)">@label.getName</a></td>
+          <td class="text-right">
+            <a href="@routes.LabelController.editForm(label.getSlug)" class="btn btn-sm btn-warning">
+              <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
+            </a>
+            <a href="@routes.LabelController.delete(label.getSlug)" class="btn btn-sm btn-danger">
+              <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
+            </a>
+          </td>
+        </tr>
+      }
     }
     </tbody>
     <tfoot>
@@ -39,4 +43,20 @@
       </tr>
     </tfoot>
   </table>
+
+  <ul class="pagination justify-content-center">
+    <li class="page-item @if(!labels.hasPrev) {disabled}">
+      <a class="page-link" @if(labels.hasPrev) {href="@routes.LabelController.index(labels.getPageIndex)"} tabindex="-1">&laquo;</a>
+    </li>
+
+    @for(i <- 1 until (labels.getTotalPageCount + 1)) {
+      <li class="page-item @if((i - 1) == labels.getPageIndex) {active}">
+        <a class="page-link" href="@routes.LabelController.index(i)">@(i)</a>
+      </li>
+    }
+
+    <li class="page-item @if(!labels.hasNext) {disabled}">
+      <a class="page-link" @if(labels.hasNext) {href="@routes.LabelController.index(labels.getPageIndex + 2)"}>&raquo;</a>
+    </li>
+  </ul>
 }

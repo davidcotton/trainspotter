@@ -2,3 +2,7 @@
 ol.breadcrumb {
     margin-top: 1.5rem;
 }
+
+.card-dark {
+    background-color: rgba(0,0,0,0.125);
+}

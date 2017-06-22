@@ -2,8 +2,8 @@
 
 @main(label.getName) {
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
-    <li class="breadcrumb-item"><a href="@routes.LabelController.index">Labels</a></li>
+    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index()">Home</a></li>
+    <li class="breadcrumb-item"><a href="@routes.LabelController.index()">Labels</a></li>
     <li class="breadcrumb-item active"><a href="@routes.LabelController.view(label.getSlug)">@label.getName</a></li>
   </ol>
 

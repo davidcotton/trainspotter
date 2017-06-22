@@ -28,10 +28,11 @@ public class LabelController extends Controller {
   /**
    * View all labels.
    *
+   * @param page The page number to load.
    * @return A page with all labels.
    */
-  public Result index() {
-    return ok(index.render(labelRepository.findAll()));
+  public Result index(int page) {
+    return ok(index.render(labelRepository.findAllPaged(page)));
   }
 
   /**

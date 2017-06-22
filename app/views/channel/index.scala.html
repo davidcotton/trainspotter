@@ -17,10 +17,10 @@
     </div>
   } else {
     @for(channel <- channels.getList) {
-    <div class="col-sm-6 col-lg-4">
-      <a href="@routes.ChannelController.view(channel.getSlug)" class="card card-inverse">
-        <img class="card-img" src="@routes.Assets.versioned(channel.getImageLink)" alt="@channel.getName">
-        <div class="card-block">
+    <div class="col-sm-6 col-lg-3">
+      <a href="@routes.ChannelController.view(channel.getSlug)" class="card card-inverse card-dark my-2">
+        <img class="card-img" src="@routes.Assets.versioned(channel.getImageLink)" alt="@channel.getName"  style="height: 15rem;">
+        <div class="card-block"style="height: 15rem;">
           <h3 class="card-title">@channel.getName</h3>
           <p class="card-text">@channel.getDescription</p>
         </div>
@@ -29,4 +29,22 @@
     }
   }
   </div>
+
+  <nav class="mt-2" aria-label="Pagination">
+    <ul class="pagination justify-content-center">
+      <li class="page-item @if(!channels.hasPrev) {disabled}">
+        <a class="page-link" @if(channels.hasPrev) {href="@routes.ChannelController.index(channels.getPageIndex)"} tabindex="-1">&laquo;</a>
+      </li>
+
+      @for(i <- 1 until (channels.getTotalPageCount + 1)) {
+        <li class="page-item @if((i - 1) == channels.getPageIndex) {active}">
+          <a class="page-link" href="@routes.ChannelController.index(i)">@(i)</a>
+        </li>
+      }
+
+      <li class="page-item @if(!channels.hasNext) {disabled}">
+        <a class="page-link" @if(channels.hasNext) {href="@routes.ChannelController.index(channels.getPageIndex + 2)"}>&raquo;</a>
+      </li>
+    </ul>
+  </nav>
 }

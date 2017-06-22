@@ -12,7 +12,7 @@ public class ChannelRepository implements Repository<Channel> {
   /** Ebean helper */
   private static Finder<Long, Channel> find = new Finder<>(Channel.class);
 
-  private static final int PAGE_SIZE = 6;
+  private static final int PAGE_SIZE = 12;
 
   @Override
   public List<Channel> findAll() {
@@ -20,10 +20,10 @@ public class ChannelRepository implements Repository<Channel> {
   }
 
   /**
-   * Fetch a paginated collection of Channel.
+   * Fetch a paginated collection of Channels.
    *
    * @param page The page number to fetch (offset).
-   * @return A paginated list of Channel ordered by name.
+   * @return A paginated list of Channels ordered by name.
    */
   public PagedList<Channel> findAllPaged(int page) {
     return find

@@ -7,7 +7,7 @@
 @(title: String)(content: Html)
 
 @activeLink(currentPath: String) = @{
-  if (request.path.equals(currentPath)) "active"
+  if (request.path.contains(currentPath)) "active"
 }
 
 <!DOCTYPE html>
@@ -40,7 +40,7 @@
             <li class="nav-item @activeLink(routes.TracklistController.index().toString)">
               <a href="@routes.TracklistController.index()" class="nav-link">Tracklists</a>
             </li>
-            <li class="nav-item dropdown @activeLink(routes.GenreController.index.toString)">
+            <li class="nav-item dropdown @activeLink(routes.GenreController.index().toString)">
               <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Genres</a>
               <div class="dropdown-menu">
                 <a href="@routes.GenreController.view("house")" class="dropdown-item">House</a>
@@ -50,13 +50,13 @@
                 <a href="@routes.GenreController.view("progressive-house")" class="dropdown-item">Progressive House</a>
               </div>
             </li>
-            <li class="nav-item @activeLink(routes.ChannelController.index(1).toString)">
+            <li class="nav-item @activeLink(routes.ChannelController.index().toString)">
               <a href="@routes.ChannelController.index()" class="nav-link">Channels</a>
             </li>
             <li class="nav-item @activeLink(routes.ArtistController.index().toString)">
               <a href="@routes.ArtistController.index()" class="nav-link">Artists</a>
             </li>
-            <li class="nav-item @activeLink(routes.LabelController.index.toString)">
+            <li class="nav-item @activeLink(routes.LabelController.index().toString)">
               <a href="@routes.LabelController.index()" class="nav-link">Labels</a>
             </li>
           </ul>

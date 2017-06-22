@@ -131,7 +131,7 @@ POST    /genre/:name/edit           controllers.GenreController.editSubmit(name:
 POST    /genre/:name/delete         controllers.GenreController.delete(name:String)
 
 # Labels
-GET     /label                      controllers.LabelController.index()
+GET     /label                      controllers.LabelController.index(page:Int ?= 1)
 GET     /label/new                  controllers.LabelController.addForm()
 POST    /label/new                  controllers.LabelController.addSubmit()
 GET     /label/:name                controllers.LabelController.view(name:String)

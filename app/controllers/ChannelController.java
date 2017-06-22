@@ -1,7 +1,5 @@
 package controllers;
 
-import com.avaje.ebean.PagedList;
-
 import static java.util.Objects.requireNonNull;
 
 import javax.inject.Inject;
@@ -28,13 +26,13 @@ public class ChannelController extends Controller {
   }
 
   /**
-   * View all channels.
+   * View a paginated list of channels.
    *
+   * @param page The page number to load.
    * @return A paginated page of channels.
    */
   public Result index(int page) {
-    PagedList<Channel> channels = channelRepository.findAllPaged(page);
-    return ok(index.render(channels));
+    return ok(index.render(channelRepository.findAllPaged(page)));
   }
 
   /**
