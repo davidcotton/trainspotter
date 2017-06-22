@@ -1,6 +1,8 @@
 package repositories;
 
 import com.avaje.ebean.Model.Finder;
+import com.avaje.ebean.PagedList;
+
 import java.util.List;
 import java.util.Optional;
 import models.Channel;
@@ -10,9 +12,23 @@ public class ChannelRepository implements Repository<Channel> {
   /** Ebean helper */
   private static Finder<Long, Channel> find = new Finder<>(Channel.class);
 
+  private static final int PAGE_SIZE = 6;
+
   @Override
   public List<Channel> findAll() {
     return find.orderBy().asc("name").findList();
+  }
+
+  /**
+   * Fetch a paginated collection of Channel.
+   *
+   * @param page The page number to fetch (offset).
+   * @return A paginated list of Channel ordered by name.
+   */
+  public PagedList<Channel> findAllPaged(int page) {
+    return find
+        .orderBy("name")
+        .findPagedList(--page, PAGE_SIZE); // page -1 so we can be 1-indexed
   }
 
   @Override

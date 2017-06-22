@@ -1,6 +1,6 @@
 @(artist: Artist)
 
-@main(artist.getName) {
+@main(artist.getName + " Tracklists") {
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
     <li class="breadcrumb-item"><a href="@routes.ArtistController.index()">Artists</a></li>

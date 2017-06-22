@@ -27,7 +27,7 @@ public class ArtistRepository implements Repository<Artist> {
   public PagedList<Artist> findAllPaged(int page) {
     return find
         .orderBy("name")
-        .findPagedList(--page, PAGE_SIZE);
+        .findPagedList(--page, PAGE_SIZE); // page -1 so we can be 1-indexed
   }
 
   @Override
