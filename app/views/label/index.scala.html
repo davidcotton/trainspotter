@@ -7,42 +7,34 @@
   </ol>
 
   <h1>Labels</h1>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>&nbsp;</th>
-      </tr>
-    </thead>
-    <tbody>
+  <div class="row">
     @if(labels.getTotalRowCount == 0) {
-      <tr><td colspan="2">No labels found</td></tr>
+      <div class="col-sm-12">
+        <div class="alert alert-warning" role="alert">
+          <h3 class="alert-heading">No artists found</h3>
+        </div>
+      </div>
     } else {
       @for(label <- labels.getList) {
-        <tr>
-          <td><a href="@routes.LabelController.view(label.getSlug)">@label.getName</a></td>
-          <td class="text-right">
-            <a href="@routes.LabelController.editForm(label.getSlug)" class="btn btn-sm btn-warning">
-              <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
-            </a>
-            <a href="@routes.LabelController.delete(label.getSlug)" class="btn btn-sm btn-danger">
-              <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
-            </a>
-          </td>
-        </tr>
+        <div class="col-md-4 col-lg-3 my-2">
+          <a href="@routes.LabelController.view(label.getSlug)" class="card card-inverse card-dark">
+            <div class="d-flex">
+            @if(label.getImage != null) {
+              <img class="card-img" src="@routes.Assets.versioned(label.getImageLink)" alt="@label.getName">
+            } else {
+              <span class="align-self-center ml-auto mr-auto">
+                <i class="fa fa-headphones fa-5x" aria-hidden="true"></i>
+              </span>
+            }
+            </div>
+            <div class="card-img-overlay">
+              <h3 class="card-title">@label.getName</h3>
+            </div>
+          </a>
+        </div>
       }
     }
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="2">
-          <a href="@routes.LabelController.addForm()" class="btn btn-sm btn-primary">
-            New Artist <i class="fa fa-plus" title="New Artist" aria-hidden="true"></i>
-          </a>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+  </div>
 
   <ul class="pagination justify-content-center">
     <li class="page-item @if(!labels.hasPrev) {disabled}">

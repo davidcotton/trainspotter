@@ -15,14 +15,14 @@ VALUES
   ('Lessons', 'lessons', null, null , NOW(), NOW()),
   ('Adam Port', 'adam-port', 'adam-port.jpg', null , NOW(), NOW()),
   ('Re.You', 're.you', 're.you.jpg', null , NOW(), NOW()),
-  ('Tiefschwarz', 'tiefschwarz', 'tiefschwarz.jpg', null , NOW(), NOW()),
+  ('Tiefschwarz', 'tiefschwarz', null, null , NOW(), NOW()),
   ('Yawk', 'yawk', null, null , NOW(), NOW()),
   ('Soame', 'soame', null, null , NOW(), NOW()),
   ('Wigbert', 'wigbert', null, null, NOW(), NOW()),
-  ('Citizen', 'citizen', 'citizen.jpg', null , NOW(), NOW()),
+  ('Citizen', 'citizen', null, null , NOW(), NOW()),
   ('Kocleo', 'kocleo', null, null , NOW(), NOW()),
   ('Scan Mode', 'scan-mode', null, null , NOW(), NOW()),
-  ('Jesper Dahlback', 'jesper-dahlback', 'jesper-dahlback.jpg', null , NOW(), NOW()),
+  ('Jesper Dahlback', 'jesper-dahlback', null, null , NOW(), NOW()),
   ('Umek', 'umek', 'umek.jpg', 'For a long time, Slovenia is known for its great electronic parties, but as the local scene is of boutique dimensions, everyone, who wishes to take the art of mixing and producing to a professional level, has to go out there and enter the worldwide scene. Umek has done this step as early as in the middle of the 90s and so he became one of the most important techno players of the global techno scene, even before the end of the last millennium. Together with people, who shared the same views, he successfully captured the first era of researching and recreating the rules of the dance music in Recycled Loops, Consumer Recreation and Astrodisco platforms, which all put the sound of the Slovenian techno on the world map of electronic music.' , NOW(), NOW()),
   ('Solomun', 'solomun', 'solomun.jpg', null , NOW(), NOW()),
   ('Marc Romboy', 'marc-romboy', 'marc-romboy.jpg', null , NOW(), NOW()),
@@ -43,25 +43,31 @@ VALUES
 
 INSERT INTO `channel` (`name`, `slug`, `image`, `description`, `created`, `updated`) VALUES
   ('Proton Radio', 'proton-radio', 'proton-opengraph.gif','Welcome to Proton, a subscriber supported Internet radio station and music label.' , NOW(), NOW()),
-  ('Triple J', 'triple-j', 'triple-j.jpg', 'triple j is the national youth broadcaster for young Australians. We aim to bring you the latest, greatest music and the stories that matter on the radio (covering over 98% of the nation), online, on your phone and in print with J Annual.' , NOW(), NOW()),
-  ('BBC Radio 1', 'bbc-radio-1', 'bbc.jpg', 'Listen to BBC Radio 1, home of the Official Chart, the Live Lounge and the world''s greatest DJs including Nick Grimshaw, Scott Mills, Clara Amfo, Greg James, Annie Mac and many more. Listen on DAB Radio, Digital TV, 97-99 FM, Online and Mobile.' , NOW(), NOW()),
-  ('KISS FM', 'kiss-fm', 'kiss-fm.jpg', 'Kiss is a UK radio station which broadcasts on FM and National DAB and specialises in pop, hip hop, R&B, urban and electronic dance music.' , NOW(), NOW()),
+  ('Triple J', 'triple-j', null, 'triple j is the national youth broadcaster for young Australians. We aim to bring you the latest, greatest music and the stories that matter on the radio (covering over 98% of the nation), online, on your phone and in print with J Annual.' , NOW(), NOW()),
+  ('BBC Radio 1', 'bbc-radio-1', null, 'Listen to BBC Radio 1, home of the Official Chart, the Live Lounge and the world''s greatest DJs including Nick Grimshaw, Scott Mills, Clara Amfo, Greg James, Annie Mac and many more. Listen on DAB Radio, Digital TV, 97-99 FM, Online and Mobile.' , NOW(), NOW()),
+  ('KISS FM', 'kiss-fm', null, 'Kiss is a UK radio station which broadcasts on FM and National DAB and specialises in pop, hip hop, R&B, urban and electronic dance music.' , NOW(), NOW()),
   ('Energia 97 FM', 'energia-97-fm', null, '' , NOW(), NOW());
 
 INSERT INTO `label` (`name`, `slug`, `image`, `description`, `created`, `updated`)
 VALUES
-  ('Not on label', 'not-on-label', null,'' , NOW(), NOW()),
+  ('Not on label', 'not-on-label', null, '' , NOW(), NOW()),
   ('Bedrock Records', 'bedrock-records', 'bedrock-records.jpg', 'Together John Digweed and Nick Muir are the key to what makes up the Bedrock record label tick. With the some of the cream of the progressive and breaks crop releases music on Bedrock the label constantly goes from strength to strength and provides the latest in quality beats. \nBedrock launched in 1999 with the classic progressive anthem Heaven Scent.' , NOW(), NOW()),
   ('Get Wet', 'get-wet', null, '' ,  NOW(), NOW()),
-  ('Sinnbus', 'sinnbus', 'sinnbus.jpg', '' , NOW(), NOW()),
-  ('Mobilee', 'mobilee', 'mobilee.jpg', '' , NOW(), NOW()),
-  ('Souvenir', 'souvenir', 'souvenir.jpg', '' , NOW(), NOW()),
+  ('Sinnbus', 'sinnbus', null, '' , NOW(), NOW()),
+  ('Mobilee Records', 'mobilee-records', 'mobilee-records.jpg', '' , NOW(), NOW()),
+  ('Souvenir', 'souvenir', null, '' , NOW(), NOW()),
   ('Colour Series', 'colour-series', null, '' , NOW(), NOW()),
   ('SCI+TEC', 'sci+tec', 'sci+tec.jpg', '' , NOW(), NOW()),
-  ('IAM Music', 'iam-music', 'iam-music.jpg', '' , NOW(), NOW()),
-  ('Strange Idol', 'strange-idol', 'strange-idol.jpg', '' , NOW(), NOW()),
-  ('Last Night On Earth', 'last-night-on-earth', null, 'Label run by Sasha' , NOW(), NOW()),
-  ('Drumcode', 'drumcode', 'drumcode.jpg', 'Techno label run by Adam Beyer.' , NOW(), NOW());
+  ('IAM Music', 'iam-music', null, '' , NOW(), NOW()),
+  ('Strange Idol', 'strange-idol', null, '' , NOW(), NOW()),
+  ('Last Night On Earth', 'last-night-on-earth', 'last-night-on-earth.jpg', 'Label run by Sasha' , NOW(), NOW()),
+  ('Drumcode', 'drumcode', 'drumcode.jpg', 'Techno label run by Adam Beyer.' , NOW(), NOW()),
+  ('Ovum Recordings', 'ovum-recordings', 'ovum-recordings.jpg', 'Ovum has come to prominence with a certain Josh Wink amongst their ranks. A label with a very bright future, and who can argue, with artists such as Josh Wink, Pete Moss, DJ Dozia, David Alvarado and Rulers of the Deep.' , NOW(), NOW()),
+  ('Poker Flat Recordings', 'poker-flat-recordings', 'poker-flat-recordings.jpg', 'Martin Landsky, Steve Bug, Märtini Brös, and Orbit Starz make up a fair portion of the artists that release on the Poker Flat Recordings label.' , NOW(), NOW()),
+  ('Cocoon Recordings', 'cocoon-recordings', 'cocoon-recordings.jpg', 'Cocoon Recordings philosophy has its roots in the need to create a platform for young and talented DJs and producers to develop their personal path of creativity. Since 2000, the label has released more than 350 artists ranging from house and techno to minimal and tech-house sounds with a total of 300 releases.\n\nAlthough vinyl remains the main musical communication tool, Cocoon Recordings is also distributing its music on web portals like iTunes and Beatport (just to name a few) in order to reach a wider pool of followers and fans. Until now, more than 1.2 million tracks have been legally downloaded worldwide, especially in Germany, Japan, U.K., USA, Italy and Spain.' , NOW(), NOW()),
+  ('Egothermia', 'egothermia', 'egothermia-records.jpg', null , NOW(), NOW()),
+  ('Octopus Records', 'octopus-records', 'octopus-records.jpg', 'Octopus Recordings releases classic modern Techno from its base in Barcelona.Founded and ran by DJ and recording artist,Sian. http://octopusrecordings.com' , NOW(), NOW()),
+  ('Get Physical Music', 'get-physical-music', 'get-physical-music.jpg', 'The name says it all: Get Physical tracks could hardly be more moving and corporeal. This aspect of physicality also resurfaces on two of the labels key releases: the in-house DJ mix series "Body Language" and a string of double vinyl compilations called "Full Body Workout", brimming with new beats and sounds by up-and-coming talents.' , NOW(), NOW());
 
 INSERT INTO `genre` (`name`, `slug`, `created`, `updated`)
 VALUES

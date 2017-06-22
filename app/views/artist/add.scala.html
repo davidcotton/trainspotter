@@ -10,7 +10,7 @@
       <fieldset>
         @b4.text(artistForm("name"), '_label -> "Name", 'placeholder -> "Name")
         @b4.text(artistForm("image"), '_label -> "Image", 'placeholder -> "Image")
-        @b4.text(artistForm("description"), '_label -> "Description", 'placeholder -> "Description")
+        @b4.textarea(artistForm("description"), '_label -> "Description", 'placeholder -> "Description", 'rows -> "10")
         @b4.submit('class -> "btn btn-primary") { Create }
       </fieldset>
     }

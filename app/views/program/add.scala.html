@@ -10,7 +10,7 @@
       <fieldset>
         @b4.text(programForm("name"), '_label -> "Name", 'placeholder -> "Name")
         @b4.text(programForm("image"), '_label -> "Image", 'placeholder -> "Image")
-        @b4.text(programForm("description"), '_label -> "Description", 'placeholder -> "Description")
+        @b4.textarea(programForm("description"), '_label -> "Description", 'placeholder -> "Description", 'rows -> "10")
         @b4.submit('class -> "btn btn-primary") { Create }
       </fieldset>
     }

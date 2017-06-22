@@ -12,7 +12,7 @@ public class LabelRepository implements Repository<Label> {
   /** Ebean helper */
   private static Finder<Long, Label> find = new Finder<>(Label.class);
 
-  private static final int PAGE_SIZE = 10;
+  private static final int PAGE_SIZE = 12;
 
   @Override
   public List<Label> findAll() {
