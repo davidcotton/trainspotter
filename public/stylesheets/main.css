@@ -21,32 +21,43 @@ ol.breadcrumb {
     padding: .5rem;
 }
 
-.bd-footer {
+.tab-content {
+    padding: .75rem 1.25rem;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    /*border-top-right-radius: .25rem;*/
+}
+
+.footer {
+    /*position: absolute;*/
+    /*bottom: 0;*/
+    /*width: 100%;*/
+
     padding: 4rem 0;
     margin-top: 4rem;
     font-size: 85%;
     background-color: #f7f7f7;
 }
 
-.bd-footer p {
+.footer p {
     margin-bottom: 0;
 }
 
-.bd-footer a {
+.footer a {
     font-weight: 500;
     color: #464a4c;
 }
 
-.bd-footer-links {
+.footer-links {
     padding-left: 0;
     margin-bottom: 1rem;
 }
 
-.bd-footer-links li {
+.footer-links li {
     display: inline-block;
 }
 
-.bd-footer-links li+li {
+.footer-links li+li {
     margin-left: 1rem;
 }
 

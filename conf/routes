@@ -101,7 +101,8 @@ GET     /artist/:name               controllers.ArtistController.view(name:Strin
 GET     /artist/:name/edit          controllers.ArtistController.editForm(name:String)
 POST    /artist/:name/edit          controllers.ArtistController.editSubmit(name:String)
 POST    /artist/:name/delete        controllers.ArtistController.delete(name:String)
-GET     /artist/:name/tracklist     controllers.ArtistController.tracklists(name:String, page:Int ?=1)
+GET     /artist/:name/tracks        controllers.ArtistController.track(name:String, page:Int ?=1)
+GET     /artist/:name/tracklists    controllers.ArtistController.tracklist(name:String, page:Int ?=1)
 
 # Channels
 GET     /channel                    controllers.ChannelController.index(page:Int ?= 1)

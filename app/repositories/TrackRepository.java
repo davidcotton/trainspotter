@@ -1,18 +1,31 @@
 package repositories;
 
 import com.avaje.ebean.Model.Finder;
+import com.avaje.ebean.PagedList;
+
 import java.util.List;
 import java.util.Optional;
+
+import models.Artist;
 import models.Track;
 
 public class TrackRepository implements Repository<Track> {
 
   /** Ebean helper */
   private static Finder<Long, Track> find = new Finder<>(Track.class);
+  private static final int PAGE_SIZE = 10;
 
   @Override
   public List<Track> findAll() {
     return find.orderBy().asc("name").findList();
+  }
+
+  public PagedList<Track> findAllPagedByArtist(Artist artist, int page) {
+    return find
+        .fetch("artists")
+        .where().eq("artists.id", artist.getId())
+        .orderBy().desc("performed")
+        .findPagedList(--page, PAGE_SIZE);
   }
 
   @Override

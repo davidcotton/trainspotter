@@ -8,11 +8,13 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import repositories.ArtistRepository;
+import repositories.TrackRepository;
 import repositories.TracklistRepository;
 import views.html.artist.add;
 import views.html.artist.edit;
 import views.html.artist.index;
-import views.html.artist.tracklists;
+import views.html.artist.track;
+import views.html.artist.tracklist;
 import views.html.artist.view;
 import views.html.notFound;
 
@@ -21,16 +23,19 @@ public class ArtistController extends Controller {
   private final ArtistRepository artistRepository;
   private final FormFactory formFactory;
   private final TracklistRepository tracklistRepository;
+  private final TrackRepository trackRepository;
 
   @Inject
   public ArtistController(
       ArtistRepository artistRepository,
       FormFactory formFactory,
-      TracklistRepository tracklistRepository
+      TracklistRepository tracklistRepository,
+      TrackRepository trackRepository
   ) {
     this.artistRepository = requireNonNull(artistRepository);
     this.formFactory = requireNonNull(formFactory);
     this.tracklistRepository = requireNonNull(tracklistRepository);
+    this.trackRepository = requireNonNull(trackRepository);
   }
 
   /**
@@ -89,13 +94,22 @@ public class ArtistController extends Controller {
     return TODO;
   }
 
-  public Result tracklists(String slug, int page) {
+  public Result tracklist(String slug, int page) {
     return artistRepository
         .findBySlug(slug)
         .map(
             artist -> ok(
-                tracklists.render(artist, tracklistRepository.findAllPagedByArtist(artist, page))
+                tracklist.render(artist, tracklistRepository.findAllPagedByArtist(artist, page))
             )
+        )
+        .orElse(notFound(notFound.render()));
+  }
+
+  public Result track(String slug, int page) {
+    return artistRepository
+        .findBySlug(slug)
+        .map(
+            artist -> ok(track.render(artist, trackRepository.findAllPagedByArtist(artist, page)))
         )
         .orElse(notFound(notFound.render()));
   }
