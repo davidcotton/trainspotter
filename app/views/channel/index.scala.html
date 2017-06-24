@@ -7,51 +7,48 @@
   </ol>
 
   <h1>Channels</h1>
-
-  <div class="row">
-  @if(channels.getTotalRowCount == 0) {
-    <div class="col-sm-12">
-      <div class="alert alert-warning" role="alert">
-        <h3 class="alert-heading">No channels found</h3>
+  @if(channels.getTotalRowCount > 0) {
+    <div class="row">
+      @for(channel <- channels.getList) {
+      <div class="col-md-4 col-lg-3 my-2">
+        <a href="@routes.ChannelController.view(channel.getSlug)" class="card card-inverse card-dark">
+          <div class="d-flex">
+            @if(channel.getImage != null) {
+              <img class="card-img" src="@routes.Assets.versioned(channel.getImageLink)" alt="@channel.getName">
+            } else {
+              <span class="align-self-center ml-auto mr-auto">
+                <i class="fa fa-headphones fa-5x" aria-hidden="true"></i>
+              </span>
+            }
+          </div>
+          <div class="card-img-overlay">
+            <h3 class="card-title">@channel.getName</h3>
+          </div>
+        </a>
       </div>
-    </div>
-  } else {
-    @for(channel <- channels.getList) {
-    <div class="col-md-4 col-lg-3 my-2">
-      <a href="@routes.ChannelController.view(channel.getSlug)" class="card card-inverse card-dark">
-        <div class="d-flex">
-          @if(channel.getImage != null) {
-            <img class="card-img" src="@routes.Assets.versioned(channel.getImageLink)" alt="@channel.getName">
-          } else {
-            <span class="align-self-center ml-auto mr-auto">
-              <i class="fa fa-headphones fa-5x" aria-hidden="true"></i>
-            </span>
-          }
-        </div>
-        <div class="card-img-overlay">
-          <h3 class="card-title">@channel.getName</h3>
-        </div>
-      </a>
-    </div>
-    }
-  }
-  </div>
-
-  <nav class="mt-2" aria-label="Pagination">
-    <ul class="pagination justify-content-center">
-      <li class="page-item @if(!channels.hasPrev) {disabled}">
-        <a class="page-link" @if(channels.hasPrev) {href="@routes.ChannelController.index(channels.getPageIndex)"} tabindex="-1">&laquo;</a>
-      </li>
-
-      @for(i <- 1 until (channels.getTotalPageCount + 1)) {
-        <li class="page-item @if((i - 1) == channels.getPageIndex) {active}">
-          <a class="page-link" href="@routes.ChannelController.index(i)">@(i)</a>
-        </li>
       }
+    </div>
 
-      <li class="page-item @if(!channels.hasNext) {disabled}">
-        <a class="page-link" @if(channels.hasNext) {href="@routes.ChannelController.index(channels.getPageIndex + 2)"}>&raquo;</a>
-      </li>
-    </ul>
-  </nav>
+    <nav class="mt-2" aria-label="Pagination">
+      <ul class="pagination justify-content-center">
+        <li class="page-item @if(!channels.hasPrev) {disabled}">
+          <a class="page-link" @if(channels.hasPrev) {href="@routes.ChannelController.index(channels.getPageIndex)"} else {tabindex="-1"}>&laquo;</a>
+        </li>
+
+        @for(i <- 1 until (channels.getTotalPageCount + 1)) {
+          <li class="page-item @if((i - 1) == channels.getPageIndex) {active}">
+            <a class="page-link" href="@routes.ChannelController.index(i)">@(i)</a>
+          </li>
+        }
+
+        <li class="page-item @if(!channels.hasNext) {disabled}">
+          <a class="page-link" @if(channels.hasNext) {href="@routes.ChannelController.index(channels.getPageIndex + 2)"} else {tabindex="-1"}>&raquo;</a>
+        </li>
+      </ul>
+    </nav>
+  } else {
+    <div class="alert alert-warning" role="alert">
+      <h3 class="alert-heading">No channels found</h3>
+    </div>
+  }
 }

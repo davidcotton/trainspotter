@@ -5,8 +5,8 @@ import static java.util.Objects.requireNonNull;
 import javax.inject.Inject;
 import models.Program;
 import play.data.FormFactory;
-import play.mvc.Controller;
-import play.mvc.Result;
+import play.mvc.*;
+import play.mvc.Security;
 import repositories.ChannelRepository;
 import repositories.ProgramRepository;
 import views.html.notFound;
@@ -58,6 +58,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
+  @play.mvc.Security.Authenticated(Secured.class)
   public Result addForm(String channelSlug) {
     return channelRepository
         .findBySlug(channelSlug)
@@ -65,10 +66,12 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
+  @Security.Authenticated(Secured.class)
   public Result addSubmit(String channelSlug) {
     return TODO;
   }
 
+  @Security.Authenticated(Secured.class)
   public Result editForm(String programSlug) {
     return programRepository
         .findBySlug(programSlug)
@@ -76,10 +79,12 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
+  @Security.Authenticated(Secured.class)
   public Result editSubmit(String slug) {
     return TODO;
   }
 
+  @Security.Authenticated(Secured.class)
   public Result delete(String slug) {
     return TODO;
   }

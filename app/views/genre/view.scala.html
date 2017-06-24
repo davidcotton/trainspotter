@@ -8,14 +8,8 @@
   </ol>
 
   <h1>Top @genre.getName Tracklists</h1>
-  <div class="list-group">
-  @if(tracklists.getTotalRowCount == 0) {
-    <div class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">No tracklists found.</h5>
-      </div>
-    </div>
-  } else {
+  @if(tracklists.getTotalRowCount > 0) {
+    <div class="list-group">
     @for(tracklist <- tracklists.getList) {
       <a href="@routes.TracklistController.view(tracklist.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
@@ -26,24 +20,32 @@
         <small>@tracklist.getUser.getDisplayName</small>
       </a>
     }
-  }
-  </div>
+    </div>
 
-  <nav class="mt-2" aria-label="Pagination">
-    <ul class="pagination justify-content-center">
-      <li class="page-item @if(!tracklists.hasPrev) {disabled}">
-        <a class="page-link" @if(tracklists.hasPrev) {href="@routes.GenreController.view(genre.getSlug, tracklists.getPageIndex)"} tabindex="-1">&laquo;</a>
-      </li>
-
-      @for(i <- 1 until (tracklists.getTotalPageCount + 1)) {
-        <li class="page-item @if((i - 1) == tracklists.getPageIndex) {active}">
-          <a class="page-link" href="@routes.GenreController.view(genre.getSlug, i)">@(i)</a>
+    <nav class="mt-2" aria-label="Pagination">
+      <ul class="pagination justify-content-center">
+        <li class="page-item @if(!tracklists.hasPrev) {disabled}">
+          <a class="page-link" @if(tracklists.hasPrev) {href="@routes.GenreController.view(genre.getSlug, tracklists.getPageIndex)"} else {tabindex="-1"}>&laquo;</a>
         </li>
-      }
 
-      <li class="page-item @if(!tracklists.hasNext) {disabled}">
-        <a class="page-link" @if(tracklists.hasNext) {href="@routes.GenreController.view(genre.getSlug, tracklists.getPageIndex + 2)"}>&raquo;</a>
-      </li>
-    </ul>
-  </nav>
+        @for(i <- 1 until (tracklists.getTotalPageCount + 1)) {
+          <li class="page-item @if((i - 1) == tracklists.getPageIndex) {active}">
+            <a class="page-link" href="@routes.GenreController.view(genre.getSlug, i)">@(i)</a>
+          </li>
+        }
+
+        <li class="page-item @if(!tracklists.hasNext) {disabled}">
+          <a class="page-link" @if(tracklists.hasNext) {href="@routes.GenreController.view(genre.getSlug, tracklists.getPageIndex + 2)"} else {tabindex="-1"}>&raquo;</a>
+        </li>
+      </ul>
+    </nav>
+  } else {
+    <div class="list-group">
+      <div class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">No tracklists found.</h5>
+        </div>
+      </div>
+    </div>
+  }
 }

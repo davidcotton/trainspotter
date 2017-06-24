@@ -5,8 +5,8 @@ import static java.util.Objects.requireNonNull;
 import javax.inject.Inject;
 import models.Artist;
 import play.data.FormFactory;
-import play.mvc.Controller;
-import play.mvc.Result;
+import play.mvc.*;
+import play.mvc.Security;
 import repositories.ArtistRepository;
 import repositories.TrackRepository;
 import repositories.TracklistRepository;
@@ -65,10 +65,12 @@ public class ArtistController extends Controller {
    *
    * @return A page allowing the user to add an artist.
    */
+  @Security.Authenticated(Secured.class)
   public Result addForm() {
     return ok(add.render(formFactory.form(Artist.class)));
   }
 
+  @Security.Authenticated(Secured.class)
   public Result addSubmit() {
     return TODO;
   }
@@ -79,6 +81,7 @@ public class ArtistController extends Controller {
    * @param slug The artist's slug.
    * @return An edit artist page if artist is found else not found page.
    */
+  @Security.Authenticated(Secured.class)
   public Result editForm(String slug) {
     return artistRepository
         .findBySlug(slug)
@@ -86,10 +89,12 @@ public class ArtistController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
+  @Security.Authenticated(Secured.class)
   public Result editSubmit(String slug) {
     return TODO;
   }
 
+  @Security.Authenticated(Secured.class)
   public Result delete(String slug) {
     return TODO;
   }

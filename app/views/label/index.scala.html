@@ -7,48 +7,46 @@
   </ol>
 
   <h1>Labels</h1>
-  <div class="row">
-    @if(labels.getTotalRowCount == 0) {
-      <div class="col-sm-12">
-        <div class="alert alert-warning" role="alert">
-          <h3 class="alert-heading">No artists found</h3>
-        </div>
+  @if(labels.getTotalRowCount > 0) {
+    <div class="row">
+    @for(label <- labels.getList) {
+      <div class="col-md-4 col-lg-3 my-2">
+        <a href="@routes.LabelController.view(label.getSlug)" class="card card-inverse card-dark">
+          <div class="d-flex">
+          @if(label.getImage != null) {
+            <img class="card-img" src="@routes.Assets.versioned(label.getImageLink)" alt="@label.getName">
+          } else {
+            <span class="align-self-center ml-auto mr-auto">
+              <i class="fa fa-headphones fa-5x" aria-hidden="true"></i>
+            </span>
+          }
+          </div>
+          <div class="card-img-overlay">
+            <h3 class="card-title">@label.getName</h3>
+          </div>
+        </a>
       </div>
-    } else {
-      @for(label <- labels.getList) {
-        <div class="col-md-4 col-lg-3 my-2">
-          <a href="@routes.LabelController.view(label.getSlug)" class="card card-inverse card-dark">
-            <div class="d-flex">
-            @if(label.getImage != null) {
-              <img class="card-img" src="@routes.Assets.versioned(label.getImageLink)" alt="@label.getName">
-            } else {
-              <span class="align-self-center ml-auto mr-auto">
-                <i class="fa fa-headphones fa-5x" aria-hidden="true"></i>
-              </span>
-            }
-            </div>
-            <div class="card-img-overlay">
-              <h3 class="card-title">@label.getName</h3>
-            </div>
-          </a>
-        </div>
-      }
     }
-  </div>
+    </div>
 
-  <ul class="pagination justify-content-center">
-    <li class="page-item @if(!labels.hasPrev) {disabled}">
-      <a class="page-link" @if(labels.hasPrev) {href="@routes.LabelController.index(labels.getPageIndex)"} tabindex="-1">&laquo;</a>
-    </li>
-
-    @for(i <- 1 until (labels.getTotalPageCount + 1)) {
-      <li class="page-item @if((i - 1) == labels.getPageIndex) {active}">
-        <a class="page-link" href="@routes.LabelController.index(i)">@(i)</a>
+    <ul class="pagination justify-content-center">
+      <li class="page-item @if(!labels.hasPrev) {disabled}">
+        <a class="page-link" @if(labels.hasPrev) {href="@routes.LabelController.index(labels.getPageIndex)"} else {tabindex="-1"}>&laquo;</a>
       </li>
-    }
 
-    <li class="page-item @if(!labels.hasNext) {disabled}">
-      <a class="page-link" @if(labels.hasNext) {href="@routes.LabelController.index(labels.getPageIndex + 2)"}>&raquo;</a>
-    </li>
-  </ul>
+      @for(i <- 1 until (labels.getTotalPageCount + 1)) {
+        <li class="page-item @if((i - 1) == labels.getPageIndex) {active}">
+          <a class="page-link" href="@routes.LabelController.index(i)">@(i)</a>
+        </li>
+      }
+
+      <li class="page-item @if(!labels.hasNext) {disabled}">
+        <a class="page-link" @if(labels.hasNext) {href="@routes.LabelController.index(labels.getPageIndex + 2)"} else {tabindex="-1"}>&raquo;</a>
+      </li>
+    </ul>
+  } else {
+    <div class="alert alert-warning" role="alert">
+      <h3 class="alert-heading">No artists found</h3>
+    </div>
+  }
 }

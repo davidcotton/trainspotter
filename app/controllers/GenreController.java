@@ -5,8 +5,8 @@ import static java.util.Objects.requireNonNull;
 import javax.inject.Inject;
 import models.Genre;
 import play.data.FormFactory;
-import play.mvc.Controller;
-import play.mvc.Result;
+import play.mvc.*;
+import play.mvc.Security;
 import repositories.GenreRepository;
 import repositories.TracklistRepository;
 import views.html.genre.add;
@@ -59,14 +59,17 @@ public class GenreController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
+  @play.mvc.Security.Authenticated(Secured.class)
   public Result addForm() {
     return ok(add.render(formFactory.form(Genre.class)));
   }
 
+  @Security.Authenticated(Secured.class)
   public Result addSubmit() {
     return TODO;
   }
 
+  @Security.Authenticated(Secured.class)
   public Result editForm(String slug) {
     return genreRepository
         .findBySlug(slug)
@@ -74,10 +77,12 @@ public class GenreController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
+  @Security.Authenticated(Secured.class)
   public Result editSubmit(String slug) {
     return TODO;
   }
 
+  @Security.Authenticated(Secured.class)
   public Result delete(String slug) {
     return TODO;
   }

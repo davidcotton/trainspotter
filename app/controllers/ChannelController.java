@@ -5,8 +5,8 @@ import static java.util.Objects.requireNonNull;
 import javax.inject.Inject;
 import models.Channel;
 import play.data.FormFactory;
-import play.mvc.Controller;
-import play.mvc.Result;
+import play.mvc.*;
+import play.mvc.Security;
 import repositories.ChannelRepository;
 import views.html.channel.add;
 import views.html.channel.edit;
@@ -53,10 +53,12 @@ public class ChannelController extends Controller {
    *
    * @return A page to add a new channel.
    */
+  @play.mvc.Security.Authenticated(Secured.class)
   public Result addForm() {
     return ok(add.render(formFactory.form(Channel.class)));
   }
 
+  @Security.Authenticated(Secured.class)
   public Result addSubmit() {
     return TODO;
   }
@@ -67,6 +69,7 @@ public class ChannelController extends Controller {
    * @param slug The slug of the channel.
    * @return An edit channel page if found else not found page.
    */
+  @Security.Authenticated(Secured.class)
   public Result editForm(String slug) {
     return channelRepository
         .findBySlug(slug)
@@ -76,10 +79,12 @@ public class ChannelController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
+  @Security.Authenticated(Secured.class)
   public Result editSubmit(String slug) {
     return TODO;
   }
 
+  @Security.Authenticated(Secured.class)
   public Result delete(String slug) {
     return TODO;
   }

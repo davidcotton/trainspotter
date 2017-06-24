@@ -7,15 +7,8 @@
   </ol>
 
   <h1>Artists</h1>
-
-  <div class="row">
-  @if(artists.getTotalRowCount == 0) {
-    <div class="col-sm-12">
-      <div class="alert alert-warning" role="alert">
-        <h3 class="alert-heading">No artists found</h3>
-      </div>
-    </div>
-  } else {
+  @if(artists.getTotalRowCount > 0) {
+    <div class="row">
     @for(artist <- artists.getList) {
       <div class="col-md-4 col-lg-3 my-2">
         <a href="@routes.ArtistController.view(artist.getSlug)" class="card card-inverse card-dark">
@@ -34,24 +27,28 @@
         </a>
       </div>
     }
-  }
-  </div>
+    </div>
 
-  <nav class="mt-2" aria-label="Pagination">
-    <ul class="pagination justify-content-center">
-      <li class="page-item @if(!artists.hasPrev) {disabled}">
-        <a class="page-link" @if(artists.hasPrev) {href="@routes.ArtistController.index(artists.getPageIndex)"} tabindex="-1">&laquo;</a>
-      </li>
-
-      @for(i <- 1 until (artists.getTotalPageCount + 1)) {
-        <li class="page-item @if((i - 1) == artists.getPageIndex) {active}">
-          <a class="page-link" href="@routes.ArtistController.index(i)">@(i)</a>
+    <nav class="mt-2" aria-label="Pagination">
+      <ul class="pagination justify-content-center">
+        <li class="page-item @if(!artists.hasPrev) {disabled}">
+          <a class="page-link" @if(artists.hasPrev) {href="@routes.ArtistController.index(artists.getPageIndex)"}  else {tabindex="-1"}>&laquo;</a>
         </li>
-      }
 
-      <li class="page-item @if(!artists.hasNext) {disabled}">
-        <a class="page-link" @if(artists.hasNext) {href="@routes.ArtistController.index(artists.getPageIndex + 2)"}>&raquo;</a>
-      </li>
-    </ul>
-  </nav>
+        @for(i <- 1 until (artists.getTotalPageCount + 1)) {
+          <li class="page-item @if((i - 1) == artists.getPageIndex) {active}">
+            <a class="page-link" href="@routes.ArtistController.index(i)">@(i)</a>
+          </li>
+        }
+
+        <li class="page-item @if(!artists.hasNext) {disabled}">
+          <a class="page-link" @if(artists.hasNext) {href="@routes.ArtistController.index(artists.getPageIndex + 2)"} else {tabindex="-1"}>&raquo;</a>
+        </li>
+      </ul>
+    </nav>
+  } else {
+    <div class="alert alert-warning" role="alert">
+      <h3 class="alert-heading">No artists found</h3>
+    </div>
+  }
 }

@@ -8,7 +8,6 @@
   </ol>
 
   <h1>@artist.getName</h1>
-
   <div class="row">
     <div class="col-md-4">
       @if(artist.getImage != null) {
@@ -64,8 +63,8 @@
 
         <div class="tab-pane" id="tracks" role="tabpanel">
           <h2>Popular Tracks</h2>
-          <div class="list-group">
           @if(artist.getTracks.size() > 0) {
+          <div class="list-group">
             @for(track <- artist.getTracks) {
               <a href="@routes.TrackController.view(track.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
@@ -79,12 +78,12 @@
             <a href="@routes.ArtistController.track(artist.getSlug)" class="btn btn-primary">View All Tracks</a>
           </div>
           } else {
-            <div class="list-group-item list-group-item-action flex-column align-items-start">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-0">No tracks found.</h5>
-              </div>
+          <div class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-0">No tracks found.</h5>
             </div>
-          }
+          </div>
+        }
         </div>
       </div>
     </div>
