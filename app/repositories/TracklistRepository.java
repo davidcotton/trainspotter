@@ -5,6 +5,7 @@ import com.avaje.ebean.PagedList;
 import java.util.List;
 import java.util.Optional;
 import models.Artist;
+import models.Genre;
 import models.Tracklist;
 
 public class TracklistRepository implements Repository<Tracklist> {
@@ -12,7 +13,7 @@ public class TracklistRepository implements Repository<Tracklist> {
   /** Ebean helper */
   private static Finder<Long, Tracklist> find = new Finder<>(Tracklist.class);
 
-  private static final int PAGE_SIZE = 5;
+  private static final int PAGE_SIZE = 10;
 
   @Override
   public List<Tracklist> findAll() {
@@ -22,14 +23,22 @@ public class TracklistRepository implements Repository<Tracklist> {
   public PagedList<Tracklist> findAllPaged(int page) {
     return find
         .orderBy().desc("performed")
-        .findPagedList(page, PAGE_SIZE);
+        .findPagedList(--page, PAGE_SIZE);
   }
 
   public PagedList<Tracklist> findAllPagedByArtist(Artist artist, int page) {
     return find
         .where().eq("artist_id", artist.getId())
         .orderBy().desc("performed")
-        .findPagedList(page, PAGE_SIZE);
+        .findPagedList(--page, PAGE_SIZE);
+  }
+
+  public PagedList<Tracklist> findAllPagedByGenre(Genre genre, int page) {
+    return find
+        .fetch("genres", "*")
+        .where().eq("genres.id", genre.getId())
+        .orderBy().desc("performed")
+        .findPagedList(--page, PAGE_SIZE);
   }
 
   @Override

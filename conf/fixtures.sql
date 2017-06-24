@@ -75,7 +75,8 @@ VALUES
   ('Techno', 'techno', NOW(), NOW()),
   ('Deep House', 'deep-house', NOW(), NOW()),
   ('Tech House', 'tech-house', NOW(), NOW()),
-  ('Progressive House', 'progressive-house', NOW(), NOW());
+  ('Progressive House', 'progressive-house', NOW(), NOW()),
+  ('Electronica', 'electronica', NOW(), NOW());
 
 INSERT INTO `program` (`name`, `slug`, `image`, `description`, `channel_id`, `created`, `updated`) VALUES
   ('Transitions', 'transitions', 'transitions.jpg', 'The most important radio show in house music needs no introduction, but here it goes anyway. John Digweed\'s long-standing weekly 2 hour program is legendary, airing for many years exclusively on Kiss 100 in London but now syndicated around the world and internet. In 2008, the show comes to Proton Radio. Expect upfront & unreleased tunes dished up by John Digweed alongside finely tuned guest mixes that are almost always exclusively prepared just for the show.', 1, NOW(), NOW()),
@@ -100,7 +101,7 @@ VALUES
 
 INSERT INTO `tracklist` (`name`, `slug`, `performed`, `image`, `user_id`, `created`, `updated`)
 VALUES
-  ('Sasha & John Digweed @ Carl Cox & Friends, Megastructure Stage, Ultra Music Festival Miami, MMW, United States', '', '2017-03-25', 'artwork-umf-miami.jpg', 1, NOW(), NOW()),
+  ('Sasha & John Digweed @ Carl Cox & Friends, Megastructure Stage, Ultra Music Festival Miami, MMW, United States', 'umf', '2017-03-25', 'artwork-umf-miami.jpg', 1, NOW(), NOW()),
   ('Transitions 657', 'transitions-657', '2017-03-31', null, 1, NOW(), NOW()),
   ('Transitions 658', 'transitions-658', '2017-04-07', null, 1, NOW(), NOW()),
   ('Transitions 659', 'transitions-659', '2017-04-14', null, 1, NOW(), NOW()),
@@ -159,7 +160,36 @@ VALUES
 INSERT INTO tracklist_genre (tracklist_id, genre_id)
 VALUES
   (1, 2),
-  (1, 3);
+  (1, 3),
+  (2, 5),
+  (2, 4),
+  (3, 5),
+  (3, 4),
+  (4, 5),
+  (4, 4),
+  (5, 5),
+  (5, 4),
+  (6, 5),
+  (6, 6),
+  (7, 4),
+  (7, 2),
+  (8, 5),
+  (8, 2),
+  (9, 5),
+  (9, 2),
+  (10, 5),
+  (10, 4),
+  (11, 5),
+  (11, 3),
+  (12, 3),
+  (12, 4),
+  (13, 5),
+  (13, 4),
+  (14, 1),
+  (14, 4),
+  (15, 5),
+  (15, 4),
+  (15, 3);
 
 INSERT INTO `tracklist_artist` (`tracklist_id`, `artist_id`)
 VALUES
