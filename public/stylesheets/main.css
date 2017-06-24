@@ -5,7 +5,6 @@ ol.breadcrumb {
 
 .card-dark {
     background-color: rgba(0,0,0,0.125);
-
 }
 
 .card-dark .d-flex {
@@ -20,4 +19,37 @@ ol.breadcrumb {
 .card-dark .card-img-overlay h3 {
     background-color: rgba(0,0,0,0.25);
     padding: .5rem;
+}
+
+.bd-footer {
+    padding: 4rem 0;
+    margin-top: 4rem;
+    font-size: 85%;
+    background-color: #f7f7f7;
+}
+
+.bd-footer p {
+    margin-bottom: 0;
+}
+
+.bd-footer a {
+    font-weight: 500;
+    color: #464a4c;
+}
+
+.bd-footer-links {
+    padding-left: 0;
+    margin-bottom: 1rem;
+}
+
+.bd-footer-links li {
+    display: inline-block;
+}
+
+.bd-footer-links li+li {
+    margin-left: 1rem;
+}
+
+.text-muted {
+    color: #636c72!important;
 }

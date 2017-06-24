@@ -31,7 +31,9 @@
       </ul>
       <div class="tab-content">
         <div class="tab-pane active" id="tracklists" role="tabpanel">
-          <h2>Popular Tracklists</h2>
+          <div class="mt-2">
+            <h2>Popular Tracklists</h2>
+          </div>
           <div class="list-group">
           @for(tracklist <- artist.getTracklists) {
             <a href="@routes.TracklistController.view(tracklist.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
@@ -47,9 +49,14 @@
             </a>
           }
           </div>
+          <div class="my-2">
+            <a href="@routes.ArtistController.tracklists(artist.getSlug)" class="btn btn-primary">Tracklists</a>
+          </div>
         </div>
         <div class="tab-pane" id="tracks" role="tabpanel">
-          <h2>Popular Tracks</h2>
+          <div class="mt-2">
+            <h2>Popular Tracks</h2>
+          </div>
           <div class="list-group">
           @for(track <- artist.getTracks) {
             <a href="@routes.TrackController.view(track.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
@@ -59,6 +66,7 @@
             </a>
           }
           </div>
+          <a href="@routes.ArtistController.tracklists(artist.getSlug)" class="btn btn-primary">Tracks</a>
         </div>
       </div>
     </div>

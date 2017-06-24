@@ -28,14 +28,15 @@ public class TracklistRepository implements Repository<Tracklist> {
 
   public PagedList<Tracklist> findAllPagedByArtist(Artist artist, int page) {
     return find
-        .where().eq("artist_id", artist.getId())
+        .fetch("artists")
+        .where().eq("artists.id", artist.getId())
         .orderBy().desc("performed")
         .findPagedList(--page, PAGE_SIZE);
   }
 
   public PagedList<Tracklist> findAllPagedByGenre(Genre genre, int page) {
     return find
-        .fetch("genres", "*")
+        .fetch("genres")
         .where().eq("genres.id", genre.getId())
         .orderBy().desc("performed")
         .findPagedList(--page, PAGE_SIZE);
