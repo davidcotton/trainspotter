@@ -24,6 +24,8 @@ import lombok.EqualsAndHashCode;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
+import static utilities.SlugHelper.slugify;
+
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -83,6 +85,13 @@ public class Artist extends Model {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
+
+  public Artist(CreateArtist createArtist) {
+    this.name = createArtist.getName();
+    this.slug = slugify(createArtist.getName());
+    this.image = createArtist.getImage();
+    this.description = createArtist.getDescription();
+  }
 
   public Long getId() {
     return id;
