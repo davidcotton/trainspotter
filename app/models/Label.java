@@ -28,9 +28,6 @@ import play.data.format.Formats;
 @AllArgsConstructor
 public class Label extends Model {
 
-  public interface InsertValidators {}
-  public interface UpdateValidators {}
-
   public enum Status {
     @EnumValue("active") active,
     @EnumValue("deleted") deleted,
@@ -75,6 +72,24 @@ public class Label extends Model {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
+
+  public Label(CreateLabel createLabel) {
+    name = createLabel.getName();
+    image = createLabel.getImage();
+    description = createLabel.getDescription();
+  }
+
+  public Label(UpdateLabel updateLabel, Label label) {
+    id = label.id;
+    name = updateLabel.getName();
+    slug = label.slug;
+    image = updateLabel.getImage();
+    description = updateLabel.getDescription();
+    tracks = label.tracks;
+    medias = label.medias;
+    status = label.status;
+    created = label.created;
+  }
 
   public Long getId() {
     return id;
