@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -33,6 +34,11 @@ public class Program extends Model {
   public interface InsertValidators {}
   public interface UpdateValidators {}
 
+  public enum Status {
+    @EnumValue("active") active,
+    @EnumValue("deleted") deleted,
+  }
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -59,6 +65,8 @@ public class Program extends Model {
   @JsonManagedReference(value = "program_host")
   @ManyToMany(mappedBy = "programs", cascade = CascadeType.PERSIST)
   private List<Artist> hosts;
+
+  private Status status;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")

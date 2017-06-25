@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.ZonedDateTime;
@@ -31,6 +32,11 @@ public class Label extends Model {
   public interface InsertValidators {}
   public interface UpdateValidators {}
 
+  public enum Status {
+    @EnumValue("active") active,
+    @EnumValue("deleted") deleted,
+  }
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -57,6 +63,8 @@ public class Label extends Model {
   @JsonManagedReference(value = "label_media")
   @OneToMany(mappedBy = "label", cascade = CascadeType.PERSIST)
   private List<Media> medias;
+
+  private Status status;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")

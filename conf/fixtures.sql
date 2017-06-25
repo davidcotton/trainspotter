@@ -48,26 +48,26 @@ INSERT INTO `channel` (`name`, `slug`, `image`, `description`, `status`, `create
   ('KISS FM', 'kiss-fm', null, 'Kiss is a UK radio station which broadcasts on FM and National DAB and specialises in pop, hip hop, R&B, urban and electronic dance music.', 'active', NOW(), NOW()),
   ('Energia 97 FM', 'energia-97-fm', null, '', 'active', NOW(), NOW());
 
-INSERT INTO `label` (`name`, `slug`, `image`, `description`, `created`, `updated`)
+INSERT INTO `label` (`name`, `slug`, `image`, `description`, `status`, `created`, `updated`)
 VALUES
-  ('Not on label', 'not-on-label', null, '' , NOW(), NOW()),
-  ('Bedrock Records', 'bedrock-records', 'bedrock-records.jpg', 'Together John Digweed and Nick Muir are the key to what makes up the Bedrock record label tick. With the some of the cream of the progressive and breaks crop releases music on Bedrock the label constantly goes from strength to strength and provides the latest in quality beats. \nBedrock launched in 1999 with the classic progressive anthem Heaven Scent.' , NOW(), NOW()),
-  ('Get Wet', 'get-wet', null, '' ,  NOW(), NOW()),
-  ('Sinnbus', 'sinnbus', null, '' , NOW(), NOW()),
-  ('Mobilee Records', 'mobilee-records', 'mobilee-records.jpg', '' , NOW(), NOW()),
-  ('Souvenir', 'souvenir', null, '' , NOW(), NOW()),
-  ('Colour Series', 'colour-series', null, '' , NOW(), NOW()),
-  ('SCI+TEC', 'sci+tec', 'sci+tec.jpg', '' , NOW(), NOW()),
-  ('IAM Music', 'iam-music', null, '' , NOW(), NOW()),
-  ('Strange Idol', 'strange-idol', null, '' , NOW(), NOW()),
-  ('Last Night On Earth', 'last-night-on-earth', 'last-night-on-earth.jpg', 'Label run by Sasha' , NOW(), NOW()),
-  ('Drumcode', 'drumcode', 'drumcode.jpg', 'Techno label run by Adam Beyer.' , NOW(), NOW()),
-  ('Ovum Recordings', 'ovum-recordings', 'ovum-recordings.jpg', 'Ovum has come to prominence with a certain Josh Wink amongst their ranks. A label with a very bright future, and who can argue, with artists such as Josh Wink, Pete Moss, DJ Dozia, David Alvarado and Rulers of the Deep.' , NOW(), NOW()),
-  ('Poker Flat Recordings', 'poker-flat-recordings', 'poker-flat-recordings.jpg', 'Martin Landsky, Steve Bug, Märtini Brös, and Orbit Starz make up a fair portion of the artists that release on the Poker Flat Recordings label.' , NOW(), NOW()),
-  ('Cocoon Recordings', 'cocoon-recordings', 'cocoon-recordings.jpg', 'Cocoon Recordings philosophy has its roots in the need to create a platform for young and talented DJs and producers to develop their personal path of creativity. Since 2000, the label has released more than 350 artists ranging from house and techno to minimal and tech-house sounds with a total of 300 releases.\n\nAlthough vinyl remains the main musical communication tool, Cocoon Recordings is also distributing its music on web portals like iTunes and Beatport (just to name a few) in order to reach a wider pool of followers and fans. Until now, more than 1.2 million tracks have been legally downloaded worldwide, especially in Germany, Japan, U.K., USA, Italy and Spain.' , NOW(), NOW()),
-  ('Egothermia', 'egothermia', 'egothermia-records.jpg', null , NOW(), NOW()),
-  ('Octopus Records', 'octopus-records', 'octopus-records.jpg', 'Octopus Recordings releases classic modern Techno from its base in Barcelona.Founded and ran by DJ and recording artist,Sian. http://octopusrecordings.com' , NOW(), NOW()),
-  ('Get Physical Music', 'get-physical-music', 'get-physical-music.jpg', 'The name says it all: Get Physical tracks could hardly be more moving and corporeal. This aspect of physicality also resurfaces on two of the labels key releases: the in-house DJ mix series "Body Language" and a string of double vinyl compilations called "Full Body Workout", brimming with new beats and sounds by up-and-coming talents.' , NOW(), NOW());
+  ('Not on label', 'not-on-label', null, '', 'active', NOW(), NOW()),
+  ('Bedrock Records', 'bedrock-records', 'bedrock-records.jpg', 'Together John Digweed and Nick Muir are the key to what makes up the Bedrock record label tick. With the some of the cream of the progressive and breaks crop releases music on Bedrock the label constantly goes from strength to strength and provides the latest in quality beats. \nBedrock launched in 1999 with the classic progressive anthem Heaven Scent.', 'active', NOW(), NOW()),
+  ('Get Wet', 'get-wet', null, '', 'active', NOW(), NOW()),
+  ('Sinnbus', 'sinnbus', null, '', 'active', NOW(), NOW()),
+  ('Mobilee Records', 'mobilee-records', 'mobilee-records.jpg', '', 'active', NOW(), NOW()),
+  ('Souvenir', 'souvenir', null, '', 'active', NOW(), NOW()),
+  ('Colour Series', 'colour-series', null, '', 'active', NOW(), NOW()),
+  ('SCI+TEC', 'sci+tec', 'sci+tec.jpg', '', 'active', NOW(), NOW()),
+  ('IAM Music', 'iam-music', null, '', 'active', NOW(), NOW()),
+  ('Strange Idol', 'strange-idol', null, '', 'active', NOW(), NOW()),
+  ('Last Night On Earth', 'last-night-on-earth', 'last-night-on-earth.jpg', 'Label run by Sasha', 'active', NOW(), NOW()),
+  ('Drumcode', 'drumcode', 'drumcode.jpg', 'Techno label run by Adam Beyer.', 'active', NOW(), NOW()),
+  ('Ovum Recordings', 'ovum-recordings', 'ovum-recordings.jpg', 'Ovum has come to prominence with a certain Josh Wink amongst their ranks. A label with a very bright future, and who can argue, with artists such as Josh Wink, Pete Moss, DJ Dozia, David Alvarado and Rulers of the Deep.', 'active', NOW(), NOW()),
+  ('Poker Flat Recordings', 'poker-flat-recordings', 'poker-flat-recordings.jpg', 'Martin Landsky, Steve Bug, Märtini Brös, and Orbit Starz make up a fair portion of the artists that release on the Poker Flat Recordings label.', 'active', NOW(), NOW()),
+  ('Cocoon Recordings', 'cocoon-recordings', 'cocoon-recordings.jpg', 'Cocoon Recordings philosophy has its roots in the need to create a platform for young and talented DJs and producers to develop their personal path of creativity. Since 2000, the label has released more than 350 artists ranging from house and techno to minimal and tech-house sounds with a total of 300 releases.\n\nAlthough vinyl remains the main musical communication tool, Cocoon Recordings is also distributing its music on web portals like iTunes and Beatport (just to name a few) in order to reach a wider pool of followers and fans. Until now, more than 1.2 million tracks have been legally downloaded worldwide, especially in Germany, Japan, U.K., USA, Italy and Spain.', 'active', NOW(), NOW()),
+  ('Egothermia', 'egothermia', 'egothermia-records.jpg', null, 'active', NOW(), NOW()),
+  ('Octopus Records', 'octopus-records', 'octopus-records.jpg', 'Octopus Recordings releases classic modern Techno from its base in Barcelona.Founded and ran by DJ and recording artist,Sian. http://octopusrecordings.com', 'active', NOW(), NOW()),
+  ('Get Physical Music', 'get-physical-music', 'get-physical-music.jpg', 'The name says it all: Get Physical tracks could hardly be more moving and corporeal. This aspect of physicality also resurfaces on two of the labels key releases: the in-house DJ mix series "Body Language" and a string of double vinyl compilations called "Full Body Workout", brimming with new beats and sounds by up-and-coming talents.', 'active', NOW(), NOW());
 
 INSERT INTO `genre` (`name`, `slug`, `created`, `updated`)
 VALUES
@@ -78,13 +78,13 @@ VALUES
   ('Progressive House', 'progressive-house', NOW(), NOW()),
   ('Electronica', 'electronica', NOW(), NOW());
 
-INSERT INTO `program` (`name`, `slug`, `image`, `description`, `channel_id`, `created`, `updated`) VALUES
-  ('Transitions', 'transitions', 'transitions.jpg', 'The most important radio show in house music needs no introduction, but here it goes anyway. John Digweed\'s long-standing weekly 2 hour program is legendary, airing for many years exclusively on Kiss 100 in London but now syndicated around the world and internet. In 2008, the show comes to Proton Radio. Expect upfront & unreleased tunes dished up by John Digweed alongside finely tuned guest mixes that are almost always exclusively prepared just for the show.', 1, NOW(), NOW()),
-  ('Behind The Iron Curtain', 'behind-the-iron-curtain', 'behind-the-iron-curtain.jpg', 'Welcome to UMEK’s hour-long trip behind the iron curtain. Hear it here on KISS FM every Tuesday 5 – 6 am. It would take a long essay to fully explain UMEK’s meaning to electronic music. The Slovenian born producer and DJ has been setting trends and rocking dance floors for two decades now — and still shows no signs of slowing down. He’s tireless in his techno and tech house production and with more than 100 gigs per year, probably one of the busiest techno DJs out there.', 1, NOW(), NOW()),
-  ('Diynamic', 'diynamic', 'diynamic.jpg', 'The weekly Diynamic radio show is hosted by Solomun & friends.', 1, NOW(), NOW()),
-  ('Systematic Session', 'systematic-session', 'systematic.jpg', 'Systematic Recordings from Germany has now finally its own exclusive radio show. The label which is run by the worldwide well known DJ/ producer Marc Romboy has released dozens of trendsetting and forwardthinking electronic house tracks, contributed by artists like Stephan Bodzin, Steve Lawler, Booka Shade, Chelonis R. Jones, John Dahlback and Robert Babicz, just to name a few. The show is called "Systematic Sessions" and serves you one hour of Dj mixed up-to-date records by their host Marc Romboy and other globally profiled DJs and producers. You want to know more about Marc Romboy and Systematic recordings? ', 1, NOW(), NOW()),
-  ('The Labyrinth', 'the-labyrinth', 'henry-saiz.jpg', 'Hi everybody, this is Henry Saiz, welcome to the labyrinth, my first online radio show. I would like to use this platform to share with you some ideas about music, I will try to develop a concept in every show, like a little sound research through musical styles or  production techniques. For this I will count on very special guests.', 1, NOW(), NOW()),
-  ('Essential Mix', 'essential-mix', 'bbc-radio-one-essential-mix.jpg', '', 3, NOW(), NOW());
+INSERT INTO `program` (`name`, `slug`, `image`, `description`, `channel_id`, `status`, `created`, `updated`) VALUES
+  ('Transitions', 'transitions', 'transitions.jpg', 'The most important radio show in house music needs no introduction, but here it goes anyway. John Digweed\'s long-standing weekly 2 hour program is legendary, airing for many years exclusively on Kiss 100 in London but now syndicated around the world and internet. In 2008, the show comes to Proton Radio. Expect upfront & unreleased tunes dished up by John Digweed alongside finely tuned guest mixes that are almost always exclusively prepared just for the show.', 1, 'active', NOW(), NOW()),
+  ('Behind The Iron Curtain', 'behind-the-iron-curtain', 'behind-the-iron-curtain.jpg', 'Welcome to UMEK’s hour-long trip behind the iron curtain. Hear it here on KISS FM every Tuesday 5 – 6 am. It would take a long essay to fully explain UMEK’s meaning to electronic music. The Slovenian born producer and DJ has been setting trends and rocking dance floors for two decades now — and still shows no signs of slowing down. He’s tireless in his techno and tech house production and with more than 100 gigs per year, probably one of the busiest techno DJs out there.', 1, 'active', NOW(), NOW()),
+  ('Diynamic', 'diynamic', 'diynamic.jpg', 'The weekly Diynamic radio show is hosted by Solomun & friends.', 1, 'active', NOW(), NOW()),
+  ('Systematic Session', 'systematic-session', 'systematic.jpg', 'Systematic Recordings from Germany has now finally its own exclusive radio show. The label which is run by the worldwide well known DJ/ producer Marc Romboy has released dozens of trendsetting and forwardthinking electronic house tracks, contributed by artists like Stephan Bodzin, Steve Lawler, Booka Shade, Chelonis R. Jones, John Dahlback and Robert Babicz, just to name a few. The show is called "Systematic Sessions" and serves you one hour of Dj mixed up-to-date records by their host Marc Romboy and other globally profiled DJs and producers. You want to know more about Marc Romboy and Systematic recordings?', 1, 'active', NOW(), NOW()),
+  ('The Labyrinth', 'the-labyrinth', 'henry-saiz.jpg', 'Hi everybody, this is Henry Saiz, welcome to the labyrinth, my first online radio show. I would like to use this platform to share with you some ideas about music, I will try to develop a concept in every show, like a little sound research through musical styles or  production techniques. For this I will count on very special guests.', 1, 'active', NOW(), NOW()),
+  ('Essential Mix', 'essential-mix', 'bbc-radio-one-essential-mix.jpg', null, 3, 'active', NOW(), NOW());
 
 INSERT INTO `track` (`name`, `remix_name`, `genre_id`, `label_id`, `release_date`, `created`, `updated`)
 VALUES

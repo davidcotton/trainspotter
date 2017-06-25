@@ -56,8 +56,10 @@ create table label (
   slug                          varchar(191) not null,
   image                         varchar(255),
   description                   text,
+  status                        varchar(7),
   created                       datetime not null,
   updated                       datetime not null,
+  constraint ck_label_status check (status in ('deleted','active')),
   constraint uq_label_name unique (name),
   constraint uq_label_slug unique (slug),
   constraint pk_label primary key (id)
@@ -82,8 +84,10 @@ create table program (
   image                         varchar(255),
   description                   text,
   channel_id                    bigint,
+  status                        varchar(7),
   created                       datetime not null,
   updated                       datetime not null,
+  constraint ck_program_status check (status in ('deleted','active')),
   constraint uq_program_name unique (name),
   constraint uq_program_slug unique (slug),
   constraint pk_program primary key (id)
