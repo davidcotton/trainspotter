@@ -15,6 +15,18 @@
       <h1>@channel.getName</h1>
       @channel.getDescription
     </div>
+
+    <!-- edit/delete -->
+    <div class="btn-group" role="group">
+      <a href="@routes.ChannelController.editForm(channel.getSlug)" class="btn btn-sm btn-warning">
+        <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
+      </a>
+      <form action="@routes.ChannelController.delete(channel.getSlug)" method="post">
+        <button type="submit" class="btn btn-sm btn-danger">
+          <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
+        </button>
+      </form>
+    </div>
   </div>
 
   <div class="row">

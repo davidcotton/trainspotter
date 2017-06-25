@@ -9,8 +9,10 @@ create table artist (
   slug                          varchar(191) not null,
   image                         varchar(255),
   description                   text,
+  status                        varchar(7),
   created                       datetime not null,
   updated                       datetime not null,
+  constraint ck_artist_status check (status in ('deleted','active')),
   constraint uq_artist_name unique (name),
   constraint uq_artist_slug unique (slug),
   constraint pk_artist primary key (id)

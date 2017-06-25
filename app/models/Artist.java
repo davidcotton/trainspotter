@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -34,6 +35,11 @@ public class Artist extends Model {
 
   public interface InsertValidators {}
   public interface UpdateValidators {}
+
+  public enum Status {
+    @EnumValue("active") active,
+    @EnumValue("deleted") deleted,
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,6 +80,8 @@ public class Artist extends Model {
   @ManyToMany
   private List<Program> programs;
 
+  private Status status;
+
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)
@@ -87,10 +95,11 @@ public class Artist extends Model {
   private ZonedDateTime updated;
 
   public Artist(CreateArtist createArtist) {
-    this.name = createArtist.getName();
-    this.slug = slugify(createArtist.getName());
-    this.image = createArtist.getImage();
-    this.description = createArtist.getDescription();
+    name = createArtist.getName();
+    slug = slugify(createArtist.getName());
+    image = createArtist.getImage();
+    description = createArtist.getDescription();
+    status = Status.active;
   }
 
   public Long getId() {

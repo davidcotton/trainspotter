@@ -6,6 +6,7 @@ import static java.util.Objects.requireNonNull;
 
 import javax.inject.Inject;
 import models.Artist;
+import models.Artist.Status;
 import models.CreateArtist;
 import models.UpdateArtist;
 import play.data.Form;
@@ -146,14 +147,20 @@ public class ArtistController extends Controller {
   }
 
   /**
-   * Delete an Artist.
+   * (Soft) Delete an Artist.
    *
    * @param slug The slug of the Artist to find.
-   * @return
+   * @return Redirects back to Artists index page on success.
    */
   @Security.Authenticated(Secured.class)
   public Result delete(String slug) {
-    return TODO;
+    return artistRepository
+        .findBySlug(slug)
+        .map(artist -> {
+          artistRepository.delete(artist);
+          return Results.redirect(routes.ArtistController.index(1));
+        })
+        .orElse(notFound(notFound.render()));
   }
 
   /**

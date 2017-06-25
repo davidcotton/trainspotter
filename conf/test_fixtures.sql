@@ -3,13 +3,13 @@ INSERT INTO `user` (`email`, `hash`, `salt`, `display_name`, `status`, `created`
   ('rembrandt.q.einstein@simpsons.com', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.xKIJUcj9lInDBANSKNmiS5WCKW7uvai', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.', 'Rembrandt Q. Einstein', 'deleted', NOW(), NOW()),
   ('rory.b.bellows@simpsons.com', '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', '$2a$16$aY..e8GAU2YGfdvLGqtahe', 'Rory B. Bellows', 'unverified', NOW(), NOW());
 
-INSERT INTO `artist` (`name`, `slug`, `image`, `description`, `created`, `updated`) VALUES
-  ('John Digweed', 'john-digweed', 'john-digweed.jpg', '' , NOW(), NOW()),
-  ('Sasha', 'sasha', 'sasha.jpg', null , NOW(), NOW()),
-  ('Adam Beyer', 'adam-beyer', 'adam-beyer.jpg', null , NOW(), NOW()),
-  ('Solomun', 'solomun', null, null , NOW(), NOW()),
-  ('Umek', 'umek', null, null , NOW(), NOW()),
-  ('Marc Romboy', 'marc-romboy', null, null , NOW(), NOW());
+INSERT INTO `artist` (`name`, `slug`, `image`, `description`, `status`, `created`, `updated`) VALUES
+  ('John Digweed', 'john-digweed', 'john-digweed.jpg', '', 'active', NOW(), NOW()),
+  ('Sasha', 'sasha', 'sasha.jpg', null, 'active', NOW(), NOW()),
+  ('Adam Beyer', 'adam-beyer', 'adam-beyer.jpg', null, 'active', NOW(), NOW()),
+  ('Solomun', 'solomun', null, null, 'active', NOW(), NOW()),
+  ('Umek', 'umek', null, null, 'active', NOW(), NOW()),
+  ('Marc Romboy', 'marc-romboy', null, null, 'active', NOW(), NOW());
 
 INSERT INTO `channel` (`name`, `slug`, `image`, `description`, `created`, `updated`) VALUES
   ('Proton Radio', 'proton-radio', 'proton-opengraph.gif', 'Welcome to Proton, a subscriber supported Internet radio station and music label.' , NOW(), NOW()),

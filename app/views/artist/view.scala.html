@@ -21,6 +21,18 @@
         </li>
       }
       </ul>
+
+      <!-- edit/delete -->
+      <div class="btn-group" role="group">
+        <a href="@routes.ArtistController.editForm(artist.getSlug)" class="btn btn-sm btn-warning">
+          <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
+        </a>
+        <form action="@routes.ArtistController.delete(artist.getSlug)" method="post">
+          <button type="submit" class="btn btn-sm btn-danger">
+            <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
+          </button>
+        </form>
+      </div>
     </div>
 
     <div class="col-md-8">

@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import models.Artist;
+import models.Artist.Status;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
 import play.Logger;
@@ -76,7 +77,7 @@ public class ArtistRepositoryTest extends AbstractIntegrationTest {
 
   @Test public void insert_success() throws Exception {
     // ARRANGE
-    Artist artist = new Artist(null, "Sven Vath", "sven-vath", null, null, null, null, null, null, null, null, null);
+    Artist artist = new Artist(null, "Sven Vath", "sven-vath", null, null, null, null, null, null, null, Status.active, null, null);
 
     // ACT
     artistRepository.insert(artist);

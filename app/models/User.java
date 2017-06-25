@@ -88,11 +88,11 @@ public class User extends Model {
   private ZonedDateTime updated;
 
   public User(CreateUser createUser) {
-    this.email = createUser.getEmail();
-    this.displayName = createUser.getDisplayName();
-    this.salt = generateSalt();
-    this.hash = hashPassword(createUser.getPassword(), salt);
-    this.setStatus(Status.unverified);
+    email = createUser.getEmail();
+    displayName = createUser.getDisplayName();
+    salt = generateSalt();
+    hash = hashPassword(createUser.getPassword(), salt);
+    status = Status.unverified;
   }
 
   public Long getId() {
