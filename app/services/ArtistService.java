@@ -3,30 +3,24 @@ package services;
 import com.avaje.ebean.PagedList;
 
 import static java.util.Objects.requireNonNull;
-import static play.libs.Json.toJson;
 
 import io.atlassian.fugue.Either;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
 import models.Artist;
 import models.CreateArtist;
 import models.UpdateArtist;
 import play.data.Form;
-import play.data.FormFactory;
-import play.data.validation.ValidationError;
 import repositories.ArtistRepository;
 
 public class ArtistService {
 
   private final ArtistRepository artistRepository;
-  private final FormFactory formFactory;
 
   @Inject
-  public ArtistService(ArtistRepository artistRepository, FormFactory formFactory) {
+  public ArtistService(ArtistRepository artistRepository) {
     this.artistRepository = requireNonNull(artistRepository);
-    this.formFactory = requireNonNull(formFactory);
   }
 
   /**
@@ -105,5 +99,14 @@ public class ArtistService {
 
     // return saved artist
     return Either.right(newArtist);
+  }
+
+  /**
+   * Delete an Artist.
+   *
+   * @param artist The Artist to delete.
+   */
+  public void delete(Artist artist) {
+    artistRepository.delete(artist);
   }
 }

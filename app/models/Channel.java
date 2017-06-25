@@ -28,9 +28,6 @@ import play.data.format.Formats;
 @AllArgsConstructor
 public class Channel extends Model {
 
-  public interface InsertValidators {}
-  public interface UpdateValidators {}
-
   public enum Status {
     @EnumValue("active") active,
     @EnumValue("deleted") deleted,
@@ -71,6 +68,23 @@ public class Channel extends Model {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
+
+  public Channel(CreateChannel createChannel) {
+    name = createChannel.getName();
+    image = createChannel.getImage();
+    description = createChannel.getDescription();
+  }
+
+  public Channel(UpdateChannel updateChannel, Channel channel) {
+    id = channel.id;
+    name = updateChannel.getName();
+    slug = channel.slug;
+    image = updateChannel.getImage();
+    description = updateChannel.getDescription();
+    programs = channel.programs;
+    status = channel.status;
+    created = channel.created;
+  }
 
   public Long getId() {
     return id;

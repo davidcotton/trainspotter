@@ -25,16 +25,32 @@ public class ArtistController extends Controller {
     this.formFactory = requireNonNull(formFactory);
   }
 
+  /**
+   * Fetch all Artists.
+   *
+   * @return A collection of Artists.
+   */
   public Result fetchAll() {
     return ok(toJson(artistService.fetchAll()));
   }
 
+  /**
+   * Fetch a single Artist.
+   *
+   * @param id The ID of the Artist to fetch.
+   * @return The Artist if found, else the error.
+   */
   public Result fetch(long id) {
     return artistService.findById(id)
         .map(artist -> ok(toJson(artist)))
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
+  /**
+   * Create a new Artist.
+   *
+   * @return The new Artist on success, else the errors.
+   */
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
     return artistService
@@ -45,6 +61,12 @@ public class ArtistController extends Controller {
         );
   }
 
+  /**
+   * Update an Artist.
+   *
+   * @param id The ID of the Artist to update.
+   * @return The updated Artist on success, else the errors.
+   */
   @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
     return artistService
@@ -59,7 +81,19 @@ public class ArtistController extends Controller {
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
+  /**
+   * Delete an Artist.
+   *
+   * @param id The ID of the Artist to delete.
+   * @return HTTP 204 No Content on success, else the errors.
+   */
   public Result delete(long id) {
-    return TODO;
+    return artistService
+        .findById(id)
+        .map(artist -> {
+          artistService.delete(artist);
+          return (Result) noContent();
+        })
+        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 }

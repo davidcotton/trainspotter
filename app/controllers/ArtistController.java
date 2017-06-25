@@ -1,19 +1,13 @@
 package controllers;
 
-import java.util.Optional;
-
 import static java.util.Objects.requireNonNull;
 
 import javax.inject.Inject;
-import models.Artist;
-import models.Artist.Status;
 import models.CreateArtist;
 import models.UpdateArtist;
-import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.*;
 import play.mvc.Security;
-import repositories.ArtistRepository;
 import repositories.TrackRepository;
 import repositories.TracklistRepository;
 import services.ArtistService;
@@ -28,7 +22,6 @@ import views.html.notFound;
 public class ArtistController extends Controller {
 
   private final ArtistService artistService;
-  private final ArtistRepository artistRepository;
   private final FormFactory formFactory;
   private final TracklistRepository tracklistRepository;
   private final TrackRepository trackRepository;
@@ -36,13 +29,11 @@ public class ArtistController extends Controller {
   @Inject
   public ArtistController(
       ArtistService artistService,
-      ArtistRepository artistRepository,
       FormFactory formFactory,
       TracklistRepository tracklistRepository,
       TrackRepository trackRepository
   ) {
     this.artistService = requireNonNull(artistService);
-    this.artistRepository = requireNonNull(artistRepository);
     this.formFactory = requireNonNull(formFactory);
     this.tracklistRepository = requireNonNull(tracklistRepository);
     this.trackRepository = requireNonNull(trackRepository);
@@ -83,7 +74,7 @@ public class ArtistController extends Controller {
   /**
    * Process the submission for creating a new Artist.
    *
-   * @return Redirect to the new Artist on success or the form with errors.
+   * @return Redirect to the new Artist on success or the form with errors on failure.
    */
   @Security.Authenticated(Secured.class)
   public Result addSubmit() {
@@ -103,7 +94,7 @@ public class ArtistController extends Controller {
    */
   @Security.Authenticated(Secured.class)
   public Result editForm(String slug) {
-    return artistRepository
+    return artistService
         .findBySlug(slug)
         .map(artist -> ok(edit.render(
             artist,
@@ -116,7 +107,7 @@ public class ArtistController extends Controller {
    * Process the submission for updating an Artist.
    *
    * @param slug The slug of the Artist to find.
-   * @return Redirect to updated Artist on success or the form with errors.
+   * @return Redirect to updated Artist on success else the form with errors.
    */
   @Security.Authenticated(Secured.class)
   public Result editSubmit(String slug) {
@@ -133,17 +124,17 @@ public class ArtistController extends Controller {
   }
 
   /**
-   * (Soft) Delete an Artist.
+   * Delete an Artist.
    *
    * @param slug The slug of the Artist to find.
-   * @return Redirects back to Artists index page on success.
+   * @return Redirects back to Artists index page on success else not found.
    */
   @Security.Authenticated(Secured.class)
   public Result delete(String slug) {
-    return artistRepository
+    return artistService
         .findBySlug(slug)
         .map(artist -> {
-          artistRepository.delete(artist);
+          artistService.delete(artist);
           return Results.redirect(routes.ArtistController.index(1));
         })
         .orElse(notFound(notFound.render()));
@@ -157,7 +148,7 @@ public class ArtistController extends Controller {
    * @return A paginated list of Tracklists if the artist is found.
    */
   public Result tracklist(String slug, int page) {
-    return artistRepository
+    return artistService
         .findBySlug(slug)
         .map(artist -> ok(
             tracklist.render(artist, tracklistRepository.findAllPagedByArtist(artist, page))
@@ -173,7 +164,7 @@ public class ArtistController extends Controller {
    * @return A paginated list of Tracks if the artist is found.
    */
   public Result track(String slug, int page) {
-    return artistRepository
+    return artistService
         .findBySlug(slug)
         .map(artist -> ok(
             track.render(artist, trackRepository.findAllPagedByArtist(artist, page))

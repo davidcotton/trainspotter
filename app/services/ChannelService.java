@@ -1,28 +1,26 @@
 package services;
 
+import com.avaje.ebean.PagedList;
+
 import static java.util.Objects.requireNonNull;
-import static play.libs.Json.toJson;
 
 import io.atlassian.fugue.Either;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
 import models.Channel;
+import models.CreateChannel;
+import models.UpdateChannel;
 import play.data.Form;
-import play.data.FormFactory;
-import play.data.validation.ValidationError;
 import repositories.ChannelRepository;
 
 public class ChannelService {
 
   private final ChannelRepository channelRepository;
-  private final FormFactory formFactory;
 
   @Inject
-  public ChannelService(ChannelRepository channelRepository, FormFactory formFactory) {
+  public ChannelService(ChannelRepository channelRepository) {
     this.channelRepository = requireNonNull(channelRepository);
-    this.formFactory = requireNonNull(formFactory);
   }
 
   /**
@@ -32,6 +30,16 @@ public class ChannelService {
    */
   public List<Channel> fetchAll() {
     return channelRepository.findAll();
+  }
+
+  /**
+   * Fetch a paginated collection of Channels.
+   *
+   * @param page The paginator page number.
+   * @return A paginated list of Channels, ordered by name.
+   */
+  public PagedList<Channel> fetchAllPaged(int page) {
+    return channelRepository.findAllPaged(page);
   }
 
   /**
@@ -45,21 +53,27 @@ public class ChannelService {
   }
 
   /**
+   * Search for a Channel by its slug.
+   *
+   * @param slug The slug of the Channel to search for.
+   * @return An optional Channel if found.
+   */
+  public Optional<Channel> findBySlug(String slug) {
+    return channelRepository.findBySlug(slug);
+  }
+
+  /**
    * Insert a new Channel.
    *
-   * @param channel The Channel to insert.
-   * @return Either the inserted Channel or validation errors.
+   * @param channelForm The submitted Channel data form.
+   * @return Either the inserted Channel or the form with errors.
    */
-  public Either<Map<String, List<ValidationError>>, Channel> insert(Channel channel) {
-    // validate new channel
-    Form<Channel> channelForm = formFactory
-        .form(Channel.class, Channel.InsertValidators.class)
-        .bind(toJson(channel));
+  public Either<Form<CreateChannel>, Channel> insert(Form<CreateChannel> channelForm) {
     if (channelForm.hasErrors()) {
-      // return validation errors
-      return Either.left(channelForm.errors());
+      return Either.left(channelForm);
     }
 
+    Channel channel = new Channel(channelForm.get());
     // save to DB
     channelRepository.insert(channel);
 
@@ -68,30 +82,33 @@ public class ChannelService {
   }
 
   /**
-   * Update a Channel.
+   * Update an Channel.
    *
-   * @param savedChannel  The existing Channel data.
-   * @param newChannel    The new Channel data.
-   * @return Either the update Channel or validation errors.
+   * @param savedChannel The existing Channel.
+   * @param channelForm  The new Channel data form.
+   * @return Either the updated Channel or the form with errors.
    */
-  public Either<Map<String, List<ValidationError>>, Channel> update(Channel savedChannel, Channel newChannel) {
-    // copy over read only fields
-    newChannel.setId(savedChannel.getId());
-    newChannel.setCreated(savedChannel.getCreated());
-
-    // validate the changes
-    Form<Channel> channelForm = formFactory
-        .form(Channel.class, Channel.UpdateValidators.class)
-        .bind(toJson(newChannel));
+  public Either<Form<UpdateChannel>, Channel> update(Channel savedChannel, Form<UpdateChannel> channelForm) {
     if (channelForm.hasErrors()) {
-      // return validation errors
-      return Either.left(channelForm.errors());
+      return Either.left(channelForm);
     }
+
+    UpdateChannel updateChannel = channelForm.get();
+    Channel newChannel = new Channel(updateChannel, savedChannel);
 
     // save to DB
     channelRepository.update(newChannel);
 
     // return saved channel
     return Either.right(newChannel);
+  }
+
+  /**
+   * Delete a Channel.
+   *
+   * @param channel The Channel to delete.
+   */
+  public void delete(Channel channel) {
+    channelRepository.delete(channel);
   }
 }
