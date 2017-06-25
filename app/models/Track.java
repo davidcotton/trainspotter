@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.time.LocalDate;
@@ -32,6 +33,11 @@ public class Track extends Model {
 
   public interface InsertValidators {}
   public interface UpdateValidators {}
+
+  public enum Status {
+    @EnumValue("active") active,
+    @EnumValue("deleted") deleted,
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,6 +72,8 @@ public class Track extends Model {
   @JsonBackReference(value = "tracklist_track")
   @ManyToMany
   private List<Tracklist> tracklists;
+
+  private Status status;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")

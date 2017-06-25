@@ -86,36 +86,36 @@ INSERT INTO `program` (`name`, `slug`, `image`, `description`, `channel_id`, `st
   ('The Labyrinth', 'the-labyrinth', 'henry-saiz.jpg', 'Hi everybody, this is Henry Saiz, welcome to the labyrinth, my first online radio show. I would like to use this platform to share with you some ideas about music, I will try to develop a concept in every show, like a little sound research through musical styles or  production techniques. For this I will count on very special guests.', 1, 'active', NOW(), NOW()),
   ('Essential Mix', 'essential-mix', 'bbc-radio-one-essential-mix.jpg', null, 3, 'active', NOW(), NOW());
 
-INSERT INTO `track` (`name`, `remix_name`, `genre_id`, `label_id`, `release_date`, `created`, `updated`)
+INSERT INTO `track` (`name`, `remix_name`, `genre_id`, `label_id`, `release_date`, `status`, `created`, `updated`)
 VALUES
-  ('Eros', null, 1, 1, NOW(), NOW(), NOW()),
-  ('Eros', 'Deetron Dub Remix', 1, 1, NOW(), NOW(), NOW()),
-  ('The Field And The Sun', null, 1, 3, NOW(), NOW(), NOW()),
-  ('Tempest', 'Adam Port Europa Remix', 1, 4, NOW(), NOW(), NOW()),
-  ('The Feeling', null, 2, 5, NOW(), NOW(), NOW()),
-  ('Blackbox', 'Tiefschwarz & Yawk Remix', 2, 6, NOW(), NOW(), NOW()),
-  ('Times', null, 2, 7, NOW(), NOW(), NOW()),
-  ('Airplane', null, 2, 8, NOW(), NOW(), NOW()),
-  ('You Can Relate', null, 2, 2, NOW(), NOW(), NOW()),
-  ('Keep Faith', 'Scan Mode Remix', 2, 9, NOW(), NOW(), NOW());
+  ('Eros', null, 1, 1, NOW(), 'active', NOW(), NOW()),
+  ('Eros', 'Deetron Dub Remix', 1, 1, NOW(), 'active', NOW(), NOW()),
+  ('The Field And The Sun', null, 1, 3, NOW(), 'active', NOW(), NOW()),
+  ('Tempest', 'Adam Port Europa Remix', 1, 4, NOW(), 'active', NOW(), NOW()),
+  ('The Feeling', null, 2, 5, NOW(), 'active', NOW(), NOW()),
+  ('Blackbox', 'Tiefschwarz & Yawk Remix', 2, 6, NOW(), 'active', NOW(), NOW()),
+  ('Times', null, 2, 7, NOW(), 'active', NOW(), NOW()),
+  ('Airplane', null, 2, 8, NOW(), 'active', NOW(), NOW()),
+  ('You Can Relate', null, 2, 2, NOW(), 'active', NOW(), NOW()),
+  ('Keep Faith', 'Scan Mode Remix', 2, 9, NOW(), 'active', NOW(), NOW());
 
-INSERT INTO `tracklist` (`name`, `slug`, `performed`, `image`, `user_id`, `created`, `updated`)
+INSERT INTO `tracklist` (`name`, `slug`, `performed`, `image`, `user_id`, `status`, `created`, `updated`)
 VALUES
-  ('Sasha & John Digweed @ Carl Cox & Friends, Megastructure Stage, Ultra Music Festival Miami, MMW, United States', 'umf', '2017-03-25', 'artwork-umf-miami.jpg', 1, NOW(), NOW()),
-  ('Transitions 657', 'transitions-657', '2017-03-31', null, 1, NOW(), NOW()),
-  ('Transitions 658', 'transitions-658', '2017-04-07', null, 1, NOW(), NOW()),
-  ('Transitions 659', 'transitions-659', '2017-04-14', null, 1, NOW(), NOW()),
-  ('Transitions 660', 'transitions-660', '2017-04-21', null, 1, NOW(), NOW()),
-  ('Transitions 661', 'transitions-661', '2017-04-28', null, 1, NOW(), NOW()),
-  ('Transitions 662', 'transitions-662', '2017-05-05', null, 1, NOW(), NOW()),
-  ('Transitions 663', 'transitions-663', '2017-05-12', null, 1, NOW(), NOW()),
-  ('Transitions 664', 'transitions-664', '2017-05-19', null, 1, NOW(), NOW()),
-  ('Transitions 665', 'transitions-665', '2017-05-26', null, 1, NOW(), NOW()),
-  ('Transitions 666', 'transitions-666', '2017-06-02', null, 1, NOW(), NOW()),
-  ('Transitions 667', 'transitions-667', '2017-06-09', null, 1, NOW(), NOW()),
-  ('Solomun @ Space Closing Fiesta, Terraza, Space Ibiza, Spain (Be-At TV)', 'space-closing-fiesta', '2016-10-02', null, 3, NOW(), NOW()),
-  ('Adam Beyer @ Drumcode 354 (Metro City Perth, Australia 2017-04-24)', 'drumcode-354', '2017-05-18', null, 1, NOW(), NOW()),
-  ('Sasha @ Last Night On Earth 025 (Coachella Festival, United States)', 'last-night-on-earth-025', '2017-05-29', null, 2, NOW(), NOW());
+  ('Sasha & John Digweed @ Carl Cox & Friends, Megastructure Stage, Ultra Music Festival Miami, MMW, United States', 'umf', '2017-03-25', 'artwork-umf-miami.jpg', 1, 'active', NOW(), NOW()),
+  ('Transitions 657', 'transitions-657', '2017-03-31', null, 1, 'active', NOW(), NOW()),
+  ('Transitions 658', 'transitions-658', '2017-04-07', null, 1, 'active', NOW(), NOW()),
+  ('Transitions 659', 'transitions-659', '2017-04-14', null, 1, 'active', NOW(), NOW()),
+  ('Transitions 660', 'transitions-660', '2017-04-21', null, 1, 'active', NOW(), NOW()),
+  ('Transitions 661', 'transitions-661', '2017-04-28', null, 1, 'active', NOW(), NOW()),
+  ('Transitions 662', 'transitions-662', '2017-05-05', null, 1, 'active', NOW(), NOW()),
+  ('Transitions 663', 'transitions-663', '2017-05-12', null, 1, 'active', NOW(), NOW()),
+  ('Transitions 664', 'transitions-664', '2017-05-19', null, 1, 'active', NOW(), NOW()),
+  ('Transitions 665', 'transitions-665', '2017-05-26', null, 1, 'active', NOW(), NOW()),
+  ('Transitions 666', 'transitions-666', '2017-06-02', null, 1, 'active', NOW(), NOW()),
+  ('Transitions 667', 'transitions-667', '2017-06-09', null, 1, 'active', NOW(), NOW()),
+  ('Solomun @ Space Closing Fiesta, Terraza, Space Ibiza, Spain (Be-At TV)', 'space-closing-fiesta', '2016-10-02', null, 3, 'active', NOW(), NOW()),
+  ('Adam Beyer @ Drumcode 354 (Metro City Perth, Australia 2017-04-24)', 'drumcode-354', '2017-05-18', null, 1, 'active', NOW(), NOW()),
+  ('Sasha @ Last Night On Earth 025 (Coachella Festival, United States)', 'last-night-on-earth-025', '2017-05-29', null, 2, 'active', NOW(), NOW());
 
 INSERT INTO `media` (url, tracklist_id, artist_id, label_id, created, updated)
 VALUES

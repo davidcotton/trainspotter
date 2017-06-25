@@ -7,21 +7,25 @@ import java.util.Optional;
 import models.Artist;
 import models.Genre;
 import models.Tracklist;
+import models.Tracklist.Status;
 
 public class TracklistRepository implements Repository<Tracklist> {
 
   /** Ebean helper */
   private static Finder<Long, Tracklist> find = new Finder<>(Tracklist.class);
-
   private static final int PAGE_SIZE = 10;
 
   @Override
   public List<Tracklist> findAll() {
-    return find.orderBy().desc("performed").findList();
+    return find
+        .where().ne("status", Status.deleted)
+        .orderBy().desc("performed")
+        .findList();
   }
 
   public PagedList<Tracklist> findAllPaged(int page) {
     return find
+        .where().ne("status", Status.deleted)
         .orderBy().desc("performed")
         .findPagedList(--page, PAGE_SIZE);
   }
@@ -30,6 +34,7 @@ public class TracklistRepository implements Repository<Tracklist> {
     return find
         .fetch("artists")
         .where().eq("artists.id", artist.getId())
+        .where().ne("status", Status.deleted)
         .orderBy().desc("performed")
         .findPagedList(--page, PAGE_SIZE);
   }
@@ -38,6 +43,7 @@ public class TracklistRepository implements Repository<Tracklist> {
     return find
         .fetch("genres")
         .where().eq("genres.id", genre.getId())
+        .where().ne("status", Status.deleted)
         .orderBy().desc("performed")
         .findPagedList(--page, PAGE_SIZE);
   }
@@ -54,7 +60,12 @@ public class TracklistRepository implements Repository<Tracklist> {
    * @return An optional Tracklist if found.
    */
   public Optional<Tracklist> findBySlug(String slug) {
-    return Optional.ofNullable(find.where().eq("slug", slug).findUnique());
+    return Optional.ofNullable(
+        find
+            .where().eq("slug", slug)
+            .where().ne("status", Status.deleted)
+            .findUnique()
+    );
   }
 
   @Override
@@ -69,6 +80,7 @@ public class TracklistRepository implements Repository<Tracklist> {
 
   @Override
   public void delete(Tracklist tracklist) {
-    tracklist.delete();
+    tracklist.setStatus(Status.deleted);
+    tracklist.update();
   }
 }

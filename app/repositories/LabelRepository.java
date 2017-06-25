@@ -15,7 +15,10 @@ public class LabelRepository implements Repository<Label> {
 
   @Override
   public List<Label> findAll() {
-    return find.orderBy("name").findList();
+    return find
+        .where().ne("status", Status.deleted)
+        .orderBy("name")
+        .findList();
   }
 
   /**

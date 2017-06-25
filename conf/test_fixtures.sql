@@ -25,11 +25,11 @@ INSERT INTO `label` (`name`, `slug`, `image`, `description`, `status`, `created`
   ('Last Night On Earth', 'last-night-on-earth', null, 'Label run by Sasha.', 'active', NOW(), NOW()),
   ('Drumcode', 'drumcode', 'drumcode.jpg', '', 'active', NOW(), NOW());
 
-INSERT INTO `tracklist` (`name`, `slug`, `performed`, `user_id`, `created`, `updated`) VALUES
-  ('Sasha & John Digweed @ Carl Cox & Friends, Megastructure Stage, Ultra Music Festival Miami, MMW, United States', 'umf', '2017-03-25', 1, NOW(), NOW()),
-  ('Transitions 657', 'transitions-657', '2017-03-31', 1, NOW(), NOW()),
-  ('Adam Beyer @ Drumcode 354 (Metro City Perth, Australia 2017-04-24)', 'drumcode-354', '2017-05-18', 1, NOW(), NOW()),
-  ('Sasha @ Last Night On Earth 025 (Coachella Festival, United States)', 'last-night-on-earth-025', '2017-05-29', 2, NOW(), NOW());
+INSERT INTO `tracklist` (`name`, `slug`, `performed`, `user_id`, `status`, `created`, `updated`) VALUES
+  ('Sasha & John Digweed @ Carl Cox & Friends, Megastructure Stage, Ultra Music Festival Miami, MMW, United States', 'umf', '2017-03-25', 1, 'active', NOW(), NOW()),
+  ('Transitions 657', 'transitions-657', '2017-03-31', 1, 'active', NOW(), NOW()),
+  ('Adam Beyer @ Drumcode 354 (Metro City Perth, Australia 2017-04-24)', 'drumcode-354', '2017-05-18', 1, 'active', NOW(), NOW()),
+  ('Sasha @ Last Night On Earth 025 (Coachella Festival, United States)', 'last-night-on-earth-025', '2017-05-29', 2, 'active', NOW(), NOW());
 
 INSERT INTO `media` (`url`, `tracklist_id`, `artist_id`, `label_id`, `created`, `updated`) VALUES
   ('https://youtu.be/tI7ywh2sI04', 1, null, null, NOW(), NOW()),

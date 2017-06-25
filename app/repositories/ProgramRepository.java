@@ -16,7 +16,10 @@ public class ProgramRepository implements Repository<Program> {
 
   @Override
   public List<Program> findAll() {
-    return find.orderBy("name").findList();
+    return find
+        .where().ne("status", Status.deleted)
+        .orderBy("name")
+        .findList();
   }
 
   /**

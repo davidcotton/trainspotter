@@ -15,7 +15,10 @@ public class ArtistRepository implements Repository<Artist> {
 
   @Override
   public List<Artist> findAll() {
-    return find.where().ne("status", Status.deleted).orderBy("name").findList();
+    return find
+        .where().ne("status", Status.deleted)
+        .orderBy("name")
+        .findList();
   }
 
   /**

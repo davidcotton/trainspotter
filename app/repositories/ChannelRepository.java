@@ -15,7 +15,10 @@ public class ChannelRepository implements Repository<Channel> {
 
   @Override
   public List<Channel> findAll() {
-    return find.orderBy("name").findList();
+    return find
+        .where().ne("status", Status.deleted)
+        .orderBy("name")
+        .findList();
   }
 
   /**

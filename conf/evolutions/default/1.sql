@@ -109,8 +109,10 @@ create table track (
   genre_id                      bigint,
   label_id                      bigint,
   release_date                  date,
+  status                        varchar(7),
   created                       datetime not null,
   updated                       datetime not null,
+  constraint ck_track_status check (status in ('deleted','active')),
   constraint pk_track primary key (id)
 );
 
@@ -139,8 +141,10 @@ create table tracklist (
   performed                     date,
   image                         varchar(255),
   user_id                       bigint not null,
+  status                        varchar(7),
   created                       datetime not null,
   updated                       datetime not null,
+  constraint ck_tracklist_status check (status in ('deleted','active')),
   constraint uq_tracklist_slug unique (slug),
   constraint pk_tracklist primary key (id)
 );
