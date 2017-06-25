@@ -23,7 +23,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import play.data.format.Formats;
-import play.data.validation.Constraints;
 
 @Entity
 @Data
@@ -43,7 +42,6 @@ public class Track extends Model {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Constraints.Required
   @NotNull
   private String name;
 
@@ -73,6 +71,7 @@ public class Track extends Model {
   @ManyToMany
   private List<Tracklist> tracklists;
 
+  @NotNull
   private Status status;
 
   @CreatedTimestamp

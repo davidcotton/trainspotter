@@ -26,7 +26,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import play.data.format.Formats;
-import play.data.validation.Constraints;
 
 @Entity
 @Data
@@ -47,11 +46,9 @@ public class Tracklist extends Model {
   private Long id;
 
   @NotNull
-  @Constraints.Required
   private String name;
 
   @NotNull
-  @Constraints.Required
   @Column(unique = true, length = 191)
   private String slug;
 
@@ -79,6 +76,7 @@ public class Tracklist extends Model {
   @OneToMany
   private List<Media> medias;
 
+  @NotNull
   private Status status;
 
   @CreatedTimestamp

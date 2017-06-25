@@ -23,7 +23,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import play.data.format.Formats;
-import play.data.validation.Constraints;
 
 @Entity
 @Data
@@ -44,12 +43,10 @@ public class Program extends Model {
   private Long id;
 
   @NotNull
-  @Constraints.Required
   @Column(unique = true, length = 191)
   private String name;
 
   @NotNull
-  @Constraints.Required
   @Column(unique = true, length = 191)
   private String slug;
 
@@ -66,6 +63,7 @@ public class Program extends Model {
   @ManyToMany(mappedBy = "programs", cascade = CascadeType.PERSIST)
   private List<Artist> hosts;
 
+  @NotNull
   private Status status;
 
   @CreatedTimestamp

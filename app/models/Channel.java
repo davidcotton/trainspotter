@@ -21,7 +21,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import play.data.format.Formats;
-import play.data.validation.Constraints;
 
 @Entity
 @Data
@@ -42,12 +41,10 @@ public class Channel extends Model {
   private Long id;
 
   @NotNull
-  @Constraints.Required
   @Column(unique = true, length = 191)
   private String name;
 
   @NotNull
-  @Constraints.Required
   @Column(unique = true, length = 191)
   private String slug;
 
@@ -60,6 +57,7 @@ public class Channel extends Model {
   @OneToMany(mappedBy = "channel", cascade = CascadeType.PERSIST)
   private List<Program> programs;
 
+  @NotNull
   private Status status;
 
   @CreatedTimestamp

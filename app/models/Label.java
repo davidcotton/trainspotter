@@ -21,7 +21,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import play.data.format.Formats;
-import play.data.validation.Constraints;
 
 @Entity
 @Data
@@ -41,13 +40,11 @@ public class Label extends Model {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Constraints.Required
   @NotNull
   @Column(unique = true, length = 191)
   private String name;
 
   @NotNull
-  @Constraints.Required
   @Column(unique = true, length = 191)
   private String slug;
 
@@ -64,6 +61,7 @@ public class Label extends Model {
   @OneToMany(mappedBy = "label", cascade = CascadeType.PERSIST)
   private List<Media> medias;
 
+  @NotNull
   private Status status;
 
   @CreatedTimestamp

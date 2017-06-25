@@ -1,5 +1,7 @@
 package models;
 
+import static utilities.SlugHelper.slugify;
+
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.EnumValue;
@@ -23,18 +25,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import play.data.format.Formats;
-import play.data.validation.Constraints;
-
-import static utilities.SlugHelper.slugify;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class Artist extends Model {
-
-  public interface InsertValidators {}
-  public interface UpdateValidators {}
 
   public enum Status {
     @EnumValue("active") active,
@@ -46,12 +42,10 @@ public class Artist extends Model {
   private Long id;
 
   @NotNull
-  @Constraints.Required
   @Column(unique = true, length = 191)
   private String name;
 
   @NotNull
-  @Constraints.Required
   @Column(unique = true, length = 191)
   private String slug;
 
@@ -80,6 +74,7 @@ public class Artist extends Model {
   @ManyToMany
   private List<Program> programs;
 
+  @NotNull
   private Status status;
 
   @CreatedTimestamp
