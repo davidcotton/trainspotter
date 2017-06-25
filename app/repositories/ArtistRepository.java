@@ -10,7 +10,6 @@ public class ArtistRepository implements Repository<Artist> {
 
   /** Ebean helper */
   private static Finder<Long, Artist> find = new Finder<>(Artist.class);
-
   private static final int PAGE_SIZE = 16;
 
   @Override
@@ -21,7 +20,7 @@ public class ArtistRepository implements Repository<Artist> {
   /**
    * Fetch a paginated collection of Artists.
    *
-   * @param page The page number to fetch (offset).
+   * @param page The paginator page number.
    * @return A paginated list of Artists ordered by name.
    */
   public PagedList<Artist> findAllPaged(int page) {

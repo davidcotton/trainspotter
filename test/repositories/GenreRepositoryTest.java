@@ -50,7 +50,18 @@ public class GenreRepositoryTest extends AbstractIntegrationTest {
   }
 
   @Test public void findByName_failureGivenNameNotInDb() throws Exception {
-    Optional<Genre> maybeGenre = genreRepository.findByName("Classical");
+    Optional<Genre> maybeGenre = genreRepository.findByName("Avante-Garde Jazz");
+    assertFalse(maybeGenre.isPresent());
+  }
+
+  @Test public void findBySlug_successGivenSlugInDb() throws Exception {
+    Optional<Genre> maybeGenre = genreRepository.findBySlug("house");
+    assertTrue(maybeGenre.isPresent());
+    assertEquals("House", maybeGenre.get().getName());
+  }
+
+  @Test public void findBySlug_failureGivenSlugNotInDb() throws Exception {
+    Optional<Genre> maybeGenre = genreRepository.findBySlug("avante-garde-jazz");
     assertFalse(maybeGenre.isPresent());
   }
 

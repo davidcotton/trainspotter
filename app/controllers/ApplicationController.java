@@ -17,7 +17,12 @@ public class ApplicationController extends Controller {
     this.tracklistRepository = requireNonNull(tracklistRepository);
   }
 
+  /**
+   * View the homepage.
+   *
+   * @return The homepage.
+   */
   public Result index() {
-    return ok(index.render(tracklistRepository.findAll()));
+    return ok(index.render(tracklistRepository.findMostPopular()));
   }
 }

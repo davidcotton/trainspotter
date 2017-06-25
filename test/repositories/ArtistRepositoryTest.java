@@ -9,13 +9,11 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import com.avaje.ebean.PagedList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import models.Artist;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
-import play.Logger;
 
 public class ArtistRepositoryTest extends AbstractIntegrationTest {
 
@@ -71,6 +69,17 @@ public class ArtistRepositoryTest extends AbstractIntegrationTest {
 
   @Test public void findByName_failureGivenNameNotInDb() throws Exception {
     Optional<Artist> maybeArtist = artistRepository.findByName("Cher");
+    assertFalse(maybeArtist.isPresent());
+  }
+
+  @Test public void findBySlug_successGivenSlugInDb() throws Exception {
+    Optional<Artist> maybeArtist = artistRepository.findBySlug("john-digweed");
+    assertTrue(maybeArtist.isPresent());
+    assertEquals("John Digweed", maybeArtist.get().getName());
+  }
+
+  @Test public void findBySlug_failureGivenSlugNotInDb() throws Exception {
+    Optional<Artist> maybeArtist = artistRepository.findBySlug("rick-astley");
     assertFalse(maybeArtist.isPresent());
   }
 

@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import com.avaje.ebean.PagedList;
 import java.util.List;
 import java.util.Optional;
 import models.Channel;
@@ -24,6 +25,20 @@ public class ChannelRepositoryTest extends AbstractIntegrationTest {
     List<Channel> channels = channelRepository.findAll();
     assertThat(channels.size(), is(3));
     // verify ordered alphabetically by name
+    assertThat(channels.get(0).getName(), is("BBC Radio 1"));
+    assertThat(channels.get(1).getName(), is("Proton Radio"));
+    assertThat(channels.get(2).getName(), is("Triple J"));
+  }
+
+  @Test public void findAllPaged() throws Exception {
+    PagedList<Channel> pagedChannels = channelRepository.findAllPaged(1);
+
+    // verify the pagination object attributes
+    assertThat(pagedChannels.getPageSize(), is(12));
+    assertThat(pagedChannels.getTotalRowCount(), is(3));
+
+    // verify the paginated list
+    List<Channel> channels = pagedChannels.getList();
     assertThat(channels.get(0).getName(), is("BBC Radio 1"));
     assertThat(channels.get(1).getName(), is("Proton Radio"));
     assertThat(channels.get(2).getName(), is("Triple J"));
@@ -48,6 +63,17 @@ public class ChannelRepositoryTest extends AbstractIntegrationTest {
 
   @Test public void findByName_failureGivenNameNotInDb() throws Exception {
     Optional<Channel> maybeChannel = channelRepository.findByName("Nova FM");
+    assertFalse(maybeChannel.isPresent());
+  }
+
+  @Test public void findBySlug_successGivenSlugInDb() throws Exception {
+    Optional<Channel> maybeChannel = channelRepository.findBySlug("proton-radio");
+    assertTrue(maybeChannel.isPresent());
+    assertEquals("Proton Radio", maybeChannel.get().getName());
+  }
+
+  @Test public void findBySlug_failureGivenSlugNotInDb() throws Exception {
+    Optional<Channel> maybeChannel = channelRepository.findBySlug("nova-fm");
     assertFalse(maybeChannel.isPresent());
   }
 

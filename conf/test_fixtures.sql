@@ -25,6 +25,19 @@ INSERT INTO `label` (`name`, `slug`, `image`, `description`, `created`, `updated
   ('Last Night On Earth', 'last-night-on-earth', null, 'Label run by Sasha.', NOW(), NOW()),
   ('Drumcode', 'drumcode', 'drumcode.jpg', '', NOW(), NOW());
 
+INSERT INTO `track` (`name`, `remix_name`, `genre_id`, `label_id`, `release_date`, `created`, `updated`)
+VALUES
+  ('Eros', null, 1, 1, NOW(), NOW(), NOW()),
+  ('Eros', 'Deetron Dub Remix', 1, 1, NOW(), NOW(), NOW()),
+  ('The Field And The Sun', null, 1, 3, NOW(), NOW(), NOW()),
+  ('Tempest', 'Adam Port Europa Remix', 1, 4, NOW(), NOW(), NOW()),
+  ('The Feeling', null, 2, 5, NOW(), NOW(), NOW()),
+  ('Blackbox', 'Tiefschwarz & Yawk Remix', 2, 6, NOW(), NOW(), NOW()),
+  ('Times', null, 2, 7, NOW(), NOW(), NOW()),
+  ('Airplane', null, 2, 8, NOW(), NOW(), NOW()),
+  ('You Can Relate', null, 2, 2, NOW(), NOW(), NOW()),
+  ('Keep Faith', 'Scan Mode Remix', 2, 9, NOW(), NOW(), NOW());
+
 INSERT INTO `tracklist` (`name`, `slug`, `performed`, `user_id`, `created`, `updated`) VALUES
   ('Sasha & John Digweed @ Carl Cox & Friends, Megastructure Stage, Ultra Music Festival Miami, MMW, United States', 'umf', '2017-03-25', 1, NOW(), NOW()),
   ('Transitions 657', 'transitions-657', '2017-03-31', 1, NOW(), NOW()),
@@ -40,5 +53,5 @@ INSERT INTO `program` (`name`, `slug`, `image`, `description`, `channel_id`, `cr
   ('Transitions', 'transitions', 'transitions.jpg', 'The most important radio show in house music needs no introduction, but here it goes anyway. John Digweed\'s long-standing weekly 2 hour program is legendary, airing for many years exclusively on Kiss 100 in London but now syndicated around the world and internet. In 2008, the show comes to Proton Radio. Expect upfront & unreleased tunes dished up by John Digweed alongside finely tuned guest mixes that are almost always exclusively prepared just for the show.', 1, NOW(), NOW()),
   ('Behind The Iron Curtain', 'behind-the-iron-curtain', 'behind-the-iron-curtain.jpg', 'Welcome to UMEK’s hour-long trip behind the iron curtain. Hear it here on KISS FM every Tuesday 5 – 6 am. It would take a long essay to fully explain UMEK’s meaning to electronic music. The Slovenian born producer and DJ has been setting trends and rocking dance floors for two decades now — and still shows no signs of slowing down. He’s tireless in his techno and tech house production and with more than 100 gigs per year, probably one of the busiest techno DJs out there.', 1, NOW(), NOW()),
   ('Diynamic', 'diynamic', 'diynamic.jpg', 'The weekly Diynamic radio show is hosted by Solomun & friends.', 1, NOW(), NOW()),
-  ('Systematic Session', 'systematic', 'systematic.jpg', 'Systematic Recordings from Germany has now finally its own exclusive radio show. The label which is run by the worldwide well known DJ/ producer Marc Romboy has released dozens of trendsetting and forwardthinking electronic house tracks, contributed by artists like Stephan Bodzin, Steve Lawler, Booka Shade, Chelonis R. Jones, John Dahlback and Robert Babicz, just to name a few. The show is called "Systematic Sessions" and serves you one hour of Dj mixed up-to-date records by their host Marc Romboy and other globally profiled DJs and producers. You want to know more about Marc Romboy and Systematic recordings? ', 1, NOW(), NOW()),
+  ('Systematic Session', 'systematic-session', 'systematic.jpg', 'Systematic Recordings from Germany has now finally its own exclusive radio show. The label which is run by the worldwide well known DJ/ producer Marc Romboy has released dozens of trendsetting and forwardthinking electronic house tracks, contributed by artists like Stephan Bodzin, Steve Lawler, Booka Shade, Chelonis R. Jones, John Dahlback and Robert Babicz, just to name a few. The show is called "Systematic Sessions" and serves you one hour of Dj mixed up-to-date records by their host Marc Romboy and other globally profiled DJs and producers. You want to know more about Marc Romboy and Systematic recordings? ', 1, NOW(), NOW()),
   ('House Party', 'house-party', null, 'Shake your house every Saturday night with the best party music, remixes, indie hits and classic cuts', 2, NOW(), NOW());

@@ -23,15 +23,15 @@ public class GenreRepository implements Repository<Genre> {
   /**
    * Find a Genre by its name.
    *
-   * @param name  The name of the Genre to search for.
-   * @return      An optional Genre if found.
+   * @param name The name of the Genre to search for.
+   * @return An optional Genre if found.
    */
   public Optional<Genre> findByName(String name) {
     return Optional.ofNullable(find.where().eq("name", name).findUnique());
   }
 
   /**
-   * Find an Genre by their slug.
+   * Find an Genre by its slug.
    *
    * @param slug The slug of the Genre.
    * @return An optional Genre if found.

@@ -10,6 +10,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import com.avaje.ebean.PagedList;
 import java.util.List;
 import java.util.Optional;
 import models.Label;
@@ -28,9 +29,23 @@ public class LabelRepositoryTest extends AbstractIntegrationTest {
     List<Label> labels = labelRepository.findAll();
     assertThat(labels, not(IsEmptyCollection.empty()));
     assertThat(labels.size(), is(3));
-    assertThat(labels, hasItem(hasProperty("name", is("Bedrock Records"))));
-    assertThat(labels, hasItem(hasProperty("name", is("Last Night On Earth"))));
-    assertThat(labels, hasItem(hasProperty("name", is("Drumcode"))));
+    assertThat(labels.get(0).getName(), is("Bedrock Records"));
+    assertThat(labels.get(1).getName(), is("Drumcode"));
+    assertThat(labels.get(2).getName(), is("Last Night On Earth"));
+  }
+
+  @Test public void findAllPaged() throws Exception {
+    PagedList<Label> pagedLabels = labelRepository.findAllPaged(1);
+
+    // verify the pagination object attributes
+    assertThat(pagedLabels.getPageSize(), is(12));
+    assertThat(pagedLabels.getTotalRowCount(), is(3));
+
+    // verify the paginated list
+    List<Label> labels = pagedLabels.getList();
+    assertThat(labels.get(0).getName(), is("Bedrock Records"));
+    assertThat(labels.get(1).getName(), is("Drumcode"));
+    assertThat(labels.get(2).getName(), is("Last Night On Earth"));
   }
 
   @Test public void findById_successGivenIdInDb() throws Exception {
@@ -51,7 +66,18 @@ public class LabelRepositoryTest extends AbstractIntegrationTest {
   }
 
   @Test public void findByName_failureGivenNameNotInDb() throws Exception {
-    Optional<Label> maybeLabel = labelRepository.findByName("Defjam");
+    Optional<Label> maybeLabel = labelRepository.findByName("Def Jam Recordings");
+    assertFalse(maybeLabel.isPresent());
+  }
+
+  @Test public void findBySlug_successGivenSlugInDb() throws Exception {
+    Optional<Label> maybeLabel = labelRepository.findBySlug("bedrock-records");
+    assertTrue(maybeLabel.isPresent());
+    assertEquals("Bedrock Records", maybeLabel.get().getName());
+  }
+
+  @Test public void findBySlug_failureGivenSlugNotInDb() throws Exception {
+    Optional<Label> maybeLabel = labelRepository.findBySlug("def-jam-recordings");
     assertFalse(maybeLabel.isPresent());
   }
 

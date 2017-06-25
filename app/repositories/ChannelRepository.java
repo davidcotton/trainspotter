@@ -2,7 +2,6 @@ package repositories;
 
 import com.avaje.ebean.Model.Finder;
 import com.avaje.ebean.PagedList;
-
 import java.util.List;
 import java.util.Optional;
 import models.Channel;
@@ -11,7 +10,6 @@ public class ChannelRepository implements Repository<Channel> {
 
   /** Ebean helper */
   private static Finder<Long, Channel> find = new Finder<>(Channel.class);
-
   private static final int PAGE_SIZE = 12;
 
   @Override
@@ -22,7 +20,7 @@ public class ChannelRepository implements Repository<Channel> {
   /**
    * Fetch a paginated collection of Channels.
    *
-   * @param page The page number to fetch (offset).
+   * @param page The paginator page number.
    * @return A paginated list of Channels ordered by name.
    */
   public PagedList<Channel> findAllPaged(int page) {
@@ -39,8 +37,8 @@ public class ChannelRepository implements Repository<Channel> {
   /**
    * Find a Channel by its name.
    *
-   * @param name  The name of the Channel to search for.
-   * @return      An optional Channel if found.
+   * @param name The name of the Channel to search for.
+   * @return An optional Channel if found.
    */
   public Optional<Channel> findByName(String name) {
     return Optional.ofNullable(find.where().eq("name", name).findUnique());

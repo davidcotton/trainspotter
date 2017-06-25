@@ -2,7 +2,6 @@ package repositories;
 
 import com.avaje.ebean.Model.Finder;
 import com.avaje.ebean.PagedList;
-
 import java.util.List;
 import java.util.Optional;
 import models.Label;
@@ -11,7 +10,6 @@ public class LabelRepository implements Repository<Label> {
 
   /** Ebean helper */
   private static Finder<Long, Label> find = new Finder<>(Label.class);
-
   private static final int PAGE_SIZE = 12;
 
   @Override
@@ -22,7 +20,7 @@ public class LabelRepository implements Repository<Label> {
   /**
    * Fetch a paginated collection of Labels.
    *
-   * @param page The page number to fetch (offset).
+   * @param page The paginator page number.
    * @return A paginated list of Labels ordered by name.
    */
   public PagedList<Label> findAllPaged(int page) {
@@ -39,15 +37,15 @@ public class LabelRepository implements Repository<Label> {
   /**
    * Find a Label by its name.
    *
-   * @param name  The name of the Label to search for.
-   * @return      An optional Label if found.
+   * @param name The name of the Label to search for.
+   * @return An optional Label if found.
    */
   public Optional<Label> findByName(String name) {
     return Optional.ofNullable(find.where().eq("name", name).findUnique());
   }
 
   /**
-   * Find an Label by their slug.
+   * Find an Label by its slug.
    *
    * @param slug The slug of the Label.
    * @return An optional Label if found.
