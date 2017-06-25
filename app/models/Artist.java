@@ -102,6 +102,21 @@ public class Artist extends Model {
     status = Status.active;
   }
 
+  public Artist(UpdateArtist updateArtist, Artist savedArtist) {
+    id = savedArtist.id;
+    name = updateArtist.getName();
+    slug = savedArtist.slug;
+    image = updateArtist.getImage();
+    description = updateArtist.getDescription();
+    tracks = savedArtist.tracks;
+    remixes = savedArtist.remixes;
+    tracklists = savedArtist.tracklists;
+    medias = savedArtist.medias;
+    programs = savedArtist.programs;
+    status = Status.active;
+    created = savedArtist.created;
+  }
+
   public Long getId() {
     return id;
   }

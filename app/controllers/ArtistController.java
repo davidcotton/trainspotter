@@ -16,6 +16,7 @@ import play.mvc.Security;
 import repositories.ArtistRepository;
 import repositories.TrackRepository;
 import repositories.TracklistRepository;
+import services.ArtistService;
 import views.html.artist.add;
 import views.html.artist.edit;
 import views.html.artist.index;
@@ -26,6 +27,7 @@ import views.html.notFound;
 
 public class ArtistController extends Controller {
 
+  private final ArtistService artistService;
   private final ArtistRepository artistRepository;
   private final FormFactory formFactory;
   private final TracklistRepository tracklistRepository;
@@ -33,11 +35,13 @@ public class ArtistController extends Controller {
 
   @Inject
   public ArtistController(
+      ArtistService artistService,
       ArtistRepository artistRepository,
       FormFactory formFactory,
       TracklistRepository tracklistRepository,
       TrackRepository trackRepository
   ) {
+    this.artistService = requireNonNull(artistService);
     this.artistRepository = requireNonNull(artistRepository);
     this.formFactory = requireNonNull(formFactory);
     this.tracklistRepository = requireNonNull(tracklistRepository);
@@ -50,7 +54,7 @@ public class ArtistController extends Controller {
    * @return A paginated page of artists.
    */
   public Result index(int page) {
-    return ok(index.render(artistRepository.findAllPaged(page)));
+    return ok(index.render(artistService.fetchAllPaged(page)));
   }
 
   /**
@@ -60,7 +64,7 @@ public class ArtistController extends Controller {
    * @return An artist page if found else not found page.
    */
   public Result view(String slug) {
-    return artistRepository
+    return artistService
         .findBySlug(slug)
         .map(artist -> ok(view.render(artist)))
         .orElse(notFound(notFound.render()));
@@ -83,15 +87,12 @@ public class ArtistController extends Controller {
    */
   @Security.Authenticated(Secured.class)
   public Result addSubmit() {
-    Form<CreateArtist> artistForm = formFactory.form(CreateArtist.class).bindFromRequest();
-    if (artistForm.hasErrors()) {
-      return badRequest(add.render(artistForm));
-    }
-
-    Artist artist = new Artist(artistForm.get());
-    artistRepository.insert(artist);
-
-    return Results.redirect(routes.ArtistController.view(artist.getSlug()));
+    return artistService
+        .insert(formFactory.form(CreateArtist.class).bindFromRequest())
+        .fold(
+            form -> badRequest(add.render(form)),
+            artist -> Results.redirect(routes.ArtistController.view(artist.getSlug()))
+        );
   }
 
   /**
@@ -119,31 +120,16 @@ public class ArtistController extends Controller {
    */
   @Security.Authenticated(Secured.class)
   public Result editSubmit(String slug) {
-    Optional<Artist> maybeArtist = artistRepository.findBySlug(slug);
-    if (!maybeArtist.isPresent()) {
-      return notFound(notFound.render());
-    }
-    Artist artist = maybeArtist.get();
-
-    Form<UpdateArtist> artistForm = formFactory.form(UpdateArtist.class).bindFromRequest();
-    if (artistForm.hasErrors()) {
-      return badRequest(edit.render(artist, artistForm));
-    }
-
-    UpdateArtist updateArtist = artistForm.get();
-    // copy over new fields
-    artist.setName(updateArtist.getName());
-    artist.setImage(updateArtist.getImage());
-    artist.setDescription(updateArtist.getDescription());
-
-    artistRepository.update(artist);
-
-    return Results.redirect(routes.ArtistController.view(artist.getSlug()));
-
-//    return artistRepository
-//        .findBySlug(slug)
-//        .map(artist -> )
-//        .orElse(notFound(notFound.render()));
+    return artistService
+        .findBySlug(slug)
+        .map(savedArtist -> artistService
+            .update(savedArtist, formFactory.form(UpdateArtist.class).bindFromRequest())
+            .fold(
+                form -> badRequest(edit.render(savedArtist, form)),
+                artist -> Results.redirect(routes.ArtistController.view(artist.getSlug()))
+            )
+        )
+        .orElse(notFound(notFound.render()));
   }
 
   /**

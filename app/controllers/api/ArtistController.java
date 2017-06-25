@@ -1,13 +1,14 @@
 package controllers.api;
 
 import static java.util.Objects.requireNonNull;
-import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
 import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
-import models.Artist;
+import models.CreateArtist;
+import models.UpdateArtist;
+import play.data.FormFactory;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -16,10 +17,12 @@ import services.ArtistService;
 public class ArtistController extends Controller {
 
   private final ArtistService artistService;
+  private final FormFactory formFactory;
 
   @Inject
-  public ArtistController(ArtistService artistService) {
+  public ArtistController(ArtistService artistService, FormFactory formFactory) {
     this.artistService = requireNonNull(artistService);
+    this.formFactory = requireNonNull(formFactory);
   }
 
   public Result fetchAll() {
@@ -35,9 +38,9 @@ public class ArtistController extends Controller {
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
     return artistService
-        .insert(fromJson(request().body().asJson(), Artist.class))
+        .insert(formFactory.form(CreateArtist.class).bindFromRequest())
         .fold(
-            error -> badRequest(errorsAsJson(error)),
+            form -> badRequest(errorsAsJson(form.errors())),
             artist -> created(toJson(artist))
         );
   }
@@ -47,9 +50,9 @@ public class ArtistController extends Controller {
     return artistService
         .findById(id)
         .map(savedArtist -> artistService
-            .update(savedArtist, fromJson(request().body().asJson(), Artist.class))
+            .update(savedArtist, formFactory.form(UpdateArtist.class).bindFromRequest())
             .fold(
-                error -> badRequest(errorsAsJson(error)),
+                form -> badRequest(errorsAsJson(form.errors())),
                 newArtist -> created(toJson(newArtist))
             )
         )
