@@ -75,6 +75,7 @@ public class UserRepository implements Repository<User> {
 
   @Override
   public void delete(User user) {
-    user.delete();
+    user.setStatus(Status.deleted);
+    user.update();
   }
 }

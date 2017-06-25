@@ -95,6 +95,12 @@ public class User extends Model {
     status = Status.unverified;
   }
 
+  public User(UpdateUser updateUser) {
+    email = updateUser.getEmail();
+    displayName = updateUser.getDisplayName();
+    status = Status.unverified;
+  }
+
   public Long getId() {
     return id;
   }

@@ -71,9 +71,7 @@ public class UserController extends Controller {
   }
 
   public Result registerSubmit() {
-    Form<CreateUser> userForm = formFactory
-        .form(CreateUser.class, CreateUser.InsertValidators.class)
-        .bindFromRequest();
+    Form<CreateUser> userForm = formFactory.form(CreateUser.class).bindFromRequest();
     if (userForm.hasErrors()) {
       return badRequest(register.render(userForm));
     }

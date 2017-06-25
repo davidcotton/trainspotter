@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import models.CreateUser;
 import models.LoginUser;
 import models.Token;
+import models.UpdateUser;
 import models.User;
 import models.User.Status;
 import play.data.Form;
@@ -79,9 +80,7 @@ public class UserService {
    */
   public Either<Map<String, List<ValidationError>>, User> insert(CreateUser createUser) {
     // validate new user
-    Form<CreateUser> userForm = formFactory
-        .form(CreateUser.class, CreateUser.InsertValidators.class)
-        .bind(toJson(createUser));
+    Form<CreateUser> userForm = formFactory.form(CreateUser.class).bind(toJson(createUser));
     if (userForm.hasErrors()) {
       // return validation errors
       return Either.left(userForm.errors());
@@ -101,20 +100,18 @@ public class UserService {
    * Update a User.
    *
    * @param savedUser   The existing User data.
-   * @param createUser  The new User data.
+   * @param updateUser  The new User data.
    * @return Either the updated User or validation errors.
    */
-  public Either<Map<String, List<ValidationError>>, User> update(User savedUser, CreateUser createUser) {
+  public Either<Map<String, List<ValidationError>>, User> update(User savedUser, UpdateUser updateUser) {
     // validate the changes
-    Form<CreateUser> userForm = formFactory
-        .form(CreateUser.class, CreateUser.UpdateValidators.class)
-        .bind(toJson(createUser));
+    Form<UpdateUser> userForm = formFactory.form(UpdateUser.class).bind(toJson(updateUser));
     if (userForm.hasErrors()) {
       // return validation errors
       return Either.left(userForm.errors());
     }
 
-    User newUser = new User(createUser);
+    User newUser = new User(updateUser);
     // copy over read only fields
     newUser.setId(savedUser.getId());
     newUser.setStatus(savedUser.getStatus());
@@ -128,14 +125,12 @@ public class UserService {
   }
 
   /**
-   * Delete a User.
-   * Use a soft deletes approach.
+   * (Soft) Delete a User.
    *
-   * @param user  The user to delete.
+   * @param user The user to delete.
    */
   public void delete(User user) {
-    user.setStatus(Status.deleted);
-    userRepository.update(user);
+    userRepository.delete(user);
   }
 
   /**
