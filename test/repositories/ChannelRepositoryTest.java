@@ -10,6 +10,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Optional;
 import models.Channel;
+import models.Channel.Status;
 import org.junit.Test;
 
 public class ChannelRepositoryTest extends AbstractIntegrationTest {
@@ -53,7 +54,7 @@ public class ChannelRepositoryTest extends AbstractIntegrationTest {
 
   @Test public void insert_success() throws Exception {
     // ARRANGE
-    Channel channel = new Channel(null, "FBi Radio", "fbi-radio", null, null, null, null, null);
+    Channel channel = new Channel(null, "FBi Radio", "fbi-radio", null, null, null, Status.active, null, null);
 
     // ACT
     channelRepository.insert(channel);

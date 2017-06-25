@@ -41,12 +41,12 @@ VALUES
   ('Öona Dahl', 'oona-dahl', null, null, 'active', NOW(), NOW()),
   ('Pete Tong', 'pete-tong', 'pete-tong.jpg', null, 'active', NOW(), NOW());
 
-INSERT INTO `channel` (`name`, `slug`, `image`, `description`, `created`, `updated`) VALUES
-  ('Proton Radio', 'proton-radio', 'proton-opengraph.gif','Welcome to Proton, a subscriber supported Internet radio station and music label.' , NOW(), NOW()),
-  ('Triple J', 'triple-j', null, 'triple j is the national youth broadcaster for young Australians. We aim to bring you the latest, greatest music and the stories that matter on the radio (covering over 98% of the nation), online, on your phone and in print with J Annual.' , NOW(), NOW()),
-  ('BBC Radio 1', 'bbc-radio-1', null, 'Listen to BBC Radio 1, home of the Official Chart, the Live Lounge and the world''s greatest DJs including Nick Grimshaw, Scott Mills, Clara Amfo, Greg James, Annie Mac and many more. Listen on DAB Radio, Digital TV, 97-99 FM, Online and Mobile.' , NOW(), NOW()),
-  ('KISS FM', 'kiss-fm', null, 'Kiss is a UK radio station which broadcasts on FM and National DAB and specialises in pop, hip hop, R&B, urban and electronic dance music.' , NOW(), NOW()),
-  ('Energia 97 FM', 'energia-97-fm', null, '' , NOW(), NOW());
+INSERT INTO `channel` (`name`, `slug`, `image`, `description`, `status`, `created`, `updated`) VALUES
+  ('Proton Radio', 'proton-radio', 'proton-opengraph.gif','Welcome to Proton, a subscriber supported Internet radio station and music label.', 'active', NOW(), NOW()),
+  ('Triple J', 'triple-j', null, 'triple j is the national youth broadcaster for young Australians. We aim to bring you the latest, greatest music and the stories that matter on the radio (covering over 98% of the nation), online, on your phone and in print with J Annual.', 'active', NOW(), NOW()),
+  ('BBC Radio 1', 'bbc-radio-1', null, 'Listen to BBC Radio 1, home of the Official Chart, the Live Lounge and the world''s greatest DJs including Nick Grimshaw, Scott Mills, Clara Amfo, Greg James, Annie Mac and many more. Listen on DAB Radio, Digital TV, 97-99 FM, Online and Mobile.', 'active', NOW(), NOW()),
+  ('KISS FM', 'kiss-fm', null, 'Kiss is a UK radio station which broadcasts on FM and National DAB and specialises in pop, hip hop, R&B, urban and electronic dance music.', 'active', NOW(), NOW()),
+  ('Energia 97 FM', 'energia-97-fm', null, '', 'active', NOW(), NOW());
 
 INSERT INTO `label` (`name`, `slug`, `image`, `description`, `created`, `updated`)
 VALUES

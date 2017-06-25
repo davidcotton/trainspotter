@@ -30,8 +30,10 @@ create table channel (
   slug                          varchar(191) not null,
   image                         varchar(255),
   description                   text,
+  status                        varchar(7),
   created                       datetime not null,
   updated                       datetime not null,
+  constraint ck_channel_status check (status in ('deleted','active')),
   constraint uq_channel_name unique (name),
   constraint uq_channel_slug unique (slug),
   constraint pk_channel primary key (id)

@@ -2,21 +2,20 @@ package repositories;
 
 import com.avaje.ebean.Model.Finder;
 import com.avaje.ebean.PagedList;
-
 import java.util.List;
 import java.util.Optional;
 import models.Channel;
+import models.Channel.Status;
 
 public class ChannelRepository implements Repository<Channel> {
 
   /** Ebean helper */
   private static Finder<Long, Channel> find = new Finder<>(Channel.class);
-
   private static final int PAGE_SIZE = 12;
 
   @Override
   public List<Channel> findAll() {
-    return find.orderBy().asc("name").findList();
+    return find.orderBy("name").findList();
   }
 
   /**
@@ -27,6 +26,7 @@ public class ChannelRepository implements Repository<Channel> {
    */
   public PagedList<Channel> findAllPaged(int page) {
     return find
+        .where().ne("status", Status.deleted)
         .orderBy("name")
         .findPagedList(--page, PAGE_SIZE); // page -1 so we can be 1-indexed
   }
@@ -43,7 +43,12 @@ public class ChannelRepository implements Repository<Channel> {
    * @return      An optional Channel if found.
    */
   public Optional<Channel> findByName(String name) {
-    return Optional.ofNullable(find.where().eq("name", name).findUnique());
+    return Optional.ofNullable(
+        find
+            .where().eq("name", name)
+            .where().ne("status", Status.deleted)
+            .findUnique()
+    );
   }
 
   /**
@@ -53,7 +58,12 @@ public class ChannelRepository implements Repository<Channel> {
    * @return An optional Channel if found.
    */
   public Optional<Channel> findBySlug(String slug) {
-    return Optional.ofNullable(find.where().eq("slug", slug).findUnique());
+    return Optional.ofNullable(
+        find
+            .where().eq("slug", slug)
+            .where().ne("status", Status.deleted)
+            .findUnique()
+    );
   }
 
   @Override
@@ -68,6 +78,7 @@ public class ChannelRepository implements Repository<Channel> {
 
   @Override
   public void delete(Channel channel) {
-    channel.delete();
+    channel.setStatus(Status.deleted);
+    channel.update();
   }
 }

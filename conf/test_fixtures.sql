@@ -11,10 +11,10 @@ INSERT INTO `artist` (`name`, `slug`, `image`, `description`, `status`, `created
   ('Umek', 'umek', null, null, 'active', NOW(), NOW()),
   ('Marc Romboy', 'marc-romboy', null, null, 'active', NOW(), NOW());
 
-INSERT INTO `channel` (`name`, `slug`, `image`, `description`, `created`, `updated`) VALUES
-  ('Proton Radio', 'proton-radio', 'proton-opengraph.gif', 'Welcome to Proton, a subscriber supported Internet radio station and music label.' , NOW(), NOW()),
-  ('Triple J', 'triple-j', 'triple-j.jpg', '', NOW(), NOW()),
-  ('BBC Radio 1', 'bbc-radio-1', 'bbc.jpg', 'Listen to BBC Radio 1, home of the Official Chart' , NOW(), NOW());
+INSERT INTO `channel` (`name`, `slug`, `image`, `description`, `status`, `created`, `updated`) VALUES
+  ('Proton Radio', 'proton-radio', 'proton-opengraph.gif', 'Welcome to Proton, a subscriber supported Internet radio station and music label.', 'active', NOW(), NOW()),
+  ('Triple J', 'triple-j', 'triple-j.jpg', '', 'active', NOW(), NOW()),
+  ('BBC Radio 1', 'bbc-radio-1', 'bbc.jpg', 'Listen to BBC Radio 1, home of the Official Chart', 'active', NOW(), NOW());
 
 INSERT INTO `genre` (`name`, `slug`, `created`, `updated`) VALUES
   ('House', 'house', NOW(), NOW()),
