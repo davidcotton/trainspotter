@@ -1,0 +1,48 @@
+@(artist: Artist, tracks: com.avaje.ebean.PagedList[Track])
+
+@main("Tracklists") {
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item"><a href="@routes.ArtistController.index()">Artists</a></li>
+    <li class="breadcrumb-item"><a href="@routes.ArtistController.view(artist.getSlug)">@artist.getName</a></li>
+    <li class="breadcrumb-item active"><a href="@routes.ArtistController.track(artist.getSlug)">Tracks</a></li>
+  </ol>
+
+  <h1>@artist.getName's Tracklists</h1>
+  <div class="list-group">
+  @if(tracks.getTotalRowCount == 0) {
+    <div class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-0">No tracks found.</h5>
+      </div>
+    </div>
+  } else {
+    @for(track <- tracks.getList) {
+      <a href="@routes.TracklistController.view(track.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">@track.getArtists.map(_.getName).mkString(", ")</h5>
+        </div>
+        <p class="mb-1">@track.getName</p>
+      </a>
+    }
+  }
+  </div>
+
+  <nav class="mt-2" aria-label="Pagination">
+    <ul class="pagination justify-content-center">
+      <li class="page-item @if(!tracks.hasPrev) {disabled}">
+        <a class="page-link" @if(tracks.hasPrev) {href="@routes.ArtistController.tracklist(artist.getSlug, tracks.getPageIndex)"} tabindex="-1">&laquo;</a>
+      </li>
+
+      @for(i <- 1 until (tracks.getTotalPageCount + 1)) {
+        <li class="page-item @if((i - 1) == tracks.getPageIndex) {active}">
+          <a class="page-link" href="@routes.ArtistController.tracklist(artist.getSlug, i)">@(i)</a>
+        </li>
+      }
+
+      <li class="page-item @if(!tracks.hasNext) {disabled}">
+        <a class="page-link" @if(tracks.hasNext) {href="@routes.ArtistController.tracklist(artist.getSlug, tracks.getPageIndex + 2)"}>&raquo;</a>
+      </li>
+    </ul>
+  </nav>
+}

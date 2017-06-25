@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.ZonedDateTime;
@@ -20,7 +21,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import play.data.format.Formats;
-import play.data.validation.Constraints;
 
 @Entity
 @Data
@@ -28,20 +28,20 @@ import play.data.validation.Constraints;
 @AllArgsConstructor
 public class Label extends Model {
 
-  public interface InsertValidators {}
-  public interface UpdateValidators {}
+  public enum Status {
+    @EnumValue("active") active,
+    @EnumValue("deleted") deleted,
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Constraints.Required
   @NotNull
   @Column(unique = true, length = 191)
   private String name;
 
   @NotNull
-  @Constraints.Required
   @Column(unique = true, length = 191)
   private String slug;
 
@@ -58,6 +58,9 @@ public class Label extends Model {
   @OneToMany(mappedBy = "label", cascade = CascadeType.PERSIST)
   private List<Media> medias;
 
+  @NotNull
+  private Status status;
+
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)
@@ -69,6 +72,24 @@ public class Label extends Model {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
+
+  public Label(CreateLabel createLabel) {
+    name = createLabel.getName();
+    image = createLabel.getImage();
+    description = createLabel.getDescription();
+  }
+
+  public Label(UpdateLabel updateLabel, Label label) {
+    id = label.id;
+    name = updateLabel.getName();
+    slug = label.slug;
+    image = updateLabel.getImage();
+    description = updateLabel.getDescription();
+    tracks = label.tracks;
+    medias = label.medias;
+    status = label.status;
+    created = label.created;
+  }
 
   public Long getId() {
     return id;

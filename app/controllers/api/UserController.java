@@ -10,6 +10,7 @@ import controllers.Security;
 import javax.inject.Inject;
 import models.CreateUser;
 import models.LoginUser;
+import models.UpdateUser;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -72,7 +73,7 @@ public class UserController extends Controller {
     return userService
         .findById(id)
         .map(savedUser -> userService
-            .update(savedUser, fromJson(request().body().asJson(), CreateUser.class))
+            .update(savedUser, fromJson(request().body().asJson(), UpdateUser.class))
             .fold(
                 error -> badRequest(errorsAsJson(error)),
                 newUser -> created(toJson(newUser))

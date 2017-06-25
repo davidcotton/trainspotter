@@ -25,13 +25,17 @@
           <h5 class="mb-1">@label.getName</h5>
           <small>@label.getDescription</small>
         </div>
+
+          <!-- edit/delete -->
         <div class="btn-group" role="group">
           <a href="@routes.LabelController.editForm(label.getSlug)" class="btn btn-sm btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
-          <a href="@routes.LabelController.delete(label.getSlug)" class="btn btn-sm btn-danger">
-            <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
-          </a>
+          <form action="@routes.LabelController.delete(label.getSlug)" method="post">
+            <button type="submit" class="btn btn-sm btn-danger">
+              <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
+            </button>
+          </form>
         </div>
       </div>
     </div>

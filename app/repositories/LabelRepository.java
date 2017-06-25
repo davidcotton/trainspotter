@@ -5,6 +5,7 @@ import com.avaje.ebean.PagedList;
 import java.util.List;
 import java.util.Optional;
 import models.Label;
+import models.Label.Status;
 
 public class LabelRepository implements Repository<Label> {
 
@@ -14,7 +15,10 @@ public class LabelRepository implements Repository<Label> {
 
   @Override
   public List<Label> findAll() {
-    return find.orderBy().asc("name").findList();
+    return find
+        .where().ne("status", Status.deleted)
+        .orderBy("name")
+        .findList();
   }
 
   /**
@@ -25,6 +29,7 @@ public class LabelRepository implements Repository<Label> {
    */
   public PagedList<Label> findAllPaged(int page) {
     return find
+        .where().ne("status", Status.deleted)
         .orderBy("name")
         .findPagedList(--page, PAGE_SIZE); // page -1 so we can be 1-indexed
   }
@@ -35,23 +40,33 @@ public class LabelRepository implements Repository<Label> {
   }
 
   /**
-   * Find a Label by its name.
+   * Search for a Label by its name.
    *
    * @param name The name of the Label to search for.
    * @return An optional Label if found.
    */
   public Optional<Label> findByName(String name) {
-    return Optional.ofNullable(find.where().eq("name", name).findUnique());
+    return Optional.ofNullable(
+        find
+            .where().ne("status", Status.deleted)
+            .where().eq("name", name)
+            .findUnique()
+    );
   }
 
   /**
-   * Find an Label by its slug.
+   * Search for a Label by its slug.
    *
    * @param slug The slug of the Label.
    * @return An optional Label if found.
    */
   public Optional<Label> findBySlug(String slug) {
-    return Optional.ofNullable(find.where().eq("slug", slug).findUnique());
+    return Optional.ofNullable(
+        find
+            .where().eq("slug", slug)
+            .where().ne("status", Status.deleted)
+            .findUnique()
+    );
   }
 
   @Override
@@ -66,6 +81,7 @@ public class LabelRepository implements Repository<Label> {
 
   @Override
   public void delete(Label label) {
-    label.delete();
+    label.setStatus(Status.deleted);
+    label.update();
   }
 }

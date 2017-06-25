@@ -5,6 +5,7 @@ import com.avaje.ebean.PagedList;
 import java.util.List;
 import java.util.Optional;
 import models.Artist;
+import models.Artist.Status;
 
 public class ArtistRepository implements Repository<Artist> {
 
@@ -14,7 +15,10 @@ public class ArtistRepository implements Repository<Artist> {
 
   @Override
   public List<Artist> findAll() {
-    return find.orderBy("name").findList();
+    return find
+        .where().ne("status", Status.deleted)
+        .orderBy("name")
+        .findList();
   }
 
   /**
@@ -25,6 +29,7 @@ public class ArtistRepository implements Repository<Artist> {
    */
   public PagedList<Artist> findAllPaged(int page) {
     return find
+        .where().ne("status", Status.deleted)
         .orderBy("name")
         .findPagedList(--page, PAGE_SIZE); // page -1 so we can be 1-indexed
   }
@@ -51,7 +56,12 @@ public class ArtistRepository implements Repository<Artist> {
    * @return An optional Artist if found.
    */
   public Optional<Artist> findBySlug(String slug) {
-    return Optional.ofNullable(find.where().eq("slug", slug).findUnique());
+    return Optional.ofNullable(
+        find
+            .where().eq("slug", slug)
+            .where().ne("status", Status.deleted)
+            .findUnique()
+    );
   }
 
   @Override
@@ -66,6 +76,7 @@ public class ArtistRepository implements Repository<Artist> {
 
   @Override
   public void delete(Artist artist) {
-    artist.delete();
+    artist.setStatus(Status.deleted);
+    artist.update();
   }
 }

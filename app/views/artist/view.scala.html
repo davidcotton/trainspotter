@@ -8,7 +8,6 @@
   </ol>
 
   <h1>@artist.getName</h1>
-
   <div class="row">
     <div class="col-md-4">
       @if(artist.getImage != null) {
@@ -22,6 +21,18 @@
         </li>
       }
       </ul>
+
+      <!-- edit/delete -->
+      <div class="btn-group" role="group">
+        <a href="@routes.ArtistController.editForm(artist.getSlug)" class="btn btn-sm btn-warning">
+          <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
+        </a>
+        <form action="@routes.ArtistController.delete(artist.getSlug)" method="post">
+          <button type="submit" class="btn btn-sm btn-danger">
+            <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
+          </button>
+        </form>
+      </div>
     </div>
 
     <div class="col-md-8">
@@ -29,36 +40,62 @@
         <li class="nav-item"><a href="#tracklists" class="nav-link active" data-toggle="tab">Tracklists</a></li>
         <li class="nav-item"><a href="#tracks" class="nav-link" data-toggle="tab">Tracks</a></li>
       </ul>
+
       <div class="tab-content">
         <div class="tab-pane active" id="tracklists" role="tabpanel">
           <h2>Popular Tracklists</h2>
-          <div class="list-group">
-          @for(tracklist <- artist.getTracklists) {
-            <a href="@routes.TracklistController.view(tracklist.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
+          @if(artist.getTracklists.size() > 0) {
+            <div class="list-group">
+            @for(tracklist <- artist.getTracklists) {
+              <a href="@routes.TracklistController.view(tracklist.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">@tracklist.getName</h5>
+                  <small>@tracklist.getPerformedDaysAgo days ago</small>
+                </div>
+                <p class="mb-1">@tracklist.getPerformed</p>
+                <small>
+                  <i class="fa fa-user" title="@tracklist.getUser.getDisplayName" aria-hidden="true"></i>
+                  @tracklist.getUser.getDisplayName
+                </small>
+              </a>
+            }
+            </div>
+
+            <div class="my-2">
+              <a href="@routes.ArtistController.tracklist(artist.getSlug)" class="btn btn-primary">View All Tracklists</a>
+            </div>
+          } else {
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">@tracklist.getName</h5>
-                <small>@tracklist.getPerformedDaysAgo days ago</small>
+                <h5 class="mb-0">No tracklists found.</h5>
               </div>
-              <p class="mb-1">@tracklist.getPerformed</p>
-              <small>
-                <i class="fa fa-user" title="@tracklist.getUser.getDisplayName" aria-hidden="true"></i>
-                @tracklist.getUser.getDisplayName
-              </small>
-            </a>
+            </div>
           }
-          </div>
         </div>
+
         <div class="tab-pane" id="tracks" role="tabpanel">
           <h2>Popular Tracks</h2>
+          @if(artist.getTracks.size() > 0) {
           <div class="list-group">
-          @for(track <- artist.getTracks) {
-            <a href="@routes.TrackController.view(track.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">@track.getName</h5>
-              </div>
-            </a>
-          }
+            @for(track <- artist.getTracks) {
+              <a href="@routes.TrackController.view(track.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">@track.getName</h5>
+                </div>
+              </a>
+            }
           </div>
+
+          <div class="my-2">
+            <a href="@routes.ArtistController.track(artist.getSlug)" class="btn btn-primary">View All Tracks</a>
+          </div>
+          } else {
+          <div class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-0">No tracks found.</h5>
+            </div>
+          </div>
+        }
         </div>
       </div>
     </div>

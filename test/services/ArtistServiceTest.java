@@ -37,6 +37,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import models.CreateArtist;
 import models.Track;
 import play.data.Form;
 import play.data.FormFactory;
@@ -52,9 +53,13 @@ public class ArtistServiceTest {
   @Mock private FormFactory mockFormFactory;
   @Mock private Form mockForm;
   @Mock private Form mockDataForm;
+//  private final FormFactory formFactory;
+//
+//  public ArtistServiceTest() {
+//    formFactory = new FormFactory();
+//  }
 
-  @Test
-  public void fetchAll() {
+  @Test public void fetchAll() {
     // ARRANGE
     when(mockArtistRepository.findAll()).thenReturn(new ArrayList<Artist>() {{
       add(mock(Artist.class));
@@ -69,8 +74,7 @@ public class ArtistServiceTest {
     assertThat(actualArtists.size(), is(2));
   }
 
-  @Test
-  public void findById_givenIdInDb() {
+  @Test public void findById_givenIdInDb() {
     // ARRANGE
     long id = 1L;
     when(mockArtistRepository.findById(id)).thenReturn(Optional.of(mock(Artist.class)));
@@ -82,8 +86,7 @@ public class ArtistServiceTest {
     assertTrue(maybeArtist.isPresent());
   }
 
-  @Test
-  public void findById_givenIdNotInDb() {
+  @Test public void findById_givenIdNotInDb() {
     // ARRANGE
     long nonExistentId = 1L;
     when(mockArtistRepository.findById(nonExistentId)).thenReturn(Optional.empty());
@@ -95,8 +98,7 @@ public class ArtistServiceTest {
     assertThat(maybeArtist.isPresent(), is(false));
   }
 
-  @Test
-  public void findByName_givenNameInDb() {
+  @Test public void findByName_givenNameInDb() {
     // ARRANGE
     String name = "John Digweed";
     when(mockArtistRepository.findByName(name)).thenReturn(Optional.of(mock(Artist.class)));
@@ -108,8 +110,7 @@ public class ArtistServiceTest {
     assertTrue(maybeArtist.isPresent());
   }
 
-  @Test
-  public void findByName_givenNameNotInDb() {
+  @Test public void findByName_givenNameNotInDb() {
     // ARRANGE
     String name = "Cher";
     when(mockArtistRepository.findByName(name)).thenReturn(Optional.empty());
@@ -121,10 +122,11 @@ public class ArtistServiceTest {
     assertThat(maybeArtist.isPresent(), is(false));
   }
 
-//  @Test
-//  public void insert_successGivenValidData() {
+//  @Test public void insert_successGivenValidData() {
 //    // ARRANGE
-//    Artist artist = new Artist(null, "John Digweed", null, null, null, null, null, null, null);
+////    Artist artist = new Artist(null, "John Digweed", null, null, null, null, null, null, null);
+//    CreateArtist createArtist = new CreateArtist("John Digweed", "john-digweed.jpg", "Diggers is tops.");
+//    Form<CreateArtist> artistForm = new Form<CreateArtist>(CreateArtist.class);
 //
 //    when(mockFormFactory.form(Artist.class, Artist.InsertValidators.class)).thenReturn(mockDataForm);
 //    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);

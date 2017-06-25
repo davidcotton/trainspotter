@@ -5,7 +5,9 @@ import com.avaje.ebean.PagedList;
 import java.util.List;
 import java.util.Optional;
 import models.Artist;
+import models.Genre;
 import models.Tracklist;
+import models.Tracklist.Status;
 
 public class TracklistRepository implements Repository<Tracklist> {
 
@@ -15,7 +17,10 @@ public class TracklistRepository implements Repository<Tracklist> {
 
   @Override
   public List<Tracklist> findAll() {
-    return find.orderBy().desc("performed").findList();
+    return find
+        .where().ne("status", Status.deleted)
+        .orderBy().desc("performed")
+        .findList();
   }
 
   /**
@@ -26,6 +31,7 @@ public class TracklistRepository implements Repository<Tracklist> {
    */
   public PagedList<Tracklist> findAllPaged(int page) {
     return find
+        .where().ne("status", Status.deleted)
         .orderBy().desc("performed")
         .findPagedList(--page, PAGE_SIZE);
   }
@@ -39,7 +45,9 @@ public class TracklistRepository implements Repository<Tracklist> {
    */
   public PagedList<Tracklist> findAllPagedByArtist(Artist artist, int page) {
     return find
-        .where().eq("artist_id", artist.getId())
+        .fetch("artists")
+        .where().eq("artists.id", artist.getId())
+        .where().ne("status", Status.deleted)
         .orderBy().desc("performed")
         .findPagedList(--page, PAGE_SIZE);
   }
@@ -54,6 +62,16 @@ public class TracklistRepository implements Repository<Tracklist> {
   public List<Tracklist> findMostPopular() {
     // hard coded to alphabetic until I add "popularity" features
     return find.orderBy().desc("performed").setMaxRows(10).findList();
+        .findPagedList(--page, PAGE_SIZE);
+  }
+
+  public PagedList<Tracklist> findAllPagedByGenre(Genre genre, int page) {
+    return find
+        .fetch("genres")
+        .where().eq("genres.id", genre.getId())
+        .where().ne("status", Status.deleted)
+        .orderBy().desc("performed")
+        .findPagedList(--page, PAGE_SIZE);
   }
 
   @Override
@@ -68,7 +86,12 @@ public class TracklistRepository implements Repository<Tracklist> {
    * @return An optional Tracklist if found.
    */
   public Optional<Tracklist> findBySlug(String slug) {
-    return Optional.ofNullable(find.where().eq("slug", slug).findUnique());
+    return Optional.ofNullable(
+        find
+            .where().eq("slug", slug)
+            .where().ne("status", Status.deleted)
+            .findUnique()
+    );
   }
 
   @Override
@@ -83,6 +106,7 @@ public class TracklistRepository implements Repository<Tracklist> {
 
   @Override
   public void delete(Tracklist tracklist) {
-    tracklist.delete();
+    tracklist.setStatus(Status.deleted);
+    tracklist.update();
   }
 }

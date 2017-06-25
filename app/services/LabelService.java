@@ -1,28 +1,25 @@
 package services;
 
 import static java.util.Objects.requireNonNull;
-import static play.libs.Json.toJson;
 
+import com.avaje.ebean.PagedList;
 import io.atlassian.fugue.Either;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
+import models.CreateLabel;
 import models.Label;
+import models.UpdateLabel;
 import play.data.Form;
-import play.data.FormFactory;
-import play.data.validation.ValidationError;
 import repositories.LabelRepository;
 
 public class LabelService {
 
   private final LabelRepository labelRepository;
-  private final FormFactory formFactory;
 
   @Inject
-  public LabelService(LabelRepository labelRepository, FormFactory formFactory) {
+  public LabelService(LabelRepository labelRepository) {
     this.labelRepository = requireNonNull(labelRepository);
-    this.formFactory = requireNonNull(formFactory);
   }
 
   /**
@@ -32,6 +29,10 @@ public class LabelService {
    */
   public List<Label> fetchAll() {
     return labelRepository.findAll();
+  }
+
+  public PagedList<Label> fetchAllPaged(int page) {
+    return labelRepository.findAllPaged(page);
   }
 
   /**
@@ -54,54 +55,57 @@ public class LabelService {
     return labelRepository.findByName(name);
   }
 
+  public Optional<Label> findBySlug(String slug) {
+    return labelRepository.findBySlug(slug);
+  }
+
   /**
    * Insert a new Label.
    *
-   * @param label The Label to insert.
-   * @return Either the inserted Label or validation errors
+   * @param labelForm The submitted Label data form.
+   * @return Either the inserted Label or the form with errors.
    */
-  public Either<Map<String, List<ValidationError>>, Label> insert(Label label) {
-    // validate new label
-    Form<Label> labelForm = formFactory
-        .form(Label.class, Label.InsertValidators.class)
-        .bind(toJson(label));
+  public Either<Form<CreateLabel>, Label> insert(Form<CreateLabel> labelForm) {
     if (labelForm.hasErrors()) {
-      // return validation errors
-      return Either.left(labelForm.errors());
+      return Either.left(labelForm);
     }
 
+    Label label = new Label(labelForm.get());
     // save to DB
     labelRepository.insert(label);
 
-    // return the saved label
+    // return saved label
     return Either.right(label);
   }
 
   /**
-   * Update a Label.
+   * Update an Label.
    *
-   * @param savedLabel  The existing Label data.
-   * @param newLabel    The new Label data.
-   * @return Either the updated data or validation errors.
+   * @param savedLabel The existing Label.
+   * @param labelForm  The new Label data form.
+   * @return Either the updated Label or the form with errors.
    */
-  public Either<Map<String, List<ValidationError>>, Label> update(Label savedLabel, Label newLabel) {
-    // copy over read only fields
-    newLabel.setId(savedLabel.getId());
-    newLabel.setCreated(savedLabel.getCreated());
-
-    // validate the changes
-    Form<Label> labelForm = formFactory
-        .form(Label.class, Label.UpdateValidators.class)
-        .bind(toJson(newLabel));
+  public Either<Form<UpdateLabel>, Label> update(Label savedLabel, Form<UpdateLabel> labelForm) {
     if (labelForm.hasErrors()) {
-      // return validation errors
-      return Either.left(labelForm.errors());
+      return Either.left(labelForm);
     }
+
+    UpdateLabel updateLabel = labelForm.get();
+    Label newLabel = new Label(updateLabel, savedLabel);
 
     // save to DB
     labelRepository.update(newLabel);
 
-    // return the saved label
+    // return saved label
     return Either.right(newLabel);
+  }
+
+  /**
+   * Delete an Label.
+   *
+   * @param label The Label to delete.
+   */
+  public void delete(Label label) {
+    labelRepository.delete(label);
   }
 }

@@ -11,30 +11,15 @@ import validators.CustomConstraints;
 @AllArgsConstructor
 public class CreateUser {
 
-  public interface InsertValidators {}
-  public interface UpdateValidators {}
-
-  @Constraints.Required(
-      message = "An email address is required.",
-      groups = {InsertValidators.class, UpdateValidators.class}
-  )
-  @Constraints.Email(
-      message = "This is not a valid email address.",
-      groups = {InsertValidators.class, UpdateValidators.class}
-  )
-  @CustomConstraints.UniqueEmail(groups = {InsertValidators.class})
+  @Constraints.Required(message = "An email address is required.")
+  @Constraints.Email(message = "This is not a valid email address.")
+  @CustomConstraints.UniqueEmail
   private String email;
 
-  @Constraints.Required(
-      message = "A display name is required.",
-      groups = {InsertValidators.class, UpdateValidators.class}
-  )
+  @Constraints.Required(message = "A display name is required.")
   private String displayName;
 
-  @Constraints.Required(
-      message = "A password is required.",
-      groups = {InsertValidators.class, UpdateValidators.class}
-  )
-  @CustomConstraints.Password(groups = {InsertValidators.class, UpdateValidators.class})
+  @Constraints.Required(message = "A password is required.")
+  @CustomConstraints.Password
   private String password;
 }

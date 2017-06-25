@@ -5,6 +5,7 @@ import com.avaje.ebean.PagedList;
 import java.util.List;
 import java.util.Optional;
 import models.Program;
+import models.Program.Status;
 
 public class ProgramRepository implements Repository<Program> {
 
@@ -14,7 +15,10 @@ public class ProgramRepository implements Repository<Program> {
 
   @Override
   public List<Program> findAll() {
-    return find.orderBy().asc("name").findList();
+    return find
+        .where().ne("status", Status.deleted)
+        .orderBy("name")
+        .findList();
   }
 
   /**
@@ -26,6 +30,7 @@ public class ProgramRepository implements Repository<Program> {
   public List<Program> findByChannel(long channelId) {
     return find
         .where().eq("channel_id", channelId)
+        .where().ne("status", Status.deleted)
         .orderBy().asc("name")
         .findList();
   }
@@ -38,6 +43,7 @@ public class ProgramRepository implements Repository<Program> {
    */
   public PagedList<Program> findAllPaged(int page) {
     return find
+        .where().ne("status", Status.deleted)
         .orderBy("name")
         .findPagedList(--page, PAGE_SIZE); // page -1 so we can be 1-indexed
   }
@@ -48,23 +54,33 @@ public class ProgramRepository implements Repository<Program> {
   }
 
   /**
-   * Find a Program by its name.
+   * Search for a Program by its name.
    *
    * @param name  The name of the Program to search for.
    * @return      An optional Program if found.
    */
   public Optional<Program> findByName(String name) {
-    return Optional.ofNullable(find.where().eq("name", name).findUnique());
+    return Optional.ofNullable(
+        find
+            .where().eq("name", name)
+            .where().ne("status", Status.deleted)
+            .findUnique()
+    );
   }
 
   /**
-   * Find an Program by their slug.
+   * Search for a Program by its slug.
    *
    * @param slug The slug of the Program.
    * @return An optional Program if found.
    */
   public Optional<Program> findBySlug(String slug) {
-    return Optional.ofNullable(find.where().eq("slug", slug).findUnique());
+    return Optional.ofNullable(
+        find
+            .where().eq("slug", slug)
+            .where().ne("status", Status.deleted)
+            .findUnique()
+    );
   }
 
   @Override
@@ -79,6 +95,7 @@ public class ProgramRepository implements Repository<Program> {
 
   @Override
   public void delete(Program program) {
-    program.delete();
+    program.setStatus(Status.deleted);
+    program.update();
   }
 }

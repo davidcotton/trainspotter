@@ -1,7 +1,10 @@
 package models;
 
+import static utilities.SlugHelper.slugify;
+
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -22,7 +25,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import play.data.format.Formats;
-import play.data.validation.Constraints;
 
 @Entity
 @Data
@@ -30,20 +32,20 @@ import play.data.validation.Constraints;
 @AllArgsConstructor
 public class Artist extends Model {
 
-  public interface InsertValidators {}
-  public interface UpdateValidators {}
+  public enum Status {
+    @EnumValue("active") active,
+    @EnumValue("deleted") deleted,
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @NotNull
-  @Constraints.Required
   @Column(unique = true, length = 191)
   private String name;
 
   @NotNull
-  @Constraints.Required
   @Column(unique = true, length = 191)
   private String slug;
 
@@ -72,6 +74,9 @@ public class Artist extends Model {
   @ManyToMany
   private List<Program> programs;
 
+  @NotNull
+  private Status status;
+
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)
@@ -83,6 +88,29 @@ public class Artist extends Model {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
+
+  public Artist(CreateArtist createArtist) {
+    name = createArtist.getName();
+    slug = slugify(createArtist.getName());
+    image = createArtist.getImage();
+    description = createArtist.getDescription();
+    status = Status.active;
+  }
+
+  public Artist(UpdateArtist updateArtist, Artist savedArtist) {
+    id = savedArtist.id;
+    name = updateArtist.getName();
+    slug = savedArtist.slug;
+    image = updateArtist.getImage();
+    description = updateArtist.getDescription();
+    tracks = savedArtist.tracks;
+    remixes = savedArtist.remixes;
+    tracklists = savedArtist.tracklists;
+    medias = savedArtist.medias;
+    programs = savedArtist.programs;
+    status = Status.active;
+    created = savedArtist.created;
+  }
 
   public Long getId() {
     return id;

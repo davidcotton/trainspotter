@@ -71,16 +71,12 @@ public class UserController extends Controller {
   }
 
   public Result registerSubmit() {
-    Form<CreateUser> userForm = formFactory
-        .form(CreateUser.class, CreateUser.InsertValidators.class)
-        .bindFromRequest();
+    Form<CreateUser> userForm = formFactory.form(CreateUser.class).bindFromRequest();
     if (userForm.hasErrors()) {
       return badRequest(register.render(userForm));
     }
 
-    CreateUser createUser = userForm.get();
-    User user = new User(createUser);
-    userRepository.insert(user);
+    userRepository.insert(new User(userForm.get()));
 
     return Results.redirect(routes.ApplicationController.index());
   }
@@ -96,8 +92,8 @@ public class UserController extends Controller {
         findById(id)
         .map(user -> ok(edit.render(
             id,
-            formFactory.form(UpdateUser.class).fill(new UpdateUser(user)))
-        ))
+            formFactory.form(UpdateUser.class).fill(new UpdateUser(user))
+        )))
         .orElse(notFound(notFound.render()));
   }
 
@@ -107,14 +103,14 @@ public class UserController extends Controller {
       return notFound(notFound.render());
     }
 
+    User user = maybeUser.get();
+
     Form<UpdateUser> userForm = formFactory.form(UpdateUser.class).bindFromRequest();
     if (userForm.hasErrors()) {
       return badRequest(edit.render(id, userForm));
     }
 
-    User user = maybeUser.get();
     UpdateUser updateUser = userForm.get();
-
     // copy over new fields
     user.setEmail(updateUser.getEmail());
     user.setDisplayName(updateUser.getDisplayName());

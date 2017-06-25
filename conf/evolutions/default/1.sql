@@ -9,8 +9,10 @@ create table artist (
   slug                          varchar(191) not null,
   image                         varchar(255),
   description                   text,
+  status                        varchar(7) not null,
   created                       datetime not null,
   updated                       datetime not null,
+  constraint ck_artist_status check (status in ('deleted','active')),
   constraint uq_artist_name unique (name),
   constraint uq_artist_slug unique (slug),
   constraint pk_artist primary key (id)
@@ -28,8 +30,10 @@ create table channel (
   slug                          varchar(191) not null,
   image                         varchar(255),
   description                   text,
+  status                        varchar(7) not null,
   created                       datetime not null,
   updated                       datetime not null,
+  constraint ck_channel_status check (status in ('deleted','active')),
   constraint uq_channel_name unique (name),
   constraint uq_channel_slug unique (slug),
   constraint pk_channel primary key (id)
@@ -52,8 +56,10 @@ create table label (
   slug                          varchar(191) not null,
   image                         varchar(255),
   description                   text,
+  status                        varchar(7) not null,
   created                       datetime not null,
   updated                       datetime not null,
+  constraint ck_label_status check (status in ('deleted','active')),
   constraint uq_label_name unique (name),
   constraint uq_label_slug unique (slug),
   constraint pk_label primary key (id)
@@ -78,8 +84,10 @@ create table program (
   image                         varchar(255),
   description                   text,
   channel_id                    bigint,
+  status                        varchar(7) not null,
   created                       datetime not null,
   updated                       datetime not null,
+  constraint ck_program_status check (status in ('deleted','active')),
   constraint uq_program_name unique (name),
   constraint uq_program_slug unique (slug),
   constraint pk_program primary key (id)
@@ -101,8 +109,10 @@ create table track (
   genre_id                      bigint,
   label_id                      bigint,
   release_date                  date,
+  status                        varchar(7) not null,
   created                       datetime not null,
   updated                       datetime not null,
+  constraint ck_track_status check (status in ('deleted','active')),
   constraint pk_track primary key (id)
 );
 
@@ -131,8 +141,10 @@ create table tracklist (
   performed                     date,
   image                         varchar(255),
   user_id                       bigint not null,
+  status                        varchar(7) not null,
   created                       datetime not null,
   updated                       datetime not null,
+  constraint ck_tracklist_status check (status in ('deleted','active')),
   constraint uq_tracklist_slug unique (slug),
   constraint pk_tracklist primary key (id)
 );

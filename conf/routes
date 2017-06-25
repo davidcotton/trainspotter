@@ -101,7 +101,8 @@ GET     /artist/:name               controllers.ArtistController.view(name:Strin
 GET     /artist/:name/edit          controllers.ArtistController.editForm(name:String)
 POST    /artist/:name/edit          controllers.ArtistController.editSubmit(name:String)
 POST    /artist/:name/delete        controllers.ArtistController.delete(name:String)
-GET     /artist/:name/tracklist     controllers.ArtistController.tracklists(name:String, page:Int ?=1)
+GET     /artist/:name/tracks        controllers.ArtistController.track(name:String, page:Int ?=1)
+GET     /artist/:name/tracklists    controllers.ArtistController.tracklist(name:String, page:Int ?=1)
 
 # Channels
 GET     /channel                    controllers.ChannelController.index(page:Int ?= 1)
@@ -125,7 +126,7 @@ POST    /program/:name/delete       controllers.ProgramController.delete(name:St
 GET     /genre                      controllers.GenreController.index()
 GET     /genre/new                  controllers.GenreController.addForm()
 POST    /genre/new                  controllers.GenreController.addSubmit()
-GET     /genre/:name                controllers.GenreController.view(name:String)
+GET     /genre/:name                controllers.GenreController.view(name:String, page:Int ?= 1)
 GET     /genre/:name/edit           controllers.GenreController.editForm(name:String)
 POST    /genre/:name/edit           controllers.GenreController.editSubmit(name:String)
 POST    /genre/:name/delete         controllers.GenreController.delete(name:String)

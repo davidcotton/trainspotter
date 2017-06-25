@@ -26,6 +26,7 @@ import java.util.Optional;
 import models.CreateUser;
 import models.LoginUser;
 import models.Token;
+import models.UpdateUser;
 import models.User;
 import models.User.Status;
 import org.hamcrest.collection.IsEmptyCollection;
@@ -118,7 +119,7 @@ public class UserServiceTest {
     // ARRANGE
     CreateUser createUser = new CreateUser("john.digweed@bedrock.com", "John Digweed", "password1!");
 
-    when(mockFormFactory.form(CreateUser.class, CreateUser.InsertValidators.class)).thenReturn(mockDataForm);
+    when(mockFormFactory.form(CreateUser.class)).thenReturn(mockDataForm);
     when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
     when(mockForm.hasErrors()).thenReturn(false);
 
@@ -145,8 +146,7 @@ public class UserServiceTest {
       put("email", mock(List.class));
     }};
 
-    when(mockFormFactory.form(CreateUser.class, CreateUser.InsertValidators.class))
-        .thenReturn(mockDataForm);
+    when(mockFormFactory.form(CreateUser.class)).thenReturn(mockDataForm);
     when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
     when(mockForm.hasErrors()).thenReturn(true);
     when(mockForm.errors()).thenReturn(validationErrors);
@@ -170,16 +170,15 @@ public class UserServiceTest {
         1L, "john.digweed@bedrock.com", "John Digweed", User.Status.active,
         "hash", "salt", new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
     );
-    CreateUser createUser = new CreateUser("sasha@bedrock.com", "Sasha", "password1!");
+    UpdateUser updateUser = new UpdateUser("sasha@bedrock.com", "Sasha");
 
-    when(mockFormFactory.form(CreateUser.class, CreateUser.UpdateValidators.class))
-        .thenReturn(mockDataForm);
+    when(mockFormFactory.form(CreateUser.class)).thenReturn(mockDataForm);
     when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
     when(mockForm.hasErrors()).thenReturn(false);
 
     // ACT
     Either<Map<String, List<ValidationError>>, User> userOrError = userService
-        .update(savedUser, createUser);
+        .update(savedUser, updateUser);
 
     // ASSERT
     // assert left (error value) is not present
@@ -191,9 +190,6 @@ public class UserServiceTest {
     verify(mockUserRepository).update(argument.capture());
     assertThat(argument.getValue().getEmail(), is("sasha@bedrock.com"));
     assertThat(argument.getValue().getDisplayName(), is("Sasha"));
-    // make sure that password is hashed!
-    assertThat(argument.getValue().getHash(), not("password1!"));
-    assertNotNull(argument.getValue().getSalt());
   }
 
   @Test public void update_failureGivenInvalidEmail() {
@@ -202,20 +198,20 @@ public class UserServiceTest {
         1L, "john.digweed@bedrock.com", "John Digweed", User.Status.active,
         "hash", "salt", new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
     );
-    CreateUser createUser = new CreateUser("invalid email format", "John Digweed", "password1!");
+    UpdateUser updateUser = new UpdateUser("invalid email format", "John Digweed");
 
     Map<String, List<ValidationError>> validationErrors = new HashMap<String, List<ValidationError>>() {{
       put("email", mock(List.class));
     }};
 
-    when(mockFormFactory.form(CreateUser.class, CreateUser.UpdateValidators.class)).thenReturn(mockDataForm);
+    when(mockFormFactory.form(CreateUser.class)).thenReturn(mockDataForm);
     when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
     when(mockForm.hasErrors()).thenReturn(true);
     when(mockForm.errors()).thenReturn(validationErrors);
 
     // ACT
     Either<Map<String, List<ValidationError>>, User> userOrError = userService
-        .update(savedUser, createUser);
+        .update(savedUser, updateUser);
 
     // ASSERT
     // assert right (success value) is not present

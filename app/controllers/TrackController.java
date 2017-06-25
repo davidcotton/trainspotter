@@ -5,8 +5,8 @@ import static java.util.Objects.requireNonNull;
 import javax.inject.Inject;
 import models.Track;
 import play.data.FormFactory;
-import play.mvc.Controller;
-import play.mvc.Result;
+import play.mvc.*;
+import play.mvc.Security;
 import repositories.TrackRepository;
 import views.html.notFound;
 import views.html.track.add;
@@ -47,14 +47,17 @@ public class TrackController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
+  @play.mvc.Security.Authenticated(Secured.class)
   public Result addForm() {
     return ok(add.render(formFactory.form(Track.class)));
   }
 
+  @Security.Authenticated(Secured.class)
   public Result addSubmit() {
     return TODO;
   }
 
+  @Security.Authenticated(Secured.class)
   public Result editForm(long id) {
     return trackRepository
         .findById(id)
@@ -62,10 +65,12 @@ public class TrackController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
+  @Security.Authenticated(Secured.class)
   public Result editSubmit(long id) {
     return TODO;
   }
 
+  @Security.Authenticated(Secured.class)
   public Result delete(long id) {
     return TODO;
   }

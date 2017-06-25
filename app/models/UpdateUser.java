@@ -1,5 +1,6 @@
 package models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import play.data.validation.Constraints;
@@ -7,6 +8,7 @@ import validators.CustomConstraints;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class UpdateUser {
 
   @Constraints.Required(message = "An email address is required.")

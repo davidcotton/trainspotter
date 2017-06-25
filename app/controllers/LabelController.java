@@ -3,11 +3,14 @@ package controllers;
 import static java.util.Objects.requireNonNull;
 
 import javax.inject.Inject;
+
+import models.CreateLabel;
 import models.Label;
+import models.UpdateLabel;
 import play.data.FormFactory;
-import play.mvc.Controller;
-import play.mvc.Result;
-import repositories.LabelRepository;
+import play.mvc.*;
+import play.mvc.Security;
+import services.LabelService;
 import views.html.label.add;
 import views.html.label.edit;
 import views.html.label.index;
@@ -16,12 +19,12 @@ import views.html.notFound;
 
 public class LabelController extends Controller {
 
-  private final LabelRepository labelRepository;
+  private final LabelService labelService;
   private final FormFactory formFactory;
 
   @Inject
-  public LabelController(LabelRepository labelRepository, FormFactory formFactory) {
-    this.labelRepository = requireNonNull(labelRepository);
+  public LabelController(LabelService labelService, FormFactory formFactory) {
+    this.labelService = requireNonNull(labelService);
     this.formFactory = requireNonNull(formFactory);
   }
 
@@ -32,7 +35,7 @@ public class LabelController extends Controller {
    * @return A page with all labels.
    */
   public Result index(int page) {
-    return ok(index.render(labelRepository.findAllPaged(page)));
+    return ok(index.render(labelService.fetchAllPaged(page)));
   }
 
   /**
@@ -42,32 +45,74 @@ public class LabelController extends Controller {
    * @return A label page if found.
    */
   public Result view(String slug) {
-    return labelRepository
+    return labelService
         .findBySlug(slug)
         .map(label -> ok(view.render(label)))
         .orElse(notFound(notFound.render()));
   }
 
+  @play.mvc.Security.Authenticated(Secured.class)
   public Result addForm() {
-    return ok(add.render(formFactory.form(Label.class)));
+    return ok(add.render(formFactory.form(CreateLabel.class)));
   }
 
+  /**
+   * Process the submission for creating a new Label.
+   *
+   * @return Redirect to the new Label on success else the form with errors.
+   */
+  @Security.Authenticated(Secured.class)
   public Result addSubmit() {
-    return TODO;
+    return labelService
+        .insert(formFactory.form(CreateLabel.class).bindFromRequest())
+        .fold(
+            form -> badRequest(add.render(form)),
+            label -> Results.redirect(routes.LabelController.view(label.getSlug()))
+        );
   }
 
+  /**
+   * Display an edit label page.
+   *
+   * @param slug The slug of the label.
+   * @return An edit label page if found else not found page.
+   */
+  @Security.Authenticated(Secured.class)
   public Result editForm(String slug) {
-    return labelRepository
+    return labelService
         .findBySlug(slug)
-        .map(label -> ok(edit.render(label, formFactory.form(Label.class).fill(label))))
+        .map(label -> ok(edit.render(
+            label,
+            formFactory.form(UpdateLabel.class).fill(new UpdateLabel(label))
+        )))
         .orElse(notFound(notFound.render()));
   }
 
+  /**
+   * Process the submission for updating a Label.
+   *
+   * @param slug The slug of the label.
+   * @return Redirect to the updated Label on success else the form with errors.
+   */
+  @Security.Authenticated(Secured.class)
   public Result editSubmit(String slug) {
     return TODO;
   }
 
+  /**
+   * Delete a Label.
+   *
+   * @param slug The slug of the label.
+   * @return Redirects to the Label index page on success else not found.
+   */
+  @Security.Authenticated(Secured.class)
   public Result delete(String slug) {
-    return TODO;
+    return labelService
+        .findBySlug(slug)
+        .map(label -> {
+          labelService.delete(label);
+          return Results.redirect(routes.LabelController.index(1));
+        })
+        .orElse(notFound(notFound.render()));
   }
 }
