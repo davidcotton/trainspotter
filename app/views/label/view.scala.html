@@ -1,10 +1,12 @@
 @(label: Label)
 
+@import controllers.app.{routes => appRoutes}
+
 @main(label.getName) {
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index()">Home</a></li>
-    <li class="breadcrumb-item"><a href="@routes.LabelController.index()">Labels</a></li>
-    <li class="breadcrumb-item active"><a href="@routes.LabelController.view(label.getSlug)">@label.getName</a></li>
+    <li class="breadcrumb-item"><a href="@appRoutes.ApplicationController.index()">Home</a></li>
+    <li class="breadcrumb-item"><a href="@appRoutes.LabelController.index()">Labels</a></li>
+    <li class="breadcrumb-item active"><a href="@appRoutes.LabelController.view(label.getSlug)">@label.getName</a></li>
   </ol>
 
   <h1>@label.getName</h1>
@@ -28,10 +30,10 @@
 
           <!-- edit/delete -->
         <div class="btn-group" role="group">
-          <a href="@routes.LabelController.editForm(label.getSlug)" class="btn btn-sm btn-warning">
+          <a href="@appRoutes.LabelController.editForm(label.getSlug)" class="btn btn-sm btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
-          <form action="@routes.LabelController.delete(label.getSlug)" method="post">
+          <form action="@appRoutes.LabelController.delete(label.getSlug)" method="post">
             <button type="submit" class="btn btn-sm btn-danger">
               <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
             </button>
@@ -43,7 +45,7 @@
     <div class="col-sm-8">
       <div class="list-group">
       @for(track <- label.getTracks) {
-        <a href="@routes.TrackController.view(track.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
+        <a href="@appRoutes.TrackController.view(track.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">@track.getArtists.map(_.getName).mkString(", ")</h5>
             <small>@track.getReleaseDate</small>

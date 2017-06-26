@@ -1,9 +1,11 @@
 @(artists: com.avaje.ebean.PagedList[Artist])
 
+@import controllers.app.{routes => appRoutes}
+
 @main("All Artists") {
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index()">Home</a></li>
-    <li class="breadcrumb-item active"><a href="@routes.ArtistController.index(1)">Artists</a></li>
+    <li class="breadcrumb-item"><a href="@appRoutes.ApplicationController.index()">Home</a></li>
+    <li class="breadcrumb-item active"><a href="@appRoutes.ArtistController.index()">Artists</a></li>
   </ol>
 
   <h1>Artists</h1>
@@ -11,7 +13,7 @@
     <div class="row">
     @for(artist <- artists.getList) {
       <div class="col-md-4 col-lg-3 my-2">
-        <a href="@routes.ArtistController.view(artist.getSlug)" class="card card-inverse card-dark">
+        <a href="@appRoutes.ArtistController.view(artist.getSlug)" class="card card-inverse card-dark">
           <div class="d-flex">
             @if(artist.getImage != null) {
               <img class="card-img" src="@routes.Assets.versioned(artist.getImageLink)" alt="@artist.getName">
@@ -32,17 +34,17 @@
     <nav class="mt-2" aria-label="Pagination">
       <ul class="pagination justify-content-center">
         <li class="page-item @if(!artists.hasPrev) {disabled}">
-          <a class="page-link" @if(artists.hasPrev) {href="@routes.ArtistController.index(artists.getPageIndex)"}  else {tabindex="-1"}>&laquo;</a>
+          <a class="page-link" @if(artists.hasPrev) {href="@appRoutes.ArtistController.index(artists.getPageIndex)" }  else {tabindex="-1"}>&laquo;</a>
         </li>
 
         @for(i <- 1 until (artists.getTotalPageCount + 1)) {
           <li class="page-item @if((i - 1) == artists.getPageIndex) {active}">
-            <a class="page-link" href="@routes.ArtistController.index(i)">@(i)</a>
+            <a class="page-link" href="@appRoutes.ArtistController.index(i)">@(i)</a>
           </li>
         }
 
         <li class="page-item @if(!artists.hasNext) {disabled}">
-          <a class="page-link" @if(artists.hasNext) {href="@routes.ArtistController.index(artists.getPageIndex + 2)"} else {tabindex="-1"}>&raquo;</a>
+          <a class="page-link" @if(artists.hasNext) {href="@appRoutes.ArtistController.index(artists.getPageIndex + 2)" } else {tabindex="-1"}>&raquo;</a>
         </li>
       </ul>
     </nav>

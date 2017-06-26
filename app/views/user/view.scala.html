@@ -1,5 +1,7 @@
 @(user: User)
 
+@import controllers.app.{routes => appRoutes}
+
 @main(user.getDisplayName) {
   <h1>@user.getDisplayName</h1>
   <table class="table table-striped">
@@ -19,10 +21,10 @@
       <tr>
         <th>&nbsp;</th>
         <td>
-          <a href="@routes.UserController.editForm(user.getId)" class="btn btn-sm btn-warning">
+          <a href="@appRoutes.UserController.editForm(user.getId)" class="btn btn-sm btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
-          <a href="@routes.UserController.delete(user.getId)" class="btn btn-sm btn-danger">
+          <a href="@appRoutes.UserController.delete(user.getId)" class="btn btn-sm btn-danger">
             <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
           </a>
         </td>

@@ -1,7 +1,8 @@
-package controllers;
+package controllers.app;
 
 import static java.util.Objects.requireNonNull;
 
+//import controllers.app.routes;
 import javax.inject.Inject;
 import models.CreateArtist;
 import models.UpdateArtist;

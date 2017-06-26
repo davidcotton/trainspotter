@@ -1,14 +1,16 @@
 @(tracklist: Tracklist)
 
+@import controllers.app.{routes => appRoutes}
+
 @renderArtist(artist: models.Artist) = {
-  <strong><a href="@routes.ArtistController.view(artist.getSlug)">@artist.getName</a></strong>
+  <strong><a href="@appRoutes.ArtistController.view(artist.getSlug)">@artist.getName</a></strong>
 }
 
 @main(tracklist.getName) {
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index()">Home</a></li>
-    <li class="breadcrumb-item"><a href="@routes.TracklistController.index()">Tracklists</a></li>
-    <li class="breadcrumb-item active"><a href="@routes.TracklistController.view(tracklist.getId)">@tracklist.getName</a></li>
+    <li class="breadcrumb-item"><a href="@appRoutes.ApplicationController.index()">Home</a></li>
+    <li class="breadcrumb-item"><a href="@appRoutes.TracklistController.index()">Tracklists</a></li>
+    <li class="breadcrumb-item active"><a href="@appRoutes.TracklistController.view(tracklist.getId)">@tracklist.getName</a></li>
   </ol>
 
   <h1>@tracklist.getName</h1>
@@ -28,7 +30,7 @@
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1">
           @for(artist <- tracklist.getArtists) {
-            <a href="@routes.ArtistController.view(artist.getSlug)">@artist.getName</a>,
+            <a href="@appRoutes.ArtistController.view(artist.getSlug)">@artist.getName</a>,
           }
           </h5>
           <small>@tracklist.getPerformed</small>
@@ -55,7 +57,7 @@
               <td>@{track.getArtists.map(renderArtist)}</td>
               <td>@partials.tracklink(track)</td>
               <td>@{track.getRemixers.map(renderArtist)}</td>
-              <td><a href="@routes.LabelController.view(track.getLabel.getSlug)">@track.getLabel.getName</a></td>
+              <td><a href="@appRoutes.LabelController.view(track.getLabel.getSlug)">@track.getLabel.getName</a></td>
               <td>
                 <a href="" class="btn btn-sm btn-success" title="Add Track"><i class="fa fa-plus" title="New Track" aria-hidden="true"></i></a>
                 <a href="" class="btn btn-sm btn-warning" title="Suggest Correction"><i class="fa fa-pencil-square-o" title="Correction" aria-hidden="true"></i></a>

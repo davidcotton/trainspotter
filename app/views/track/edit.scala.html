@@ -1,12 +1,14 @@
 @(id: Long, trackForm: play.data.Form[Track])
 
+@import controllers.app.{routes => appRoutes}
+
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
 @main("Edit Track") {
   <div class="card mt-5">
     <h3 class="card-header">Edit Track</h3>
     <div class="card-block">
-    @b4.form(routes.TrackController.editSubmit(id)) {
+    @b4.form(appRoutes.TrackController.editSubmit(id)) {
       <fieldset>
         @b4.text(trackForm("name"), '_label -> "Name", 'placeholder -> "Name")
         @b4.submit('class -> "btn btn-primary") { Save }

@@ -1,5 +1,7 @@
 @(users: java.util.List[User])
 
+@import controllers.app.{routes => appRoutes}
+
 @main("Users") {
   <h1>Users</h1>
   <table class="table table-striped">
@@ -14,14 +16,14 @@
     <tbody>
     @for(user <- users) {
       <tr>
-        <td><a href="@routes.UserController.view(user.getId)">@user.getDisplayName</a></td>
-        <td><a href="@routes.UserController.view(user.getId)">@user.getEmail</a></td>
+        <td><a href="@appRoutes.UserController.view(user.getId)">@user.getDisplayName</a></td>
+        <td><a href="@appRoutes.UserController.view(user.getId)">@user.getEmail</a></td>
         <td>@user.getStatus</td>
         <td class="text-right">
-          <a href="@routes.UserController.editForm(user.getId)" class="btn btn-sm btn-warning">
+          <a href="@appRoutes.UserController.editForm(user.getId)" class="btn btn-sm btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
-          <a href="@routes.UserController.delete(user.getId)" class="btn btn-sm btn-danger">
+          <a href="@appRoutes.UserController.delete(user.getId)" class="btn btn-sm btn-danger">
             <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
           </a>
         </td>
@@ -31,7 +33,7 @@
     <tfoot>
       <tr>
         <td colspan="4">
-          <a href="@routes.UserController.registerForm()" class="btn btn-sm btn-primary">
+          <a href="@appRoutes.UserController.registerForm()" class="btn btn-sm btn-primary">
             New User <i class="fa fa-plus" title="New User" aria-hidden="true"></i>
           </a>
         </td>

@@ -1,9 +1,11 @@
+@import controllers.app.{routes => appRoutes}
+
 @main("Not found") {
   <div class="card mt-5">
     <h1 class="card-header">Not found</h1>
     <div class="card-block">
       <p>Sorry we couldn't find that.</p>
-      <a href="@routes.ApplicationController.index()" class="btn btn-primary">Go back</a>
+      <a href="@appRoutes.ApplicationController.index()" class="btn btn-primary">Go back</a>
     </div>
   </div>
 }

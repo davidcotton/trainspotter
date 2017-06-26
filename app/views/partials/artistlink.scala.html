@@ -1,2 +1,5 @@
 @(artist: models.Artist)
-<strong><a href="@routes.ArtistController.view(artist.getSlug)">@artist.getName</a></strong>
+
+@import controllers.app.{routes => appRoutes}
+
+<strong><a href="@appRoutes.ArtistController.view(artist.getSlug)">@artist.getName</a></strong>

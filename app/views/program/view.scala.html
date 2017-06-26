@@ -1,9 +1,11 @@
 @(program: Program)
 
+@import controllers.app.{routes => appRoutes}
+
 @main(program.getName) {
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
-    <li class="breadcrumb-item"><a href="@routes.ChannelController.view(program.getChannel.getSlug)">@program.getChannel.getName</a></li>
+    <li class="breadcrumb-item"><a href="@appRoutes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item"><a href="@appRoutes.ChannelController.view(program.getChannel.getSlug)">@program.getChannel.getName</a></li>
     <li class="breadcrumb-item active">@program.getName</li>
   </ol>
 
@@ -20,21 +22,21 @@
         <td>Hosts</td>
         <td>
         @for(host <- program.getHosts) {
-          <a href="@routes.ArtistController.view(host.getSlug)">@host.getName</a>,
+          <a href="@appRoutes.ArtistController.view(host.getSlug)">@host.getName</a>,
         }
         </td>
       </tr>
       <tr>
         <td>Channel</td>
-        <td><a href="@routes.ChannelController.view(program.getChannel.getSlug)">@program.getChannel.getName</a></td>
+        <td><a href="@appRoutes.ChannelController.view(program.getChannel.getSlug)">@program.getChannel.getName</a></td>
       </tr>
       <tr>
         <td>&nbsp;</td>
         <td>
-          <a href="@routes.ProgramController.editForm(program.getSlug)" class="btn btn-sm btn-warning">
+          <a href="@appRoutes.ProgramController.editForm(program.getSlug)" class="btn btn-sm btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
-          <a href="@routes.ProgramController.delete(program.getSlug)" class="btn btn-sm btn-danger">
+          <a href="@appRoutes.ProgramController.delete(program.getSlug)" class="btn btn-sm btn-danger">
             <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
           </a>
         </td>

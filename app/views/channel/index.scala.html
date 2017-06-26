@@ -1,9 +1,11 @@
 @(channels: com.avaje.ebean.PagedList[Channel])
 
+@import controllers.app.{routes => appRoutes}
+
 @main("All Channels") {
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
-    <li class="breadcrumb-item active"><a href="@routes.ChannelController.index(1)">Channels</a></li>
+    <li class="breadcrumb-item"><a href="@appRoutes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item active"><a href="@appRoutes.ChannelController.index()">Channels</a></li>
   </ol>
 
   <h1>Channels</h1>
@@ -11,7 +13,7 @@
     <div class="row">
       @for(channel <- channels.getList) {
       <div class="col-md-4 col-lg-3 my-2">
-        <a href="@routes.ChannelController.view(channel.getSlug)" class="card card-inverse card-dark">
+        <a href="@appRoutes.ChannelController.view(channel.getSlug)" class="card card-inverse card-dark">
           <div class="d-flex">
             @if(channel.getImage != null) {
               <img class="card-img" src="@routes.Assets.versioned(channel.getImageLink)" alt="@channel.getName">
@@ -32,17 +34,17 @@
     <nav class="mt-2" aria-label="Pagination">
       <ul class="pagination justify-content-center">
         <li class="page-item @if(!channels.hasPrev) {disabled}">
-          <a class="page-link" @if(channels.hasPrev) {href="@routes.ChannelController.index(channels.getPageIndex)"} else {tabindex="-1"}>&laquo;</a>
+          <a class="page-link" @if(channels.hasPrev) {href="@appRoutes.ChannelController.index(channels.getPageIndex)" } else {tabindex="-1"}>&laquo;</a>
         </li>
 
         @for(i <- 1 until (channels.getTotalPageCount + 1)) {
           <li class="page-item @if((i - 1) == channels.getPageIndex) {active}">
-            <a class="page-link" href="@routes.ChannelController.index(i)">@(i)</a>
+            <a class="page-link" href="@appRoutes.ChannelController.index(i)">@(i)</a>
           </li>
         }
 
         <li class="page-item @if(!channels.hasNext) {disabled}">
-          <a class="page-link" @if(channels.hasNext) {href="@routes.ChannelController.index(channels.getPageIndex + 2)"} else {tabindex="-1"}>&raquo;</a>
+          <a class="page-link" @if(channels.hasNext) {href="@appRoutes.ChannelController.index(channels.getPageIndex + 2)" } else {tabindex="-1"}>&raquo;</a>
         </li>
       </ul>
     </nav>

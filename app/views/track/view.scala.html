@@ -1,10 +1,12 @@
 @(track: Track)
 
+@import controllers.app.{routes => appRoutes}
+
 @main(track.getName) {
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
-    <li class="breadcrumb-item"><a href="@routes.TrackController.index">Tracks</a></li>
-    <li class="breadcrumb-item active"><a href="@routes.TrackController.view(track.getId)">@track.getName</a></li>
+    <li class="breadcrumb-item"><a href="@appRoutes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item"><a href="@appRoutes.TrackController.index">Tracks</a></li>
+    <li class="breadcrumb-item active"><a href="@appRoutes.TrackController.view(track.getId)">@track.getName</a></li>
   </ol>
 
   <h1>@track.getName</h1>
@@ -37,10 +39,10 @@
       <tr>
         <th>&nbsp;</th>
         <td>
-          <a href="@routes.TrackController.editForm(track.getId)" class="btn btn-sm btn-warning">
+          <a href="@appRoutes.TrackController.editForm(track.getId)" class="btn btn-sm btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
-          <a href="@routes.TrackController.delete(track.getId)" class="btn btn-sm btn-danger">
+          <a href="@appRoutes.TrackController.delete(track.getId)" class="btn btn-sm btn-danger">
             <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
           </a>
         </td>

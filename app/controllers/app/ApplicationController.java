@@ -1,4 +1,4 @@
-package controllers;
+package controllers.app;
 
 import javax.inject.Inject;
 import play.mvc.Controller;

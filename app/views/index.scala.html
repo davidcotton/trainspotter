@@ -1,7 +1,9 @@
 @(tracklists: java.util.List[models.Tracklist])
 
+@import controllers.app.{routes => appRoutes}
+
 @renderArtist(artist: models.Artist) = {
-  <strong><a href="@routes.ArtistController.view(artist.getSlug)">@artist.getName</a></strong>
+  <strong><a href="@appRoutes.ArtistController.view(artist.getSlug)">@artist.getName</a></strong>
 }
 
 @main("Trainspotter") {
@@ -14,7 +16,7 @@
       <h1>Top Tracklists</h1>
       <div class="list-group">
       @for(tracklist <- tracklists) {
-        <a href="@routes.TracklistController.view(tracklist.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
+        <a href="@appRoutes.TracklistController.view(tracklist.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">@tracklist.getArtists.map(_.getName).mkString(", ")</h5>
             <small>@tracklist.getPerformedDaysAgo days ago</small>

@@ -6,6 +6,8 @@
 *@
 @(title: String)(content: Html)
 
+@import controllers.app.{routes => appRoutes}
+
 @activeLink(currentPath: String) = @{
   if (request.path.contains(currentPath)) "active"
 }
@@ -27,7 +29,7 @@
     <header class="navbar navbar-toggleable-md navbar-inverse bg-inverse bg-faded">
       <nav class="container">
         <div class="d-flex justify-content-between hidden-lg-up">
-          <a class="navbar-brand" href="@routes.ApplicationController.index()">Trainspotter</a>
+          <a class="navbar-brand" href="@appRoutes.ApplicationController.index()">Trainspotter</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavigation" aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -35,29 +37,29 @@
 
         <!-- Nav bar -->
         <div id="mainNavigation" class="collapse navbar-collapse">
-          <a class="navbar-brand" href="@routes.ApplicationController.index()">Trainspotter</a>
+          <a class="navbar-brand" href="@appRoutes.ApplicationController.index()">Trainspotter</a>
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item @activeLink(routes.TracklistController.index().toString)">
-              <a href="@routes.TracklistController.index()" class="nav-link">Tracklists</a>
+            <li class="nav-item @activeLink(appRoutes.TracklistController.index().toString)">
+              <a href="@appRoutes.TracklistController.index()" class="nav-link">Tracklists</a>
             </li>
-            <li class="nav-item dropdown @activeLink(routes.GenreController.index().toString)">
+            <li class="nav-item dropdown @activeLink(appRoutes.GenreController.index().toString)">
               <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Genres</a>
               <div class="dropdown-menu">
-                <a href="@routes.GenreController.view("house")" class="dropdown-item">House</a>
-                <a href="@routes.GenreController.view("techno")" class="dropdown-item">Techno</a>
-                <a href="@routes.GenreController.view("deep-house")" class="dropdown-item">Deep House</a>
-                <a href="@routes.GenreController.view("tech-house")" class="dropdown-item">Tech House</a>
-                <a href="@routes.GenreController.view("progressive-house")" class="dropdown-item">Progressive House</a>
+                <a href="@appRoutes.GenreController.view("house")" class="dropdown-item">House</a>
+                <a href="@appRoutes.GenreController.view("techno")" class="dropdown-item">Techno</a>
+                <a href="@appRoutes.GenreController.view("deep-house")" class="dropdown-item">Deep House</a>
+                <a href="@appRoutes.GenreController.view("tech-house")" class="dropdown-item">Tech House</a>
+                <a href="@appRoutes.GenreController.view("progressive-house")" class="dropdown-item">Progressive House</a>
               </div>
             </li>
-            <li class="nav-item @activeLink(routes.ChannelController.index().toString)">
-              <a href="@routes.ChannelController.index()" class="nav-link">Channels</a>
+            <li class="nav-item @activeLink(appRoutes.ChannelController.index().toString)">
+              <a href="@appRoutes.ChannelController.index()" class="nav-link">Channels</a>
             </li>
-            <li class="nav-item @activeLink(routes.ArtistController.index().toString)">
-              <a href="@routes.ArtistController.index()" class="nav-link">Artists</a>
+            <li class="nav-item @activeLink(appRoutes.ArtistController.index().toString)">
+              <a href="@appRoutes.ArtistController.index()" class="nav-link">Artists</a>
             </li>
-            <li class="nav-item @activeLink(routes.LabelController.index().toString)">
-              <a href="@routes.LabelController.index()" class="nav-link">Labels</a>
+            <li class="nav-item @activeLink(appRoutes.LabelController.index().toString)">
+              <a href="@appRoutes.LabelController.index()" class="nav-link">Labels</a>
             </li>
           </ul>
 
@@ -66,11 +68,11 @@
             @if(session.get("email") == null) {
               <a href="#" class="nav-item nav-link dropdown-toggle" data-toggle="dropdown">Register/Login</a>
               <div class="dropdown-menu">
-                <a href="@routes.UserController.registerForm()" class="dropdown-item">
+                <a href="@appRoutes.UserController.registerForm()" class="dropdown-item">
                   <i class="fa fa-user-plus" title="Profile" aria-hidden="true"></i>
                   Register
                 </a>
-                <a href="@routes.UserController.loginForm()" class="dropdown-item">
+                <a href="@appRoutes.UserController.loginForm()" class="dropdown-item">
                   <i class="fa fa-sign-in" title="Profile" aria-hidden="true"></i>
                   Login
                 </a>
@@ -81,10 +83,10 @@
                 @session.get("user_name")
               </a>
               <div class="dropdown-menu">
-                <a href="@routes.UserController.editForm(session.get("user_id").toLong)" class="dropdown-item">
+                <a href="@appRoutes.UserController.editForm(session.get("user_id").toLong)" class="dropdown-item">
                   <i class="fa fa-dashboard" title="Profile" aria-hidden="true"></i> Profile
                 </a>
-                <form action="@routes.UserController.logout()" method="post">
+                <form action="@appRoutes.UserController.logout()" method="post">
                   <button type="submit" class="dropdown-item">
                     <i class="fa fa-sign-out" title="Profile" aria-hidden="true"></i> Logout
                   </button>

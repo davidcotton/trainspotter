@@ -1,4 +1,4 @@
-package controllers;
+package controllers.app;
 
 import static java.util.Objects.requireNonNull;
 

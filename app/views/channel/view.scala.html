@@ -1,10 +1,12 @@
 @(channel: models.Channel)
 
+@import controllers.app.{routes => appRoutes}
+
 @main(channel.getName) {
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
-    <li class="breadcrumb-item"><a href="@routes.ChannelController.index(1)">Channels</a></li>
-    <li class="breadcrumb-item active"><a href="@routes.ChannelController.view(channel.getSlug)">@channel.getName</a></li>
+    <li class="breadcrumb-item"><a href="@appRoutes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item"><a href="@appRoutes.ChannelController.index()">Channels</a></li>
+    <li class="breadcrumb-item active"><a href="@appRoutes.ChannelController.view(channel.getSlug)">@channel.getName</a></li>
   </ol>
 
   <div class="media mb-5">
@@ -18,10 +20,10 @@
 
     <!-- edit/delete -->
     <div class="btn-group" role="group">
-      <a href="@routes.ChannelController.editForm(channel.getSlug)" class="btn btn-sm btn-warning">
+      <a href="@appRoutes.ChannelController.editForm(channel.getSlug)" class="btn btn-sm btn-warning">
         <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
       </a>
-      <form action="@routes.ChannelController.delete(channel.getSlug)" method="post">
+      <form action="@appRoutes.ChannelController.delete(channel.getSlug)" method="post">
         <button type="submit" class="btn btn-sm btn-danger">
           <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
         </button>
@@ -32,7 +34,7 @@
   <div class="row">
   @for(program <- channel.getPrograms) {
     <div class="col-sm-4">
-      <a href="@routes.ProgramController.view(program.getSlug)" class="card">
+      <a href="@appRoutes.ProgramController.view(program.getSlug)" class="card">
         <img src="@routes.Assets.versioned(program.getImageLink)" alt="@program.getName" class="card-img-top">
         <div class="card-block">
           <h3 class="card-title">@program.getName</h3>

@@ -1,12 +1,14 @@
 @(labelForm: play.data.Form[CreateLabel])
 
+@import controllers.app.{routes => appRoutes}
+
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
 @main("Create Label") {
   <div class="card mt-5">
     <h3 class="card-header">Create Label</h3>
     <div class="card-block">
-    @b4.form(routes.LabelController.addSubmit()) {
+    @b4.form(appRoutes.LabelController.addSubmit()) {
       <fieldset>
         @b4.text(labelForm("name"), '_label -> "Name", 'placeholder -> "Name")
         @b4.text(labelForm("image"), '_label -> "Image", 'placeholder -> "Image")

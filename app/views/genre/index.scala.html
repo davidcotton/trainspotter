@@ -1,9 +1,11 @@
 @(genres: java.util.List[Genre])
 
+@import controllers.app.{routes => appRoutes}
+
 @main("Genres") {
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
-    <li class="breadcrumb-item active"><a href="@routes.GenreController.index">Genres</a></li>
+    <li class="breadcrumb-item"><a href="@appRoutes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item active"><a href="@appRoutes.GenreController.index">Genres</a></li>
   </ol>
 
   <h1>Genres</h1>
@@ -17,12 +19,12 @@
     <tbody>
     @for(genre <- genres) {
       <tr>
-        <td><a href="@routes.GenreController.view(genre.getSlug)">@genre.getName</a></td>
+        <td><a href="@appRoutes.GenreController.view(genre.getSlug)">@genre.getName</a></td>
         <td class="text-right">
-          <a href="@routes.GenreController.editForm(genre.getSlug)" class="btn btn-sm btn-warning">
+          <a href="@appRoutes.GenreController.editForm(genre.getSlug)" class="btn btn-sm btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
-          <a href="@routes.GenreController.delete(genre.getSlug)" class="btn btn-sm btn-danger">
+          <a href="@appRoutes.GenreController.delete(genre.getSlug)" class="btn btn-sm btn-danger">
             <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
           </a>
         </td>
@@ -32,7 +34,7 @@
     <tfoot>
       <tr>
         <td colspan="2">
-          <a href="@routes.GenreController.addForm()" class="btn btn-sm btn-primary">
+          <a href="@appRoutes.GenreController.addForm()" class="btn btn-sm btn-primary">
             New Genre <i class="fa fa-plus" title="New Genre" aria-hidden="true"></i>
           </a>
         </td>

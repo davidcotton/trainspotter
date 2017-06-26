@@ -1,9 +1,11 @@
 @(tracks: java.util.List[models.Track])
 
+@import controllers.app.{routes => appRoutes}
+
 @main("Tracks") {
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="@routes.ApplicationController.index">Home</a></li>
-    <li class="breadcrumb-item active"><a href="@routes.TrackController.index">Tracks</a></li>
+    <li class="breadcrumb-item"><a href="@appRoutes.ApplicationController.index">Home</a></li>
+    <li class="breadcrumb-item active"><a href="@appRoutes.TrackController.index">Tracks</a></li>
   </ol>
 
   <h1>Tracks</h1>
@@ -21,21 +23,21 @@
       <tr>
         <td>
         @for(artist <- track.getArtists) {
-          <a href="@routes.ArtistController.view(artist.getSlug)">@artist.getName</a>,
+          <a href="@appRoutes.ArtistController.view(artist.getSlug)">@artist.getName</a>,
         }
         </td>
-        <td><a href="@routes.TrackController.view(track.getId)">@track.getName</a></td>
+        <td><a href="@appRoutes.TrackController.view(track.getId)">@track.getName</a></td>
         <td>@partials.tracklink(track)</td>
         <td>
         @for(remixer <- track.getRemixers) {
-          <a href="@routes.ArtistController.view(remixer.getSlug)">@remixer.getName</a>,
+          <a href="@appRoutes.ArtistController.view(remixer.getSlug)">@remixer.getName</a>,
         }
         </td>
         <td class="text-right">
-          <a href="@routes.TrackController.editForm(track.getId)" class="btn btn-sm btn-warning">
+          <a href="@appRoutes.TrackController.editForm(track.getId)" class="btn btn-sm btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
-          <a href="@routes.TrackController.delete(track.getId)" class="btn btn-sm btn-danger">
+          <a href="@appRoutes.TrackController.delete(track.getId)" class="btn btn-sm btn-danger">
             <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
           </a>
         </td>
@@ -45,7 +47,7 @@
     <tfoot>
       <tr>
         <td colspan="2">
-          <a href="@routes.TrackController.addForm()" class="btn btn-sm btn-primary">
+          <a href="@appRoutes.TrackController.addForm()" class="btn btn-sm btn-primary">
             New Track <i class="fa fa-plus" title="New Track" aria-hidden="true"></i>
           </a>
         </td>
