@@ -10,6 +10,9 @@ import javax.inject.Inject;
 import io.atlassian.fugue.Either;
 import models.Artist;
 import models.Program;
+import models.Program;
+import models.create.CreateProgram;
+import models.update.UpdateProgram;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
@@ -68,19 +71,15 @@ public class ProgramService {
   /**
    * Insert a new Program.
    *
-   * @param program  The Program data to insert.
-   * @return Either the inserted Program or validation errors.
+   * @param programForm The submitted Program data form.
+   * @return Either the inserted Program or the form with errors.
    */
-  public Either<Map<String, List<ValidationError>>, Program> insert(Program program) {
-    // validate new program
-    Form<Program> programForm = formFactory
-        .form(Program.class, Program.InsertValidators.class)
-        .bind(toJson(program));
+  public Either<Form<CreateProgram>, Program> insert(Form<CreateProgram> programForm) {
     if (programForm.hasErrors()) {
-      // return validation errors
-      return Either.left(programForm.errors());
+      return Either.left(programForm);
     }
 
+    Program program = new Program(programForm.get());
     // save to DB
     programRepository.insert(program);
 
@@ -91,29 +90,32 @@ public class ProgramService {
   /**
    * Update an Program.
    *
-   * @param savedProgram The existing Program data.
-   * @param newProgram   The new Program data.
-   * @return Either the updated Program or validation errors.
+   * @param savedProgram The existing Program.
+   * @param programForm  The new Program data form.
+   * @return Either the updated Program or the form with errors.
    */
-  public Either<Map<String, List<ValidationError>>, Program> update(Program savedProgram, Program newProgram) {
-    // copy over read only fields
-    newProgram.setId(savedProgram.getId());
-    newProgram.setCreated(savedProgram.getCreated());
-
-    // validate the changes
-    Form<Program> programForm = formFactory
-        .form(Program.class, Program.UpdateValidators.class)
-        .bind(toJson(newProgram));
+  public Either<Form<UpdateProgram>, Program> update(Program savedProgram, Form<UpdateProgram> programForm) {
     if (programForm.hasErrors()) {
-      // return validation errors
-      return Either.left(programForm.errors());
+      return Either.left(programForm);
     }
+
+    UpdateProgram updateProgram = programForm.get();
+    Program newProgram = new Program(updateProgram, savedProgram);
 
     // save to DB
     programRepository.update(newProgram);
 
     // return saved program
     return Either.right(newProgram);
+  }
+
+  /**
+   * Delete a Program.
+   *
+   * @param program The Program to delete.
+   */
+  public void delete(Program program) {
+    programRepository.delete(program);
   }
 
   /**

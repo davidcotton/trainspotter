@@ -1,6 +1,7 @@
 @import controllers.app.{routes => appRoutes}
+@import models.update.UpdateTracklist
 
-@(id: Long, tracklistForm: play.data.Form[Tracklist])
+@(id: Long, tracklistForm: play.data.Form[UpdateTracklist])
 
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 

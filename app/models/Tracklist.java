@@ -25,6 +25,8 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import models.create.CreateTracklist;
+import models.update.UpdateTracklist;
 import play.data.format.Formats;
 
 @Entity
@@ -32,9 +34,6 @@ import play.data.format.Formats;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class Tracklist extends Model {
-
-  public interface InsertValidators {}
-  public interface UpdateValidators {}
 
   public enum Status {
     @EnumValue("active") active,
@@ -90,6 +89,27 @@ public class Tracklist extends Model {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
+
+  public Tracklist(CreateTracklist createTracklist) {
+    name = createTracklist.getName();
+    performed = createTracklist.getPerformed();
+    image = createTracklist.getImage();
+  }
+
+  public Tracklist(UpdateTracklist updateTracklist, Tracklist tracklist) {
+    id = tracklist.id;
+    name = updateTracklist.getName();
+    slug = tracklist.slug;
+    performed = updateTracklist.getPerformed();
+    image = updateTracklist.getImage();
+    user = tracklist.user;
+    tracks = tracklist.tracks;
+    artists = tracklist.artists;
+    genres = tracklist.genres;
+    medias = tracklist.medias;
+    status = tracklist.status;
+    created = tracklist.created;
+  }
 
   public Long getId() {
     return id;

@@ -22,6 +22,8 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import models.create.CreateTrack;
+import models.update.UpdateTrack;
 import play.data.format.Formats;
 
 @Entity
@@ -29,9 +31,6 @@ import play.data.format.Formats;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class Track extends Model {
-
-  public interface InsertValidators {}
-  public interface UpdateValidators {}
 
   public enum Status {
     @EnumValue("active") active,
@@ -85,6 +84,25 @@ public class Track extends Model {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
+
+  public Track(CreateTrack createTrack) {
+    name = createTrack.getName();
+    remixName = createTrack.getRemixName();
+    releaseDate = createTrack.getReleaseDate();
+  }
+
+  public Track(UpdateTrack updateTrack, Track track) {
+    id = track.id;
+    name = updateTrack.getName();
+    artists = track.artists;
+    remixers = track.remixers;
+    remixName = updateTrack.getRemixName();
+    genre = track.getGenre();
+    label = track.getLabel();
+    releaseDate = updateTrack.getReleaseDate();
+    tracklists = track.tracklists;
+    status = track.status;
+  }
 
   public Long getId() {
     return id;

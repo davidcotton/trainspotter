@@ -22,6 +22,8 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import models.create.CreateProgram;
+import models.update.UpdateProgram;
 import play.data.format.Formats;
 
 @Entity
@@ -29,9 +31,6 @@ import play.data.format.Formats;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class Program extends Model {
-
-  public interface InsertValidators {}
-  public interface UpdateValidators {}
 
   public enum Status {
     @EnumValue("active") active,
@@ -77,6 +76,24 @@ public class Program extends Model {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
+
+  public Program(CreateProgram createProgram) {
+    name = createProgram.getName();
+    image = createProgram.getImage();
+    description = createProgram.getDescription();
+  }
+
+  public Program(UpdateProgram updateProgram, Program program) {
+    id = program.id;
+    name = updateProgram.getName();
+    slug = program.slug;
+    image = updateProgram.getImage();
+    description = updateProgram.getDescription();
+    channel = program.channel;
+    hosts = program.getHosts();
+    status = program.status;
+    created = program.created;
+  }
 
   public Long getId() {
     return id;

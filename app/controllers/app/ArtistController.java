@@ -2,7 +2,6 @@ package controllers.app;
 
 import static java.util.Objects.requireNonNull;
 
-//import controllers.app.routes;
 import javax.inject.Inject;
 import models.create.CreateArtist;
 import models.update.UpdateArtist;
@@ -55,7 +54,7 @@ public class ArtistController extends Controller {
    * View a single artist.
    *
    * @param slug The slug of the Artist to find.
-   * @return An artist page if found else not found page.
+   * @return An artist page if found, else a 404.
    */
   public Result view(String slug) {
     return artistService
@@ -65,9 +64,9 @@ public class ArtistController extends Controller {
   }
 
   /**
-   * Display an add artist page.
+   * Display an add Artist page.
    *
-   * @return A page allowing the user to add an artist.
+   * @return A page allowing the user to add an Artist.
    */
   @Security.Authenticated(Secured.class)
   public Result addForm() {

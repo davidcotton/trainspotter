@@ -34,10 +34,10 @@ public class ProgramController extends Controller {
   }
 
   /**
-   * View all programs.
+   * View all Programs.
    *
-   * @param channelSlug The channel ID.
-   * @return A page with all programs.
+   * @param channelSlug The slug of the Channel to search for.
+   * @return A page with all Programs that belong to a particular Channel.
    */
   public Result index(String channelSlug) {
     return channelRepository
@@ -47,10 +47,10 @@ public class ProgramController extends Controller {
   }
 
   /**
-   * View a single program.
+   * View a single Program.
    *
-   * @param programSlug The program ID.
-   * @return A program page if found.
+   * @param programSlug The slug of the program to search for.
+   * @return A program page if found, else a 404.
    */
   public Result view(String programSlug) {
     return programRepository
@@ -59,6 +59,11 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
+  /**
+   *
+   * @param channelSlug
+   * @return
+   */
   @play.mvc.Security.Authenticated(Secured.class)
   public Result addForm(String channelSlug) {
     return channelRepository

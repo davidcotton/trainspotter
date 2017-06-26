@@ -25,10 +25,21 @@ public class LabelController extends Controller {
     this.formFactory = requireNonNull(formFactory);
   }
 
+  /**
+   * Fetch all Labels.
+   *
+   * @return A collection of Labels.
+   */
   public Result fetchAll() {
     return ok(toJson(labelService.fetchAll()));
   }
 
+  /**
+   * Fetch a single Label by its ID.
+   *
+   * @param id The ID of the label to search for.
+   * @return The Label if found, else a 404.
+   */
   public Result fetch(long id) {
     return labelService.findById(id)
         .map(user -> ok(toJson(user)))
@@ -38,7 +49,7 @@ public class LabelController extends Controller {
   /**
    * Create a new Label.
    *
-   * @return The new Label on success, else the errors.
+   * @return The new Label on success, else any errors.
    */
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
@@ -54,7 +65,7 @@ public class LabelController extends Controller {
    * Update a Label.
    *
    * @param id The ID of the Label to update.
-   * @return The updated Label on success, else the errors.
+   * @return The updated Label on success, else any errors.
    */
   @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {

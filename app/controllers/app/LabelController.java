@@ -41,7 +41,7 @@ public class LabelController extends Controller {
   /**
    * View a single label.
    *
-   * @param slug The label's ID.
+   * @param slug The slug of the Label to search for.
    * @return A label page if found.
    */
   public Result view(String slug) {
@@ -51,6 +51,11 @@ public class LabelController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
+  /**
+   * Display an add Label page.
+   *
+   * @return A page allowing the user to add a Label.
+   */
   @play.mvc.Security.Authenticated(Secured.class)
   public Result addForm() {
     return ok(add.render(formFactory.form(CreateLabel.class)));
