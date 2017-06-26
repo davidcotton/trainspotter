@@ -27,6 +27,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import models.create.CreateUser;
+import models.update.UpdateUser;
 import play.data.format.Formats;
 
 @Entity

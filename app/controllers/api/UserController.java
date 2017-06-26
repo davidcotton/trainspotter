@@ -8,9 +8,9 @@ import static utilities.JsonHelper.errorsAsJson;
 
 import controllers.Security;
 import javax.inject.Inject;
-import models.CreateUser;
+import models.create.CreateUser;
 import models.LoginUser;
-import models.UpdateUser;
+import models.update.UpdateUser;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;

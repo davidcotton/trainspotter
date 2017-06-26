@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import models.Artist;
-import models.CreateArtist;
-import models.UpdateArtist;
+import models.create.CreateArtist;
+import models.update.UpdateArtist;
 import play.data.Form;
 import repositories.ArtistRepository;
 

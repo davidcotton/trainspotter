@@ -6,8 +6,8 @@ import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
-import models.CreateArtist;
-import models.UpdateArtist;
+import models.create.CreateArtist;
+import models.update.UpdateArtist;
 import play.data.FormFactory;
 import play.mvc.BodyParser;
 import play.mvc.Controller;

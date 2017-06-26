@@ -20,6 +20,8 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import models.create.CreateChannel;
+import models.update.UpdateChannel;
 import play.data.format.Formats;
 
 @Entity

@@ -7,9 +7,9 @@ import io.atlassian.fugue.Either;
 import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
-import models.CreateLabel;
+import models.create.CreateLabel;
 import models.Label;
-import models.UpdateLabel;
+import models.update.UpdateLabel;
 import play.data.Form;
 import repositories.LabelRepository;
 

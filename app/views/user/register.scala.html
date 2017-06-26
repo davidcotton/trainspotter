@@ -1,6 +1,7 @@
-@(registerForm: play.data.Form[CreateUser])
-
 @import controllers.app.{routes => appRoutes}
+@import models.create.CreateUser
+
+@(registerForm: play.data.Form[CreateUser])
 
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 

@@ -1,4 +1,4 @@
-package models;
+package models.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,7 @@ import play.data.validation.Constraints;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateLabel {
+public class CreateChannel {
 
   @Constraints.Required(message = "A name is required.")
   private String name;

@@ -1,6 +1,6 @@
-@(user: User)
-
 @import controllers.app.{routes => appRoutes}
+
+@(user: User)
 
 @main(user.getDisplayName) {
   <h1>@user.getDisplayName</h1>

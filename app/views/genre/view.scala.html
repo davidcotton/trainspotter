@@ -1,6 +1,6 @@
-@(genre: models.Genre, tracklists: com.avaje.ebean.PagedList[Tracklist])
-
 @import controllers.app.{routes => appRoutes}
+
+@(genre: models.Genre, tracklists: com.avaje.ebean.PagedList[Tracklist])
 
 @main(genre.getName) {
   <ol class="breadcrumb">

@@ -1,6 +1,7 @@
-@(channel: Channel, channelForm: play.data.Form[UpdateChannel])
-
 @import controllers.app.{routes => appRoutes}
+@import models.update.UpdateChannel
+
+@(channel: Channel, channelForm: play.data.Form[UpdateChannel])
 
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 

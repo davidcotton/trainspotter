@@ -3,8 +3,8 @@ package controllers.app;
 import static java.util.Objects.requireNonNull;
 
 import javax.inject.Inject;
-import models.CreateLabel;
-import models.UpdateLabel;
+import models.create.CreateLabel;
+import models.update.UpdateLabel;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;

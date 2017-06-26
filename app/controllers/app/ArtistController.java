@@ -4,8 +4,8 @@ import static java.util.Objects.requireNonNull;
 
 //import controllers.app.routes;
 import javax.inject.Inject;
-import models.CreateArtist;
-import models.UpdateArtist;
+import models.create.CreateArtist;
+import models.update.UpdateArtist;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;

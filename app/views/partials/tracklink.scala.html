@@ -1,5 +1,5 @@
-@(track: models.Track)
-
 @import controllers.app.{routes => appRoutes}
+
+@(track: models.Track)
 
 <a href="@appRoutes.TrackController.view(track.getId)">@track.getName</a> @if(track.getRemixName != null) { (@track.getRemixName) }

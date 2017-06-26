@@ -1,6 +1,7 @@
-@(label: Label, labelForm: play.data.Form[UpdateLabel])
-
 @import controllers.app.{routes => appRoutes}
+@import models.update.UpdateLabel
+
+@(label: Label, labelForm: play.data.Form[UpdateLabel])
 
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 

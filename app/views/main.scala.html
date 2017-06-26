@@ -1,3 +1,5 @@
+@import controllers.app.{routes => appRoutes}
+
 @*
 * This template is called from the `index` template. This template
 * handles the rendering of the page header and body tags. It takes
@@ -5,8 +7,6 @@
 * object to insert into the body of the page.
 *@
 @(title: String)(content: Html)
-
-@import controllers.app.{routes => appRoutes}
 
 @activeLink(currentPath: String) = @{
   if (request.path.contains(currentPath)) "active"

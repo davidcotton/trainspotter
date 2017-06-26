@@ -1,8 +1,9 @@
-package models;
+package models.update;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import models.User;
 import play.data.validation.Constraints;
 import validators.CustomConstraints;
 

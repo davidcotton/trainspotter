@@ -1,4 +1,4 @@
-package models;
+package models.update;
 
 import play.data.validation.Constraints;
 import validators.CustomConstraints;

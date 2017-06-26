@@ -4,9 +4,9 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 import javax.inject.Inject;
-import models.CreateUser;
+import models.create.CreateUser;
 import models.LoginUser;
-import models.UpdateUser;
+import models.update.UpdateUser;
 import models.User;
 import play.data.Form;
 import play.data.FormFactory;

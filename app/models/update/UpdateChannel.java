@@ -1,12 +1,13 @@
-package models;
+package models.update;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import models.Channel;
 import play.data.validation.Constraints;
 
 @Data
 @NoArgsConstructor
-public class UpdateLabel {
+public class UpdateChannel {
 
   @Constraints.Required(message = "A name is required.")
   private String name;
@@ -15,9 +16,9 @@ public class UpdateLabel {
 
   private String description;
 
-  public UpdateLabel(Label label) {
-    name = label.getName();
-    image = label.getImage();
-    description = label.getImage();
+  public UpdateChannel(Channel channel) {
+    name = channel.getName();
+    image = channel.getImage();
+    description = channel.getDescription();
   }
 }

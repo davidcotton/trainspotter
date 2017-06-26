@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import models.Channel;
-import models.CreateChannel;
-import models.UpdateChannel;
+import models.create.CreateChannel;
+import models.update.UpdateChannel;
 import play.data.Form;
 import repositories.ChannelRepository;
 

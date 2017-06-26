@@ -1,15 +1,13 @@
 package controllers.api;
 
 import static java.util.Objects.requireNonNull;
-import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
 import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
-import models.Channel;
-import models.CreateChannel;
-import models.UpdateChannel;
+import models.create.CreateChannel;
+import models.update.UpdateChannel;
 import play.data.FormFactory;
 import play.mvc.BodyParser;
 import play.mvc.Controller;

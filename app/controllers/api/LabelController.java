@@ -6,8 +6,8 @@ import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
-import models.CreateLabel;
-import models.UpdateLabel;
+import models.create.CreateLabel;
+import models.update.UpdateLabel;
 import play.data.FormFactory;
 import play.mvc.BodyParser;
 import play.mvc.Controller;

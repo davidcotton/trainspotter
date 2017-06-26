@@ -1,6 +1,6 @@
-@(tracklist: Tracklist)
-
 @import controllers.app.{routes => appRoutes}
+
+@(tracklist: Tracklist)
 
 @renderArtist(artist: models.Artist) = {
   <strong><a href="@appRoutes.ArtistController.view(artist.getSlug)">@artist.getName</a></strong>

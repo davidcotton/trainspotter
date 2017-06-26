@@ -3,8 +3,8 @@ package controllers.app;
 import static java.util.Objects.requireNonNull;
 
 import javax.inject.Inject;
-import models.CreateChannel;
-import models.UpdateChannel;
+import models.create.CreateChannel;
+import models.update.UpdateChannel;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;

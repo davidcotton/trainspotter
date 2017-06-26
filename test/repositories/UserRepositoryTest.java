@@ -14,7 +14,7 @@ import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
 import java.util.List;
 import java.util.Optional;
-import models.CreateUser;
+import models.create.CreateUser;
 import models.User;
 
 public class UserRepositoryTest extends AbstractIntegrationTest {

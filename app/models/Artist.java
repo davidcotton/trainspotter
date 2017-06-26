@@ -24,6 +24,8 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import models.create.CreateArtist;
+import models.update.UpdateArtist;
 import play.data.format.Formats;
 
 @Entity
