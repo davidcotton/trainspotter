@@ -3,11 +3,12 @@ package controllers;
 import static java.util.Objects.requireNonNull;
 
 import javax.inject.Inject;
-import models.Channel;
 import models.CreateChannel;
 import models.UpdateChannel;
 import play.data.FormFactory;
-import play.mvc.*;
+import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.Results;
 import play.mvc.Security;
 import services.ChannelService;
 import views.html.channel.add;
@@ -100,7 +101,16 @@ public class ChannelController extends Controller {
    */
   @Security.Authenticated(Secured.class)
   public Result editSubmit(String slug) {
-    return TODO;
+    return channelService
+        .findBySlug(slug)
+        .map(savedChannel -> channelService
+            .update(savedChannel, formFactory.form(UpdateChannel.class).bindFromRequest())
+            .fold(
+                form -> badRequest(edit.render(savedChannel, form)),
+                channel -> Results.redirect(routes.ChannelController.view(channel.getSlug()))
+            )
+        )
+        .orElse(notFound(notFound.render()));
   }
 
   /**

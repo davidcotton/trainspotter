@@ -3,12 +3,12 @@ package controllers;
 import static java.util.Objects.requireNonNull;
 
 import javax.inject.Inject;
-
 import models.CreateLabel;
-import models.Label;
 import models.UpdateLabel;
 import play.data.FormFactory;
-import play.mvc.*;
+import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.Results;
 import play.mvc.Security;
 import services.LabelService;
 import views.html.label.add;
@@ -96,7 +96,16 @@ public class LabelController extends Controller {
    */
   @Security.Authenticated(Secured.class)
   public Result editSubmit(String slug) {
-    return TODO;
+    return labelService
+        .findBySlug(slug)
+        .map(savedLabel -> labelService
+            .update(savedLabel, formFactory.form(UpdateLabel.class).bindFromRequest())
+            .fold(
+                form -> badRequest(edit.render(savedLabel, form)),
+                label -> Results.redirect(routes.LabelController.view(label.getSlug()))
+            )
+        )
+        .orElse(notFound(notFound.render()));
   }
 
   /**
