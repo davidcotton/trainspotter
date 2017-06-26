@@ -36,7 +36,13 @@ public class ArtistRepository implements Repository<Artist> {
 
   @Override
   public Optional<Artist> findById(long id) {
-    return Optional.ofNullable(find.byId(id));
+    return Optional.ofNullable(
+        find
+            .where().idEq(id)
+            .where().ne("status", Status.deleted)
+            .findUnique()
+
+    );
   }
 
   /**

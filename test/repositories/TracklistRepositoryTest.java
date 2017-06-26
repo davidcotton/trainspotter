@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import models.Tracklist;
+import models.Tracklist.Status;
 import models.User;
 import org.junit.Test;
 
@@ -75,7 +76,7 @@ public class TracklistRepositoryTest extends AbstractIntegrationTest {
   @Test public void insert_success() throws Exception {
     // ARRANGE
     User user = userRepository.findById(1L).orElseThrow(Exception::new);
-    Tracklist tracklist = new Tracklist(null, "Transitions 658", "transitions-658", LocalDate.now(), null, user, null, null, null, null, null, null);
+    Tracklist tracklist = new Tracklist(null, "Transitions 658", "transitions-658", LocalDate.now(), null, user, null, null, null, null, Status.active, null, null);
 
     // ACT
     tracklistRepository.insert(tracklist);

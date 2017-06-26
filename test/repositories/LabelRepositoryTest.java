@@ -1,7 +1,5 @@
 package repositories;
 
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
@@ -14,6 +12,7 @@ import com.avaje.ebean.PagedList;
 import java.util.List;
 import java.util.Optional;
 import models.Label;
+import models.Label.Status;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
 
@@ -28,10 +27,12 @@ public class LabelRepositoryTest extends AbstractIntegrationTest {
   @Test public void findAll() throws Exception {
     List<Label> labels = labelRepository.findAll();
     assertThat(labels, not(IsEmptyCollection.empty()));
-    assertThat(labels.size(), is(3));
+    assertThat(labels.size(), is(14));
+    // verify alphabetic ordering
     assertThat(labels.get(0).getName(), is("Bedrock Records"));
-    assertThat(labels.get(1).getName(), is("Drumcode"));
-    assertThat(labels.get(2).getName(), is("Last Night On Earth"));
+    assertThat(labels.get(1).getName(), is("Cocoon Recordings"));
+    assertThat(labels.get(2).getName(), is("Colour Series"));
+    assertThat(labels.get(3).getName(), is("Drumcode"));
   }
 
   @Test public void findAllPaged() throws Exception {
@@ -39,13 +40,16 @@ public class LabelRepositoryTest extends AbstractIntegrationTest {
 
     // verify the pagination object attributes
     assertThat(pagedLabels.getPageSize(), is(12));
-    assertThat(pagedLabels.getTotalRowCount(), is(3));
+    assertThat(pagedLabels.getTotalRowCount(), is(14));
+    assertThat(pagedLabels.getTotalPageCount(), is(2));
 
     // verify the paginated list
     List<Label> labels = pagedLabels.getList();
+    // verify alphabetic ordering
     assertThat(labels.get(0).getName(), is("Bedrock Records"));
-    assertThat(labels.get(1).getName(), is("Drumcode"));
-    assertThat(labels.get(2).getName(), is("Last Night On Earth"));
+    assertThat(labels.get(1).getName(), is("Cocoon Recordings"));
+    assertThat(labels.get(2).getName(), is("Colour Series"));
+    assertThat(labels.get(3).getName(), is("Drumcode"));
   }
 
   @Test public void findById_successGivenIdInDb() throws Exception {
@@ -83,7 +87,7 @@ public class LabelRepositoryTest extends AbstractIntegrationTest {
 
   @Test public void insert_success() throws Exception {
     // ARRANGE
-    Label label = new Label(null, "Kompakt", "kompakt", null, null, null, null, null, null);
+    Label label = new Label(null, "Kompakt", "kompakt", null, null, null, null, Status.active, null, null);
 
     // ACT
     labelRepository.insert(label);

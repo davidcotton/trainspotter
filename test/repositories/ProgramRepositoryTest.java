@@ -15,6 +15,7 @@ import java.util.Optional;
 import models.Artist;
 import models.Channel;
 import models.Program;
+import models.Program.Status;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
 
@@ -109,7 +110,7 @@ public class ProgramRepositoryTest extends AbstractIntegrationTest {
     Program program = new Program(
         null, "Mix Up", "mix-up", null,
         "We bring you \"Excluuuussssivvvvveeee\" mixes from some of the best DJs locally and from around the globe. Make sure you are wearing the right shoes, or you might not get in.",
-        triplej, new ArrayList<Artist>() {{ add(artist); }}, null, null
+        triplej, new ArrayList<Artist>() {{ add(artist); }}, Status.active, null, null
     );
 
     // ACT

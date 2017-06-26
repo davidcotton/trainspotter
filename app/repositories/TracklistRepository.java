@@ -60,9 +60,11 @@ public class TracklistRepository implements Repository<Tracklist> {
    * @return A collection of the most popular tracklists.
    */
   public List<Tracklist> findMostPopular() {
-    // hard coded to alphabetic until I add "popularity" features
-    return find.orderBy().desc("performed").setMaxRows(10).findList();
-        .findPagedList(--page, PAGE_SIZE);
+    // hard coded to performed date until I add "popularity" features
+    return find
+        .orderBy().desc("performed")
+        .setMaxRows(10)
+        .findList();
   }
 
   public PagedList<Tracklist> findAllPagedByGenre(Genre genre, int page) {
@@ -76,7 +78,12 @@ public class TracklistRepository implements Repository<Tracklist> {
 
   @Override
   public Optional<Tracklist> findById(long id) {
-    return Optional.ofNullable(find.byId(id));
+    return Optional.ofNullable(
+        find
+            .where().idEq(id)
+            .where().ne("status", Status.deleted)
+            .findUnique()
+    );
   }
 
   /**

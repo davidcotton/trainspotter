@@ -15,6 +15,7 @@ import java.util.Optional;
 import models.Genre;
 import models.Label;
 import models.Track;
+import models.Track.Status;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
 
@@ -33,17 +34,17 @@ public class TrackRepositoryTest extends AbstractIntegrationTest {
   @Test public void findAll() throws Exception {
     List<Track> tracks = trackRepository.findAll();
     assertThat(tracks, not(IsEmptyCollection.empty()));
-    assertThat(tracks.size(), is(6));
+    assertThat(tracks.size(), is(10));
     // verify ordered alphabetically by name
     assertThat(tracks.get(0).getName(), is("Airplane"));
-    assertThat(tracks.get(1).getName(), is("Eros"));
+    assertThat(tracks.get(1).getName(), is("Blackbox"));
     assertThat(tracks.get(2).getName(), is("Eros"));
   }
 
   @Test public void findById_successGivenIdInDb() throws Exception {
     Optional<Track> maybeTrack = trackRepository.findById(1L);
     assertTrue(maybeTrack.isPresent());
-    assertEquals("John Digweed", maybeTrack.get().getName());
+    assertEquals("Eros", maybeTrack.get().getName());
   }
 
   @Test public void findById_failureGivenIdNotInDb() throws Exception {
@@ -52,13 +53,13 @@ public class TrackRepositoryTest extends AbstractIntegrationTest {
   }
 
   @Test public void findByName_successGivenNameInDb() throws Exception {
-    Optional<Track> maybeTrack = trackRepository.findByName("John Digweed");
+    Optional<Track> maybeTrack = trackRepository.findByName("The Field And The Sun");
     assertTrue(maybeTrack.isPresent());
-    assertEquals("John Digweed", maybeTrack.get().getName());
+    assertThat(maybeTrack.get().getId(), is(3L));
   }
 
   @Test public void findByName_failureGivenNameNotInDb() throws Exception {
-    Optional<Track> maybeTrack = trackRepository.findByName("Cher");
+    Optional<Track> maybeTrack = trackRepository.findByName("Ice Ice Baby");
     assertFalse(maybeTrack.isPresent());
   }
 
@@ -66,7 +67,7 @@ public class TrackRepositoryTest extends AbstractIntegrationTest {
     // ARRANGE
     Genre house = genreRepository.findByName("House").orElseThrow(Exception::new);
     Label bedrock = labelRepository.findByName("Bedrock Records").orElseThrow(Exception::new);
-    Track track = new Track(null, "Beautiful Strange", null, null, null, house, bedrock, LocalDate.now(), null, null, null);
+    Track track = new Track(null, "Beautiful Strange", null, null, null, house, bedrock, LocalDate.now(), null, Status.active, null, null);
 
     // ACT
     trackRepository.insert(track);
@@ -94,7 +95,7 @@ public class TrackRepositoryTest extends AbstractIntegrationTest {
     Optional<Track> maybeTrack = trackRepository.findById(1L);
     assertTrue(maybeTrack.isPresent());
     // verify that the track saved correctly
-    assertThat(maybeTrack.get().getId(), is(3L));
+    assertThat(maybeTrack.get().getId(), is(1L));
     assertThat(maybeTrack.get().getName(), is("Xpander"));
   }
 

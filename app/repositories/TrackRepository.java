@@ -33,7 +33,12 @@ public class TrackRepository implements Repository<Track> {
 
   @Override
   public Optional<Track> findById(long id) {
-    return Optional.ofNullable(find.byId(id));
+    return Optional.ofNullable(
+        find
+            .where().idEq(id)
+            .where().ne("status", Status.deleted)
+            .findUnique()
+    );
   }
 
   /**

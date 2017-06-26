@@ -36,7 +36,12 @@ public class LabelRepository implements Repository<Label> {
 
   @Override
   public Optional<Label> findById(long id) {
-    return Optional.ofNullable(find.byId(id));
+    return Optional.ofNullable(
+        find
+            .where().idEq(id)
+            .where().ne("status", Status.deleted)
+            .findUnique()
+    );
   }
 
   /**
