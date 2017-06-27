@@ -55,10 +55,10 @@ INSERT INTO `tracklist` (`name`, `slug`, `performed`, `user_id`, `status`, `crea
   ('Adam Beyer @ Drumcode 354 (Metro City Perth, Australia 2017-04-24)', 'drumcode-354', '2017-05-18', 1, 'active', NOW(), NOW()),
   ('Sasha @ Last Night On Earth 025 (Coachella Festival, United States)', 'last-night-on-earth-025', '2017-05-29', 2, 'active', NOW(), NOW());
 
-INSERT INTO `media` (`url`, `tracklist_id`, `artist_id`, `label_id`, `created`, `updated`) VALUES
-  ('https://youtu.be/tI7ywh2sI04', 1, null, null, NOW(), NOW()),
-  ('https://www.mixcloud.com/globaldjmix/john-digweed-jesper-dahlback-transitions-664-2017-05-19/', 1, null, null, NOW(), NOW()),
-  ('https://soundcloud.com/john-digweed', null, 2, null, NOW(), NOW());
+INSERT INTO `media` (`url`, `type`, `tracklist_id`, `artist_id`, `label_id`, `user_id`, `status`, `created`, `updated`) VALUES
+  ('https://youtu.be/tI7ywh2sI04', 'youtube', 1, null, null, 1, 'active', NOW(), NOW()),
+  ('https://www.mixcloud.com/globaldjmix/john-digweed-jesper-dahlback-transitions-664-2017-05-19/', 'mixcloud', 1, null, null, 1, 'active', NOW(), NOW()),
+  ('https://soundcloud.com/john-digweed', 'soundcloud', null, 2, null, 2, 'active', NOW(), NOW());
 
 INSERT INTO `program` (`name`, `slug`, `image`, `description`, `channel_id`, `status`, `created`, `updated`) VALUES
   ('Transitions', 'transitions', 'transitions.jpg', 'The most important radio show in house music needs no introduction, but here it goes anyway. John Digweed\'s long-standing weekly 2 hour program is legendary, airing for many years exclusively on Kiss 100 in London but now syndicated around the world and internet. In 2008, the show comes to Proton Radio. Expect upfront & unreleased tunes dished up by John Digweed alongside finely tuned guest mixes that are almost always exclusively prepared just for the show.', 1, 'active', NOW(), NOW()),

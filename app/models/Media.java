@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.time.ZonedDateTime;
@@ -26,8 +27,20 @@ import play.data.validation.Constraints;
 @AllArgsConstructor
 public class Media extends Model {
 
-  public interface InsertValidators {}
-  public interface UpdateValidators {}
+  public enum Status {
+    @EnumValue("pending") pending,
+    @EnumValue("active") active,
+    @EnumValue("deleted") deleted,
+  }
+
+  public enum Type {
+    @EnumValue("soundcloud") soundcloud,
+    @EnumValue("mixcloud") mixcloud,
+    @EnumValue("youtube") youtube,
+    @EnumValue("twitter") twitter,
+    @EnumValue("facebook") facebook,
+    @EnumValue("website") website,
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +50,9 @@ public class Media extends Model {
   @Constraints.Required
   @Column(unique = true, length = 191)
   private String url;
+
+  @NotNull
+  private Type type;
 
   @JsonBackReference(value = "tracklist_media")
   @ManyToOne
@@ -49,6 +65,13 @@ public class Media extends Model {
   @JsonBackReference(value = "label_media")
   @ManyToOne
   private Label label;
+
+  @JsonBackReference(value = "user_media")
+  @ManyToOne
+  private User user;
+
+  @NotNull
+  private Status status;
 
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -64,6 +87,10 @@ public class Media extends Model {
 
   public Long getId() {
     return id;
+  }
+
+  public String getType() {
+    return type.name();
   }
 
   public String getUrl() {

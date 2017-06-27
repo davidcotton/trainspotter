@@ -70,11 +70,16 @@ create table label (
 create table media (
   id                            bigint auto_increment not null,
   url                           varchar(191) not null,
+  type                          varchar(10) not null,
   tracklist_id                  bigint,
   artist_id                     bigint,
   label_id                      bigint,
+  user_id                       bigint,
+  status                        varchar(7) not null,
   created                       datetime not null,
   updated                       datetime not null,
+  constraint ck_media_type check (type in ('mixcloud','youtube','twitter','website','facebook','soundcloud')),
+  constraint ck_media_status check (status in ('deleted','pending','active')),
   constraint uq_media_url unique (url),
   constraint pk_media primary key (id)
 );
@@ -193,6 +198,9 @@ create index ix_media_artist_id on media (artist_id);
 alter table media add constraint fk_media_label_id foreign key (label_id) references label (id) on delete restrict on update restrict;
 create index ix_media_label_id on media (label_id);
 
+alter table media add constraint fk_media_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_media_user_id on media (user_id);
+
 alter table program add constraint fk_program_channel_id foreign key (channel_id) references channel (id) on delete restrict on update restrict;
 create index ix_program_channel_id on program (channel_id);
 
@@ -254,6 +262,9 @@ drop index ix_media_artist_id on media;
 
 alter table media drop foreign key fk_media_label_id;
 drop index ix_media_label_id on media;
+
+alter table media drop foreign key fk_media_user_id;
+drop index ix_media_user_id on media;
 
 alter table program drop foreign key fk_program_channel_id;
 drop index ix_program_channel_id on program;

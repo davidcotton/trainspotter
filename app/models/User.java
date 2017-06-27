@@ -77,6 +77,10 @@ public class User extends Model {
   @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
   private List<Tracklist> tracklists;
 
+  @JsonManagedReference(value = "user_media")
+  @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+  private List<Media> medias;
+
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)

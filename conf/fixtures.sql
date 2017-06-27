@@ -117,16 +117,16 @@ VALUES
   ('Adam Beyer @ Drumcode 354 (Metro City Perth, Australia 2017-04-24)', 'drumcode-354', '2017-05-18', null, 1, 'active', NOW(), NOW()),
   ('Sasha @ Last Night On Earth 025 (Coachella Festival, United States)', 'last-night-on-earth-025', '2017-05-29', null, 2, 'active', NOW(), NOW());
 
-INSERT INTO `media` (url, tracklist_id, artist_id, label_id, created, updated)
+INSERT INTO `media` (`url`, `type`, `tracklist_id`, `artist_id`, `label_id`, `user_id`, `status`, `created`, `updated`)
 VALUES
-  ('https://youtu.be/tI7ywh2sI04', 1, null, null, NOW(), NOW()),
-  ('https://www.mixcloud.com/globaldjmix/john-digweed-jesper-dahlback-transitions-664-2017-05-19/', 1, null, null, NOW(), NOW()),
-  ('https://soundcloud.com/john-digweed', null, 2, null, NOW(), NOW()),
-  ('https://www.youtube.com/channel/UCXUO2biGVP7FKCqPEDwmt4w', null, 2, null, NOW(), NOW()),
-  ('https://www.facebook.com/djjohndigweed', null, 2, null, NOW(), NOW()),
-  ('https://twitter.com/djjohndigweed', null, 2, null, NOW(), NOW()),
-  ('http://www.johndigweed.com/', null, 2, null, NOW(), NOW()),
-  ('https://soundcloud.com/bedrock_rec', null, null, 2, NOW(), NOW());
+  ('https://youtu.be/tI7ywh2sI04', 'youtube', 1, null, null, 1, 'active', NOW(), NOW()),
+  ('https://www.mixcloud.com/globaldjmix/john-digweed-jesper-dahlback-transitions-664-2017-05-19/', 'mixcloud', 1, null, null, 2, 'active', NOW(), NOW()),
+  ('https://soundcloud.com/john-digweed', 'soundcloud', null, 2, null, 3, 'active', NOW(), NOW()),
+  ('https://www.youtube.com/channel/UCXUO2biGVP7FKCqPEDwmt4w', 'youtube', null, 2, null, 1, 'active', NOW(), NOW()),
+  ('https://www.facebook.com/djjohndigweed', 'facebook', null, 2, null, 2, 'active', NOW(), NOW()),
+  ('https://twitter.com/djjohndigweed', 'twitter', null, 2, null, 3, 'active', NOW(), NOW()),
+  ('http://www.johndigweed.com/', 'website', null, 2, null, 1, 'active', NOW(), NOW()),
+  ('https://soundcloud.com/bedrock_rec', 'soundcloud', null, null, 2, 2, 'active', NOW(), NOW());
 
 INSERT INTO `artist_program` (artist_id, program_id)
 VALUES
