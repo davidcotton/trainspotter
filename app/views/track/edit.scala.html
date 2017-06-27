@@ -1,15 +1,15 @@
 @import controllers.app.{routes => appRoutes}
 @import models.update.UpdateTrack
 
-@(id: Long, trackForm: play.data.Form[UpdateTrack])
+@(track: Track, trackForm: play.data.Form[UpdateTrack])
 
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
-@main("Edit Track") {
+@main("Edit " + track.getName) {
   <div class="card mt-5">
-    <h3 class="card-header">Edit Track</h3>
+    <h3 class="card-header">Edit @track.getName</h3>
     <div class="card-block">
-    @b4.form(appRoutes.TrackController.editSubmit(id)) {
+    @b4.form(appRoutes.TrackController.editSubmit(track.getId())) {
       <fieldset>
         @b4.text(trackForm("name"), '_label -> "Name", 'placeholder -> "Name")
         @b4.submit('class -> "btn btn-primary") { Save }

@@ -79,13 +79,16 @@ public class ProgramController extends Controller {
    */
   @BodyParser.Of(BodyParser.Json.class)
   public Result create(long channelId) {
-    Optional<Channel> maybeChannel = channelService.findById(channelId);
-    return programService
-        .insert(formFactory.form(CreateProgram.class).bindFromRequest())
-        .fold(
-            form -> badRequest(errorsAsJson(form.errors())),
-            program -> created(toJson(program))
-        );
+    return channelService
+        .findById(channelId)
+        .map(channel -> programService
+            .insert(formFactory.form(CreateProgram.class).bindFromRequest())
+            .fold(
+                form -> badRequest(errorsAsJson(form.errors())),
+                program -> created(toJson(program))
+            )
+        )
+        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
   /**

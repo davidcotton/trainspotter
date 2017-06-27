@@ -120,11 +120,4 @@ public class ArtistRepositoryTest extends AbstractIntegrationTest {
     // verify that the original image field wasn't changed
     assertThat(maybeArtist.get().getImage(), is("adam-beyer.jpg"));
   }
-
-  @Test public void delete() throws Exception {
-    Artist artist = artistRepository.findById(1L).orElseThrow(Exception::new);
-    artistRepository.delete(artist);
-    Optional<Artist> maybeArtist = artistRepository.findById(1L);
-    assertFalse(maybeArtist.isPresent());
-  }
 }

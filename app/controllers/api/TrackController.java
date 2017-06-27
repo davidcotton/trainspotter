@@ -1,30 +1,28 @@
 package controllers.api;
 
 import static java.util.Objects.requireNonNull;
-
-import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
-
 import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
-
-import models.Track;
-
+import models.create.CreateTrack;
+import models.update.UpdateTrack;
+import play.data.FormFactory;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
-
 import services.TrackService;
 
 public class TrackController extends Controller {
 
   private final TrackService trackService;
+  private final FormFactory formFactory;
 
   @Inject
-  public TrackController(TrackService trackService) {
+  public TrackController(TrackService trackService, FormFactory formFactory) {
     this.trackService = requireNonNull(trackService);
+    this.formFactory = requireNonNull(formFactory);
   }
 
   public Result fetchAll() {
@@ -39,12 +37,10 @@ public class TrackController extends Controller {
 
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
-    Track track1 = fromJson(request().body().asJson(), Track.class);
-
     return trackService
-        .insert(fromJson(request().body().asJson(), Track.class))
+        .insert(formFactory.form(CreateTrack.class).bindFromRequest())
         .fold(
-            error -> badRequest(errorsAsJson(error)),
+            form -> badRequest(errorsAsJson(form.errors())),
             track -> created(toJson(track))
         );
   }
@@ -54,9 +50,9 @@ public class TrackController extends Controller {
     return trackService
         .findById(id)
         .map(savedTrack -> trackService
-            .update(savedTrack, fromJson(request().body().asJson(), Track.class))
+            .update(savedTrack, formFactory.form(UpdateTrack.class).bindFromRequest())
             .fold(
-                error -> badRequest(errorsAsJson(error)),
+                form -> badRequest(errorsAsJson(form.errors())),
                 newTrack -> created(toJson(newTrack))
             )
         )
@@ -64,6 +60,12 @@ public class TrackController extends Controller {
   }
 
   public Result delete(long id) {
-    return TODO;
+    return trackService
+        .findById(id)
+        .map(track -> {
+          trackService.delete(track);
+          return (Result) noContent();
+        })
+        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 }

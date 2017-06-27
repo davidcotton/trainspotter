@@ -3,13 +3,15 @@ package controllers.app;
 import static java.util.Objects.requireNonNull;
 
 import javax.inject.Inject;
-import models.Program;
+import models.create.CreateProgram;
+import models.update.UpdateProgram;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Results;
 import play.mvc.Security;
-import repositories.ChannelRepository;
-import repositories.ProgramRepository;
+import services.ChannelService;
+import services.ProgramService;
 import views.html.notFound;
 import views.html.program.add;
 import views.html.program.edit;
@@ -18,19 +20,19 @@ import views.html.program.view;
 
 public class ProgramController extends Controller {
 
-  private final ProgramRepository programRepository;
+  private final ProgramService programService;
   private final FormFactory formFactory;
-  private final ChannelRepository channelRepository;
+  private final ChannelService channelService;
 
   @Inject
   public ProgramController(
-      ProgramRepository programRepository,
+      ProgramService programService,
       FormFactory formFactory,
-      ChannelRepository channelRepository
+      ChannelService channelService
   ) {
-    this.programRepository = requireNonNull(programRepository);
+    this.programService = requireNonNull(programService);
     this.formFactory = requireNonNull(formFactory);
-    this.channelRepository = requireNonNull(channelRepository);
+    this.channelService = requireNonNull(channelService);
   }
 
   /**
@@ -40,9 +42,9 @@ public class ProgramController extends Controller {
    * @return A page with all Programs that belong to a particular Channel.
    */
   public Result index(String channelSlug) {
-    return channelRepository
+    return channelService
         .findBySlug(channelSlug)
-        .map(channel -> ok(index.render(programRepository.findAll(), channel)))
+        .map(channel -> ok(index.render(programService.fetchAll(), channel)))
         .orElse(notFound(notFound.render()));
   }
 
@@ -53,45 +55,67 @@ public class ProgramController extends Controller {
    * @return A program page if found, else a 404.
    */
   public Result view(String programSlug) {
-    return programRepository
+    return programService
         .findBySlug(programSlug)
         .map(program -> ok(view.render(program)))
         .orElse(notFound(notFound.render()));
   }
 
-  /**
-   *
-   * @param channelSlug
-   * @return
-   */
-  @play.mvc.Security.Authenticated(Secured.class)
+  @Security.Authenticated(Secured.class)
   public Result addForm(String channelSlug) {
-    return channelRepository
+    return channelService
         .findBySlug(channelSlug)
-        .map(channel -> ok(add.render(formFactory.form(Program.class), channel)))
+        .map(channel -> ok(add.render(formFactory.form(CreateProgram.class), channel)))
         .orElse(notFound(notFound.render()));
   }
 
   @Security.Authenticated(Secured.class)
   public Result addSubmit(String channelSlug) {
-    return TODO;
-  }
-
-  @Security.Authenticated(Secured.class)
-  public Result editForm(String programSlug) {
-    return programRepository
-        .findBySlug(programSlug)
-        .map(program -> ok(edit.render(program, formFactory.form(Program.class).fill(program))))
+    return channelService
+        .findBySlug(channelSlug)
+        .map(channel -> programService
+            .insert(formFactory.form(CreateProgram.class).bindFromRequest())
+            .fold(
+                form -> badRequest(add.render(form, channel)),
+                program -> Results.redirect(routes.ProgramController.view(program.getSlug()))
+            )
+        )
         .orElse(notFound(notFound.render()));
   }
 
   @Security.Authenticated(Secured.class)
-  public Result editSubmit(String slug) {
-    return TODO;
+  public Result editForm(String programSlug) {
+    return programService
+        .findBySlug(programSlug)
+        .map(program -> ok(edit.render(
+            program,
+            formFactory.form(UpdateProgram.class).fill(new UpdateProgram(program))
+        )))
+        .orElse(notFound(notFound.render()));
   }
 
   @Security.Authenticated(Secured.class)
-  public Result delete(String slug) {
-    return TODO;
+  public Result editSubmit(String programSlug) {
+    return programService
+        .findBySlug(programSlug)
+        .map(savedProgram -> programService
+            .update(savedProgram, formFactory.form(UpdateProgram.class).bindFromRequest())
+            .fold(
+                form -> badRequest(edit.render(savedProgram, form)),
+                newProgram -> Results.redirect(routes.ProgramController.view(newProgram.getSlug()))
+            )
+        )
+        .orElse(notFound(notFound.render()));
+  }
+
+  @Security.Authenticated(Secured.class)
+  public Result delete(String programSlug) {
+    return programService
+        .findBySlug(programSlug)
+        .map(program -> {
+          programService.delete(program);
+          return Results.redirect(routes.ChannelController.index(1));
+        })
+        .orElse(notFound(notFound.render()));
   }
 }

@@ -49,9 +49,4 @@ public class GenreRepository implements Repository<Genre> {
   public void update(Genre genre) {
     genre.update();
   }
-
-  @Override
-  public void delete(Genre genre) {
-    genre.delete();
-  }
 }

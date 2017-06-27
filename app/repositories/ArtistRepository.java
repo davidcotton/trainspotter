@@ -79,10 +79,4 @@ public class ArtistRepository implements Repository<Artist> {
   public void update(Artist artist) {
     artist.update();
   }
-
-  @Override
-  public void delete(Artist artist) {
-    artist.setStatus(Status.deleted);
-    artist.update();
-  }
 }

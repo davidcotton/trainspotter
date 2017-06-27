@@ -99,12 +99,4 @@ public class GenreRepositoryTest extends AbstractIntegrationTest {
     assertThat(maybeGenre.get().getId(), is(2L));
     assertThat(maybeGenre.get().getName(), is("Deep House"));
   }
-
-  // @todo fix this
-//  @Test public void delete() throws Exception {
-//    Genre genre = genreRepository.findById(1L).orElseThrow(Exception::new);
-//    genreRepository.delete(genre);
-//    Optional<Genre> maybeGenre = genreRepository.findById(1L);
-//    assertFalse(maybeGenre.isPresent());
-//  }
 }

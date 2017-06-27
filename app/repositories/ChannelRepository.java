@@ -83,10 +83,4 @@ public class ChannelRepository implements Repository<Channel> {
   public void update(Channel channel) {
     channel.update();
   }
-
-  @Override
-  public void delete(Channel channel) {
-    channel.setStatus(Status.deleted);
-    channel.update();
-  }
 }

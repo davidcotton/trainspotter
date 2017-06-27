@@ -109,12 +109,4 @@ public class TracklistRepositoryTest extends AbstractIntegrationTest {
     // verify that the original image field wasn't changed
     assertThat(maybeTracklist.get().getSlug(), is("umf"));
   }
-
-  // @todo will need to fix how the DB cascades
-//  @Test public void delete() throws Exception {
-//    Tracklist tracklist = tracklistRepository.findById(1L).orElseThrow(Exception::new);
-//    tracklistRepository.delete(tracklist);
-//    Optional<Tracklist> maybeTracklist = tracklistRepository.findById(1L);
-//    assertFalse(maybeTracklist.isPresent());
-//  }
 }

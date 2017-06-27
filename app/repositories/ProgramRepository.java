@@ -97,10 +97,4 @@ public class ProgramRepository implements Repository<Program> {
   public void update(Program program) {
     program.update();
   }
-
-  @Override
-  public void delete(Program program) {
-    program.setStatus(Status.deleted);
-    program.update();
-  }
 }

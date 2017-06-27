@@ -1,28 +1,27 @@
 package services;
 
 import static java.util.Objects.requireNonNull;
-import static play.libs.Json.toJson;
 
+import com.avaje.ebean.PagedList;
 import io.atlassian.fugue.Either;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
+import models.Artist;
 import models.Track;
+import models.Track.Status;
+import models.create.CreateTrack;
+import models.update.UpdateTrack;
 import play.data.Form;
-import play.data.FormFactory;
-import play.data.validation.ValidationError;
 import repositories.TrackRepository;
 
 public class TrackService {
 
   private final TrackRepository trackRepository;
-  private final FormFactory formFactory;
 
   @Inject
-  public TrackService(TrackRepository trackRepository, FormFactory formFactory) {
+  public TrackService(TrackRepository trackRepository) {
     this.trackRepository = requireNonNull(trackRepository);
-    this.formFactory = requireNonNull(formFactory);
   }
 
   /**
@@ -32,6 +31,10 @@ public class TrackService {
    */
   public List<Track> fetchAll() {
     return trackRepository.findAll();
+  }
+
+  public PagedList<Track> findAllPagedByArtist(Artist artist, int page) {
+    return trackRepository.findAllPagedByArtist(artist, page);
   }
 
   /**
@@ -56,20 +59,16 @@ public class TrackService {
 
   /**
    * Insert a new Track.
-   * 
-   * @param track The Track data to insert.
-   * @return Either the inserted Track or validation errors.
+   *
+   * @param trackForm The submitted Track data form.
+   * @return Either the inserted Track or the form with errors.
    */
-  public Either<Map<String, List<ValidationError>>, Track> insert(Track track) {
-    // validate new track
-    Form<Track> trackForm = formFactory
-        .form(Track.class, Track.InsertValidators.class)
-        .bind(toJson(track));
+  public Either<Form<CreateTrack>, Track> insert(Form<CreateTrack> trackForm) {
     if (trackForm.hasErrors()) {
-      // return validation errors
-      return Either.left(trackForm.errors());
+      return Either.left(trackForm);
     }
 
+    Track track = new Track(trackForm.get());
     // save to DB
     trackRepository.insert(track);
 
@@ -78,25 +77,19 @@ public class TrackService {
   }
 
   /**
-   * Update a Track.
-   * 
-   * @param savedTrack  The existing Track data.
-   * @param newTrack    The new Track data.
-   * @return Either the updated Track or validation errors.
+   * Update an Track.
+   *
+   * @param savedTrack The existing Track.
+   * @param trackForm  The new Track data form.
+   * @return Either the updated Track or the form with errors.
    */
-  public Either<Map<String, List<ValidationError>>, Track> update(Track savedTrack, Track newTrack) {
-    // copy over read only fields
-    newTrack.setId(savedTrack.getId());
-    newTrack.setCreated(savedTrack.getCreated());
-
-    // validate the changes
-    Form<Track> trackForm = formFactory
-        .form(Track.class, Track.UpdateValidators.class)
-        .bind(toJson(newTrack));
+  public Either<Form<UpdateTrack>, Track> update(Track savedTrack, Form<UpdateTrack> trackForm) {
     if (trackForm.hasErrors()) {
-      // return validation errors
-      return Either.left(trackForm.errors());
+      return Either.left(trackForm);
     }
+
+    UpdateTrack updateTrack = trackForm.get();
+    Track newTrack = new Track(updateTrack, savedTrack);
 
     // save to DB
     trackRepository.update(newTrack);
@@ -105,4 +98,13 @@ public class TrackService {
     return Either.right(newTrack);
   }
 
+  /**
+   * Delete an Track.
+   *
+   * @param track The Track to delete.
+   */
+  public void delete(Track track) {
+    track.setStatus(Status.deleted);
+    trackRepository.update(track);
+  }
 }

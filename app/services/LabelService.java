@@ -7,6 +7,7 @@ import io.atlassian.fugue.Either;
 import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
+import models.Label.Status;
 import models.create.CreateLabel;
 import models.Label;
 import models.update.UpdateLabel;
@@ -106,6 +107,7 @@ public class LabelService {
    * @param label The Label to delete.
    */
   public void delete(Label label) {
-    labelRepository.delete(label);
+    label.setStatus(Status.deleted);
+    labelRepository.update(label);
   }
 }

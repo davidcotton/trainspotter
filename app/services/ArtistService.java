@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import models.Artist;
+import models.Artist.Status;
 import models.create.CreateArtist;
 import models.update.UpdateArtist;
 import play.data.Form;
@@ -107,6 +108,7 @@ public class ArtistService {
    * @param artist The Artist to delete.
    */
   public void delete(Artist artist) {
-    artistRepository.delete(artist);
+    artist.setStatus(Status.deleted);
+    artistRepository.update(artist);
   }
 }

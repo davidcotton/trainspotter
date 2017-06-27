@@ -144,11 +144,4 @@ public class ProgramRepositoryTest extends AbstractIntegrationTest {
     // verify that the original image field wasn't changed
     assertThat(maybeProgram.get().getImage(), is("behind-the-iron-curtain.jpg"));
   }
-
-  @Test public void delete() throws Exception {
-    Program program = programRepository.findById(1L).orElseThrow(Exception::new);
-    programRepository.delete(program);
-    Optional<Program> maybeProgram = programRepository.findById(1L);
-    assertFalse(maybeProgram.isPresent());
-  }
 }

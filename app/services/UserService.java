@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
+import models.User.Status;
 import models.create.CreateUser;
 import models.LoginUser;
 import models.Token;
@@ -129,7 +130,8 @@ public class UserService {
    * @param user The user to delete.
    */
   public void delete(User user) {
-    userRepository.delete(user);
+    user.setStatus(Status.deleted);
+    userRepository.update(user);
   }
 
   /**

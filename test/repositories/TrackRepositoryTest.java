@@ -98,11 +98,4 @@ public class TrackRepositoryTest extends AbstractIntegrationTest {
     assertThat(maybeTrack.get().getId(), is(1L));
     assertThat(maybeTrack.get().getName(), is("Xpander"));
   }
-
-  @Test public void delete() throws Exception {
-    Track track = trackRepository.findById(1L).orElseThrow(Exception::new);
-    trackRepository.delete(track);
-    Optional<Track> maybeTrack = trackRepository.findById(1L);
-    assertFalse(maybeTrack.isPresent());
-  }
 }

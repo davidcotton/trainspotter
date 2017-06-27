@@ -79,11 +79,4 @@ public class MediaRepositoryTest extends AbstractIntegrationTest {
     assertThat(maybeMedia.get().getId(), is(3L));
     assertThat(maybeMedia.get().getUrl(), is("https://www.facebook.com/djjohndigweed"));
   }
-
-  @Test public void delete() throws Exception {
-    Media media = mediaRepository.findById(1L).orElseThrow(Exception::new);
-    mediaRepository.delete(media);
-    Optional<Media> maybeMedia = mediaRepository.findById(1L);
-    assertFalse(maybeMedia.isPresent());
-  }
 }

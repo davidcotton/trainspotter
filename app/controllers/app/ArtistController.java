@@ -10,9 +10,9 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.Security;
-import repositories.TrackRepository;
-import repositories.TracklistRepository;
 import services.ArtistService;
+import services.TrackService;
+import services.TracklistService;
 import views.html.artist.add;
 import views.html.artist.edit;
 import views.html.artist.index;
@@ -25,20 +25,20 @@ public class ArtistController extends Controller {
 
   private final ArtistService artistService;
   private final FormFactory formFactory;
-  private final TracklistRepository tracklistRepository;
-  private final TrackRepository trackRepository;
+  private final TracklistService tracklistService;
+  private final TrackService trackService;
 
   @Inject
   public ArtistController(
       ArtistService artistService,
       FormFactory formFactory,
-      TracklistRepository tracklistRepository,
-      TrackRepository trackRepository
+      TracklistService tracklistService,
+      TrackService trackService
   ) {
     this.artistService = requireNonNull(artistService);
     this.formFactory = requireNonNull(formFactory);
-    this.tracklistRepository = requireNonNull(tracklistRepository);
-    this.trackRepository = requireNonNull(trackRepository);
+    this.tracklistService = requireNonNull(tracklistService);
+    this.trackService = requireNonNull(trackService);
   }
 
   /**
@@ -153,7 +153,7 @@ public class ArtistController extends Controller {
     return artistService
         .findBySlug(slug)
         .map(artist -> ok(
-            tracklist.render(artist, tracklistRepository.findAllPagedByArtist(artist, page))
+            tracklist.render(artist, tracklistService.findAllPagedByArtist(artist, page))
         ))
         .orElse(notFound(notFound.render()));
   }
@@ -169,7 +169,7 @@ public class ArtistController extends Controller {
     return artistService
         .findBySlug(slug)
         .map(artist -> ok(
-            track.render(artist, trackRepository.findAllPagedByArtist(artist, page))
+            track.render(artist, trackService.findAllPagedByArtist(artist, page))
         ))
         .orElse(notFound(notFound.render()));
   }

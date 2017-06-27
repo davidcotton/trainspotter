@@ -72,10 +72,4 @@ public class UserRepository implements Repository<User> {
   public void update(User user) {
     user.update();
   }
-
-  @Override
-  public void delete(User user) {
-    user.setStatus(Status.deleted);
-    user.update();
-  }
 }

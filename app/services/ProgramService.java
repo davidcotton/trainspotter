@@ -1,32 +1,26 @@
 package services;
 
 import static java.util.Objects.requireNonNull;
-import static play.libs.Json.toJson;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
 import io.atlassian.fugue.Either;
 import models.Artist;
 import models.Program;
-import models.Program;
+import models.Program.Status;
 import models.create.CreateProgram;
 import models.update.UpdateProgram;
 import play.data.Form;
-import play.data.FormFactory;
-import play.data.validation.ValidationError;
 import repositories.ProgramRepository;
 
 public class ProgramService {
 
   private final ProgramRepository programRepository;
-  private final FormFactory formFactory;
 
   @Inject
-  public ProgramService(ProgramRepository programRepository, FormFactory formFactory) {
+  public ProgramService(ProgramRepository programRepository) {
     this.programRepository = requireNonNull(programRepository);
-    this.formFactory = requireNonNull(formFactory);
   }
 
   /**
@@ -66,6 +60,10 @@ public class ProgramService {
    */
   public Optional<Program> findByName(String name) {
     return programRepository.findByName(name);
+  }
+
+  public Optional<Program> findBySlug(String slug) {
+    return programRepository.findBySlug(slug);
   }
 
   /**
@@ -115,7 +113,8 @@ public class ProgramService {
    * @param program The Program to delete.
    */
   public void delete(Program program) {
-    programRepository.delete(program);
+    program.setStatus(Status.deleted);
+    programRepository.update(program);
   }
 
   /**

@@ -114,11 +114,4 @@ public class ChannelRepositoryTest extends AbstractIntegrationTest {
     // verify that the original image field wasn't changed
     assertThat(maybeChannel.get().getImage(), is("triple-j.jpg"));
   }
-
-  @Test public void delete_successGivenNoDependantPrograms() throws Exception {
-    Channel channel = channelRepository.findById(3L).orElseThrow(Exception::new);
-    channelRepository.delete(channel);
-    Optional<Channel> maybeChannel = channelRepository.findById(3L);
-    assertFalse(maybeChannel.isPresent());
-  }
 }

@@ -1,28 +1,27 @@
 package services;
 
 import static java.util.Objects.requireNonNull;
-import static play.libs.Json.toJson;
 
+import com.avaje.ebean.PagedList;
 import io.atlassian.fugue.Either;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
+import models.Artist;
 import models.Tracklist;
+import models.Tracklist.Status;
+import models.create.CreateTracklist;
+import models.update.UpdateTracklist;
 import play.data.Form;
-import play.data.FormFactory;
-import play.data.validation.ValidationError;
 import repositories.TracklistRepository;
 
 public class TracklistService {
 
   private final TracklistRepository tracklistRepository;
-  private final FormFactory formFactory;
 
   @Inject
-  public TracklistService(TracklistRepository tracklistRepository, FormFactory formFactory) {
+  public TracklistService(TracklistRepository tracklistRepository) {
     this.tracklistRepository = requireNonNull(tracklistRepository);
-    this.formFactory = requireNonNull(formFactory);
   }
 
   /**
@@ -32,6 +31,14 @@ public class TracklistService {
    */
   public List<Tracklist> fetchAll() {
     return tracklistRepository.findAll();
+  }
+
+  public PagedList<Tracklist> fetchAllPaged(int page) {
+    return tracklistRepository.findAllPaged(page);
+  }
+
+  public PagedList<Tracklist> findAllPagedByArtist(Artist artist, int page) {
+    return tracklistRepository.findAllPagedByArtist(artist, page);
   }
 
   /**
@@ -47,19 +54,15 @@ public class TracklistService {
   /**
    * Insert a new Tracklist.
    *
-   * @param tracklist The Tracklist to insert.
-   * @return Either the inserted Tracklist or validation errors.
+   * @param tracklistForm The submitted Tracklist data form.
+   * @return Either the inserted Tracklist or the form with errors.
    */
-  public Either<Map<String, List<ValidationError>>, Tracklist> insert(Tracklist tracklist) {
-    // validate new tracklist
-    Form<Tracklist> tracklistForm = formFactory
-        .form(Tracklist.class, Tracklist.InsertValidators.class)
-        .bind(toJson(tracklist));
+  public Either<Form<CreateTracklist>, Tracklist> insert(Form<CreateTracklist> tracklistForm) {
     if (tracklistForm.hasErrors()) {
-      // return validation errors
-      return Either.left(tracklistForm.errors());
+      return Either.left(tracklistForm);
     }
 
+    Tracklist tracklist = new Tracklist(tracklistForm.get());
     // save to DB
     tracklistRepository.insert(tracklist);
 
@@ -68,30 +71,34 @@ public class TracklistService {
   }
 
   /**
-   * Update a Tracklist.
+   * Update an Tracklist.
    *
-   * @param savedTracklist  The existing Tracklist data.
-   * @param newTracklist    The new Tracklist data.
-   * @return Either the updated Tracklist or validation errors.
+   * @param savedTracklist The existing Tracklist.
+   * @param tracklistForm  The new Tracklist data form.
+   * @return Either the updated Tracklist or the form with errors.
    */
-  public Either<Map<String, List<ValidationError>>, Tracklist> update(Tracklist savedTracklist, Tracklist newTracklist) {
-    // copy over read only fields
-    newTracklist.setId(savedTracklist.getId());
-    newTracklist.setCreated(savedTracklist.getCreated());
-
-    // validate the changes
-    Form<Tracklist> tracklistForm = formFactory
-        .form(Tracklist.class, Tracklist.UpdateValidators.class)
-        .bind(toJson(newTracklist));
+  public Either<Form<UpdateTracklist>, Tracklist> update(Tracklist savedTracklist, Form<UpdateTracklist> tracklistForm) {
     if (tracklistForm.hasErrors()) {
-      // return validation errors
-      return Either.left(tracklistForm.errors());
+      return Either.left(tracklistForm);
     }
+
+    UpdateTracklist updateTracklist = tracklistForm.get();
+    Tracklist newTracklist = new Tracklist(updateTracklist, savedTracklist);
 
     // save to DB
     tracklistRepository.update(newTracklist);
 
     // return saved tracklist
     return Either.right(newTracklist);
+  }
+
+  /**
+   * Delete an Tracklist.
+   *
+   * @param tracklist The Tracklist to delete.
+   */
+  public void delete(Tracklist tracklist) {
+    tracklist.setStatus(Status.deleted);
+    tracklistRepository.update(tracklist);
   }
 }

@@ -50,9 +50,4 @@ public class TokenRepository implements Repository<Token> {
   public void update(Token token) {
     token.update();
   }
-
-  @Override
-  public void delete(Token token) {
-    token.delete();
-  }
 }

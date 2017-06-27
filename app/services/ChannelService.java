@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import models.Channel;
+import models.Channel.Status;
 import models.create.CreateChannel;
 import models.update.UpdateChannel;
 import play.data.Form;
@@ -108,6 +109,7 @@ public class ChannelService {
    * @param channel The Channel to delete.
    */
   public void delete(Channel channel) {
-    channelRepository.delete(channel);
+    channel.setStatus(Status.deleted);
+    channelRepository.update(channel);
   }
 }

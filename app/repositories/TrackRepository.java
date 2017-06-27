@@ -65,10 +65,4 @@ public class TrackRepository implements Repository<Track> {
   public void update(Track track) {
     track.update();
   }
-
-  @Override
-  public void delete(Track track) {
-    track.setStatus(Status.deleted);
-    track.update();
-  }
 }

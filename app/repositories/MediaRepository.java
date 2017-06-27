@@ -29,9 +29,4 @@ public class MediaRepository implements Repository<Media> {
   public void update(Media media) {
     media.update();
   }
-
-  @Override
-  public void delete(Media media) {
-    media.delete();
-  }
 }

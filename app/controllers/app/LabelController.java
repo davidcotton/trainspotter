@@ -80,7 +80,7 @@ public class LabelController extends Controller {
    * Display an edit label page.
    *
    * @param slug The slug of the label.
-   * @return An edit label page if found else not found page.
+   * @return An edit label page if found, else not found page.
    */
   @Security.Authenticated(Secured.class)
   public Result editForm(String slug) {
@@ -97,7 +97,7 @@ public class LabelController extends Controller {
    * Process the submission for updating a Label.
    *
    * @param slug The slug of the label.
-   * @return Redirect to the updated Label on success else the form with errors.
+   * @return Redirect to the updated Label on success, else the form with errors.
    */
   @Security.Authenticated(Secured.class)
   public Result editSubmit(String slug) {
@@ -107,7 +107,7 @@ public class LabelController extends Controller {
             .update(savedLabel, formFactory.form(UpdateLabel.class).bindFromRequest())
             .fold(
                 form -> badRequest(edit.render(savedLabel, form)),
-                label -> Results.redirect(routes.LabelController.view(label.getSlug()))
+                newLabel -> Results.redirect(routes.LabelController.view(newLabel.getSlug()))
             )
         )
         .orElse(notFound(notFound.render()));
@@ -117,7 +117,7 @@ public class LabelController extends Controller {
    * Delete a Label.
    *
    * @param slug The slug of the label.
-   * @return Redirects to the Label index page on success else not found.
+   * @return Redirects to the Label index page on success, else not found.
    */
   @Security.Authenticated(Secured.class)
   public Result delete(String slug) {

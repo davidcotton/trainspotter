@@ -1,32 +1,28 @@
 package controllers.api;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import static java.util.Objects.requireNonNull;
-
-import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
-
 import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
 import javax.inject.Inject;
-
-import models.Tracklist;
-
+import models.create.CreateTracklist;
+import models.update.UpdateTracklist;
+import play.data.FormFactory;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
-
 import services.TracklistService;
 
 public class TracklistController extends Controller {
 
   private final TracklistService tracklistService;
+  private final FormFactory formFactory;
 
   @Inject
-  public TracklistController(TracklistService tracklistService) {
+  public TracklistController(TracklistService tracklistService, FormFactory formFactory) {
     this.tracklistService = requireNonNull(tracklistService);
+    this.formFactory = requireNonNull(formFactory);
   }
 
   public Result fetchAll() {
@@ -41,12 +37,10 @@ public class TracklistController extends Controller {
 
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
-    JsonNode jsonNode = request().body().asJson();
-    Tracklist tracklist1 = fromJson(jsonNode, Tracklist.class);
     return tracklistService
-        .insert(tracklist1)
+        .insert(formFactory.form(CreateTracklist.class).bindFromRequest())
         .fold(
-            error -> badRequest(errorsAsJson(error)),
+            form -> badRequest(errorsAsJson(form.errors())),
             tracklist -> created(toJson(tracklist))
         );
   }
@@ -56,9 +50,9 @@ public class TracklistController extends Controller {
     return tracklistService
         .findById(id)
         .map(savedTracklist -> tracklistService
-            .update(savedTracklist, fromJson(request().body().asJson(), Tracklist.class))
+            .update(savedTracklist, formFactory.form(UpdateTracklist.class).bindFromRequest())
             .fold(
-                error -> badRequest(errorsAsJson(error)),
+                form -> badRequest(errorsAsJson(form.errors())),
                 newTracklist -> created(toJson(newTracklist))
             )
         )
@@ -66,6 +60,12 @@ public class TracklistController extends Controller {
   }
 
   public Result delete(long id) {
-    return TODO;
+    return tracklistService
+        .findById(id)
+        .map(tracklist -> {
+          tracklistService.delete(tracklist);
+          return (Result) noContent();
+        })
+        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 }
