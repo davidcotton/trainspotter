@@ -1,30 +1,30 @@
 package controllers.api;
 
 import static java.util.Objects.requireNonNull;
-
 import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
-
 import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
+import controllers.Security;
 import javax.inject.Inject;
-
-import models.Genre;
-
+import models.create.CreateGenre;
+import models.update.UpdateGenre;
+import play.data.FormFactory;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
-
 import services.GenreService;
 
 public class GenreController extends Controller {
 
   private final GenreService genreService;
+  private final FormFactory formFactory;
 
   @Inject
-  public GenreController(GenreService genreService) {
+  public GenreController(GenreService genreService, FormFactory formFactory) {
     this.genreService = requireNonNull(genreService);
+    this.formFactory = requireNonNull(formFactory);
   }
 
   public Result fetchAll() {
@@ -37,31 +37,40 @@ public class GenreController extends Controller {
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
+  @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
     return genreService
-        .insert(fromJson(request().body().asJson(), Genre.class))
+        .insert(formFactory.form(CreateGenre.class).bindFromRequest())
         .fold(
-            error -> badRequest(errorsAsJson(error)),
+            form -> badRequest(errorsAsJson(form.errors())),
             user -> created(toJson(user))
         );
   }
 
+  @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
     return genreService
         .findById(id)
         .map(savedGenre -> genreService
-            .update(savedGenre, fromJson(request().body().asJson(), Genre.class))
+            .update(savedGenre, formFactory.form(UpdateGenre.class).bindFromRequest())
             .fold(
-                error -> badRequest(errorsAsJson(error)),
+                form -> badRequest(errorsAsJson(form.errors())),
                 newGenre -> created(toJson(newGenre))
             )
         )
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
+  @Security.Authenticated
   public Result delete(long id) {
-    return TODO;
+    return genreService
+        .findById(id)
+        .map(genre -> {
+          genreService.delete(genre);
+          return (Result) noContent();
+        })
+        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 }

@@ -11,9 +11,7 @@ public class UpdateChannel {
 
   @Constraints.Required(message = "A name is required.")
   private String name;
-
   private String image;
-
   private String description;
 
   public UpdateChannel(Channel channel) {

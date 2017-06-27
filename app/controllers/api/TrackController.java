@@ -5,6 +5,7 @@ import static play.libs.Json.toJson;
 import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
+import controllers.Security;
 import javax.inject.Inject;
 import models.create.CreateTrack;
 import models.update.UpdateTrack;
@@ -35,6 +36,7 @@ public class TrackController extends Controller {
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
+  @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
     return trackService
@@ -45,6 +47,7 @@ public class TrackController extends Controller {
         );
   }
 
+  @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
     return trackService
@@ -59,6 +62,7 @@ public class TrackController extends Controller {
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
+  @Security.Authenticated
   public Result delete(long id) {
     return trackService
         .findById(id)

@@ -1,5 +1,7 @@
 package models;
 
+import static utilities.SlugHelper.slugify;
+
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.EnumValue;
@@ -77,8 +79,10 @@ public class Label extends Model {
 
   public Label(CreateLabel createLabel) {
     name = createLabel.getName();
+    slug = slugify(createLabel.getName());
     image = createLabel.getImage();
     description = createLabel.getDescription();
+    status = Status.active;
   }
 
   public Label(UpdateLabel updateLabel, Label label) {

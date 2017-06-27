@@ -5,6 +5,7 @@ import static play.libs.Json.toJson;
 import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
+import controllers.Security;
 import javax.inject.Inject;
 import models.create.CreateArtist;
 import models.update.UpdateArtist;
@@ -51,6 +52,7 @@ public class ArtistController extends Controller {
    *
    * @return The new Artist on success, else the errors.
    */
+  @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
     return artistService
@@ -67,6 +69,7 @@ public class ArtistController extends Controller {
    * @param id The ID of the Artist to update.
    * @return The updated Artist on success, else the errors.
    */
+  @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
     return artistService
@@ -87,6 +90,7 @@ public class ArtistController extends Controller {
    * @param id The ID of the Artist to delete.
    * @return HTTP 204 No Content on success, else the errors.
    */
+  @Security.Authenticated
   public Result delete(long id) {
     return artistService
         .findById(id)

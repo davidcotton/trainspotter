@@ -1,5 +1,7 @@
 package models;
 
+import static utilities.SlugHelper.slugify;
+
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.EnumValue;
@@ -92,8 +94,10 @@ public class Tracklist extends Model {
 
   public Tracklist(CreateTracklist createTracklist) {
     name = createTracklist.getName();
+    slug = slugify(createTracklist.getName());
     performed = createTracklist.getPerformed();
     image = createTracklist.getImage();
+    status = Status.active;
   }
 
   public Tracklist(UpdateTracklist updateTracklist, Tracklist tracklist) {

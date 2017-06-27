@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import models.Artist;
+import models.Genre;
 import models.Tracklist;
 import models.Tracklist.Status;
 import models.create.CreateTracklist;
@@ -39,6 +40,14 @@ public class TracklistService {
 
   public PagedList<Tracklist> findAllPagedByArtist(Artist artist, int page) {
     return tracklistRepository.findAllPagedByArtist(artist, page);
+  }
+
+  public PagedList<Tracklist> findAllPagedByGenre(Genre genre, int page) {
+    return tracklistRepository.findAllPagedByGenre(genre, page);
+  }
+
+  public List<Tracklist> findMostPopular() {
+    return tracklistRepository.findMostPopular();
   }
 
   /**

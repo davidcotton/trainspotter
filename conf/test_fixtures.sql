@@ -16,9 +16,9 @@ INSERT INTO `channel` (`name`, `slug`, `image`, `description`, `status`, `create
   ('Triple J', 'triple-j', 'triple-j.jpg', '', 'active', NOW(), NOW()),
   ('BBC Radio 1', 'bbc-radio-1', 'bbc.jpg', 'Listen to BBC Radio 1, home of the Official Chart', 'active', NOW(), NOW());
 
-INSERT INTO `genre` (`name`, `slug`, `created`, `updated`) VALUES
-  ('House', 'house', NOW(), NOW()),
-  ('Techno', 'techno', NOW(), NOW());
+INSERT INTO `genre` (`name`, `slug`, `status`, `created`, `updated`) VALUES
+  ('House', 'house', 'active', NOW(), NOW()),
+  ('Techno', 'techno', 'active', NOW(), NOW());
 
 INSERT INTO `label` (`name`, `slug`, `image`, `description`, `status`, `created`, `updated`) VALUES
   ('Bedrock Records', 'bedrock-records', 'bedrock-records.jpg','Together John Digweed and Nick Muir are the key to what makes up the Bedrock record label tick. With the some of the cream of the progressive and breaks crop releases music on Bedrock the label constantly goes from strength to strength and provides the latest in quality beats. \nBedrock launched in 1999 with the classic progressive anthem Heaven Scent.', 'active', NOW(), NOW()),

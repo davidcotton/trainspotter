@@ -1,7 +1,10 @@
 package models;
 
+import static utilities.SlugHelper.slugify;
+
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.time.ZonedDateTime;
@@ -20,6 +23,8 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import models.create.CreateGenre;
+import models.update.UpdateGenre;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -29,8 +34,10 @@ import play.data.validation.Constraints;
 @AllArgsConstructor
 public class Genre extends Model {
 
-  public interface InsertValidators {}
-  public interface UpdateValidators {}
+  public enum Status {
+    @EnumValue("active") active,
+    @EnumValue("deleted") deleted,
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,6 +61,9 @@ public class Genre extends Model {
   @ManyToMany(mappedBy = "genres", cascade = CascadeType.PERSIST)
   private List<Tracklist> tracklists;
 
+  @NotNull
+  private Status status;
+
   @CreatedTimestamp
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)
@@ -65,6 +75,22 @@ public class Genre extends Model {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(columnDefinition = "datetime")
   private ZonedDateTime updated;
+
+  public Genre(CreateGenre createGenre) {
+    name = createGenre.getName();
+    slug = slugify(createGenre.getName());
+    status = Status.active;
+  }
+
+  public Genre(UpdateGenre updateGenre, Genre genre) {
+    id = genre.id;
+    name = updateGenre.getName();
+    slug = genre.slug;
+    tracks = genre.tracks;
+    tracklists = genre.tracklists;
+    status = genre.status;
+    created = genre.created;
+  }
 
   public Long getId() {
     return id;

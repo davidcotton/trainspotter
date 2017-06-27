@@ -89,6 +89,7 @@ public class Track extends Model {
     name = createTrack.getName();
     remixName = createTrack.getRemixName();
     releaseDate = createTrack.getReleaseDate();
+    status = Status.active;
   }
 
   public Track(UpdateTrack updateTrack, Track track) {

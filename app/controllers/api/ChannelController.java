@@ -5,6 +5,7 @@ import static play.libs.Json.toJson;
 import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
+import controllers.Security;
 import javax.inject.Inject;
 import models.create.CreateChannel;
 import models.update.UpdateChannel;
@@ -51,6 +52,7 @@ public class ChannelController extends Controller {
    *
    * @return The new Channel on success, else the errors.
    */
+  @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
     return channelService
@@ -67,6 +69,7 @@ public class ChannelController extends Controller {
    * @param id The ID of the Channel to update.
    * @return The updated Channel on success, else the errors.
    */
+  @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
     return channelService
@@ -87,6 +90,7 @@ public class ChannelController extends Controller {
    * @param id The ID of the Channel to delete.
    * @return HTTP 204 No Content on success, else the errors.
    */
+  @Security.Authenticated
   public Result delete(long id) {
     return channelService
         .findById(id)

@@ -1,14 +1,15 @@
 @import controllers.app.{routes => appRoutes}
+@import models.update.UpdateGenre
 
-@(genre: Genre, genreForm: play.data.Form[Genre])
+@(genre: Genre, genreForm: play.data.Form[UpdateGenre])
 
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
-@main("Edit Genre") {
+@main("Edit " + genre.getName) {
   <div class="card mt-5">
-    <h3 class="card-header">Edit Genre</h3>
+    <h3 class="card-header">Edit + @genre.getName</h3>
     <div class="card-block">
-    @b4.form(appRoutes.LabelController.editSubmit(genre.getSlug)) {
+    @b4.form(appRoutes.GenreController.editSubmit(genre.getSlug)) {
       <fieldset>
         @b4.text(genreForm("name"), '_label -> "Name", 'placeholder -> "Name")
         @b4.submit('class -> "btn btn-primary") { Save }

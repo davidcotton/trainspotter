@@ -1,5 +1,7 @@
 package models;
 
+import static utilities.SlugHelper.slugify;
+
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.EnumValue;
@@ -73,8 +75,10 @@ public class Channel extends Model {
 
   public Channel(CreateChannel createChannel) {
     name = createChannel.getName();
+    slug = slugify(createChannel.getName());
     image = createChannel.getImage();
     description = createChannel.getDescription();
+    status = Status.active;
   }
 
   public Channel(UpdateChannel updateChannel, Channel channel) {

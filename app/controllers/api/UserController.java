@@ -30,6 +30,7 @@ public class UserController extends Controller {
    *
    * @return A collection of active users.
    */
+  @Security.Authenticated
   public Result fetchAll() {
     return ok(toJson(userService.fetchAll()));
   }
@@ -40,6 +41,7 @@ public class UserController extends Controller {
    * @param id The users ID.
    * @return The user if found else a 404 Not Found.
    */
+  @Security.Authenticated
   public Result fetch(long id) {
     return userService.findById(id)
         .map(user -> ok(toJson(user)))

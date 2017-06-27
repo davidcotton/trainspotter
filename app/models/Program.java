@@ -1,5 +1,7 @@
 package models;
 
+import static utilities.SlugHelper.slugify;
+
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.EnumValue;
@@ -79,8 +81,10 @@ public class Program extends Model {
 
   public Program(CreateProgram createProgram) {
     name = createProgram.getName();
+    slug = slugify(createProgram.getName());
     image = createProgram.getImage();
     description = createProgram.getDescription();
+    status = Status.active;
   }
 
   public Program(UpdateProgram updateProgram, Program program) {

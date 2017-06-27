@@ -5,6 +5,7 @@ import static play.libs.Json.toJson;
 import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
+import controllers.Security;
 import javax.inject.Inject;
 import models.create.CreateLabel;
 import models.update.UpdateLabel;
@@ -51,6 +52,7 @@ public class LabelController extends Controller {
    *
    * @return The new Label on success, else any errors.
    */
+  @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
     return labelService
@@ -67,6 +69,7 @@ public class LabelController extends Controller {
    * @param id The ID of the Label to update.
    * @return The updated Label on success, else any errors.
    */
+  @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
     return labelService
@@ -87,6 +90,7 @@ public class LabelController extends Controller {
    * @param id The ID of the Label to delete.
    * @return HTTP 204 No Content on success, else the errors.
    */
+  @Security.Authenticated
   public Result delete(long id) {
     return labelService
         .findById(id)

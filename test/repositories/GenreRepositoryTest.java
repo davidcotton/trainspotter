@@ -13,6 +13,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Optional;
 import models.Genre;
+import models.Genre.Status;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
 
@@ -67,7 +68,7 @@ public class GenreRepositoryTest extends AbstractIntegrationTest {
 
   @Test public void insert_success() throws Exception {
     // ARRANGE
-    Genre genre = new Genre(null, "Tech House", "tech-house", null, null, null, null);
+    Genre genre = new Genre(null, "Tech House", "tech-house", null, null, Status.active, null, null);
 
     // ACT
     genreRepository.insert(genre);

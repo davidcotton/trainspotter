@@ -4,43 +4,27 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import io.atlassian.fugue.Either;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import models.Genre;
-
+import models.create.CreateGenre;
 import org.hamcrest.collection.IsEmptyCollection;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import play.data.Form;
 import play.data.FormFactory;
-import play.data.validation.ValidationError;
-
 import repositories.GenreRepository;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -52,97 +36,92 @@ public class GenreServiceTest {
   @Mock private Form mockForm;
   @Mock private Form mockDataForm;
 
-  @Test
-  public void fetchAll() {
-    // ARRANGE
+  @Test public void fetchAll() {
     when(mockGenreRepository.findAll()).thenReturn(new ArrayList<Genre>() {{
       add(mock(Genre.class));
       add(mock(Genre.class));
     }});
 
-    // ACT
     List<Genre> actualGenres = genreService.fetchAll();
 
-    // ASSERT
     assertThat(actualGenres, not(IsEmptyCollection.empty()));
     assertThat(actualGenres.size(), is(2));
   }
 
-  @Test
-  public void findById_givenIdInDb() {
-    // ARRANGE
-    long id = 1L;
-    when(mockGenreRepository.findById(id)).thenReturn(Optional.of(mock(Genre.class)));
+  @Test public void findById_givenIdInDb() {
+    when(mockGenreRepository.findById(1L)).thenReturn(Optional.of(mock(Genre.class)));
 
-    // ACT
-    Optional<Genre> maybeGenre = genreService.findById(id);
+    Optional<Genre> maybeGenre = genreService.findById(1L);
 
-    // ASSERT
     assertTrue(maybeGenre.isPresent());
   }
 
-  @Test
-  public void findById_givenIdNotInDb() {
-    // ARRANGE
+  @Test public void findById_givenIdNotInDb() {
     long nonExistentId = 1L;
     when(mockGenreRepository.findById(nonExistentId)).thenReturn(Optional.empty());
 
-    // ACT
     Optional<Genre> maybeGenre = genreService.findById(nonExistentId);
 
-    // ASSERT
     assertThat(maybeGenre.isPresent(), is(false));
   }
 
-  @Test
-  public void findByName_givenNameInDb() {
-    // ARRANGE
+  @Test public void findByName_givenNameInDb() {
     String genreName = "Techno";
     when(mockGenreRepository.findByName(genreName)).thenReturn(Optional.of(mock(Genre.class)));
 
-    // ACT
     Optional<Genre> maybeGenre = genreService.findByName(genreName);
 
-    // ASSERT
     assertTrue(maybeGenre.isPresent());
   }
 
-  @Test
-  public void findByName_givenNameNotInDb() {
-    // ARRANGE
-    String genreName = "Classical Jazz";
+  @Test public void findByName_givenNameNotInDb() {
+    String genreName = "Avante Garde Jazz";
     when(mockGenreRepository.findByName(genreName)).thenReturn(Optional.empty());
 
-    // ACT
     Optional<Genre> maybeGenre = genreService.findByName(genreName);
 
-    // ASSERT
     assertThat(maybeGenre.isPresent(), is(false));
   }
 
-//  @Test
-//  public void insert_successGivenValidData() {
-//    // ARRANGE
-//    Genre genre = new Genre(null, "Techno", null, null, null, null);
-//
-//    when(mockFormFactory.form(Genre.class, Genre.InsertValidators.class)).thenReturn(mockDataForm);
-//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-//    when(mockForm.hasErrors()).thenReturn(false);
-//
-//    // ACT
-//    Either<Map<String, List<ValidationError>>, Genre> genreOrError = genreService.insert(genre);
-//
-//    // ASSERT
-//    // assert left (error value) is not present
-//    assertFalse(genreOrError.isLeft());
-//    // assert right (success value) is present
-//    assertTrue(genreOrError.isRight());
-//    assertThat(genreOrError.right().get(), instanceOf(Genre.class));
-//    // verify that the user repository inserted the new user
-//    ArgumentCaptor<Genre> argument = ArgumentCaptor.forClass(Genre.class);
-//    verify(mockGenreRepository).insert(argument.capture());
-//    assertThat(argument.getValue().getName(), is("Techno"));
-//  }
+  @Test public void findBySlug_givenSlugInDb() {
+    String genreName = "techno";
+    when(mockGenreRepository.findByName(genreName)).thenReturn(Optional.of(mock(Genre.class)));
+
+    Optional<Genre> maybeGenre = genreService.findByName(genreName);
+
+    assertTrue(maybeGenre.isPresent());
+  }
+
+  @Test public void findBySlug_givenSlugNameNotInDb() {
+    String genreName = "avante-garde-jazz";
+    when(mockGenreRepository.findByName(genreName)).thenReturn(Optional.empty());
+
+    Optional<Genre> maybeGenre = genreService.findByName(genreName);
+
+    assertThat(maybeGenre.isPresent(), is(false));
+  }
+
+  @Test public void insert_successGivenValidData() {
+    // ARRANGE
+    Form<CreateGenre> genreForm = new Form<>(CreateGenre.class, null, null, null);
+
+    when(genreForm.hasErrors()).thenReturn(false);
+
+    // ACT
+    Either<Form<CreateGenre>, Genre> genreOrError = genreService.insert(genreForm);
+
+    // ASSERT
+    // assert left (error value) is not present
+    assertFalse(genreOrError.isLeft());
+    // assert right (success value) is present
+    assertTrue(genreOrError.isRight());
+    assertThat(genreOrError.right().get(), instanceOf(Genre.class));
+    // verify that the user repository inserted the new user
+    ArgumentCaptor<Genre> argument = ArgumentCaptor.forClass(Genre.class);
+    verify(mockGenreRepository).insert(argument.capture());
+    assertThat(argument.getValue().getName(), is("Techno"));
+    assertThat(argument.getValue().getSlug(), is("techno"));
+  }
 //
 //  @Test
 //  public void insert_failureGivenInvalidData() {

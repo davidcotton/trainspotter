@@ -1,28 +1,25 @@
 package services;
 
 import static java.util.Objects.requireNonNull;
-import static play.libs.Json.toJson;
 
 import io.atlassian.fugue.Either;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
 import models.Genre;
+import models.Genre.Status;
+import models.create.CreateGenre;
+import models.update.UpdateGenre;
 import play.data.Form;
-import play.data.FormFactory;
-import play.data.validation.ValidationError;
 import repositories.GenreRepository;
 
 public class GenreService {
 
   private final GenreRepository genreRepository;
-  private final FormFactory formFactory;
 
   @Inject
-  public GenreService(GenreRepository genreRepository, FormFactory formFactory) {
+  public GenreService(GenreRepository genreRepository) {
     this.genreRepository = requireNonNull(genreRepository);
-    this.formFactory = requireNonNull(formFactory);
   }
 
   /**
@@ -54,22 +51,22 @@ public class GenreService {
     return genreRepository.findByName(name);
   }
 
+  public Optional<Genre> findBySlug(String slug) {
+    return genreRepository.findBySlug(slug);
+  }
+
   /**
    * Insert a new Genre.
    *
-   * @param genre The Genre to insert.
-   * @return Either the inserted Genre or validation errors.
+   * @param genreForm The submitted Genre data form.
+   * @return Either the inserted Genre or the form with errors.
    */
-  public Either<Map<String, List<ValidationError>>, Genre> insert(Genre genre) {
-    // validate new genre
-    Form<Genre> genreForm = formFactory
-        .form(Genre.class, Genre.InsertValidators.class)
-        .bind(toJson(genre));
+  public Either<Form<CreateGenre>, Genre> insert(Form<CreateGenre> genreForm) {
     if (genreForm.hasErrors()) {
-      // return validation errors
-      return Either.left(genreForm.errors());
+      return Either.left(genreForm);
     }
 
+    Genre genre = new Genre(genreForm.get());
     // save to DB
     genreRepository.insert(genre);
 
@@ -78,25 +75,19 @@ public class GenreService {
   }
 
   /**
-   * Update a Genre.
+   * Update an Genre.
    *
-   * @param savedGenre  The existing Genre data.
-   * @param newGenre    The new Genre data.
-   * @return Either the updated Genre or validation errors.
+   * @param savedGenre The existing Genre.
+   * @param genreForm  The new Genre data form.
+   * @return Either the updated Genre or the form with errors.
    */
-  public Either<Map<String, List<ValidationError>>, Genre> update(Genre savedGenre, Genre newGenre) {
-    // copy over read only fields
-    newGenre.setId(savedGenre.getId());
-    newGenre.setCreated(savedGenre.getCreated());
-
-    // validate the changes
-    Form<Genre> genreForm = formFactory
-        .form(Genre.class, Genre.UpdateValidators.class)
-        .bind(toJson(newGenre));
+  public Either<Form<UpdateGenre>, Genre> update(Genre savedGenre, Form<UpdateGenre> genreForm) {
     if (genreForm.hasErrors()) {
-      // return validation errors
-      return Either.left(genreForm.errors());
+      return Either.left(genreForm);
     }
+
+    UpdateGenre updateGenre = genreForm.get();
+    Genre newGenre = new Genre(updateGenre, savedGenre);
 
     // save to DB
     genreRepository.update(newGenre);
@@ -105,4 +96,13 @@ public class GenreService {
     return Either.right(newGenre);
   }
 
+  /**
+   * Delete a Genre.
+   *
+   * @param genre The Genre to delete.
+   */
+  public void delete(Genre genre) {
+    genre.setStatus(Status.deleted);
+    genreRepository.update(genre);
+  }
 }

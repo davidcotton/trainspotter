@@ -1,12 +1,13 @@
 @import controllers.app.{routes => appRoutes}
+@import models.create.CreateGenre
 
-@(genreForm: play.data.Form[Genre])
+@(genreForm: play.data.Form[CreateGenre])
 
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
-@main("Create Genre") {
+@main("New Genre") {
   <div class="card mt-5">
-    <h3 class="card-header">Create Genre</h3>
+    <h3 class="card-header">New Genre</h3>
     <div class="card-block">
     @b4.form(appRoutes.GenreController.addSubmit()) {
       <fieldset>

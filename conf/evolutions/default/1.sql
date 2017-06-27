@@ -43,8 +43,10 @@ create table genre (
   id                            bigint auto_increment not null,
   name                          varchar(191) not null,
   slug                          varchar(191) not null,
+  status                        varchar(7) not null,
   created                       datetime not null,
   updated                       datetime not null,
+  constraint ck_genre_status check (status in ('deleted','active')),
   constraint uq_genre_name unique (name),
   constraint uq_genre_slug unique (slug),
   constraint pk_genre primary key (id)

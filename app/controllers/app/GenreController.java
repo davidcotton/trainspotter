@@ -3,13 +3,15 @@ package controllers.app;
 import static java.util.Objects.requireNonNull;
 
 import javax.inject.Inject;
-import models.Genre;
+import models.create.CreateGenre;
+import models.update.UpdateGenre;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Results;
 import play.mvc.Security;
-import repositories.GenreRepository;
-import repositories.TracklistRepository;
+import services.GenreService;
+import services.TracklistService;
 import views.html.genre.add;
 import views.html.genre.edit;
 import views.html.genre.index;
@@ -18,19 +20,19 @@ import views.html.notFound;
 
 public class GenreController extends Controller {
 
-  private final GenreRepository genreRepository;
+  private final GenreService genreService;
   private final FormFactory formFactory;
-  private final TracklistRepository tracklistRepository;
+  private final TracklistService tracklistService;
 
   @Inject
   public GenreController(
-      GenreRepository genreRepository,
+      GenreService genreService,
       FormFactory formFactory,
-      TracklistRepository tracklistRepository
+      TracklistService tracklistService
   ) {
-    this.genreRepository = requireNonNull(genreRepository);
+    this.genreService = requireNonNull(genreService);
     this.formFactory = requireNonNull(formFactory);
-    this.tracklistRepository = requireNonNull(tracklistRepository);
+    this.tracklistService = requireNonNull(tracklistService);
   }
 
   /**
@@ -39,7 +41,7 @@ public class GenreController extends Controller {
    * @return A page with all genres.
    */
   public Result index() {
-    return ok(index.render(genreRepository.findAll()));
+    return ok(index.render(genreService.fetchAll()));
   }
 
   /**
@@ -50,11 +52,11 @@ public class GenreController extends Controller {
    * @return A genre page if found.
    */
   public Result view(String slug, int page) throws Exception {
-    return genreRepository
+    return genreService
         .findBySlug(slug)
         .map(
             genre -> ok(
-                view.render(genre, tracklistRepository.findAllPagedByGenre(genre, page))
+                view.render(genre, tracklistService.findAllPagedByGenre(genre, page))
             )
         )
         .orElse(notFound(notFound.render()));
@@ -62,19 +64,27 @@ public class GenreController extends Controller {
 
   @play.mvc.Security.Authenticated(Secured.class)
   public Result addForm() {
-    return ok(add.render(formFactory.form(Genre.class)));
+    return ok(add.render(formFactory.form(CreateGenre.class)));
   }
 
   @Security.Authenticated(Secured.class)
   public Result addSubmit() {
-    return TODO;
+    return genreService
+        .insert(formFactory.form(CreateGenre.class).bindFromRequest())
+        .fold(
+            form -> badRequest(add.render(form)),
+            genre -> Results.redirect(routes.GenreController.view(genre.getSlug(), 1))
+        );
   }
 
   @Security.Authenticated(Secured.class)
   public Result editForm(String slug) {
-    return genreRepository
+    return genreService
         .findBySlug(slug)
-        .map(genre -> ok(edit.render(genre, formFactory.form(Genre.class).fill(genre))))
+        .map(genre -> ok(edit.render(
+            genre,
+            formFactory.form(UpdateGenre.class).fill(new UpdateGenre(genre))
+        )))
         .orElse(notFound(notFound.render()));
   }
 

@@ -69,14 +69,14 @@ VALUES
   ('Octopus Records', 'octopus-records', 'octopus-records.jpg', 'Octopus Recordings releases classic modern Techno from its base in Barcelona.Founded and ran by DJ and recording artist,Sian. http://octopusrecordings.com', 'active', NOW(), NOW()),
   ('Get Physical Music', 'get-physical-music', 'get-physical-music.jpg', 'The name says it all: Get Physical tracks could hardly be more moving and corporeal. This aspect of physicality also resurfaces on two of the labels key releases: the in-house DJ mix series "Body Language" and a string of double vinyl compilations called "Full Body Workout", brimming with new beats and sounds by up-and-coming talents.', 'active', NOW(), NOW());
 
-INSERT INTO `genre` (`name`, `slug`, `created`, `updated`)
+INSERT INTO `genre` (`name`, `slug`, `status`, `created`, `updated`)
 VALUES
-  ('House', 'house', NOW(), NOW()),
-  ('Techno', 'techno', NOW(), NOW()),
-  ('Deep House', 'deep-house', NOW(), NOW()),
-  ('Tech House', 'tech-house', NOW(), NOW()),
-  ('Progressive House', 'progressive-house', NOW(), NOW()),
-  ('Electronica', 'electronica', NOW(), NOW());
+  ('House', 'house', 'active', NOW(), NOW()),
+  ('Techno', 'techno', 'active', NOW(), NOW()),
+  ('Deep House', 'deep-house', 'active', NOW(), NOW()),
+  ('Tech House', 'tech-house', 'active', NOW(), NOW()),
+  ('Progressive House', 'progressive-house', 'active', NOW(), NOW()),
+  ('Electronica', 'electronica', 'active', NOW(), NOW());
 
 INSERT INTO `program` (`name`, `slug`, `image`, `description`, `channel_id`, `status`, `created`, `updated`) VALUES
   ('Transitions', 'transitions', 'transitions.jpg', 'The most important radio show in house music needs no introduction, but here it goes anyway. John Digweed\'s long-standing weekly 2 hour program is legendary, airing for many years exclusively on Kiss 100 in London but now syndicated around the world and internet. In 2008, the show comes to Proton Radio. Expect upfront & unreleased tunes dished up by John Digweed alongside finely tuned guest mixes that are almost always exclusively prepared just for the show.', 1, 'active', NOW(), NOW()),

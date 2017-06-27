@@ -6,6 +6,7 @@ import static play.libs.Json.toJson;
 import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
+import controllers.Security;
 import java.util.Optional;
 import javax.inject.Inject;
 import models.Channel;
@@ -77,6 +78,7 @@ public class ProgramController extends Controller {
    * @param channelId The Channel the Program will belong to.
    * @return The new Program on success, else any errors.
    */
+  @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result create(long channelId) {
     return channelService
@@ -97,6 +99,7 @@ public class ProgramController extends Controller {
    * @param id The ID of the Program to update.
    * @return The updated Program on success, else any errors.
    */
+  @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
     return programService
@@ -117,6 +120,7 @@ public class ProgramController extends Controller {
    * @param id The ID of the Program to delete.
    * @return 204 No Content if successful, else any errors.
    */
+  @Security.Authenticated
   public Result delete(long id) {
     return programService
         .findById(id)
@@ -136,6 +140,7 @@ public class ProgramController extends Controller {
    * @param artistId  The ID of the artist.
    * @return The updated Program if successful, else any errors.
    */
+  @Security.Authenticated
   public Result addHost(long programId, long artistId) {
     return artistService
         .findById(artistId)

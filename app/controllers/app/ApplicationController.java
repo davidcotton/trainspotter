@@ -3,18 +3,18 @@ package controllers.app;
 import javax.inject.Inject;
 import play.mvc.Controller;
 import play.mvc.Result;
-import repositories.TracklistRepository;
+import services.TracklistService;
 import views.html.index;
 
 import static java.util.Objects.requireNonNull;
 
 public class ApplicationController extends Controller {
 
-  private final TracklistRepository tracklistRepository;
+  private final TracklistService tracklistService;
 
   @Inject
-  public ApplicationController(TracklistRepository tracklistRepository) {
-    this.tracklistRepository = requireNonNull(tracklistRepository);
+  public ApplicationController(TracklistService tracklistService) {
+    this.tracklistService = requireNonNull(tracklistService);
   }
 
   /**
@@ -23,6 +23,6 @@ public class ApplicationController extends Controller {
    * @return The homepage.
    */
   public Result index() {
-    return ok(index.render(tracklistRepository.findMostPopular()));
+    return ok(index.render(tracklistService.findMostPopular()));
   }
 }
