@@ -73,10 +73,8 @@ public class ArtistService {
     }
 
     Artist artist = new Artist(artistForm.get());
-    // save to DB
     artistRepository.insert(artist);
 
-    // return saved artist
     return Either.right(artist);
   }
 
@@ -94,11 +92,8 @@ public class ArtistService {
 
     UpdateArtist updateArtist = artistForm.get();
     Artist newArtist = new Artist(updateArtist, savedArtist);
-
-    // save to DB
     artistRepository.update(newArtist);
 
-    // return saved artist
     return Either.right(newArtist);
   }
 

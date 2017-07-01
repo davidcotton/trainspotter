@@ -10,8 +10,6 @@ import play.data.validation.Constraints;
 @AllArgsConstructor
 public class LoginUser {
 
-  public interface Validators {}
-
   @Constraints.Required(message = "An email address is required.")
   private String email;
 

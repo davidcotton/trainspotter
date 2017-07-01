@@ -1,14 +1,14 @@
 package models;
 
-import static services.AuthenticationService.generateSalt;
-import static services.AuthenticationService.hashPassword;
-
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.time.ZonedDateTime;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -36,6 +36,8 @@ import play.data.format.Formats;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class User extends Model {
+
+  private static final int bcryptWorkFactor = 16;
 
   public enum Status {
     @EnumValue("inactive")inactive,
@@ -101,10 +103,16 @@ public class User extends Model {
     status = Status.unverified;
   }
 
-  public User(UpdateUser updateUser) {
+  public User(UpdateUser updateUser, User savedUser) {
+    id = savedUser.id;
     email = updateUser.getEmail();
     displayName = updateUser.getDisplayName();
-    status = Status.unverified;
+    status = savedUser.status;
+    hash = savedUser.hash;
+    salt = savedUser.salt;
+    tracklists = savedUser.tracklists;
+    medias = savedUser.medias;
+    created = savedUser.created;
   }
 
   public Long getId() {
@@ -126,4 +134,35 @@ public class User extends Model {
   public List<Tracklist> getTracklists() {
     return tracklists;
   }
+
+  /**
+   * Check that a plaintext password matches the hashed password.
+   *
+   * @param plaintext The plaintext password to verify.
+   * @return true if the passwords match, false otherwise.
+   */
+  public boolean isValid(String plaintext) {
+    return BCrypt.checkpw(plaintext, hash);
+  }
+
+  /**
+   * Generate a salt.
+   *
+   * @return The generated salt.
+   */
+  private String generateSalt() {
+    return BCrypt.gensalt(bcryptWorkFactor);
+  }
+
+  /**
+   * Hash a password with BCrypt.
+   *
+   * @param plaintext The plaintext password to hash.
+   * @param salt      The salt to use during hashing.
+   * @return The hashed password.
+   */
+  private String hashPassword(String plaintext, String salt) {
+    return BCrypt.hashpw(plaintext, salt);
+  }
+
 }

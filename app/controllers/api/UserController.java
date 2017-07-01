@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import models.create.CreateUser;
 import models.LoginUser;
 import models.update.UpdateUser;
+import play.data.FormFactory;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -19,10 +20,12 @@ import services.UserService;
 public class UserController extends Controller {
 
   private final UserService userService;
+  private final FormFactory formFactory;
 
   @Inject
-  public UserController(UserService userService) {
+  public UserController(UserService userService, FormFactory formFactory) {
     this.userService = requireNonNull(userService);
+    this.formFactory = requireNonNull(formFactory);
   }
 
   /**
@@ -43,7 +46,7 @@ public class UserController extends Controller {
    */
   @Security.Authenticated
   public Result fetch(long id) {
-    return userService.findById(id)
+    return userService.findActiveById(id)
         .map(user -> ok(toJson(user)))
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
@@ -56,9 +59,9 @@ public class UserController extends Controller {
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
     return userService
-        .insert(fromJson(request().body().asJson(), CreateUser.class))
+        .insert(formFactory.form(CreateUser.class).bindFromRequest())
         .fold(
-            error -> badRequest(errorsAsJson(error)),
+            form -> badRequest(errorsAsJson(form.errors())),
             user -> created(toJson(user))
         );
   }
@@ -73,11 +76,11 @@ public class UserController extends Controller {
   @BodyParser.Of(BodyParser.Json.class)
   public Result update(long id) {
     return userService
-        .findById(id)
+        .findActiveById(id)
         .map(savedUser -> userService
-            .update(savedUser, fromJson(request().body().asJson(), UpdateUser.class))
+            .update(formFactory.form(UpdateUser.class).bindFromRequest(), savedUser)
             .fold(
-                error -> badRequest(errorsAsJson(error)),
+                form -> badRequest(errorsAsJson(form.errors())),
                 newUser -> created(toJson(newUser))
             )
         )
@@ -94,7 +97,8 @@ public class UserController extends Controller {
    */
   @Security.Authenticated
   public Result delete(long id) {
-    return userService.findById(id)
+    return userService
+        .findActiveById(id)
         .map(user -> {
           userService.delete(user);
           return (Result) noContent();
@@ -110,7 +114,7 @@ public class UserController extends Controller {
   @BodyParser.Of(BodyParser.Json.class)
   public Result login() {
     return userService
-        .login(fromJson(request().body().asJson(), LoginUser.class))
+        .login2(fromJson(request().body().asJson(), LoginUser.class))
         .fold(
             error -> badRequest(errorsAsJson(error)),
             token -> ok(toJson(token))

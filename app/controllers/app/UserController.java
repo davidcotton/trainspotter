@@ -13,8 +13,8 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
-import repositories.UserRepository;
-import services.AuthenticationService;
+import play.mvc.Security;
+import services.UserService;
 import views.html.user.edit;
 import views.html.user.index;
 import views.html.user.login;
@@ -24,19 +24,13 @@ import views.html.notFound;
 
 public class UserController extends Controller {
 
-  private final UserRepository userRepository;
+  private final UserService userService;
   private final FormFactory formFactory;
-  private final AuthenticationService authenticationService;
 
   @Inject
-  public UserController(
-      UserRepository userRepository,
-      FormFactory formFactory,
-      AuthenticationService authenticationService
-  ) {
-    this.userRepository = requireNonNull(userRepository);
+  public UserController(UserService userService, FormFactory formFactory) {
+    this.userService = requireNonNull(userService);
     this.formFactory = requireNonNull(formFactory);
-    this.authenticationService = requireNonNull(authenticationService);
   }
 
   /**
@@ -44,8 +38,9 @@ public class UserController extends Controller {
    *
    * @return A page with all users.
    */
+  @Security.Authenticated(Secured.class)
   public Result index() {
-    return ok(index.render(userRepository.findAll()));
+    return ok(index.render(userService.fetchAll()));
   }
 
   /**
@@ -55,7 +50,7 @@ public class UserController extends Controller {
    * @return A user page if found.
    */
   public Result view(long id) {
-    return userRepository
+    return userService
         .findActiveById(id)
         .map(user -> ok(view.render(user)))
         .orElse(notFound(notFound.render()));
@@ -71,14 +66,15 @@ public class UserController extends Controller {
   }
 
   public Result registerSubmit() {
-    Form<CreateUser> userForm = formFactory.form(CreateUser.class).bindFromRequest();
-    if (userForm.hasErrors()) {
-      return badRequest(register.render(userForm));
-    }
-
-    userRepository.insert(new User(userForm.get()));
-
-    return Results.redirect(routes.ApplicationController.index());
+    return userService
+        .insert(formFactory.form(CreateUser.class).bindFromRequest())
+        .fold(
+            form -> badRequest(register.render(form)),
+            user -> {
+              setLoginSession(user);
+              return Results.redirect(routes.ApplicationController.index());
+            }
+        );
   }
 
   /**
@@ -87,9 +83,10 @@ public class UserController extends Controller {
    * @param id The user's ID.
    * @return An edit user page if user is found else not found page.
    */
+  @Security.Authenticated(Secured.class)
   public Result editForm(long id) {
-    return userRepository.
-        findById(id)
+    return userService.
+        findActiveById(id)
         .map(user -> ok(edit.render(
             id,
             formFactory.form(UpdateUser.class).fill(new UpdateUser(user))
@@ -97,44 +94,34 @@ public class UserController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
+  @Security.Authenticated(Secured.class)
   public Result editUserSubmit(long id) {
-    Optional<User> maybeUser = userRepository.findById(id);
-    if (!maybeUser.isPresent()) {
-      return notFound(notFound.render());
-    }
-
-    User user = maybeUser.get();
-
-    Form<UpdateUser> userForm = formFactory.form(UpdateUser.class).bindFromRequest();
-    if (userForm.hasErrors()) {
-      return badRequest(edit.render(id, userForm));
-    }
-
-    UpdateUser updateUser = userForm.get();
-    // copy over new fields
-    user.setEmail(updateUser.getEmail());
-    user.setDisplayName(updateUser.getDisplayName());
-
-    userRepository.update(user);
-
-    return Results.redirect(routes.UserController.editForm(id));
+    return userService
+        .findActiveById(id)
+        .map(savedUser -> userService
+            .update(formFactory.form(UpdateUser.class).bindFromRequest(), savedUser)
+            .fold(
+                userForm -> badRequest(edit.render(id, userForm)),
+                newUser -> Results.redirect(routes.UserController.view(newUser.getId()))
+            )
+        )
+        .orElse(notFound(notFound.render()));
   }
 
+  @Security.Authenticated(Secured.class)
   public Result editPasswordSubmit(long id) {
     return TODO;
   }
 
+  @Security.Authenticated(Secured.class)
   public Result delete(long id) {
-    Optional<User> maybeUser = userRepository.findById(id);
-    if (!maybeUser.isPresent()) {
-      return notFound(notFound.render());
-    }
-
-    User user = maybeUser.get();
-    user.setStatus(User.Status.deleted);
-    userRepository.update(user);
-
-    return ok(view.render(user));
+    return userService
+        .findActiveById(id)
+        .map(user -> {
+          userService.delete(user);
+          return Results.redirect(routes.UserController.index());
+        })
+        .orElse(notFound(notFound.render()));
   }
 
   /**
@@ -147,36 +134,40 @@ public class UserController extends Controller {
   }
 
   public Result loginSubmit() {
-    Form<LoginUser> loginForm = formFactory
-        .form(LoginUser.class, LoginUser.Validators.class)
-        .bindFromRequest();
+//    return userService.
+
+    Form<LoginUser> loginForm = formFactory.form(LoginUser.class).bindFromRequest();
     if (loginForm.hasErrors()) {
       return badRequest(login.render(loginForm));
     }
 
     LoginUser loginUser = loginForm.get();
-    Optional<User> maybeUser = userRepository.findByEmail(loginUser.getEmail());
+    Optional<User> maybeUser = userService.findByEmail(loginUser.getEmail());
     if (!maybeUser.isPresent()) {
       return notFound(login.render(loginForm));
     }
 
     User user = maybeUser.get();
 
-    boolean result = authenticationService.checkPassword(loginUser.getPassword(), user.getHash());
-    if (result) {
-      session().clear();
-      session("email", user.getEmail());
-      session("user_id", String.valueOf(user.getId()));
-      session("user_name", user.getDisplayName());
+    if (user.isValid(loginUser.getPassword())) {
+      setLoginSession(user);
       return Results.redirect(routes.ApplicationController.index());
     } else {
       return badRequest(login.render(loginForm));
     }
   }
 
+  @Security.Authenticated(Secured.class)
   public Result logout() {
     session().clear();
     flash("success", "You've been logged out");
     return redirect(routes.ApplicationController.index());
+  }
+
+  private void setLoginSession(User user) {
+    session().clear();
+    session("email", user.getEmail());
+    session("user_id", String.valueOf(user.getId()));
+    session("user_name", user.getDisplayName());
   }
 }

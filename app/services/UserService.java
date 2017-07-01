@@ -25,7 +25,6 @@ public class UserService {
 
   private final UserRepository userRepository;
   private final FormFactory formFactory;
-  private final AuthenticationService authenticationService;
   private final TokenService tokenService;
   private static final String FIELD_LOGIN = "login";
   private static final String MESSAGE_LOGIN_FAILURE = "Unable to login";
@@ -34,12 +33,10 @@ public class UserService {
   public UserService(
       UserRepository userRepository,
       FormFactory formFactory,
-      AuthenticationService authenticationService,
       TokenService tokenService
   ) {
     this.userRepository = requireNonNull(userRepository);
     this.formFactory = requireNonNull(formFactory);
-    this.authenticationService = requireNonNull(authenticationService);
     this.tokenService = requireNonNull(tokenService);
   }
 
@@ -58,7 +55,7 @@ public class UserService {
    * @param id The ID to search for.
    * @return An optional User if found.
    */
-  public Optional<User> findById(long id) {
+  public Optional<User> findActiveById(long id) {
     return userRepository.findActiveById(id);
   }
 
@@ -68,59 +65,42 @@ public class UserService {
    * @param email The email address to search for.
    * @return An optional User if found.
    */
-  Optional<User> findByEmail(String email) {
+  public Optional<User> findByEmail(String email) {
     return userRepository.findByEmail(email);
   }
 
   /**
    * Create a new User in the system.
    *
-   * @param createUser The user supplied data.
-   * @return Either the inserted User or validation errors.
+   * @param userForm The user supplied data.
+   * @return Either the inserted User or the form with errors.
    */
-  public Either<Map<String, List<ValidationError>>, User> insert(CreateUser createUser) {
-    // validate new user
-    Form<CreateUser> userForm = formFactory.form(CreateUser.class).bind(toJson(createUser));
+  public Either<Form<CreateUser>, User> insert(Form<CreateUser> userForm) {
     if (userForm.hasErrors()) {
-      // return validation errors
-      return Either.left(userForm.errors());
+      return Either.left(userForm);
     }
 
-    // create a user object from our createUser object
-    User user = new User(createUser);
-
-    // save to DB
+    User user = new User(userForm.get());
     userRepository.insert(user);
 
-    // return the saved user
     return Either.right(user);
   }
 
   /**
    * Update a User.
    *
-   * @param savedUser   The existing User data.
-   * @param updateUser  The new User data.
-   * @return Either the updated User or validation errors.
+   * @param userForm  The new User data.
+   * @param savedUser The existing User.
+   * @return Either the updated User, or errors.
    */
-  public Either<Map<String, List<ValidationError>>, User> update(User savedUser, UpdateUser updateUser) {
-    // validate the changes
-    Form<UpdateUser> userForm = formFactory.form(UpdateUser.class).bind(toJson(updateUser));
+  public Either<Form<UpdateUser>, User> update(Form<UpdateUser> userForm, User savedUser) {
     if (userForm.hasErrors()) {
-      // return validation errors
-      return Either.left(userForm.errors());
+      return Either.left(userForm);
     }
 
-    User newUser = new User(updateUser);
-    // copy over read only fields
-    newUser.setId(savedUser.getId());
-    newUser.setStatus(savedUser.getStatus());
-    newUser.setCreated(savedUser.getCreated());
-
-    // save to DB
+    User newUser = new User(userForm.get(), savedUser);
     userRepository.update(newUser);
 
-    // return saved user
     return Either.right(newUser);
   }
 
@@ -141,11 +121,9 @@ public class UserService {
    * @param loginUser The user's credentials.
    * @return Either an access token on success or validation errors.
    */
-  public Either<Map<String, List<ValidationError>>, Token> login(LoginUser loginUser) {
+  public Either<Map<String, List<ValidationError>>, Token> login2(LoginUser loginUser) {
     // validate the login details
-    Form<LoginUser> userForm = formFactory
-        .form(LoginUser.class, LoginUser.Validators.class)
-        .bind(toJson(loginUser));
+    Form<LoginUser> userForm = formFactory.form(LoginUser.class).bind(toJson(loginUser));
     if (userForm.hasErrors()) {
       return Either.left(userForm.errors());
     }
@@ -164,9 +142,7 @@ public class UserService {
    * @return An optional token that will be empty if the password doesn't match.
    */
   private Optional<Token> fetchToken(String password, User user) {
-    return authenticationService.checkPassword(password, user.getHash())
-        ? Optional.of(tokenService.create(user))
-        : Optional.empty();
+    return user.isValid(password) ? Optional.of(tokenService.create(user)) : Optional.empty();
   }
 
   /**
