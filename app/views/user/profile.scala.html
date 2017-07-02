@@ -1,0 +1,23 @@
+@import controllers.app.{routes => appRoutes}
+
+@(user: User)
+
+@main(user.getUsername) {
+  <h1>@user.getUsername</h1>
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <th>Email</th>
+        <td>@user.getEmail</td>
+      </tr>
+      <tr>
+        <th>Display Name</th>
+        <td>@user.getUsername</td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td>@user.getStatus</td>
+      </tr>
+    </tbody>
+  </table>
+}

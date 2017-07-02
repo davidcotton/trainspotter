@@ -1,0 +1,43 @@
+@import b4.vertical.fieldConstructor
+@import controllers.app.{routes => appRoutes}
+@import models.update.{UpdateUser, UpdatePassword}
+
+@(userForm: play.data.Form[UpdateUser], passwordForm: play.data.Form[UpdatePassword], user: User)
+
+@main("Account settings") {
+  <div class="card mt-5">
+    <h3 class="card-header">Update details</h3>
+    <div class="card-block">
+    @b4.form(appRoutes.UserController.editUserSubmit(user.getUsername)) {
+      <fieldset>
+        @b4.email(userForm("email"), '_label -> "Email")
+        @b4.text(userForm("username"), '_label -> "Username")
+        @b4.submit('class -> "btn btn-primary") { Save }
+      </fieldset>
+    }
+    </div>
+  </div>
+
+  <div class="card mt-5">
+    <h3 class="card-header">Change password</h3>
+    <div class="card-block">
+    @b4.form(appRoutes.UserController.editPasswordSubmit(user.getUsername)) {
+      <fieldset>
+        @b4.password(userForm("currentPassword"), '_label -> "Current password")
+        @b4.password(userForm("newPassword"), '_label -> "New password")
+        @b4.password(userForm("confirmNewPassword"), '_label -> "Confirm new password")
+        @b4.submit('class -> "btn btn-primary") { Update password }
+      </fieldset>
+    }
+    </div>
+  </div>
+
+  <div class="card mt-5">
+    <h3 class="card-header">Delete account</h3>
+    <div class="card-block">
+      @b4.form(appRoutes.UserController.delete(user.getUsername)) {
+        @b4.submit('class -> "btn btn-danger") { Delete account }
+      }
+    </div>
+  </div>
+}

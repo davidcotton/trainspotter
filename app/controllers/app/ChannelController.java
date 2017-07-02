@@ -117,7 +117,7 @@ public class ChannelController extends Controller {
    * Delete a Channel.
    *
    * @param slug The slug of the channel.
-   * @return Redirects to the Channel index page on success else not found.
+   * @return Redirects to the Channel list page on success else not found.
    */
   @Security.Authenticated(Secured.class)
   public Result delete(String slug) {

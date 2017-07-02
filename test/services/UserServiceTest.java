@@ -188,7 +188,7 @@ public class UserServiceTest {
     ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
     verify(mockUserRepository).update(argument.capture());
     assertThat(argument.getValue().getEmail(), is("sasha@bedrock.com"));
-    assertThat(argument.getValue().getDisplayName(), is("Sasha"));
+    assertThat(argument.getValue().getUsername(), is("Sasha"));
   }
 
   @Test public void update_failureGivenInvalidEmail() {

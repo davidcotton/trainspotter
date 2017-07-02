@@ -78,7 +78,7 @@ public class UserController extends Controller {
     return userService
         .findActiveById(id)
         .map(savedUser -> userService
-            .update(formFactory.form(UpdateUser.class).bindFromRequest(), savedUser)
+            .updateUser(formFactory.form(UpdateUser.class).bindFromRequest(), savedUser)
             .fold(
                 form -> badRequest(errorsAsJson(form.errors())),
                 newUser -> created(toJson(newUser))

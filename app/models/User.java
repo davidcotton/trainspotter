@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,8 +29,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import models.create.CreateUser;
+import models.update.UpdatePassword;
 import models.update.UpdateUser;
 import play.data.format.Formats;
+
+import static utilities.SlugHelper.slugify;
 
 @Entity
 @Data
@@ -57,7 +61,11 @@ public class User extends Model {
 
   @NotNull
   @Column(unique = true, length = 191)
-  private String displayName;
+  private String username;
+
+  @NotNull
+  @Column(unique = true, length = 191)
+  private String slug;
 
   @NotNull
   @Enumerated
@@ -97,7 +105,8 @@ public class User extends Model {
 
   public User(CreateUser createUser) {
     email = createUser.getEmail();
-    displayName = createUser.getDisplayName();
+    username = createUser.getUsername();
+    slug = slugify(createUser.getUsername());
     salt = generateSalt();
     hash = hashPassword(createUser.getPassword(), salt);
     status = Status.unverified;
@@ -106,7 +115,8 @@ public class User extends Model {
   public User(UpdateUser updateUser, User savedUser) {
     id = savedUser.id;
     email = updateUser.getEmail();
-    displayName = updateUser.getDisplayName();
+    username = updateUser.getUsername();
+    slug = slugify(updateUser.getUsername());
     status = savedUser.status;
     hash = savedUser.hash;
     salt = savedUser.salt;
@@ -115,24 +125,17 @@ public class User extends Model {
     created = savedUser.created;
   }
 
-  public Long getId() {
-    return id;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public String getDisplayName() {
-    return displayName;
-  }
-
-  public Status getStatus() {
-    return status;
-  }
-
-  public List<Tracklist> getTracklists() {
-    return tracklists;
+  public User(UpdatePassword updatePassword, User savedUser) {
+    id = savedUser.id;
+    email = savedUser.email;
+    username = savedUser.username;
+    slug = savedUser.slug;
+    status = savedUser.status;
+    salt = generateSalt();
+    hash = hashPassword(updatePassword.getNewPassword(), salt);
+    tracklists = savedUser.tracklists;
+    medias = savedUser.medias;
+    created = savedUser.created;
   }
 
   /**
@@ -141,7 +144,7 @@ public class User extends Model {
    * @param plaintext The plaintext password to verify.
    * @return true if the passwords match, false otherwise.
    */
-  public boolean isValid(String plaintext) {
+  public boolean isAuthorised(String plaintext) {
     return BCrypt.checkpw(plaintext, hash);
   }
 
@@ -165,4 +168,32 @@ public class User extends Model {
     return BCrypt.hashpw(plaintext, salt);
   }
 
+  public Long getId() {
+    return id;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public String getSlug() {
+    return slug;
+  }
+
+  public Status getStatus() {
+    return status;
+  }
+
+  public List<Tracklist> getTracklists() {
+    return tracklists;
+  }
+
+  public String getRegistered() {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+    return created.format(formatter);
+  }
 }

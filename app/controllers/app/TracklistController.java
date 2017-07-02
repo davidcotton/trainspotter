@@ -94,7 +94,7 @@ public class TracklistController extends Controller {
    * Delete a Tracklist.
    *
    * @param id The ID of the Tracklist.
-   * @return Redirects to the Tracklist index page on success, else not found.
+   * @return Redirects to the Tracklist list page on success, else not found.
    */
   @Security.Authenticated(Secured.class)
   public Result delete(long id) {

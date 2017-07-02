@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.inject.Inject;
 import models.create.CreateUser;
 import models.LoginUser;
+import models.update.UpdatePassword;
 import models.update.UpdateUser;
 import models.User;
 import play.data.Form;
@@ -15,10 +16,11 @@ import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.Security;
 import services.UserService;
-import views.html.user.edit;
-import views.html.user.index;
+import views.html.user.list;
 import views.html.user.login;
+import views.html.user.profile;
 import views.html.user.register;
+import views.html.user.settings;
 import views.html.user.view;
 import views.html.notFound;
 
@@ -33,34 +35,25 @@ public class UserController extends Controller {
     this.formFactory = requireNonNull(formFactory);
   }
 
-  /**
-   * View all users.
-   *
-   * @return A page with all users.
-   */
   @Security.Authenticated(Secured.class)
-  public Result index() {
-    return ok(index.render(userService.fetchAll()));
+  public Result list() {
+    return ok(list.render(userService.fetchAll()));
   }
 
-  /**
-   * View a single user.
-   *
-   * @param id The user's ID.
-   * @return A user page if found.
-   */
-  public Result view(long id) {
+  public Result view(String slug) {
     return userService
-        .findActiveById(id)
+        .findBySlug(slug)
         .map(user -> ok(view.render(user)))
         .orElse(notFound(notFound.render()));
   }
 
-  /**
-   * Display the register form.
-   *
-   * @return A page to register.
-   */
+  public Result profile(String slug) {
+    return userService
+        .findBySlug(slug)
+        .map(user -> ok(profile.render(user)))
+        .orElse(notFound(notFound.render()));
+  }
+
   public Result registerForm() {
     return ok(register.render(formFactory.form(CreateUser.class)));
   }
@@ -77,49 +70,69 @@ public class UserController extends Controller {
         );
   }
 
-  /**
-   * Display an edit user page.
-   *
-   * @param id The user's ID.
-   * @return An edit user page if user is found else not found page.
-   */
   @Security.Authenticated(Secured.class)
-  public Result editForm(long id) {
+  public Result settingsForm(String slug) {
     return userService.
-        findActiveById(id)
-        .map(user -> ok(edit.render(
-            id,
-            formFactory.form(UpdateUser.class).fill(new UpdateUser(user))
-        )))
+        findBySlug(slug)
+        .map(
+            user -> ok(settings.render(
+              formFactory.form(UpdateUser.class).fill(new UpdateUser(user)),
+              formFactory.form(UpdatePassword.class),
+              user
+          ))
+        )
         .orElse(notFound(notFound.render()));
   }
 
   @Security.Authenticated(Secured.class)
-  public Result editUserSubmit(long id) {
+  public Result editUserSubmit(String slug) {
     return userService
-        .findActiveById(id)
+        .findBySlug(slug)
         .map(savedUser -> userService
-            .update(formFactory.form(UpdateUser.class).bindFromRequest(), savedUser)
+            .updateUser(formFactory.form(UpdateUser.class).bindFromRequest(), savedUser)
             .fold(
-                userForm -> badRequest(edit.render(id, userForm)),
-                newUser -> Results.redirect(routes.UserController.view(newUser.getId()))
+                userForm -> badRequest(settings.render(
+                    userForm,
+                    formFactory.form(UpdatePassword.class),
+                    savedUser
+                )),
+                newUser -> {
+                  setLoginSession(newUser);
+                  return Results.redirect(routes.UserController.view(newUser.getUsername()));
+                }
             )
         )
         .orElse(notFound(notFound.render()));
   }
 
   @Security.Authenticated(Secured.class)
-  public Result editPasswordSubmit(long id) {
-    return TODO;
+  public Result editPasswordSubmit(String slug) {
+    return userService
+        .findBySlug(slug)
+        .map(savedUser -> userService
+            .updatePassword(formFactory.form(UpdatePassword.class).bindFromRequest(), savedUser)
+            .fold(
+                passwordForm -> badRequest(settings.render(
+                    formFactory.form(UpdateUser.class).fill(new UpdateUser(savedUser)),
+                    passwordForm,
+                    savedUser
+                )),
+                newUser -> {
+                  setLoginSession(newUser);
+                  return Results.redirect(routes.UserController.view(newUser.getUsername()));
+                }
+            )
+        )
+        .orElse(notFound(notFound.render()));
   }
 
   @Security.Authenticated(Secured.class)
-  public Result delete(long id) {
+  public Result delete(String slug) {
     return userService
-        .findActiveById(id)
+        .findBySlug(slug)
         .map(user -> {
           userService.delete(user);
-          return Results.redirect(routes.UserController.index());
+          return Results.redirect(routes.ApplicationController.index());
         })
         .orElse(notFound(notFound.render()));
   }
@@ -134,8 +147,6 @@ public class UserController extends Controller {
   }
 
   public Result loginSubmit() {
-//    return userService.
-
     Form<LoginUser> loginForm = formFactory.form(LoginUser.class).bindFromRequest();
     if (loginForm.hasErrors()) {
       return badRequest(login.render(loginForm));
@@ -149,7 +160,7 @@ public class UserController extends Controller {
 
     User user = maybeUser.get();
 
-    if (user.isValid(loginUser.getPassword())) {
+    if (user.isAuthorised(loginUser.getPassword())) {
       setLoginSession(user);
       return Results.redirect(routes.ApplicationController.index());
     } else {
@@ -166,8 +177,7 @@ public class UserController extends Controller {
 
   private void setLoginSession(User user) {
     session().clear();
-    session("email", user.getEmail());
-    session("user_id", String.valueOf(user.getId()));
-    session("user_name", user.getDisplayName());
+    session("username", user.getUsername());
+    session("userslug", user.getSlug());
   }
 }

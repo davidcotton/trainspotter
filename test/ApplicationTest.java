@@ -36,7 +36,7 @@
 //
 //    @Test
 //    public void renderTemplate() {
-//        Content html = views.html.index.render("Your new application is ready.");
+//        Content html = views.html.list.render("Your new application is ready.");
 //        assertEquals("text/html", html.contentType());
 //        assertTrue(html.body().contains("Your new application is ready."));
 //    }

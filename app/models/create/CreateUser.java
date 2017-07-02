@@ -16,8 +16,8 @@ public class CreateUser {
   @CustomConstraints.UniqueEmail
   private String email;
 
-  @Constraints.Required(message = "A display name is required.")
-  private String displayName;
+  @Constraints.Required(message = "A username is required.")
+  private String username;
 
   @Constraints.Required(message = "A password is required.")
   @CustomConstraints.Password

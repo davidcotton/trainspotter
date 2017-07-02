@@ -1,7 +1,7 @@
 @import controllers.app.{routes => appRoutes}
 
 @*
-* This template is called from the `index` template. This template
+* This template is called from the `list` template. This template
 * handles the rendering of the page header and body tags. It takes
 * two arguments, a `String` for the title of the page and an `Html`
 * object to insert into the body of the page.
@@ -65,7 +65,7 @@
 
           <ul class="navbar-nav">
             <li class="navbar-item dropdown">
-            @if(session.get("email") == null) {
+            @if(session.get("username") == null) {
               <a href="#" class="nav-item nav-link dropdown-toggle" data-toggle="dropdown">Register/Login</a>
               <div class="dropdown-menu">
                 <a href="@appRoutes.UserController.registerForm()" class="dropdown-item">
@@ -79,12 +79,15 @@
               </div>
             } else {
               <a href="#" class="nav-item nav-link dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-user" title="@session.get("user_name")" aria-hidden="true"></i>
-                @session.get("user_name")
+                <i class="fa fa-user" title="@session.get("username")" aria-hidden="true"></i>
+                @session.get("username")
               </a>
               <div class="dropdown-menu">
-                <a href="@appRoutes.UserController.editForm(session.get("user_id").toLong)" class="dropdown-item">
+                <a href="@appRoutes.UserController.profile(session.get("userslug"))" class="dropdown-item">
                   <i class="fa fa-dashboard" title="Profile" aria-hidden="true"></i> Profile
+                </a>
+                <a href="@appRoutes.UserController.settingsForm(session.get("userslug"))" class="dropdown-item">
+                  <i class="fa fa-cogs" title="Settings" aria-hidden="true"></i> Settings
                 </a>
                 <form action="@appRoutes.UserController.logout()" method="post">
                   <button type="submit" class="dropdown-item">

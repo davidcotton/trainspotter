@@ -81,14 +81,15 @@ DELETE  /api/track/:id                  controllers.api.TrackController.delete(i
 GET     /                           controllers.app.ApplicationController.index
 
 # Users
-GET     /user                       controllers.app.UserController.index()
+GET     /user                       controllers.app.UserController.list()
 GET     /register                   controllers.app.UserController.registerForm()
 POST    /register                   controllers.app.UserController.registerSubmit()
-GET     /user/:id                   controllers.app.UserController.view(id:Long)
-GET     /user/:id/edit              controllers.app.UserController.editForm(id:Long)
-POST    /user/:id/editUser          controllers.app.UserController.editUserSubmit(id:Long)
-POST    /user/:id/editPassword      controllers.app.UserController.editPasswordSubmit(id:Long)
-POST    /user/:id/delete            controllers.app.UserController.delete(id:Long)
+GET     /user/:name                 controllers.app.UserController.view(name:String)
+GET     /user/:name/profile         controllers.app.UserController.profile(name:String)
+GET     /user/:name/settings        controllers.app.UserController.settingsForm(name:String)
+POST    /user/:name/editUser        controllers.app.UserController.editUserSubmit(name:String)
+POST    /user/:name/editPassword    controllers.app.UserController.editPasswordSubmit(name:String)
+POST    /user/:name/delete          controllers.app.UserController.delete(name:String)
 GET     /login                      controllers.app.UserController.loginForm()
 POST    /login                      controllers.app.UserController.loginSubmit()
 POST    /logout                     controllers.app.UserController.logout()

@@ -17,11 +17,11 @@ public class Secured extends play.mvc.Security.Authenticator {
    */
   @Override
   public String getUsername(Context ctx) {
-    return ctx.session().get("email");
+    return ctx.session().get("username");
   }
 
   public static String getUser(Context ctx) {
-    return ctx.session().get("email");
+    return ctx.session().get("userslug");
   }
 
   /**

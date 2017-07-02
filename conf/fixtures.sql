@@ -1,9 +1,8 @@
 
-INSERT INTO `user` (`email`, `hash`, `salt`, `display_name`, `status`, `created`, `updated`)
-VALUES
-  ('brian.mcgee@simpsons.com', '$2a$16$T1PaqXFutgw9qUmlK875Ge4wFRnn9TBMyJHfxyBpDXItcrNDL/OYa', '$2a$16$T1PaqXFutgw9qUmlK875Ge', 'Brian McGee', 'active', NOW(), NOW()),
-  ('rembrandt.q.einstein@simpsons.com', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.xKIJUcj9lInDBANSKNmiS5WCKW7uvai', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.', 'Rembrandt Q. Einstein', 'active', NOW(), NOW()),
-  ('rory.b.bellows@simpsons.com', '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', '$2a$16$aY..e8GAU2YGfdvLGqtahe', 'Rory B. Bellows', 'active', NOW(), NOW());
+INSERT INTO `user` (`email`, `username`, `slug`, `hash`, `salt`, `status`, `created`, `updated`) VALUES
+  ('brian.mcgee@simpsons.com', 'Brian McGee', 'brian-mcgee', '$2a$16$T1PaqXFutgw9qUmlK875Ge4wFRnn9TBMyJHfxyBpDXItcrNDL/OYa', '$2a$16$T1PaqXFutgw9qUmlK875Ge', 'active', NOW(), NOW()),
+  ('rembrandt.q.einstein@simpsons.com', 'Rembrandt Q. Einstein', 'rembrandt-q-einstein', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.xKIJUcj9lInDBANSKNmiS5WCKW7uvai', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.', 'deleted', NOW(), NOW()),
+  ('rory.b.bellows@simpsons.com', 'Rory B. Bellows', 'rory-b-bellows', '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', '$2a$16$aY..e8GAU2YGfdvLGqtahe', 'unverified', NOW(), NOW());
 
 INSERT INTO `artist` (`name`, `slug`, `image`, `description`, `status`, `created`, `updated`)
 VALUES

@@ -34,7 +34,7 @@ public class UserRepository implements Repository<User> {
    * Find a non-deleted user.
    *
    * @param id The ID to search for.
-   * @return An optional User if found.
+   * @return An optional User if found, else optional.empty.
    */
   public Optional<User> findActiveById(long id) {
     return Optional.ofNullable(
@@ -51,12 +51,22 @@ public class UserRepository implements Repository<User> {
    * Only searches for non-deleted users.
    *
    * @param email The email address to search for.
-   * @return      An optional user if found.
+   * @return An optional user if found, else optional.empty.
    */
   public Optional<User> findByEmail(String email) {
     return Optional.ofNullable(
         find
             .where().eq("email", email)
+            // filter out users that have been 'deleted'
+            .where().ne("status", Status.deleted)
+            .findUnique()
+    );
+  }
+
+  public Optional<User> findBySlug(String slug) {
+    return Optional.ofNullable(
+        find
+            .where().eq("slug", slug)
             // filter out users that have been 'deleted'
             .where().ne("status", Status.deleted)
             .findUnique()

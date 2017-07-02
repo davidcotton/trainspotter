@@ -1,22 +1,33 @@
+@import b4.vertical.fieldConstructor
 @import controllers.app.{routes => appRoutes}
 @import models.create.CreateUser
 
 @(registerForm: play.data.Form[CreateUser])
 
-@implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
 @main("Register") {
-  <div class="card mt-5">
-    <h3 class="card-header">Register</h3>
-    <div class="card-block">
-    @b4.form(appRoutes.UserController.registerSubmit()) {
-      <fieldset>
-        @b4.email(registerForm("email"), '_label -> "Email", 'placeholder -> "example@mail.com")
-        @b4.text(registerForm("displayName"), '_label -> "Display Name", 'placeholder -> "Display name")
-        @b4.password(registerForm("password"), '_label -> "Password", 'placeholder -> "Password")
-        @b4.submit('class -> "btn btn-primary") { Sign up }
-      </fieldset>
-    }
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <div class="jumbotron">
+        <h1 class="display-3">Discover the the best new music</h1>
+        <p class="lead">Trainspotter is a platform to discover and share the most exciting new electronic music that the world's top DJs are playing.</p>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+        <h3 class="card-header">Register</h3>
+        <div class="card-block">
+        @b4.form(appRoutes.UserController.registerSubmit()) {
+          <fieldset>
+            @b4.text(registerForm("username"), '_label -> "Username", 'placeholder -> "Pick a username")
+            @b4.email(registerForm("email"), '_label -> "Email", 'placeholder -> "Your email address")
+            @b4.password(registerForm("password"), '_label -> "Password", 'placeholder -> "Create a password")
+            @b4.submit('class -> "btn btn-primary") { Sign up for Trainspotter }
+          </fieldset>
+        }
+        </div>
+      </div>
     </div>
   </div>
 }

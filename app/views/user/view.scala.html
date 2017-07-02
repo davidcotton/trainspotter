@@ -2,33 +2,68 @@
 
 @(user: User)
 
-@main(user.getDisplayName) {
-  <h1>@user.getDisplayName</h1>
-  <table class="table table-striped">
-    <tbody>
-      <tr>
-        <th>Email</th>
-        <td>@user.getEmail</td>
-      </tr>
-      <tr>
-        <th>Display Name</th>
-        <td>@user.getDisplayName</td>
-      </tr>
-      <tr>
-        <th>Status</th>
-        <td>@user.getStatus</td>
-      </tr>
-      <tr>
-        <th>&nbsp;</th>
-        <td>
-          <a href="@appRoutes.UserController.editForm(user.getId)" class="btn btn-sm btn-warning">
-            <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
-          </a>
-          <a href="@appRoutes.UserController.delete(user.getId)" class="btn btn-sm btn-danger">
-            <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
-          </a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+@main(user.getUsername) {
+  <div class="row mt-5">
+    <div class="col-md-4">
+      <h1><i class="fa fa-user" title="@user.getUsername" aria-hidden="true"></i> @user.getUsername</h1>
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <th>Joined</th>
+            <td>@user.getRegistered</td>
+          </tr>
+          <tr>
+            <th>Reputation</th>
+            <td>12.3k</td>
+          </tr>
+          <tr>
+            <th>Tracklists created</th>
+            <td>31</td>
+          </tr>
+          <tr>
+            <th>Tracks tagged</th>
+            <td>641</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-8">
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item"><a href="#tracklists" class="nav-link active" data-toggle="tab">Tracklists created</a></li>
+        <li class="nav-item"><a href="#tracks" class="nav-link" data-toggle="tab">Tracks tagged</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="tracklists" role="tabpanel">
+          <h2>Tracklists created</h2>
+          @if(user.getTracklists.size() > 0) {
+            @for(tracklist <- user.getTracklists) {
+              <a href="@appRoutes.TracklistController.view(tracklist.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">@tracklist.getName</h5>
+                  <small>@tracklist.getPerformedDaysAgo days ago</small>
+                </div>
+                <p class="mb-1">@tracklist.getPerformed</p>
+                <small>
+                  <i class="fa fa-user" title="@tracklist.getUser.getUsername" aria-hidden="true"></i>
+                  @tracklist.getUser.getUsername
+                </small>
+              </a>
+            }
+          } else {
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-0">This user has not created any tracklists.</h5>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="tab-pane" id="tracks" role="tabpanel">
+          <h2>Tracks tagged</h2>
+        </div>
+      </div>
+    </div>
+  </div>
 }

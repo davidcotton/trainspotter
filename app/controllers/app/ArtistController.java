@@ -129,7 +129,7 @@ public class ArtistController extends Controller {
    * Delete an Artist.
    *
    * @param slug The slug of the Artist to find.
-   * @return Redirects back to Artists index page on success else not found.
+   * @return Redirects back to Artists list page on success else not found.
    */
   @Security.Authenticated(Secured.class)
   public Result delete(String slug) {

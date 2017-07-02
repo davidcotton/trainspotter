@@ -16,14 +16,14 @@
     <tbody>
     @for(user <- users) {
       <tr>
-        <td><a href="@appRoutes.UserController.view(user.getId)">@user.getDisplayName</a></td>
-        <td><a href="@appRoutes.UserController.view(user.getId)">@user.getEmail</a></td>
+        <td><a href="@appRoutes.UserController.view(user.getUsername)">@user.getUsername</a></td>
+        <td><a href="@appRoutes.UserController.view(user.getUsername)">@user.getEmail</a></td>
         <td>@user.getStatus</td>
         <td class="text-right">
-          <a href="@appRoutes.UserController.editForm(user.getId)" class="btn btn-sm btn-warning">
+          <a href="@appRoutes.UserController.settingsForm(user.getUsername)" class="btn btn-sm btn-warning">
             <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
           </a>
-          <a href="@appRoutes.UserController.delete(user.getId)" class="btn btn-sm btn-danger">
+          <a href="@appRoutes.UserController.delete(user.getUsername)" class="btn btn-sm btn-danger">
             <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
           </a>
         </td>

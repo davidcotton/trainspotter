@@ -117,7 +117,7 @@ public class LabelController extends Controller {
    * Delete a Label.
    *
    * @param slug The slug of the label.
-   * @return Redirects to the Label index page on success, else not found.
+   * @return Redirects to the Label list page on success, else not found.
    */
   @Security.Authenticated(Secured.class)
   public Result delete(String slug) {

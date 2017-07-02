@@ -85,7 +85,7 @@ public class TrackController extends Controller {
    * Delete a Track.
    *
    * @param id The ID of the track.
-   * @return Redirects to the Track index page on success, else not found.
+   * @return Redirects to the Track list page on success, else not found.
    */
   @Security.Authenticated(Secured.class)
   public Result delete(long id) {

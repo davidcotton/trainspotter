@@ -14,6 +14,7 @@ import models.User.Status;
 import models.create.CreateUser;
 import models.LoginUser;
 import models.Token;
+import models.update.UpdatePassword;
 import models.update.UpdateUser;
 import models.User;
 import play.data.Form;
@@ -69,6 +70,10 @@ public class UserService {
     return userRepository.findByEmail(email);
   }
 
+  public Optional<User> findBySlug(String slug) {
+    return userRepository.findBySlug(slug);
+  }
+
   /**
    * Create a new User in the system.
    *
@@ -93,12 +98,23 @@ public class UserService {
    * @param savedUser The existing User.
    * @return Either the updated User, or errors.
    */
-  public Either<Form<UpdateUser>, User> update(Form<UpdateUser> userForm, User savedUser) {
+  public Either<Form<UpdateUser>, User> updateUser(Form<UpdateUser> userForm, User savedUser) {
     if (userForm.hasErrors()) {
       return Either.left(userForm);
     }
 
     User newUser = new User(userForm.get(), savedUser);
+    userRepository.update(newUser);
+
+    return Either.right(newUser);
+  }
+
+  public Either<Form<UpdatePassword>, User> updatePassword(Form<UpdatePassword> passwordForm, User savedUser) {
+    if (passwordForm.hasErrors()) {
+      return Either.left(passwordForm);
+    }
+
+    User newUser = new User(passwordForm.get(), savedUser);
     userRepository.update(newUser);
 
     return Either.right(newUser);
@@ -142,7 +158,7 @@ public class UserService {
    * @return An optional token that will be empty if the password doesn't match.
    */
   private Optional<Token> fetchToken(String password, User user) {
-    return user.isValid(password) ? Optional.of(tokenService.create(user)) : Optional.empty();
+    return user.isAuthorised(password) ? Optional.of(tokenService.create(user)) : Optional.empty();
   }
 
   /**
