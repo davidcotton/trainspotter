@@ -15,6 +15,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.Security;
+import security.SessionAuthenticator;
 import services.UserService;
 import views.html.user.list;
 import views.html.user.login;
@@ -35,7 +36,7 @@ public class UserController extends Controller {
     this.formFactory = requireNonNull(formFactory);
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result list() {
     return ok(list.render(userService.fetchAll()));
   }
@@ -70,7 +71,7 @@ public class UserController extends Controller {
         );
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result settingsForm(String slug) {
     return userService.
         findBySlug(slug)
@@ -84,7 +85,7 @@ public class UserController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result editUserSubmit(String slug) {
     return userService
         .findBySlug(slug)
@@ -105,7 +106,7 @@ public class UserController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result editPasswordSubmit(String slug) {
     return userService
         .findBySlug(slug)
@@ -126,7 +127,7 @@ public class UserController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result delete(String slug) {
     return userService
         .findBySlug(slug)
@@ -168,7 +169,7 @@ public class UserController extends Controller {
     }
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result logout() {
     session().clear();
     flash("success", "You've been logged out");

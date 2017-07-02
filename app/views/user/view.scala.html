@@ -13,16 +13,16 @@
             <td>@user.getRegistered</td>
           </tr>
           <tr>
-            <th>Reputation</th>
-            <td>12.3k</td>
+            <th>Karma</th>
+            <td>@user.getKarma</td>
           </tr>
           <tr>
             <th>Tracklists created</th>
-            <td>31</td>
+            <td>@user.getTracklistsCreated</td>
           </tr>
           <tr>
-            <th>Tracks tagged</th>
-            <td>641</td>
+            <th>Tracks identified</th>
+            <td>@user.getTracksIdentified</td>
           </tr>
         </tbody>
       </table>
@@ -31,7 +31,7 @@
     <div class="col-md-8">
       <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item"><a href="#tracklists" class="nav-link active" data-toggle="tab">Tracklists created</a></li>
-        <li class="nav-item"><a href="#tracks" class="nav-link" data-toggle="tab">Tracks tagged</a></li>
+        <li class="nav-item"><a href="#tracks" class="nav-link" data-toggle="tab">Tracks identified</a></li>
       </ul>
 
       <div class="tab-content">
@@ -61,7 +61,7 @@
         </div>
 
         <div class="tab-pane" id="tracks" role="tabpanel">
-          <h2>Tracks tagged</h2>
+          <h2>Tracks identified</h2>
         </div>
       </div>
     </div>

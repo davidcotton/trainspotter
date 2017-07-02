@@ -10,6 +10,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.Security;
+import security.SessionAuthenticator;
 import services.ChannelService;
 import views.html.channel.add;
 import views.html.channel.edit;
@@ -56,7 +57,7 @@ public class ChannelController extends Controller {
    *
    * @return A page to add a new channel.
    */
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result addForm() {
     return ok(add.render(formFactory.form(CreateChannel.class)));
   }
@@ -66,7 +67,7 @@ public class ChannelController extends Controller {
    *
    * @return Redirect to the new Channel on success else the form with errors.
    */
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result addSubmit() {
     return channelService
         .insert(formFactory.form(CreateChannel.class).bindFromRequest())
@@ -82,7 +83,7 @@ public class ChannelController extends Controller {
    * @param slug The slug of the channel.
    * @return An edit channel page if found else not found page.
    */
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result editForm(String slug) {
     return channelService
         .findBySlug(slug)
@@ -99,7 +100,7 @@ public class ChannelController extends Controller {
    * @param slug The slug of the channel.
    * @return Redirect to the updated Channel on success else the form with errors.
    */
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result editSubmit(String slug) {
     return channelService
         .findBySlug(slug)
@@ -119,7 +120,7 @@ public class ChannelController extends Controller {
    * @param slug The slug of the channel.
    * @return Redirects to the Channel list page on success else not found.
    */
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result delete(String slug) {
     return channelService
         .findBySlug(slug)

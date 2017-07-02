@@ -1,9 +1,10 @@
-package controllers.app;
+package security;
 
+import controllers.app.routes;
 import play.mvc.Http.Context;
 import play.mvc.Result;
 
-public class Secured extends play.mvc.Security.Authenticator {
+public class SessionAuthenticator extends play.mvc.Security.Authenticator {
 
 //  public static boolean isLoggedIn(Context ctx) {
 //    return (getUser(ctx) != null);

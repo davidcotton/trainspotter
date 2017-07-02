@@ -10,6 +10,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.Security;
+import security.SessionAuthenticator;
 import services.TrackService;
 import views.html.notFound;
 import views.html.track.add;
@@ -55,17 +56,17 @@ public class TrackController extends Controller {
    *
    * @return A page allowing the user to add a Track.
    */
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result addForm() {
     return ok(add.render(formFactory.form(CreateTrack.class)));
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result addSubmit() {
     return TODO;
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result editForm(long id) {
     return trackService
         .findById(id)
@@ -76,7 +77,7 @@ public class TrackController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result editSubmit(long id) {
     return TODO;
   }
@@ -87,7 +88,7 @@ public class TrackController extends Controller {
    * @param id The ID of the track.
    * @return Redirects to the Track list page on success, else not found.
    */
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result delete(long id) {
     return trackService
         .findById(id)

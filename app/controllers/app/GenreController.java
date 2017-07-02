@@ -10,6 +10,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.Security;
+import security.SessionAuthenticator;
 import services.GenreService;
 import services.TracklistService;
 import views.html.genre.add;
@@ -62,12 +63,12 @@ public class GenreController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @play.mvc.Security.Authenticated(Secured.class)
+  @play.mvc.Security.Authenticated(SessionAuthenticator.class)
   public Result addForm() {
     return ok(add.render(formFactory.form(CreateGenre.class)));
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result addSubmit() {
     return genreService
         .insert(formFactory.form(CreateGenre.class).bindFromRequest())
@@ -77,7 +78,7 @@ public class GenreController extends Controller {
         );
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result editForm(String slug) {
     return genreService
         .findBySlug(slug)
@@ -88,12 +89,12 @@ public class GenreController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result editSubmit(String slug) {
     return TODO;
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result delete(String slug) {
     return TODO;
   }

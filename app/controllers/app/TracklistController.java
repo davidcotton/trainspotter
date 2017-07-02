@@ -10,6 +10,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.Security;
+import security.SessionAuthenticator;
 import services.TracklistService;
 import views.html.notFound;
 import views.html.tracklist.add;
@@ -50,12 +51,12 @@ public class TracklistController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result addForm() {
     return ok(add.render(formFactory.form(CreateTracklist.class)));
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result addSubmit() {
     return tracklistService
         .insert(formFactory.form(CreateTracklist.class).bindFromRequest())
@@ -65,7 +66,7 @@ public class TracklistController extends Controller {
         );
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result editForm(long id) {
     return tracklistService
         .findById(id)
@@ -76,7 +77,7 @@ public class TracklistController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result editSubmit(long id) {
     return tracklistService
         .findById(id)
@@ -96,7 +97,7 @@ public class TracklistController extends Controller {
    * @param id The ID of the Tracklist.
    * @return Redirects to the Tracklist list page on success, else not found.
    */
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result delete(long id) {
     return tracklistService
         .findById(id)

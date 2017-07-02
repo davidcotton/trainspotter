@@ -10,6 +10,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.Security;
+import security.SessionAuthenticator;
 import services.ChannelService;
 import services.ProgramService;
 import views.html.notFound;
@@ -61,7 +62,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result addForm(String channelSlug) {
     return channelService
         .findBySlug(channelSlug)
@@ -69,7 +70,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result addSubmit(String channelSlug) {
     return channelService
         .findBySlug(channelSlug)
@@ -83,7 +84,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result editForm(String programSlug) {
     return programService
         .findBySlug(programSlug)
@@ -94,7 +95,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result editSubmit(String programSlug) {
     return programService
         .findBySlug(programSlug)
@@ -108,7 +109,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(Secured.class)
+  @Security.Authenticated(SessionAuthenticator.class)
   public Result delete(String programSlug) {
     return programService
         .findBySlug(programSlug)
