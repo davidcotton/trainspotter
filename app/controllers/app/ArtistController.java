@@ -5,10 +5,9 @@ import static models.Role.ADMIN;
 import static models.Role.CONTRIBUTOR;
 import static models.Role.EDITOR;
 
-import javax.inject.Inject;
-
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
+import javax.inject.Inject;
 import models.create.CreateArtist;
 import models.update.UpdateArtist;
 import play.data.FormFactory;

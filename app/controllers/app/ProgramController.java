@@ -1,7 +1,12 @@
 package controllers.app;
 
 import static java.util.Objects.requireNonNull;
+import static models.Role.ADMIN;
+import static models.Role.CONTRIBUTOR;
+import static models.Role.EDITOR;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import javax.inject.Inject;
 import models.create.CreateProgram;
 import models.update.UpdateProgram;
@@ -9,8 +14,6 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
-import play.mvc.Security;
-import security.SessionAuthenticator;
 import services.ChannelService;
 import services.ProgramService;
 import views.html.notFound;
@@ -62,7 +65,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addForm(String channelSlug) {
     return channelService
         .findBySlug(channelSlug)
@@ -70,7 +73,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addSubmit(String channelSlug) {
     return channelService
         .findBySlug(channelSlug)
@@ -84,7 +87,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editForm(String programSlug) {
     return programService
         .findBySlug(programSlug)
@@ -95,7 +98,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editSubmit(String programSlug) {
     return programService
         .findBySlug(programSlug)
@@ -109,7 +112,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN)})
   public Result delete(String programSlug) {
     return programService
         .findBySlug(programSlug)

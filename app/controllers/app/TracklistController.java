@@ -1,7 +1,12 @@
 package controllers.app;
 
 import static java.util.Objects.requireNonNull;
+import static models.Role.ADMIN;
+import static models.Role.CONTRIBUTOR;
+import static models.Role.EDITOR;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import javax.inject.Inject;
 import models.create.CreateTracklist;
 import models.update.UpdateTracklist;
@@ -9,8 +14,6 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
-import play.mvc.Security;
-import security.SessionAuthenticator;
 import services.TracklistService;
 import views.html.notFound;
 import views.html.tracklist.add;
@@ -51,12 +54,12 @@ public class TracklistController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addForm() {
     return ok(add.render(formFactory.form(CreateTracklist.class)));
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addSubmit() {
     return tracklistService
         .insert(formFactory.form(CreateTracklist.class).bindFromRequest())
@@ -66,7 +69,7 @@ public class TracklistController extends Controller {
         );
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editForm(long id) {
     return tracklistService
         .findById(id)
@@ -77,7 +80,7 @@ public class TracklistController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editSubmit(long id) {
     return tracklistService
         .findById(id)
@@ -97,7 +100,7 @@ public class TracklistController extends Controller {
    * @param id The ID of the Tracklist.
    * @return Redirects to the Tracklist list page on success, else not found.
    */
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN)})
   public Result delete(long id) {
     return tracklistService
         .findById(id)

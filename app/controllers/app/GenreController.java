@@ -1,7 +1,12 @@
 package controllers.app;
 
 import static java.util.Objects.requireNonNull;
+import static models.Role.ADMIN;
+import static models.Role.CONTRIBUTOR;
+import static models.Role.EDITOR;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import javax.inject.Inject;
 import models.create.CreateGenre;
 import models.update.UpdateGenre;
@@ -9,8 +14,6 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
-import play.mvc.Security;
-import security.SessionAuthenticator;
 import services.GenreService;
 import services.TracklistService;
 import views.html.genre.add;
@@ -63,12 +66,12 @@ public class GenreController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @play.mvc.Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addForm() {
     return ok(add.render(formFactory.form(CreateGenre.class)));
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addSubmit() {
     return genreService
         .insert(formFactory.form(CreateGenre.class).bindFromRequest())
@@ -78,7 +81,7 @@ public class GenreController extends Controller {
         );
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editForm(String slug) {
     return genreService
         .findBySlug(slug)
@@ -89,12 +92,12 @@ public class GenreController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editSubmit(String slug) {
     return TODO;
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN)})
   public Result delete(String slug) {
     return TODO;
   }

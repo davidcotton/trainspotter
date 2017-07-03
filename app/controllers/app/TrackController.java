@@ -1,7 +1,12 @@
 package controllers.app;
 
 import static java.util.Objects.requireNonNull;
+import static models.Role.ADMIN;
+import static models.Role.CONTRIBUTOR;
+import static models.Role.EDITOR;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import javax.inject.Inject;
 import models.create.CreateTrack;
 import models.update.UpdateTrack;
@@ -9,8 +14,6 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
-import play.mvc.Security;
-import security.SessionAuthenticator;
 import services.TrackService;
 import views.html.notFound;
 import views.html.track.add;
@@ -56,17 +59,17 @@ public class TrackController extends Controller {
    *
    * @return A page allowing the user to add a Track.
    */
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addForm() {
     return ok(add.render(formFactory.form(CreateTrack.class)));
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addSubmit() {
     return TODO;
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editForm(long id) {
     return trackService
         .findById(id)
@@ -77,7 +80,7 @@ public class TrackController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editSubmit(long id) {
     return TODO;
   }
@@ -88,7 +91,7 @@ public class TrackController extends Controller {
    * @param id The ID of the track.
    * @return Redirects to the Track list page on success, else not found.
    */
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN)})
   public Result delete(long id) {
     return trackService
         .findById(id)
