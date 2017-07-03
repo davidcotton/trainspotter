@@ -49,6 +49,10 @@ public class UserController extends Controller {
   }
 
   public Result profile(String slug) {
+    if (!slug.equals(session("userslug"))) {
+      return Results.redirect(routes.ApplicationController.index());
+    }
+
     return userService
         .findBySlug(slug)
         .map(user -> ok(profile.render(user)))
@@ -73,6 +77,10 @@ public class UserController extends Controller {
 
   @Security.Authenticated(SessionAuthenticator.class)
   public Result settingsForm(String slug) {
+    if (!slug.equals(session("userslug"))) {
+      return Results.redirect(routes.ApplicationController.index());
+    }
+
     return userService.
         findBySlug(slug)
         .map(
@@ -87,6 +95,10 @@ public class UserController extends Controller {
 
   @Security.Authenticated(SessionAuthenticator.class)
   public Result editUserSubmit(String slug) {
+    if (!slug.equals(session("userslug"))) {
+      return Results.redirect(routes.ApplicationController.index());
+    }
+
     return userService
         .findBySlug(slug)
         .map(savedUser -> userService
@@ -108,6 +120,10 @@ public class UserController extends Controller {
 
   @Security.Authenticated(SessionAuthenticator.class)
   public Result editPasswordSubmit(String slug) {
+    if (!slug.equals(session("userslug"))) {
+      return Results.redirect(routes.ApplicationController.index());
+    }
+
     return userService
         .findBySlug(slug)
         .map(savedUser -> userService
@@ -129,6 +145,10 @@ public class UserController extends Controller {
 
   @Security.Authenticated(SessionAuthenticator.class)
   public Result delete(String slug) {
+    if (!slug.equals(session("userslug"))) {
+      return Results.redirect(routes.ApplicationController.index());
+    }
+
     return userService
         .findBySlug(slug)
         .map(user -> {
