@@ -94,11 +94,26 @@ public class GenreController extends Controller {
 
   @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editSubmit(String slug) {
-    return TODO;
+    return genreService
+        .findBySlug(slug)
+        .map(savedGenre -> genreService
+            .update(savedGenre, formFactory.form(UpdateGenre.class).bindFromRequest())
+            .fold(
+                form -> badRequest(edit.render(savedGenre, form)),
+                newGenre -> Results.redirect(routes.GenreController.view(newGenre.getSlug(), 1))
+            )
+        )
+        .orElse(notFound(notFound.render()));
   }
 
   @Restrict({@Group(ADMIN)})
   public Result delete(String slug) {
-    return TODO;
+    return genreService
+        .findBySlug(slug)
+        .map(genre -> {
+          genreService.delete(genre);
+          return Results.redirect(routes.GenreController.index());
+        })
+        .orElse(notFound(notFound.render()));
   }
 }

@@ -78,10 +78,8 @@ public class ProgramService {
     }
 
     Program program = new Program(programForm.get());
-    // save to DB
     programRepository.insert(program);
 
-    // return saved program
     return Either.right(program);
   }
 
@@ -99,11 +97,8 @@ public class ProgramService {
 
     UpdateProgram updateProgram = programForm.get();
     Program newProgram = new Program(updateProgram, savedProgram);
-
-    // save to DB
     programRepository.update(newProgram);
 
-    // return saved program
     return Either.right(newProgram);
   }
 

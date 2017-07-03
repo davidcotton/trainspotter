@@ -72,10 +72,8 @@ public class TracklistService {
     }
 
     Tracklist tracklist = new Tracklist(tracklistForm.get());
-    // save to DB
     tracklistRepository.insert(tracklist);
 
-    // return saved tracklist
     return Either.right(tracklist);
   }
 
@@ -93,11 +91,8 @@ public class TracklistService {
 
     UpdateTracklist updateTracklist = tracklistForm.get();
     Tracklist newTracklist = new Tracklist(updateTracklist, savedTracklist);
-
-    // save to DB
     tracklistRepository.update(newTracklist);
 
-    // return saved tracklist
     return Either.right(newTracklist);
   }
 

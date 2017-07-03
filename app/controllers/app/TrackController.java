@@ -66,7 +66,12 @@ public class TrackController extends Controller {
 
   @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addSubmit() {
-    return TODO;
+    return trackService
+        .insert(formFactory.form(CreateTrack.class).bindFromRequest())
+        .fold(
+            form -> badRequest(add.render(form)),
+            track -> Results.redirect(routes.TrackController.view(track.getId()))
+        );
   }
 
   @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
@@ -82,7 +87,16 @@ public class TrackController extends Controller {
 
   @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editSubmit(long id) {
-    return TODO;
+    return trackService
+        .findById(id)
+        .map(savedTrack -> trackService
+            .update(savedTrack, formFactory.form(UpdateTrack.class).bindFromRequest())
+            .fold(
+                form -> badRequest(edit.render(savedTrack, form)),
+                track -> Results.redirect(routes.TrackController.view(track.getId()))
+            )
+        )
+        .orElse(notFound(notFound.render()));
   }
 
   /**

@@ -67,10 +67,8 @@ public class GenreService {
     }
 
     Genre genre = new Genre(genreForm.get());
-    // save to DB
     genreRepository.insert(genre);
 
-    // return saved genre
     return Either.right(genre);
   }
 
@@ -88,11 +86,8 @@ public class GenreService {
 
     UpdateGenre updateGenre = genreForm.get();
     Genre newGenre = new Genre(updateGenre, savedGenre);
-
-    // save to DB
     genreRepository.update(newGenre);
 
-    // return saved genre
     return Either.right(newGenre);
   }
 

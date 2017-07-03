@@ -74,10 +74,8 @@ public class ChannelService {
     }
 
     Channel channel = new Channel(channelForm.get());
-    // save to DB
     channelRepository.insert(channel);
 
-    // return saved channel
     return Either.right(channel);
   }
 
@@ -95,11 +93,8 @@ public class ChannelService {
 
     UpdateChannel updateChannel = channelForm.get();
     Channel newChannel = new Channel(updateChannel, savedChannel);
-
-    // save to DB
     channelRepository.update(newChannel);
 
-    // return saved channel
     return Either.right(newChannel);
   }
 

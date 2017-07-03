@@ -69,10 +69,8 @@ public class TrackService {
     }
 
     Track track = new Track(trackForm.get());
-    // save to DB
     trackRepository.insert(track);
 
-    // return saved track
     return Either.right(track);
   }
 
@@ -90,11 +88,8 @@ public class TrackService {
 
     UpdateTrack updateTrack = trackForm.get();
     Track newTrack = new Track(updateTrack, savedTrack);
-
-    // save to DB
     trackRepository.update(newTrack);
 
-    // return saved track
     return Either.right(newTrack);
   }
 

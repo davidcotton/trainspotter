@@ -72,10 +72,8 @@ public class LabelService {
     }
 
     Label label = new Label(labelForm.get());
-    // save to DB
     labelRepository.insert(label);
 
-    // return saved label
     return Either.right(label);
   }
 
@@ -93,11 +91,8 @@ public class LabelService {
 
     UpdateLabel updateLabel = labelForm.get();
     Label newLabel = new Label(updateLabel, savedLabel);
-
-    // save to DB
     labelRepository.update(newLabel);
 
-    // return saved label
     return Either.right(newLabel);
   }
 
