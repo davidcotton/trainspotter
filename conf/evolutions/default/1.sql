@@ -84,6 +84,14 @@ create table media (
   constraint pk_media primary key (id)
 );
 
+create table permission (
+  id                            bigint auto_increment not null,
+  permission_value              varchar(255) not null,
+  created                       datetime not null,
+  updated                       datetime not null,
+  constraint pk_permission primary key (id)
+);
+
 create table program (
   id                            bigint auto_increment not null,
   name                          varchar(191) not null,
@@ -100,10 +108,13 @@ create table program (
   constraint pk_program primary key (id)
 );
 
-create table security_role (
+create table role (
   id                            bigint auto_increment not null,
-  name                          varchar(255),
-  constraint pk_security_role primary key (id)
+  name                          varchar(191) not null,
+  created                       datetime not null,
+  updated                       datetime not null,
+  constraint uq_role_name unique (name),
+  constraint pk_role primary key (id)
 );
 
 create table token (
@@ -194,22 +205,16 @@ create table user (
   constraint pk_user primary key (id)
 );
 
-create table user_security_role (
+create table user_role (
   user_id                       bigint not null,
-  security_role_id              bigint not null,
-  constraint pk_user_security_role primary key (user_id,security_role_id)
-);
-
-create table user_user_permission (
-  user_id                       bigint not null,
-  user_permission_id            bigint not null,
-  constraint pk_user_user_permission primary key (user_id,user_permission_id)
+  role_id                       bigint not null,
+  constraint pk_user_role primary key (user_id,role_id)
 );
 
 create table user_permission (
-  id                            bigint auto_increment not null,
-  permission_value              varchar(255),
-  constraint pk_user_permission primary key (id)
+  user_id                       bigint not null,
+  permission_id                 bigint not null,
+  constraint pk_user_permission primary key (user_id,permission_id)
 );
 
 alter table artist_program add constraint fk_artist_program_artist foreign key (artist_id) references artist (id) on delete restrict on update restrict;
@@ -274,17 +279,17 @@ create index ix_tracklist_genre_tracklist on tracklist_genre (tracklist_id);
 alter table tracklist_genre add constraint fk_tracklist_genre_genre foreign key (genre_id) references genre (id) on delete restrict on update restrict;
 create index ix_tracklist_genre_genre on tracklist_genre (genre_id);
 
-alter table user_security_role add constraint fk_user_security_role_user foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_user_security_role_user on user_security_role (user_id);
+alter table user_role add constraint fk_user_role_user foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_user_role_user on user_role (user_id);
 
-alter table user_security_role add constraint fk_user_security_role_security_role foreign key (security_role_id) references security_role (id) on delete restrict on update restrict;
-create index ix_user_security_role_security_role on user_security_role (security_role_id);
+alter table user_role add constraint fk_user_role_role foreign key (role_id) references role (id) on delete restrict on update restrict;
+create index ix_user_role_role on user_role (role_id);
 
-alter table user_user_permission add constraint fk_user_user_permission_user foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_user_user_permission_user on user_user_permission (user_id);
+alter table user_permission add constraint fk_user_permission_user foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_user_permission_user on user_permission (user_id);
 
-alter table user_user_permission add constraint fk_user_user_permission_user_permission foreign key (user_permission_id) references user_permission (id) on delete restrict on update restrict;
-create index ix_user_user_permission_user_permission on user_user_permission (user_permission_id);
+alter table user_permission add constraint fk_user_permission_permission foreign key (permission_id) references permission (id) on delete restrict on update restrict;
+create index ix_user_permission_permission on user_permission (permission_id);
 
 
 # --- !Downs
@@ -351,17 +356,17 @@ drop index ix_tracklist_genre_tracklist on tracklist_genre;
 alter table tracklist_genre drop foreign key fk_tracklist_genre_genre;
 drop index ix_tracklist_genre_genre on tracklist_genre;
 
-alter table user_security_role drop foreign key fk_user_security_role_user;
-drop index ix_user_security_role_user on user_security_role;
+alter table user_role drop foreign key fk_user_role_user;
+drop index ix_user_role_user on user_role;
 
-alter table user_security_role drop foreign key fk_user_security_role_security_role;
-drop index ix_user_security_role_security_role on user_security_role;
+alter table user_role drop foreign key fk_user_role_role;
+drop index ix_user_role_role on user_role;
 
-alter table user_user_permission drop foreign key fk_user_user_permission_user;
-drop index ix_user_user_permission_user on user_user_permission;
+alter table user_permission drop foreign key fk_user_permission_user;
+drop index ix_user_permission_user on user_permission;
 
-alter table user_user_permission drop foreign key fk_user_user_permission_user_permission;
-drop index ix_user_user_permission_user_permission on user_user_permission;
+alter table user_permission drop foreign key fk_user_permission_permission;
+drop index ix_user_permission_permission on user_permission;
 
 drop table if exists artist;
 
@@ -375,9 +380,11 @@ drop table if exists label;
 
 drop table if exists media;
 
+drop table if exists permission;
+
 drop table if exists program;
 
-drop table if exists security_role;
+drop table if exists role;
 
 drop table if exists token;
 
@@ -397,9 +404,7 @@ drop table if exists tracklist_genre;
 
 drop table if exists user;
 
-drop table if exists user_security_role;
-
-drop table if exists user_user_permission;
+drop table if exists user_role;
 
 drop table if exists user_permission;
 

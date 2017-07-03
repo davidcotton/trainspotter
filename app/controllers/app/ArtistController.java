@@ -1,6 +1,9 @@
 package controllers.app;
 
 import static java.util.Objects.requireNonNull;
+import static models.Role.ADMIN;
+import static models.Role.CONTRIBUTOR;
+import static models.Role.EDITOR;
 
 import javax.inject.Inject;
 
@@ -12,8 +15,6 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
-import play.mvc.Security;
-import security.SessionAuthenticator;
 import services.ArtistService;
 import services.TrackService;
 import services.TracklistService;
@@ -72,8 +73,7 @@ public class ArtistController extends Controller {
    *
    * @return A page allowing the user to add an Artist.
    */
-  @Security.Authenticated(SessionAuthenticator.class)
-  @Restrict(@Group({"foo"}))
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addForm() {
     return ok(add.render(formFactory.form(CreateArtist.class)));
   }
@@ -83,7 +83,7 @@ public class ArtistController extends Controller {
    *
    * @return Redirect to the new Artist on success or the form with errors on failure.
    */
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addSubmit() {
     return artistService
         .insert(formFactory.form(CreateArtist.class).bindFromRequest())
@@ -99,7 +99,7 @@ public class ArtistController extends Controller {
    * @param slug The slug of the Artist to find.
    * @return An edit artist page if artist is found else not found page.
    */
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editForm(String slug) {
     return artistService
         .findBySlug(slug)
@@ -116,7 +116,7 @@ public class ArtistController extends Controller {
    * @param slug The slug of the Artist to find.
    * @return Redirect to updated Artist on success else the form with errors.
    */
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editSubmit(String slug) {
     return artistService
         .findBySlug(slug)
@@ -136,7 +136,7 @@ public class ArtistController extends Controller {
    * @param slug The slug of the Artist to find.
    * @return Redirects back to Artists list page on success else not found.
    */
-  @Security.Authenticated(SessionAuthenticator.class)
+  @Restrict(@Group(ADMIN))
   public Result delete(String slug) {
     return artistService
         .findBySlug(slug)

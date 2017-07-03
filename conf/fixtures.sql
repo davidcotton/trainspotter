@@ -4,9 +4,32 @@ INSERT INTO `user` (`email`, `username`, `slug`, `status`, `karma`, `tracklists_
   ('rembrandt.q.einstein@simpsons.com', 'Rembrandt Q. Einstein', 'rembrandt-q-einstein', 'deleted', 12345, 49, 106389, '$2a$16$JzMtqiUzAsUkWn1AYe.1C.xKIJUcj9lInDBANSKNmiS5WCKW7uvai', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.', NOW(), NOW()),
   ('rory.b.bellows@simpsons.com', 'Rory B. Bellows', 'rory-b-bellows', 'unverified', 12345, 0, 1402, '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', '$2a$16$aY..e8GAU2YGfdvLGqtahe', NOW(), NOW());
 
-# INSERT INTO `user_permission` (id, permission_value) VALUES
-#   (),
-#   ();
+INSERT INTO `role` (`name`, `created`, `updated`) VALUES
+  ('super_admin', NOW(), NOW()),
+  ('admin', NOW(), NOW()),
+  ('editor', NOW(), NOW()),
+  ('contributor', NOW(), NOW()),
+  ('user', NOW(), NOW());
+
+INSERT INTO `permission` (`permission_value`, `created`, `updated`) VALUES
+  ('artist.admin', NOW(), NOW()),
+  ('artist.editor', NOW(), NOW()),
+  ('artist.contributor', NOW(), NOW()),
+  ('channel.admin', NOW(), NOW()),
+  ('channel.editor', NOW(), NOW()),
+  ('channel.contributor', NOW(), NOW()),
+  ('label.admin', NOW(), NOW()),
+  ('label.editor', NOW(), NOW()),
+  ('label.contributor', NOW(), NOW()),
+  ('program.admin', NOW(), NOW()),
+  ('program.editor', NOW(), NOW()),
+  ('program.contributor', NOW(), NOW()),
+  ('track.admin', NOW(), NOW()),
+  ('track.editor', NOW(), NOW()),
+  ('track.contributor', NOW(), NOW()),
+  ('tracklist.admin', NOW(), NOW()),
+  ('tracklist.editor', NOW(), NOW()),
+  ('tracklist.contributor', NOW(), NOW());
 
 INSERT INTO `artist` (`name`, `slug`, `image`, `description`, `status`, `created`, `updated`)
 VALUES

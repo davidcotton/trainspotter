@@ -25,8 +25,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import be.objectify.deadbolt.java.models.Permission;
-import be.objectify.deadbolt.java.models.Role;
 import be.objectify.deadbolt.java.models.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -95,10 +93,10 @@ public class User extends Model implements Subject {
   private String salt;
 
   @ManyToMany
-  public List<SecurityRole> roles;
+  public List<Role> roles;
 
   @ManyToMany
-  public List<UserPermission> permissions;
+  public List<Permission> permissions;
 
   @JsonManagedReference(value = "user_tracklist")
   @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
@@ -227,22 +225,22 @@ public class User extends Model implements Subject {
   }
 
   /**
-   * Get all {@link Role}s held by this subject.  Ordering is not important.
+   * Get all {@link be.objectify.deadbolt.java.models.Role}s held by this subject.  Ordering is not important.
    *
    * @return a non-null list of roles
    */
   @Override
-  public List<? extends Role> getRoles() {
+  public List<? extends be.objectify.deadbolt.java.models.Role> getRoles() {
     return roles;
   }
 
   /**
-   * Get all {@link Permission}s held by this subject.  Ordering is not important.
+   * Get all {@link be.objectify.deadbolt.java.models.Permission}s held by this subject.  Ordering is not important.
    *
    * @return a non-null list of permissions
    */
   @Override
-  public List<? extends Permission> getPermissions() {
+  public List<? extends be.objectify.deadbolt.java.models.Permission> getPermissions() {
     return permissions;
   }
 
