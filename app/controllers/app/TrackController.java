@@ -1,5 +1,7 @@
 package controllers.app;
 
+import java.util.List;
+
 import static java.util.Objects.requireNonNull;
 import static models.Role.ADMIN;
 import static models.Role.CONTRIBUTOR;
@@ -8,12 +10,15 @@ import static models.Role.EDITOR;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import javax.inject.Inject;
+
+import models.Label;
 import models.create.CreateTrack;
 import models.update.UpdateTrack;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
+import services.LabelService;
 import services.TrackService;
 import views.html.notFound;
 import views.html.track.add;
@@ -25,11 +30,17 @@ public class TrackController extends Controller {
 
   private final TrackService trackService;
   private final FormFactory formFactory;
+  private final LabelService labelService;
 
   @Inject
-  public TrackController(TrackService trackService, FormFactory formFactory) {
+  public TrackController(
+      TrackService trackService,
+      FormFactory formFactory,
+      LabelService labelService
+  ) {
     this.trackService = requireNonNull(trackService);
     this.formFactory = requireNonNull(formFactory);
+    this.labelService = requireNonNull(labelService);
   }
 
   /**
@@ -61,7 +72,9 @@ public class TrackController extends Controller {
    */
   @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addForm() {
-    return ok(add.render(formFactory.form(CreateTrack.class)));
+    List<Label> labels = labelService.fetchAll();
+
+    return ok(add.render(formFactory.form(CreateTrack.class), labels));
   }
 
   @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
@@ -69,30 +82,35 @@ public class TrackController extends Controller {
     return trackService
         .insert(formFactory.form(CreateTrack.class).bindFromRequest())
         .fold(
-            form -> badRequest(add.render(form)),
+            form -> badRequest(add.render(form, labelService.fetchAll())),
             track -> Results.redirect(routes.TrackController.view(track.getId()))
         );
   }
 
   @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editForm(long id) {
+    List<Label> labels = labelService.fetchAll();
+
     return trackService
         .findById(id)
         .map(track -> ok(edit.render(
             track,
-            formFactory.form(UpdateTrack.class).fill(new UpdateTrack(track))
+            formFactory.form(UpdateTrack.class).fill(new UpdateTrack(track)),
+            labels
         )))
         .orElse(notFound(notFound.render()));
   }
 
   @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editSubmit(long id) {
+    List<Label> labels = labelService.fetchAll();
+
     return trackService
         .findById(id)
         .map(savedTrack -> trackService
             .update(savedTrack, formFactory.form(UpdateTrack.class).bindFromRequest())
             .fold(
-                form -> badRequest(edit.render(savedTrack, form)),
+                form -> badRequest(edit.render(savedTrack, form, labels)),
                 track -> Results.redirect(routes.TrackController.view(track.getId()))
             )
         )

@@ -1,9 +1,12 @@
 @import controllers.app.{routes => appRoutes}
 @import models.update.UpdateTrack
 
-@(track: Track, trackForm: play.data.Form[UpdateTrack])
+@(track: Track, trackForm: play.data.Form[UpdateTrack], labels: java.util.List[Label])
 
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
+
+@statuses =@{Seq("A" -> "Active", "I" -> "Inactive")}
+@labelOpts =@{labels.map(l => l.getId.toString -> l.getName)}
 
 @main("Edit " + track.getName) {
   <div class="card mt-5">
@@ -11,7 +14,9 @@
     <div class="card-block">
     @b4.form(appRoutes.TrackController.editSubmit(track.getId())) {
       <fieldset>
-        @b4.text(trackForm("name"), '_label -> "Name", 'placeholder -> "Name")
+        @b4.text(trackForm("name"), '_label -> "Name", 'placeholder -> "Name", 'required -> true)
+        @b4.text(trackForm("remixName"), '_label -> "Remix name")
+        @b4.select(trackForm("label"), options = labelOpts, '_label -> "Label")
         @b4.submit('class -> "btn btn-primary") { Save }
       </fieldset>
     }
