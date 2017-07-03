@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import models.Artist;
 import models.Media;
+import models.Media.Type;
+import models.Media.Status;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
 
@@ -50,7 +52,7 @@ public class MediaRepositoryTest extends AbstractIntegrationTest {
   @Test public void insert_success() throws Exception {
     // ARRANGE
     Artist artist = artistRepository.findById(1L).orElseThrow(Exception::new);
-    Media media = new Media(null, "https://www.youtube.com/channel/UCXUO2biGVP7FKCqPEDwmt4w", null, artist, null, null, null);
+    Media media = new Media(null, "https://www.youtube.com/channel/UCXUO2biGVP7FKCqPEDwmt4w", Type.youtube, null, artist, null, null, Status.active, null, null);
 
     // ACT
     mediaRepository.insert(media);
