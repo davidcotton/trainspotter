@@ -16,6 +16,7 @@
         @b4.text(trackForm("name"), '_label -> "Name", 'placeholder -> "Name")
         @b4.text(trackForm("remixName"), '_label -> "Remix name")
         @b4.select(trackForm("label"), options = derp, '_default -> "-- Choose a label --", '_label -> "Label")
+        @b4.date(trackForm("releaseDate"), '_label -> "Release date")
         @b4.submit('class -> "btn btn-primary") { Create }
       </fieldset>
     }

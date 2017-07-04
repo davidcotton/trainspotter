@@ -2,39 +2,47 @@
 
 @(track: Track)
 
-@main(track.getName) {
+@main(track.getFullName) {
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="@appRoutes.ApplicationController.index">Home</a></li>
     <li class="breadcrumb-item"><a href="@appRoutes.TrackController.index">Tracks</a></li>
     <li class="breadcrumb-item active"><a href="@appRoutes.TrackController.view(track.getId)">@track.getName</a></li>
   </ol>
 
-  <h1>@track.getName</h1>
+  <h1>@track.getFullName</h1>
   <table class="table table-striped">
     <tbody>
       <tr>
-        <th>Artists</th>
+        <td>Artists</td>
         <td>
-          <ul>
           @for(artist <- track.getArtists) {
-            <li>@artist.getName</li>
+            @artist.getName,
           }
-          </ul>
         </td>
       </tr>
       <tr>
-        <th>Name</th>
+        <td>Name</td>
         <td>@partials.trackname(track)</td>
       </tr>
       <tr>
-        <th>Remixers</th>
+        <td>Remixers</td>
         <td>
-          <ul>
           @for(remixer <- track.getRemixers) {
-            <li>@remixer.getName</li>
+            @remixer.getName,
           }
-          </ul>
         </td>
+      </tr>
+      <tr>
+        <td>Label</td>
+        <td>@track.getLabel.getName</td>
+      </tr>
+      <tr>
+        <td>Genre</td>
+        <td>@track.getGenre.getName</td>
+      </tr>
+      <tr>
+        <td>Release date</td>
+        <td>@track.getReleaseDate</td>
       </tr>
       <tr>
         <th>&nbsp;</th>
