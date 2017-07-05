@@ -19,6 +19,15 @@
         @b4.select(trackForm("label"), options = labelOpts, '_label -> "Label")
         @b4.date(trackForm("releaseDate"), '_label -> "Release date")
         @b4.submit('class -> "btn btn-primary") { Save }
+        @*<div class="form-group row">*@
+          @*<label class="col-form-label col-md-2" for="releaseDate">Release date</label>*@
+          @*<div class="col-md-10 input-group date">*@
+            @* @helper.input(trackForm("releaseDate")) { (id, name, value, args) =>*@
+              @*<input type="text" class="form-control" data-provide="datepicker" id="id" @toHtmlArgs(args)>*@
+            @*}*@
+            @*<div class="input-group-addon"><i class="fa fa-calendar" title="Pick date" aria-hidden="true"></i></div>*@
+          @*</div>*@
+        @*</div>*@
       </fieldset>
     }
     </div>

@@ -114,7 +114,6 @@ public class Track extends Model {
   }
 
   public String getFullName() {
-//    String artists = artists.get
     String artistNames = "artist";
     if (remixName != null) {
       return String.format("%s - %s (%s)", artistNames, name, remixName);
