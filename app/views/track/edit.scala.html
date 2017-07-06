@@ -1,11 +1,17 @@
 @import controllers.app.{routes => appRoutes}
 @import models.update.UpdateTrack
 
-@(track: Track, trackForm: play.data.Form[UpdateTrack], labels: java.util.List[Label])
+@(
+  track: Track,
+  trackForm: play.data.Form[UpdateTrack],
+  genres: java.util.List[Genre],
+  labels: java.util.List[Label]
+)
 
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
 @statuses =@{Seq("A" -> "Active", "I" -> "Inactive")}
+@genreOpts =@{genres.map(g => g.getId.toString -> g.getName)}
 @labelOpts =@{labels.map(l => l.getId.toString -> l.getName)}
 
 @main("Edit " + track.getName) {
@@ -16,6 +22,8 @@
       <fieldset>
         @b4.text(trackForm("name"), '_label -> "Name", 'placeholder -> "Name", 'required -> true)
         @b4.text(trackForm("remixName"), '_label -> "Remix name")
+        @b4.text(trackForm("genre"), '_label -> "Genre")
+        @b4.select(trackForm("genre"), options = genreOpts, '_label -> "Genre")
         @b4.select(trackForm("label"), options = labelOpts, '_label -> "Label")
         @b4.date(trackForm("releaseDate"), '_label -> "Release date")
         @b4.submit('class -> "btn btn-primary") { Save }

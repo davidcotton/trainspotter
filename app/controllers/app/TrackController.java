@@ -11,6 +11,7 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import javax.inject.Inject;
 
+import models.Genre;
 import models.Label;
 import models.create.CreateTrack;
 import models.update.UpdateTrack;
@@ -18,6 +19,7 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
+import services.GenreService;
 import services.LabelService;
 import services.TrackService;
 import views.html.notFound;
@@ -30,16 +32,19 @@ public class TrackController extends Controller {
 
   private final TrackService trackService;
   private final FormFactory formFactory;
+  private final GenreService genreService;
   private final LabelService labelService;
 
   @Inject
   public TrackController(
       TrackService trackService,
       FormFactory formFactory,
+      GenreService genreService,
       LabelService labelService
   ) {
     this.trackService = requireNonNull(trackService);
     this.formFactory = requireNonNull(formFactory);
+    this.genreService = requireNonNull(genreService);
     this.labelService = requireNonNull(labelService);
   }
 
@@ -89,6 +94,7 @@ public class TrackController extends Controller {
 
   @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editForm(long id) {
+    List<Genre> genres = genreService.fetchAll();
     List<Label> labels = labelService.fetchAll();
 
     return trackService
@@ -96,6 +102,7 @@ public class TrackController extends Controller {
         .map(track -> ok(edit.render(
             track,
             formFactory.form(UpdateTrack.class).fill(new UpdateTrack(track)),
+            genres,
             labels
         )))
         .orElse(notFound(notFound.render()));
@@ -103,6 +110,7 @@ public class TrackController extends Controller {
 
   @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editSubmit(long id) {
+    List<Genre> genres = genreService.fetchAll();
     List<Label> labels = labelService.fetchAll();
 
     return trackService
@@ -110,7 +118,7 @@ public class TrackController extends Controller {
         .map(savedTrack -> trackService
             .update(savedTrack, formFactory.form(UpdateTrack.class).bindFromRequest())
             .fold(
-                form -> badRequest(edit.render(savedTrack, form, labels)),
+                form -> badRequest(edit.render(savedTrack, form, genres, labels)),
                 track -> Results.redirect(routes.TrackController.view(track.getId()))
             )
         )
