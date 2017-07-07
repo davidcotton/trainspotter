@@ -87,7 +87,11 @@ public class Track extends Model {
 
   public Track(CreateTrack createTrack) {
     name = createTrack.getName();
+    artists = createTrack.getArtists();
+    remixers = createTrack.getRemixers();
     remixName = createTrack.getRemixName();
+    genre = createTrack.getGenre();
+    label = createTrack.getLabel();
     releaseDate = createTrack.getReleaseDate();
     status = Status.active;
   }
@@ -98,8 +102,8 @@ public class Track extends Model {
     artists = track.artists;
     remixers = track.remixers;
     remixName = updateTrack.getRemixName();
-    genre = track.getGenre();
-    label = track.getLabel();
+    genre = updateTrack.getGenre();
+    label = updateTrack.getLabel();
     releaseDate = updateTrack.getReleaseDate();
     tracklists = track.tracklists;
     status = track.status;

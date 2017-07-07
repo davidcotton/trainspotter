@@ -34,11 +34,11 @@
       </tr>
       <tr>
         <td>Label</td>
-        <td>@track.getLabel.getName</td>
+        <td>@if(track.getLabel != null) { @track.getLabel.getName }</td>
       </tr>
       <tr>
         <td>Genre</td>
-        <td>@track.getGenre.getName</td>
+        <td>@if(track.getGenre != null) { @track.getGenre.getName }</td>
       </tr>
       <tr>
         <td>Release date</td>

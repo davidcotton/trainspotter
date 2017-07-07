@@ -77,17 +77,21 @@ public class TrackController extends Controller {
    */
   @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addForm() {
+    List<Genre> genres = genreService.fetchAll();
     List<Label> labels = labelService.fetchAll();
 
-    return ok(add.render(formFactory.form(CreateTrack.class), labels));
+    return ok(add.render(formFactory.form(CreateTrack.class), genres, labels));
   }
 
   @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addSubmit() {
+    List<Genre> genres = genreService.fetchAll();
+    List<Label> labels = labelService.fetchAll();
+
     return trackService
         .insert(formFactory.form(CreateTrack.class).bindFromRequest())
         .fold(
-            form -> badRequest(add.render(form, labelService.fetchAll())),
+            form -> badRequest(add.render(form, genres, labels)),
             track -> Results.redirect(routes.TrackController.view(track.getId()))
         );
   }

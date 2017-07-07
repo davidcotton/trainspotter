@@ -22,11 +22,11 @@
       <fieldset>
         @b4.text(trackForm("name"), '_label -> "Name", 'placeholder -> "Name", 'required -> true)
         @b4.text(trackForm("remixName"), '_label -> "Remix name")
-        @b4.text(trackForm("genre"), '_label -> "Genre")
-        @b4.select(trackForm("genre"), options = genreOpts, '_label -> "Genre")
-        @b4.select(trackForm("label"), options = labelOpts, '_label -> "Label")
+        @b4.select(trackForm("genre.id"), options = genreOpts, '_label -> "Genre")
+        @b4.select(trackForm("label.id"), options = labelOpts, '_label -> "Label")
         @b4.date(trackForm("releaseDate"), '_label -> "Release date")
         @b4.submit('class -> "btn btn-primary") { Save }
+
         @*<div class="form-group row">*@
           @*<label class="col-form-label col-md-2" for="releaseDate">Release date</label>*@
           @*<div class="col-md-10 input-group date">*@
@@ -36,6 +36,7 @@
             @*<div class="input-group-addon"><i class="fa fa-calendar" title="Pick date" aria-hidden="true"></i></div>*@
           @*</div>*@
         @*</div>*@
+
       </fieldset>
     }
     </div>
