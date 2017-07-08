@@ -19,6 +19,6 @@ public class UpdateLabel {
   public UpdateLabel(Label label) {
     name = label.getName();
     image = label.getImage();
-    description = label.getImage();
+    description = label.getDescription();
   }
 }

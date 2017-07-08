@@ -84,6 +84,7 @@ public class Program extends Model {
     slug = slugify(createProgram.getName());
     image = createProgram.getImage();
     description = createProgram.getDescription();
+    channel = createProgram.getChannel();
     status = Status.active;
   }
 
@@ -93,7 +94,7 @@ public class Program extends Model {
     slug = program.slug;
     image = updateProgram.getImage();
     description = updateProgram.getDescription();
-    channel = program.channel;
+    channel = updateProgram.getChannel();
     hosts = program.getHosts();
     status = program.status;
     created = program.created;

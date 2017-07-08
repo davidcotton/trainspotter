@@ -8,7 +8,18 @@
     <li class="breadcrumb-item active"><a href="@appRoutes.TracklistController.index()">Tracklists</a></li>
   </ol>
 
-  <h1>Latest Tracklists</h1>
+  <div class="row">
+    <div class="col-md-10">
+      <h1>Latest Tracklists</h1>
+    </div>
+    <div class="col-md-2">
+      <div class="float-right">
+        <a href="@appRoutes.TracklistController.addForm()" class="btn btn-success">
+          <i class="fa fa-plus-circle" title="New label" aria-hidden="true"></i> New tracklist
+        </a>
+      </div>
+    </div>
+  </div>
   @if(tracklists.getTotalRowCount > 0) {
     <div class="list-group">
     @for(tracklist <- tracklists.getList) {

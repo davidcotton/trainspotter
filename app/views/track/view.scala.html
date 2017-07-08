@@ -47,12 +47,16 @@
       <tr>
         <th>&nbsp;</th>
         <td>
-          <a href="@appRoutes.TrackController.editForm(track.getId)" class="btn btn-sm btn-warning">
-            <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
-          </a>
-          <a href="@appRoutes.TrackController.delete(track.getId)" class="btn btn-sm btn-danger">
-            <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
-          </a>
+          <div class="btn-group" role="group">
+            <a href="@appRoutes.TrackController.editForm(track.getId())" class="btn btn-sm btn-warning">
+              <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
+            </a>
+            <form action="@appRoutes.TrackController.delete(track.getId())" method="post">
+              <button type="submit" class="btn btn-sm btn-danger">
+                <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
+              </button>
+            </form>
+          </div>
         </td>
       </tr>
     </tbody>

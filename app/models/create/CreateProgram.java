@@ -3,6 +3,7 @@ package models.create;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import models.Channel;
 import play.data.validation.Constraints;
 
 @Data
@@ -14,4 +15,5 @@ public class CreateProgram {
   private String name;
   private String image;
   private String description;
+  private Channel channel;
 }

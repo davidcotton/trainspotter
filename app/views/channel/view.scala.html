@@ -18,8 +18,11 @@
       @channel.getDescription
     </div>
 
-    <!-- edit/delete -->
+    <!-- add/edit/delete -->
     <div class="btn-group" role="group">
+      <a href="@appRoutes.ProgramController.addForm(channel.getSlug)" class="btn btn-sm btn-success">
+        <i class="fa fa-plus-circle" title="Add" aria-hidden="true"></i>
+      </a>
       <a href="@appRoutes.ChannelController.editForm(channel.getSlug)" class="btn btn-sm btn-warning">
         <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
       </a>

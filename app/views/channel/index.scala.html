@@ -8,7 +8,19 @@
     <li class="breadcrumb-item active"><a href="@appRoutes.ChannelController.index()">Channels</a></li>
   </ol>
 
-  <h1>Channels</h1>
+  <div class="row">
+    <div class="col-md-10">
+      <h1>Channels</h1>
+    </div>
+    <div class="col-md-2">
+      <div class="float-right">
+        <a href="@appRoutes.ChannelController.addForm()" class="btn btn-success">
+          <i class="fa fa-plus-circle" title="New channel" aria-hidden="true"></i> New channel
+        </a>
+      </div>
+    </div>
+  </div>
+
   @if(channels.getTotalRowCount > 0) {
     <div class="row">
       @for(channel <- channels.getList) {

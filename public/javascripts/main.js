@@ -1,4 +1,5 @@
 $('#releaseDate').datepicker({
-  startDate: '-3d'
+  // startDate: '-3d',
+  format: 'yyyy-mm-dd'
 });
 

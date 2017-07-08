@@ -5,16 +5,16 @@
 
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
-@main("Create Channel") {
+@main("New Channel") {
   <div class="card mt-5">
-    <h3 class="card-header">Create Channel</h3>
+    <h3 class="card-header">New Channel</h3>
     <div class="card-block">
     @b4.form(appRoutes.ChannelController.addSubmit()) {
       <fieldset>
         @b4.text(channelForm("name"), '_label -> "Name", 'placeholder -> "Name")
         @b4.text(channelForm("image"), '_label -> "Image", 'placeholder -> "Image")
         @b4.textarea(channelForm("description"), '_label -> "Description", 'placeholder -> "Description", 'rows -> "10")
-        @b4.submit('class -> "btn btn-primary") { Create }
+        @b4.submit('class -> "btn btn-primary") { Create channel }
       </fieldset>
     }
     </div>

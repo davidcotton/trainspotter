@@ -5,16 +5,16 @@
 
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
-@main("Create Artist") {
+@main("New Artist") {
   <div class="card mt-5">
-    <h3 class="card-header">Create Artist</h3>
+    <h3 class="card-header">New Artist</h3>
     <div class="card-block">
     @b4.form(appRoutes.ArtistController.addSubmit()) {
       <fieldset>
         @b4.text(artistForm("name"), '_label -> "Name", 'placeholder -> "Name")
         @b4.text(artistForm("image"), '_label -> "Image", 'placeholder -> "Image")
         @b4.textarea(artistForm("description"), '_label -> "Description", 'placeholder -> "Description", 'rows -> "10")
-        @b4.submit('class -> "btn btn-primary") { Create }
+        @b4.submit('class -> "btn btn-primary") { Create artist }
       </fieldset>
     }
     </div>
