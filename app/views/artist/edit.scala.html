@@ -11,9 +11,18 @@
     <div class="card-block">
     @b4.form(appRoutes.ArtistController.editSubmit(artist.getSlug)) {
       <fieldset>
-        @b4.text(artistForm("name"), '_label -> "Name", 'placeholder -> "Name")
-        @b4.text(artistForm("image"), '_label -> "Image", 'placeholder -> "Image")
-        @b4.textarea(artistForm("description"), '_label -> "Description", 'placeholder -> "Description", 'rows -> "10")
+        @b4.text(artistForm("name"), '_label -> "Name")
+        @b4.file(artistForm("image"), '_label -> "Image")
+        <div class="form-group row">
+          <div class="col-md-10 offset-2">
+            @if(artist.getImage != null) {
+              <img src="@routes.Assets.versioned(artist.getImageLink)" alt="@artist.getName" class="img-thumbnail">
+            } else {
+              <p>No image</p>
+            }
+          </div>
+        </div>
+        @b4.textarea(artistForm("description"), '_label -> "Description", 'rows -> "10")
         @b4.submit('class -> "btn btn-primary") { Update artist }
       </fieldset>
     }

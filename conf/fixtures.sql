@@ -1,8 +1,8 @@
 
-INSERT INTO `user` (`email`, `username`, `slug`, `status`, `karma`, `tracklists_created`, `tracks_identified`, `hash`, `salt`, `created`, `updated`) VALUES
-  ('brian.mcgee@simpsons.com', 'Brian McGee', 'brian-mcgee', 'active', 12345, 31, 92423, '$2a$16$T1PaqXFutgw9qUmlK875Ge4wFRnn9TBMyJHfxyBpDXItcrNDL/OYa', '$2a$16$T1PaqXFutgw9qUmlK875Ge', NOW(), NOW()),
-  ('rembrandt.q.einstein@simpsons.com', 'Rembrandt Q. Einstein', 'rembrandt-q-einstein', 'deleted', 12345, 49, 106389, '$2a$16$JzMtqiUzAsUkWn1AYe.1C.xKIJUcj9lInDBANSKNmiS5WCKW7uvai', '$2a$16$JzMtqiUzAsUkWn1AYe.1C.', NOW(), NOW()),
-  ('rory.b.bellows@simpsons.com', 'Rory B. Bellows', 'rory-b-bellows', 'unverified', 12345, 0, 1402, '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', '$2a$16$aY..e8GAU2YGfdvLGqtahe', NOW(), NOW());
+INSERT INTO `user` (`email`, `username`, `slug`, `status`, `karma`, `tracklists_created`, `tracks_identified`, `hash`, `created`, `updated`) VALUES
+  ('brian.mcgee@simpsons.com', 'Brian McGee', 'brian-mcgee', 'active', 22345, 31, 92423, '$2a$16$T1PaqXFutgw9qUmlK875Ge4wFRnn9TBMyJHfxyBpDXItcrNDL/OYa', NOW(), NOW()),
+  ('rembrandt.q.einstein@simpsons.com', 'Rembrandt Q. Einstein', 'rembrandt-q-einstein', 'deleted', 993850, 49, 106389, '$2a$16$JzMtqiUzAsUkWn1AYe.1C.xKIJUcj9lInDBANSKNmiS5WCKW7uvai', NOW(), NOW()),
+  ('rory.b.bellows@simpsons.com', 'Rory B. Bellows', 'rory-b-bellows', 'unverified', 2335, 0, 1402, '$2a$16$aY..e8GAU2YGfdvLGqtaheWo5I7vwq9SPc7bqX8hgbgdSQEVUYGSq', NOW(), NOW());
 
 INSERT INTO `role` (`name`, `created`, `updated`) VALUES
   ('super_admin', NOW(), NOW()),

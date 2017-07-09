@@ -1,5 +1,6 @@
 package models;
 
+import static utilities.ImageHelper.imagify;
 import static utilities.SlugHelper.slugify;
 
 import com.avaje.ebean.Model;
@@ -25,12 +26,15 @@ import lombok.EqualsAndHashCode;
 import models.create.CreateLabel;
 import models.update.UpdateLabel;
 import play.data.format.Formats;
+import utilities.ImageHelper;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class Label extends Model {
+
+  private static final String NICHE = "label";
 
   public enum Status {
     @EnumValue("active") active,
@@ -80,7 +84,7 @@ public class Label extends Model {
   public Label(CreateLabel createLabel) {
     name = createLabel.getName();
     slug = slugify(createLabel.getName());
-    image = createLabel.getImage();
+    image = imagify(createLabel.getImage(), NICHE);
     description = createLabel.getDescription();
     status = Status.active;
   }
@@ -89,7 +93,7 @@ public class Label extends Model {
     id = label.id;
     name = updateLabel.getName();
     slug = label.slug;
-    image = updateLabel.getImage();
+    image = imagify(updateLabel.getImage(), NICHE);
     description = updateLabel.getDescription();
     tracks = label.tracks;
     medias = label.medias;
@@ -114,11 +118,7 @@ public class Label extends Model {
   }
 
   public String getImageLink() {
-    if (image != null) {
-      return String.format("images/label/%s", image);
-    } else {
-      return null;
-    }
+    return ImageHelper.getLink(image, NICHE);
   }
 
   public String getDescription() {

@@ -11,6 +11,7 @@ import models.Artist;
 import models.Genre;
 import models.Tracklist;
 import models.Tracklist.Status;
+import models.User;
 import models.create.CreateTracklist;
 import models.update.UpdateTracklist;
 import play.data.Form;
@@ -66,12 +67,13 @@ public class TracklistService {
    * @param tracklistForm The submitted Tracklist data form.
    * @return Either the inserted Tracklist or the form with errors.
    */
-  public Either<Form<CreateTracklist>, Tracklist> insert(Form<CreateTracklist> tracklistForm) {
+  public Either<Form<CreateTracklist>, Tracklist> insert(Form<CreateTracklist> tracklistForm, User user) {
     if (tracklistForm.hasErrors()) {
       return Either.left(tracklistForm);
     }
 
     Tracklist tracklist = new Tracklist(tracklistForm.get());
+    tracklist.setUser(user);
     tracklistRepository.insert(tracklist);
 
     return Either.right(tracklist);

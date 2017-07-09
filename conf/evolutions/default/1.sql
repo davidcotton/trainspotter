@@ -195,7 +195,6 @@ create table user (
   tracklists_created            bigint,
   tracks_identified             bigint,
   hash                          char(60) not null,
-  salt                          char(29) not null,
   created                       datetime not null,
   updated                       datetime not null,
   constraint ck_user_status check (status in ('inactive','deleted','unverified','active','banned')),

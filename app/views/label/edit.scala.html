@@ -12,7 +12,16 @@
     @b4.form(appRoutes.LabelController.editSubmit(label.getSlug)) {
       <fieldset>
         @b4.text(labelForm("name"), '_label -> "Name", 'placeholder -> "Name")
-        @b4.text(labelForm("image"), '_label -> "Image", 'placeholder -> "Image")
+        @b4.file(labelForm("image"), '_label -> "Image")
+        <div class="form-group row">
+          <div class="col-md-10 offset-2">
+          @if(label.getImage != null) {
+            <img src="@routes.Assets.versioned(label.getImageLink)" alt="@label.getName" class="img-thumbnail">
+          } else {
+            <p>No image</p>
+          }
+          </div>
+        </div>
         @b4.textarea(labelForm("description"), '_label -> "Description", 'placeholder -> "Description", 'rows -> "10")
         @b4.submit('class -> "btn btn-primary") { Update label }
       </fieldset>

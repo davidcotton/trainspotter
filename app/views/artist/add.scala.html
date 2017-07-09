@@ -11,9 +11,9 @@
     <div class="card-block">
     @b4.form(appRoutes.ArtistController.addSubmit()) {
       <fieldset>
-        @b4.text(artistForm("name"), '_label -> "Name", 'placeholder -> "Name")
-        @b4.text(artistForm("image"), '_label -> "Image", 'placeholder -> "Image")
-        @b4.textarea(artistForm("description"), '_label -> "Description", 'placeholder -> "Description", 'rows -> "10")
+        @b4.text(artistForm("name"), '_label -> "Name")
+        @b4.file(artistForm("image"), '_label -> "Image")
+        @b4.textarea(artistForm("description"), '_label -> "Description", 'rows -> "10")
         @b4.submit('class -> "btn btn-primary") { Create artist }
       </fieldset>
     }

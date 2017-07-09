@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -86,12 +88,6 @@ public class User extends Model implements Subject {
   @Column(columnDefinition = "char(60)")
   private String hash;
 
-  @Getter(onMethod = @__(@JsonIgnore))
-  @Setter
-  @NotNull
-  @Column(columnDefinition = "char(29)")
-  private String salt;
-
   @ManyToMany
   public List<Role> roles;
 
@@ -125,8 +121,7 @@ public class User extends Model implements Subject {
     karma = 0;
     tracklistsCreated = 0;
     tracksIdentified = 0;
-    salt = generateSalt();
-    hash = hashPassword(createUser.getPassword(), salt);
+    hash = hashPassword(createUser.getPassword(), generateSalt());
     status = Status.unverified;
   }
 
@@ -140,7 +135,6 @@ public class User extends Model implements Subject {
     tracksIdentified = savedUser.tracksIdentified;
     status = savedUser.status;
     hash = savedUser.hash;
-    salt = savedUser.salt;
     tracklists = savedUser.tracklists;
     medias = savedUser.medias;
     created = savedUser.created;
@@ -155,8 +149,7 @@ public class User extends Model implements Subject {
     karma = savedUser.karma;
     tracklistsCreated = savedUser.tracklistsCreated;
     tracksIdentified = savedUser.tracksIdentified;
-    salt = generateSalt();
-    hash = hashPassword(updatePassword.getNewPassword(), salt);
+    hash = hashPassword(updatePassword.getNewPassword(), generateSalt());
     tracklists = savedUser.tracklists;
     medias = savedUser.medias;
     created = savedUser.created;
@@ -210,6 +203,14 @@ public class User extends Model implements Subject {
 
   public long getKarma() {
     return karma;
+  }
+
+  public String getKarmaFormatted() {
+    if (karma < 1000) {
+      return String.valueOf(karma);
+    } else {
+      return String.format("%.2fk", (karma / 1000.0));
+    }
   }
 
   public long getTracklistsCreated() {

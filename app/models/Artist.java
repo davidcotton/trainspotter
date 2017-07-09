@@ -1,5 +1,6 @@
 package models;
 
+import static utilities.ImageHelper.imagify;
 import static utilities.SlugHelper.slugify;
 
 import com.avaje.ebean.Model;
@@ -27,12 +28,15 @@ import lombok.EqualsAndHashCode;
 import models.create.CreateArtist;
 import models.update.UpdateArtist;
 import play.data.format.Formats;
+import utilities.ImageHelper;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class Artist extends Model {
+
+  private static final String NICHE = "artist";
 
   public enum Status {
     @EnumValue("active") active,
@@ -94,7 +98,7 @@ public class Artist extends Model {
   public Artist(CreateArtist createArtist) {
     name = createArtist.getName();
     slug = slugify(createArtist.getName());
-    image = createArtist.getImage();
+    image = imagify(createArtist.getImage(), NICHE);
     description = createArtist.getDescription();
     status = Status.active;
   }
@@ -103,7 +107,7 @@ public class Artist extends Model {
     id = savedArtist.id;
     name = updateArtist.getName();
     slug = savedArtist.slug;
-    image = updateArtist.getImage();
+    image = imagify(updateArtist.getImage(), NICHE);
     description = updateArtist.getDescription();
     tracks = savedArtist.tracks;
     remixes = savedArtist.remixes;
@@ -131,11 +135,7 @@ public class Artist extends Model {
   }
 
   public String getImageLink() {
-    if (image == null) {
-      return null;
-    } else {
-      return String.format("images/artist/%s", image);
-    }
+    return ImageHelper.getLink(image, NICHE);
   }
 
   public String getDescription() {

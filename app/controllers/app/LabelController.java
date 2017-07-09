@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static models.Role.ADMIN;
 import static models.Role.CONTRIBUTOR;
 import static models.Role.EDITOR;
+import static models.Role.SUPER_ADMIN;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
@@ -60,7 +61,7 @@ public class LabelController extends Controller {
    *
    * @return A page allowing the user to add a Label.
    */
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addForm() {
     return ok(add.render(formFactory.form(CreateLabel.class)));
   }
@@ -70,7 +71,7 @@ public class LabelController extends Controller {
    *
    * @return Redirect to the new Label on success else the form with errors.
    */
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addSubmit() {
     return labelService
         .insert(formFactory.form(CreateLabel.class).bindFromRequest())
@@ -86,7 +87,7 @@ public class LabelController extends Controller {
    * @param slug The slug of the label.
    * @return An edit label page if found, else not found page.
    */
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editForm(String slug) {
     return labelService
         .findBySlug(slug)
@@ -103,7 +104,7 @@ public class LabelController extends Controller {
    * @param slug The slug of the label.
    * @return Redirect to the updated Label on success, else the form with errors.
    */
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editSubmit(String slug) {
     return labelService
         .findBySlug(slug)
@@ -123,7 +124,7 @@ public class LabelController extends Controller {
    * @param slug The slug of the label.
    * @return Redirects to the Label list page on success, else not found.
    */
-  @Restrict({@Group(ADMIN)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR)})
   public Result delete(String slug) {
     return labelService
         .findBySlug(slug)

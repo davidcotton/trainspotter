@@ -39,12 +39,14 @@ public class TracklistController extends Controller {
   @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
-    return tracklistService
-        .insert(formFactory.form(CreateTracklist.class).bindFromRequest())
-        .fold(
-            form -> badRequest(errorsAsJson(form.errors())),
-            tracklist -> created(toJson(tracklist))
-        );
+    return TODO;
+
+//    return tracklistService
+//        .insert(formFactory.form(CreateTracklist.class).bindFromRequest())
+//        .fold(
+//            form -> badRequest(errorsAsJson(form.errors())),
+//            tracklist -> created(toJson(tracklist))
+//        );
   }
 
   @Security.Authenticated

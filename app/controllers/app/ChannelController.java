@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static models.Role.ADMIN;
 import static models.Role.CONTRIBUTOR;
 import static models.Role.EDITOR;
+import static models.Role.SUPER_ADMIN;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
@@ -60,7 +61,7 @@ public class ChannelController extends Controller {
    *
    * @return A page to add a new channel.
    */
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addForm() {
     return ok(add.render(formFactory.form(CreateChannel.class)));
   }
@@ -70,7 +71,7 @@ public class ChannelController extends Controller {
    *
    * @return Redirect to the new Channel on success else the form with errors.
    */
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addSubmit() {
     return channelService
         .insert(formFactory.form(CreateChannel.class).bindFromRequest())
@@ -86,7 +87,7 @@ public class ChannelController extends Controller {
    * @param slug The slug of the channel.
    * @return An edit channel page if found else not found page.
    */
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editForm(String slug) {
     return channelService
         .findBySlug(slug)
@@ -103,7 +104,7 @@ public class ChannelController extends Controller {
    * @param slug The slug of the channel.
    * @return Redirect to the updated Channel on success else the form with errors.
    */
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editSubmit(String slug) {
     return channelService
         .findBySlug(slug)
@@ -123,7 +124,7 @@ public class ChannelController extends Controller {
    * @param slug The slug of the channel.
    * @return Redirects to the Channel list page on success else not found.
    */
-  @Restrict({@Group(ADMIN)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR)})
   public Result delete(String slug) {
     return channelService
         .findBySlug(slug)

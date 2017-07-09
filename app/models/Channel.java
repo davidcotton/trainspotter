@@ -1,5 +1,6 @@
 package models;
 
+import static utilities.ImageHelper.imagify;
 import static utilities.SlugHelper.slugify;
 
 import com.avaje.ebean.Model;
@@ -25,12 +26,15 @@ import lombok.EqualsAndHashCode;
 import models.create.CreateChannel;
 import models.update.UpdateChannel;
 import play.data.format.Formats;
+import utilities.ImageHelper;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class Channel extends Model {
+
+  private static final String NICHE = "channel";
 
   public enum Status {
     @EnumValue("active") active,
@@ -76,7 +80,7 @@ public class Channel extends Model {
   public Channel(CreateChannel createChannel) {
     name = createChannel.getName();
     slug = slugify(createChannel.getName());
-    image = createChannel.getImage();
+    image = imagify(createChannel.getImage(), NICHE);
     description = createChannel.getDescription();
     status = Status.active;
   }
@@ -85,7 +89,7 @@ public class Channel extends Model {
     id = channel.id;
     name = updateChannel.getName();
     slug = channel.slug;
-    image = updateChannel.getImage();
+    image = imagify(updateChannel.getImage(), NICHE);
     description = updateChannel.getDescription();
     programs = channel.programs;
     status = channel.status;
@@ -109,11 +113,7 @@ public class Channel extends Model {
   }
 
   public String getImageLink() {
-    if (image == null) {
-      return null;
-    } else {
-      return String.format("images/channel/%s", image);
-    }
+    return ImageHelper.getLink(image, NICHE);
   }
 
   public String getDescription() {

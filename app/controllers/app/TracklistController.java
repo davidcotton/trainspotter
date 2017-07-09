@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static models.Role.ADMIN;
 import static models.Role.CONTRIBUTOR;
 import static models.Role.EDITOR;
+import static models.Role.SUPER_ADMIN;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
@@ -15,6 +16,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import services.TracklistService;
+import services.UserService;
 import views.html.notFound;
 import views.html.tracklist.add;
 import views.html.tracklist.edit;
@@ -25,11 +27,13 @@ public class TracklistController extends Controller {
 
   private final TracklistService tracklistService;
   private final FormFactory formFactory;
+  private final UserService userService;
 
   @Inject
-  public TracklistController(TracklistService tracklistRepository, FormFactory formFactory) {
+  public TracklistController(TracklistService tracklistRepository, FormFactory formFactory, UserService userService) {
     this.tracklistService = requireNonNull(tracklistRepository);
     this.formFactory = requireNonNull(formFactory);
+    this.userService = requireNonNull(userService);
   }
 
   /**
@@ -54,22 +58,27 @@ public class TracklistController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addForm() {
     return ok(add.render(formFactory.form(CreateTracklist.class)));
   }
 
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addSubmit() {
-    return tracklistService
-        .insert(formFactory.form(CreateTracklist.class).bindFromRequest())
-        .fold(
-            form -> badRequest(add.render(form)),
-            tracklist -> Results.redirect(routes.TracklistController.view(tracklist.getId()))
-        );
+    return userService
+        .findBySlug(session("userslug"))
+        .map(user -> tracklistService
+            .insert(formFactory.form(CreateTracklist.class).bindFromRequest(), user)
+            .fold(
+                form -> badRequest(add.render(form)),
+                tracklist -> Results.redirect(routes.TracklistController.view(tracklist.getId()))
+            )
+        )
+        .orElse(Results.redirect(routes.ApplicationController.index()));
+
   }
 
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editForm(long id) {
     return tracklistService
         .findById(id)
@@ -80,7 +89,7 @@ public class TracklistController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editSubmit(long id) {
     return tracklistService
         .findById(id)
@@ -100,7 +109,7 @@ public class TracklistController extends Controller {
    * @param id The ID of the Tracklist.
    * @return Redirects to the Tracklist list page on success, else not found.
    */
-  @Restrict({@Group(ADMIN)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR)})
   public Result delete(long id) {
     return tracklistService
         .findById(id)

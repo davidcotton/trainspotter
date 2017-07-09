@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static models.Role.ADMIN;
 import static models.Role.CONTRIBUTOR;
 import static models.Role.EDITOR;
+import static models.Role.SUPER_ADMIN;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
@@ -72,7 +73,7 @@ public class ArtistController extends Controller {
    *
    * @return A page allowing the user to add an Artist.
    */
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addForm() {
     return ok(add.render(formFactory.form(CreateArtist.class)));
   }
@@ -82,7 +83,7 @@ public class ArtistController extends Controller {
    *
    * @return Redirect to the new Artist on success or the form with errors on failure.
    */
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addSubmit() {
     return artistService
         .insert(formFactory.form(CreateArtist.class).bindFromRequest())
@@ -98,7 +99,7 @@ public class ArtistController extends Controller {
    * @param slug The slug of the Artist to find.
    * @return An edit artist page if artist is found else not found page.
    */
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editForm(String slug) {
     return artistService
         .findBySlug(slug)
@@ -115,7 +116,7 @@ public class ArtistController extends Controller {
    * @param slug The slug of the Artist to find.
    * @return Redirect to updated Artist on success else the form with errors.
    */
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editSubmit(String slug) {
     return artistService
         .findBySlug(slug)
@@ -135,7 +136,7 @@ public class ArtistController extends Controller {
    * @param slug The slug of the Artist to find.
    * @return Redirects back to Artists list page on success else not found.
    */
-  @Restrict(@Group(ADMIN))
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR)})
   public Result delete(String slug) {
     return artistService
         .findBySlug(slug)

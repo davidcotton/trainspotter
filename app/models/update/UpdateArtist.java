@@ -19,6 +19,6 @@ public class UpdateArtist {
   public UpdateArtist(Artist artist) {
     name = artist.getName();
     image = artist.getImage();
-    description = artist.getImage();
+    description = artist.getDescription();
   }
 }

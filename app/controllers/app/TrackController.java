@@ -1,16 +1,15 @@
 package controllers.app;
 
-import java.util.List;
-
 import static java.util.Objects.requireNonNull;
 import static models.Role.ADMIN;
 import static models.Role.CONTRIBUTOR;
 import static models.Role.EDITOR;
+import static models.Role.SUPER_ADMIN;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
+import java.util.List;
 import javax.inject.Inject;
-
 import models.Genre;
 import models.Label;
 import models.create.CreateTrack;
@@ -75,7 +74,7 @@ public class TrackController extends Controller {
    *
    * @return A page allowing the user to add a Track.
    */
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addForm() {
     List<Genre> genres = genreService.fetchAll();
     List<Label> labels = labelService.fetchAll();
@@ -83,7 +82,7 @@ public class TrackController extends Controller {
     return ok(add.render(formFactory.form(CreateTrack.class), genres, labels));
   }
 
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addSubmit() {
     List<Genre> genres = genreService.fetchAll();
     List<Label> labels = labelService.fetchAll();
@@ -96,7 +95,7 @@ public class TrackController extends Controller {
         );
   }
 
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editForm(long id) {
     List<Genre> genres = genreService.fetchAll();
     List<Label> labels = labelService.fetchAll();
@@ -112,7 +111,7 @@ public class TrackController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editSubmit(long id) {
     List<Genre> genres = genreService.fetchAll();
     List<Label> labels = labelService.fetchAll();
@@ -135,7 +134,7 @@ public class TrackController extends Controller {
    * @param id The ID of the track.
    * @return Redirects to the Track list page on success, else not found.
    */
-  @Restrict({@Group(ADMIN)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR)})
   public Result delete(long id) {
     return trackService
         .findById(id)

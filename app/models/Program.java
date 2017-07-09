@@ -1,5 +1,6 @@
 package models;
 
+import static utilities.ImageHelper.imagify;
 import static utilities.SlugHelper.slugify;
 
 import com.avaje.ebean.Model;
@@ -27,12 +28,16 @@ import lombok.EqualsAndHashCode;
 import models.create.CreateProgram;
 import models.update.UpdateProgram;
 import play.data.format.Formats;
+import utilities.ImageHelper;
+import utilities.TextHelper;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class Program extends Model {
+
+  private static final String NICHE = "program";
 
   public enum Status {
     @EnumValue("active") active,
@@ -82,7 +87,7 @@ public class Program extends Model {
   public Program(CreateProgram createProgram) {
     name = createProgram.getName();
     slug = slugify(createProgram.getName());
-    image = createProgram.getImage();
+    image = imagify(createProgram.getImage(), NICHE);
     description = createProgram.getDescription();
     channel = createProgram.getChannel();
     status = Status.active;
@@ -92,7 +97,7 @@ public class Program extends Model {
     id = program.id;
     name = updateProgram.getName();
     slug = program.slug;
-    image = updateProgram.getImage();
+    image = imagify(updateProgram.getImage(), NICHE);
     description = updateProgram.getDescription();
     channel = updateProgram.getChannel();
     hosts = program.getHosts();
@@ -117,25 +122,15 @@ public class Program extends Model {
   }
 
   public String getImageLink() {
-    if (image == null) {
-      return null;
-    } else {
-      return String.format("images/program/%s", image);
-    }
+    return ImageHelper.getLink(image, NICHE);
   }
 
   public String getDescription() {
     return description;
   }
 
-  public String getTruncatedDescription() {
-    if (description == null) {
-      return null;
-    } else if (description.length() < 200) {
-      return description;
-    } else {
-      return description.substring(0, 200) + "...";
-    }
+  public String getDescriptionExcerpt() {
+    return TextHelper.truncate(description, 200);
   }
 
   public Channel getChannel() {

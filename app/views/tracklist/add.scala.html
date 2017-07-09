@@ -12,8 +12,13 @@
     @b4.form(appRoutes.TracklistController.addSubmit()) {
       <fieldset>
         @b4.text(tracklistForm("name"), '_label -> "Name", 'placeholder -> "Name")
-        @b4.text(tracklistForm("image"), '_label -> "Image", 'placeholder -> "Image")
-        @b4.text(tracklistForm("description"), '_label -> "Description", 'placeholder -> "Description")
+        @b4.file(tracklistForm("image"), '_label -> "Image")
+        @b4.inputWrapped("text", tracklistForm("performed"), '_label -> "Performed") { input =>
+          <div class="input-group date">
+            @input
+            <div class="input-group-addon"><i class="fa fa-calendar" title="Performed" aria-hidden="true"></i></div>
+          </div>
+        }
         @b4.submit('class -> "btn btn-primary") { Create tracklist }
       </fieldset>
     }

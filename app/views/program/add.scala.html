@@ -15,7 +15,7 @@
     @b4.form(appRoutes.ProgramController.addSubmit(channel.getSlug)) {
       <fieldset>
         @b4.text(programForm("name"), '_label -> "Name", 'placeholder -> "Name")
-        @b4.text(programForm("image"), '_label -> "Image", 'placeholder -> "Image")
+        @b4.file(programForm("image"), '_label -> "Image")
         @b4.textarea(programForm("description"), '_label -> "Description", 'placeholder -> "Description", 'rows -> "10")
         @b4.submit('class -> "btn btn-primary") { Create program }
       </fieldset>

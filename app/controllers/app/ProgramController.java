@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static models.Role.ADMIN;
 import static models.Role.CONTRIBUTOR;
 import static models.Role.EDITOR;
+import static models.Role.SUPER_ADMIN;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
@@ -65,7 +66,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addForm(String channelSlug) {
     return channelService
         .findBySlug(channelSlug)
@@ -73,7 +74,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addSubmit(String channelSlug) {
     return channelService
         .findBySlug(channelSlug)
@@ -87,7 +88,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editForm(String programSlug) {
     return programService
         .findBySlug(programSlug)
@@ -98,7 +99,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Restrict({@Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result editSubmit(String programSlug) {
     return programService
         .findBySlug(programSlug)
@@ -112,7 +113,7 @@ public class ProgramController extends Controller {
         .orElse(notFound(notFound.render()));
   }
 
-  @Restrict({@Group(ADMIN)})
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR)})
   public Result delete(String programSlug) {
     return programService
         .findBySlug(programSlug)

@@ -52,17 +52,20 @@
   <div class="row">
     <div class="col-sm-4">
       <div class="card">
-        <img src="@routes.Assets.versioned(tracklist.getImageLink)" alt="@tracklist.getName">
-        <div class="d-flex w-100 justify-content-between">
+        <img src="@routes.Assets.versioned(tracklist.getImageLink)" alt="@tracklist.getName" class="card-img-top">
+        <div class="card-block">
           <h5 class="mb-1">
           @for(artist <- tracklist.getArtists) {
             <a href="@appRoutes.ArtistController.view(artist.getSlug)">@artist.getName</a>,
           }
           </h5>
-          <small>@tracklist.getPerformed</small>
+          <p class="mb-1">Performed: @tracklist.getPerformed</p>
+          <p class="mb-1">@tracklist.getGenres.map(_.getName).mkString(", ")</p>
+          <small>
+            <i class="fa fa-user" title="@tracklist.getUser.getUsername" aria-hidden="true"></i>
+            <a href="@appRoutes.UserController.view(tracklist.getUser.getSlug)">@tracklist.getUser.getUsername</a> (@tracklist.getUser.getKarmaFormatted)
+          </small>
         </div>
-        <p class="mb-1">@tracklist.getGenres.map(_.getName).mkString(", ")</p>
-        <small><i class="fa fa-user" title="@tracklist.getUser.getUsername" aria-hidden="true"></i> @tracklist.getUser.getUsername</small>
       </div>
     </div>
 

@@ -15,7 +15,16 @@
     @b4.form(appRoutes.ProgramController.editSubmit(program.getSlug)) {
       <fieldset>
         @b4.text(programForm("name"), '_label -> "Name", 'placeholder -> "Name")
-        @b4.text(programForm("image"), '_label -> "Image", 'placeholder -> "Image")
+        @b4.file(programForm("image"), '_label -> "Image")
+        <div class="form-group row">
+          <div class="col-md-10 offset-2">
+          @if(program.getImage != null) {
+            <img src="@routes.Assets.versioned(program.getImageLink)" alt="@program.getName" class="img-thumbnail">
+          } else {
+            <p>No image</p>
+          }
+          </div>
+        </div>
         @b4.textarea(programForm("description"), '_label -> "Description", 'placeholder -> "Description", 'rows -> "10")
         @b4.submit('class -> "btn btn-primary") { Update program }
       </fieldset>

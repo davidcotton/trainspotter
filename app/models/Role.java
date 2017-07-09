@@ -18,6 +18,7 @@ import play.data.format.Formats;
 public class Role extends Model implements be.objectify.deadbolt.java.models.Role {
 
   public static final Finder<Long, Role> find = new Finder<>(Long.class, Role.class);
+  public static final String SUPER_ADMIN = "super_admin";
   public static final String ADMIN = "admin";
   public static final String EDITOR = "editor";
   public static final String CONTRIBUTOR = "contributor";
