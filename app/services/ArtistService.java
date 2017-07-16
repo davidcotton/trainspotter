@@ -1,9 +1,8 @@
 package services;
 
-import com.avaje.ebean.PagedList;
-
 import static java.util.Objects.requireNonNull;
 
+import com.avaje.ebean.PagedList;
 import io.atlassian.fugue.Either;
 import java.util.List;
 import java.util.Optional;

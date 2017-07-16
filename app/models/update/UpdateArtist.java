@@ -1,5 +1,6 @@
 package models.update;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import models.Artist;
@@ -7,6 +8,7 @@ import play.data.validation.Constraints;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class UpdateArtist {
 
   @Constraints.Required(message = "A name is required.")

@@ -1,24 +1,35 @@
 package services;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.PersistenceException;
+import io.atlassian.fugue.Either;
 import models.Artist;
+import models.Artist.Status;
+import models.create.CreateArtist;
+import models.update.UpdateArtist;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import play.data.Form;
-import play.data.FormFactory;
 import repositories.ArtistRepository;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -26,14 +37,6 @@ public class ArtistServiceTest {
 
   @InjectMocks private ArtistService artistService;
   @Mock private ArtistRepository mockArtistRepository;
-  @Mock private FormFactory mockFormFactory;
-  @Mock private Form mockForm;
-  @Mock private Form mockDataForm;
-//  private final FormFactory formFactory;
-//
-//  public ArtistServiceTest() {
-//    formFactory = new FormFactory();
-//  }
 
   @Test public void fetchAll() {
     // ARRANGE
@@ -98,88 +101,112 @@ public class ArtistServiceTest {
     assertThat(maybeArtist.isPresent(), is(false));
   }
 
-//  @Test public void insert_successGivenValidData() {
+  @Test public void insert_success() {
+    // ARRANGE
+    CreateArtist createArtist = new CreateArtist("John Digweed", "john-digweed.jpg", "Diggers is tops.");
+    Form<CreateArtist> mockArtistForm = (Form<CreateArtist>) mock(Form.class);
+
+    when(mockArtistForm.hasErrors()).thenReturn(false);
+    when(mockArtistForm.get()).thenReturn(createArtist);
+
+    // ACT
+    Either<Form<CreateArtist>, Artist> artistOrError = artistService.insert(mockArtistForm);
+
+    // ASSERT
+    // assert left (error value) is not present
+    assertFalse(artistOrError.isLeft());
+    // assert right (success value) is present
+    assertTrue(artistOrError.isRight());
+    assertThat(artistOrError.right().get(), instanceOf(Artist.class));
+    // verify that the artist repository inserted the new artist
+    ArgumentCaptor<Artist> argument = ArgumentCaptor.forClass(Artist.class);
+    verify(mockArtistRepository).insert(argument.capture());
+    assertThat(argument.getValue().getName(), is("John Digweed"));
+  }
+
+  @Test public void insert_failureWhenFailsValidation() {
+    // ARRANGE
+    Form<CreateArtist> mockArtistForm = (Form<CreateArtist>) mock(Form.class);
+    when(mockArtistForm.hasErrors()).thenReturn(true);
+    Artist mockArtist = mock(Artist.class);
+
+    // ACT
+    Either<Form<CreateArtist>, Artist> artistOrError = artistService.insert(mockArtistForm);
+
+    // ASSERT
+    // assert right (success value) is not present
+    assertFalse(artistOrError.isRight());
+    // assert left (error value) is present
+    assertTrue(artistOrError.isLeft());
+    // verify that the artistRepository never tried to insert the invalid artist
+    verify(mockArtistRepository, never()).insert(mockArtist);
+  }
+
+  @Test public void update_success() {
+    // ARRANGE
+    UpdateArtist updateArtist = new UpdateArtist("Richie Hawtin", "new-image.jpg", "new description");
+    Artist savedArtist = new Artist(
+        1L, "John Digweed", "john-digweed", "image.jpg", "description", null, null,
+        null, null, null, null, ZonedDateTime.now(), ZonedDateTime.now()
+    );
+    Form<UpdateArtist> mockArtistForm = (Form<UpdateArtist>) mock(Form.class);
+
+    when(mockArtistForm.hasErrors()).thenReturn(false);
+    when(mockArtistForm.get()).thenReturn(updateArtist);
+
+    // ACT
+    Either<Form<UpdateArtist>, Artist> artistOrError = artistService.update(savedArtist, mockArtistForm);
+
+    // ASSERT
+    // assert left (error value) is not present
+    assertFalse(artistOrError.isLeft());
+    // assert right (success value) is present
+    assertTrue(artistOrError.isRight());
+    // verify that the user repository updated the user
+    ArgumentCaptor<Artist> argument = ArgumentCaptor.forClass(Artist.class);
+    verify(mockArtistRepository).update(argument.capture());
+    assertThat(argument.getValue().getName(), is("Richie Hawtin"));
+  }
+
+  @Test public void update_failureWhenFailsValidation() {
+    // ARRANGE
+    Artist savedArtist = new Artist(
+        1L, "John Digweed", "john-digweed", "image.jpg", "description", null, null,
+        null, null, null, null, ZonedDateTime.now(), ZonedDateTime.now()
+    );
+    Form<UpdateArtist> mockArtistForm = (Form<UpdateArtist>) mock(Form.class);
+    Artist mockArtist = mock(Artist.class);
+
+    when(mockArtistForm.hasErrors()).thenReturn(true);
+
+    // ACT
+    Either<Form<UpdateArtist>, Artist> artistOrError = artistService.update(savedArtist, mockArtistForm);
+
+    // ASSERT
+    // assert right (success value) is not present
+    assertFalse(artistOrError.isRight());
+    // assert left (error value) is present
+    assertTrue(artistOrError.isLeft());
+    // verify that the artistRepository never tried to insert the invalid artist
+    verify(mockArtistRepository, never()).update(mockArtist);
+  }
+
+//  @Test public void delete_success() throws Exception {
 //    // ARRANGE
-////    Artist artist = new Artist(null, "John Digweed", null, null, null, null, null, null, null);
-//    CreateArtist createArtist = new CreateArtist("John Digweed", "john-digweed.jpg", "Diggers is tops.");
-//    Form<CreateArtist> artistForm = new Form<CreateArtist>(CreateArtist.class);
-//
-//    when(mockFormFactory.form(Artist.class, Artist.InsertValidators.class)).thenReturn(mockDataForm);
-//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-//    when(mockForm.hasErrors()).thenReturn(false);
-//
-//    // ACT
-//    Either<Map<String, List<ValidationError>>, Artist> artistOrError = artistService.insert(artist);
-//
-//    // ASSERT
-//    // assert left (error value) is not present
-//    assertFalse(artistOrError.isLeft());
-//    // assert right (success value) is present
-//    assertTrue(artistOrError.isRight());
-//    assertThat(artistOrError.right().get(), instanceOf(Artist.class));
-//    // verify that the artist repository inserted the new artist
-//    ArgumentCaptor<Artist> argument = ArgumentCaptor.forClass(Artist.class);
-//    verify(mockArtistRepository).insert(argument.capture());
-//    assertThat(argument.getValue().getName(), is("John Digweed"));
-//  }
-//
-//  @Test
-//  public void insert_failureGivenInvalidData() {
-//    // ARRANGE
-//    Artist artist = new Artist(null, null, null, null, null, null, null, null, null);
-//
-//    Map<String, List<ValidationError>> validationErrors =
-//        new HashMap<String, List<ValidationError>>() {{
-//          put("name", mock(List.class));
-//        }};
-//
-//    when(mockFormFactory.form(Artist.class, Artist.InsertValidators.class)).thenReturn(mockDataForm);
-//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-//    when(mockForm.hasErrors()).thenReturn(true);
-//    when(mockForm.errors()).thenReturn(validationErrors);
-//
-//    // ACT
-//    Either<Map<String, List<ValidationError>>, Artist> artistOrError = artistService.insert(artist);
-//
-//    // ASSERT
-//    // assert right (success value) is not present
-//    assertFalse(artistOrError.isRight());
-//    // assert left (error value) is present
-//    assertTrue(artistOrError.isLeft());
-//    assertThat(artistOrError.left().get().get("name"), instanceOf(List.class));
-//    // verify that the artistRepository never tried to insert the invalid artist
-//    verify(mockArtistRepository, never()).insert(any());
-//  }
-//
-//  @Test
-//  public void update_successGivenValidData() {
-//    // ARRANGE
-//    Artist savedArtist = new Artist(
-//        1L, "John Digweed", "image.jpg", new ArrayList<>(), new ArrayList<>(),
-//        new ArrayList<>(), new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
+//    Artist artist = new Artist(
+//        1L, "John Digweed", "john-digweed", null, null, null, null,
+//        null, null, null, null, ZonedDateTime.now(), ZonedDateTime.now()
 //    );
-//    Artist newArtist = new Artist(
-//        1L, "Bedrock", "image.jpg", new ArrayList<>(), new ArrayList<>(),
-//        new ArrayList<>(), new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
-//    );
-//
-//    when(mockFormFactory.form(Artist.class, Artist.UpdateValidators.class))
-//        .thenReturn(mockDataForm);
-//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-//    when(mockForm.hasErrors()).thenReturn(false);
+//    //when(mockArtistRepository.update(artist)).
+//    doThrow(new PersistenceException()).doNothing().when(mockArtistRepository).update(artist);
 //
 //    // ACT
-//    Either<Map<String, List<ValidationError>>, Artist> artistOrError = artistService
-//        .update(savedArtist, newArtist);
+//    artist.delete();
 //
 //    // ASSERT
-//    // assert left (error value) is not present
-//    assertFalse(artistOrError.isLeft());
-//    // assert right (success value) is present
-//    assertTrue(artistOrError.isRight());
-//    // verify that the user repository updated the user
-//    ArgumentCaptor<Artist> argument = ArgumentCaptor.forClass(Artist.class);
-//    verify(mockArtistRepository).update(argument.capture());
-//    assertThat(argument.getValue().getName(), is("Bedrock"));
+//    // assert the artist has been soft-deleted
+//    assertThat(artist.getStatus(), is(Status.deleted));
+//    // verify that the changes have been persisted
+//    verify(mockArtistRepository).update(artist);
 //  }
 }
