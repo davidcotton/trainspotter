@@ -6,21 +6,20 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import io.atlassian.fugue.Either;
 import models.Label;
+import models.Label.Status;
+import models.create.CreateLabel;
+import models.update.UpdateLabel;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,8 +28,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import play.data.Form;
-import play.data.FormFactory;
-import play.data.validation.ValidationError;
 import repositories.LabelRepository;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -38,12 +35,10 @@ public class LabelServiceTest {
 
   @InjectMocks private LabelService labelService;
   @Mock private LabelRepository mockLabelRepository;
-  @Mock private FormFactory mockFormFactory;
-  @Mock private Form mockForm;
-  @Mock private Form mockDataForm;
+  @Mock private Form<CreateLabel> mockCreateLabelForm;
+  @Mock private Form<UpdateLabel> mockUpdateLabelForm;
 
-  @Test
-  public void fetchAll() {
+  @Test public void fetchAll() {
     // ARRANGE
     when(mockLabelRepository.findAll()).thenReturn(new ArrayList<Label>() {{
       add(mock(Label.class));
@@ -58,8 +53,7 @@ public class LabelServiceTest {
     assertThat(actualLabels.size(), is(2));
   }
 
-  @Test
-  public void findById_givenIdInDb() {
+  @Test public void findById_givenIdInDb() {
     // ARRANGE
     long id = 1L;
     when(mockLabelRepository.findById(id)).thenReturn(Optional.of(mock(Label.class)));
@@ -71,8 +65,7 @@ public class LabelServiceTest {
     assertTrue(maybeLabel.isPresent());
   }
 
-  @Test
-  public void findById_givenIdNotInDb() {
+  @Test public void findById_givenIdNotInDb() {
     // ARRANGE
     long nonExistentId = 1L;
     when(mockLabelRepository.findById(nonExistentId)).thenReturn(Optional.empty());
@@ -84,8 +77,7 @@ public class LabelServiceTest {
     assertThat(maybeLabel.isPresent(), is(false));
   }
 
-  @Test
-  public void findByName_givenNameInDb() {
+  @Test public void findByName_givenNameInDb() {
     // ARRANGE
     String name = "Bedrock Records";
     when(mockLabelRepository.findByName(name)).thenReturn(Optional.of(mock(Label.class)));
@@ -97,8 +89,7 @@ public class LabelServiceTest {
     assertTrue(maybeLabel.isPresent());
   }
 
-  @Test
-  public void findByName_givenNameNotInDb() {
+  @Test public void findByName_givenNameNotInDb() {
     // ARRANGE
     String name = "Def Jam";
     when(mockLabelRepository.findByName(name)).thenReturn(Optional.empty());
@@ -110,89 +101,89 @@ public class LabelServiceTest {
     assertThat(maybeLabel.isPresent(), is(false));
   }
 
-//  @Test
-//  public void insert_successGivenValidData() {
-//    // ARRANGE
-//    Label label = new Label(null, "Bedrock Records", null, null, null, null, null);
-//
-//    when(mockFormFactory.form(Label.class, Label.InsertValidators.class)).thenReturn(mockDataForm);
-//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-//    when(mockForm.hasErrors()).thenReturn(false);
-//
-//    // ACT
-//    Either<Map<String, List<ValidationError>>, Label> labelOrError = labelService.insert(label);
-//
-//    // ASSERT
-//    // assert left (error value) is not present
-//    assertFalse(labelOrError.isLeft());
-//    // assert right (success value) is present
-//    assertTrue(labelOrError.isRight());
-//    assertThat(labelOrError.right().get(), instanceOf(Label.class));
-//    // verify that the user repository inserted the new user
-//    ArgumentCaptor<Label> argument = ArgumentCaptor.forClass(Label.class);
-//    verify(mockLabelRepository).insert(argument.capture());
-//    assertThat(argument.getValue().getName(), is("Bedrock Records"));
-//  }
-//
-//  @Test
-//  public void insert_failureGivenInvalidData() {
-//    // ARRANGE
-//    Label label = new Label(null, null, null, null, null, null, null);
-//
-//    Map<String, List<ValidationError>> validationErrors =
-//        new HashMap<String, List<ValidationError>>() {{
-//          put("name", mock(List.class));
-//        }};
-//
-//    when(mockFormFactory.form(Label.class, Label.InsertValidators.class)).thenReturn(mockDataForm);
-//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-//    when(mockForm.hasErrors()).thenReturn(true);
-//    when(mockForm.errors()).thenReturn(validationErrors);
-//
-//    // ACT
-//    Either<Map<String, List<ValidationError>>, Label> labelOrError = labelService.insert(label);
-//
-//    // ASSERT
-//    // assert right (success value) is not present
-//    assertFalse(labelOrError.isRight());
-//    // assert left (error value) is present
-//    assertTrue(labelOrError.isLeft());
-//    assertThat(labelOrError.left().get().get("name"), instanceOf(List.class));
-//    // verify that the labelRepository never tried to insert the invalid label
-//    verify(mockLabelRepository, never()).insert(any());
-//  }
-//
-//  @Test
-//  public void update_successGivenValidData() {
-//    // ARRANGE
-//    Label savedLabel = new Label(
-//        1L, "Bedrock Records", "image.jpg", new ArrayList<>(),
-//        new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
-//    );
-//    Label newLabel = new Label(
-//        1L, "Mobilee", "image.jpg", new ArrayList<>(),
-//        new ArrayList<>(), ZonedDateTime.now(), ZonedDateTime.now()
-//    );
-//
-//    when(mockFormFactory.form(Label.class, Label.UpdateValidators.class))
-//        .thenReturn(mockDataForm);
-//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-//    when(mockForm.hasErrors()).thenReturn(false);
-//
-//    // ACT
-//    Either<Map<String, List<ValidationError>>, Label> labelOrError = labelService
-//        .update(savedLabel, newLabel);
-//
-//    // ASSERT
-//    // assert left (error value) is not present
-//    assertFalse(labelOrError.isLeft());
-//    // assert right (success value) is present
-//    assertTrue(labelOrError.isRight());
-//    // verify that the user repository updated the user
-//    ArgumentCaptor<Label> argument = ArgumentCaptor.forClass(Label.class);
-//    verify(mockLabelRepository).update(argument.capture());
-//    assertThat(argument.getValue().getName(), is("Mobilee"));
-//  }
+  @Test public void insert_success() {
+    // ARRANGE
+    CreateLabel createLabel = new CreateLabel("Bedrock Records", "bedrock-records.jpg", "Description");
 
+    when(mockCreateLabelForm.hasErrors()).thenReturn(false);
+    when(mockCreateLabelForm.get()).thenReturn(createLabel);
 
+    // ACT
+    Either<Form<CreateLabel>, Label> labelOrError = labelService.insert(mockCreateLabelForm);
+
+    // ASSERT
+    // assert left (error value) is not present
+    assertFalse(labelOrError.isLeft());
+    // assert right (success value) is present
+    assertTrue(labelOrError.isRight());
+    assertThat(labelOrError.right().get(), instanceOf(Label.class));
+    // verify that the label repository inserted the new label
+    ArgumentCaptor<Label> argument = ArgumentCaptor.forClass(Label.class);
+    verify(mockLabelRepository).insert(argument.capture());
+    assertThat(argument.getValue().getName(), is("Bedrock Records"));
+  }
+
+  @Test public void insert_failureWhenFailsValidation() {
+    // ARRANGE
+    when(mockCreateLabelForm.hasErrors()).thenReturn(true);
+    Label mockLabel = mock(Label.class);
+
+    // ACT
+    Either<Form<CreateLabel>, Label> labelOrError = labelService.insert(mockCreateLabelForm);
+
+    // ASSERT
+    // assert right (success value) is not present
+    assertFalse(labelOrError.isRight());
+    // assert left (error value) is present
+    assertTrue(labelOrError.isLeft());
+    // verify that the labelRepository never tried to insert the invalid label
+    verify(mockLabelRepository, never()).insert(mockLabel);
+  }
+
+  @Test public void update_success() {
+    // ARRANGE
+    Label savedLabel = new Label(
+        1L, "Bedrock Records", "bedrock-records", "image.jpg", "description",
+        null, null, Status.active, ZonedDateTime.now(), ZonedDateTime.now()
+    );
+    UpdateLabel updateLabel = new UpdateLabel("Drumcode", "drumcode.jpg", "Description");
+
+    when(mockUpdateLabelForm.hasErrors()).thenReturn(false);
+    when(mockUpdateLabelForm.get()).thenReturn(updateLabel);
+
+    // ACT
+    Either<Form<UpdateLabel>, Label> labelOrError = labelService.update(savedLabel, mockUpdateLabelForm);
+
+    // ASSERT
+    // assert left (error value) is not present
+    assertFalse(labelOrError.isLeft());
+    // assert right (success value) is present
+    assertTrue(labelOrError.isRight());
+    // verify that the user repository updated the user
+    ArgumentCaptor<Label> argument = ArgumentCaptor.forClass(Label.class);
+    verify(mockLabelRepository).update(argument.capture());
+    assertThat(argument.getValue().getName(), is("Drumcode"));
+  }
+
+  @Test public void update_failureWhenFailsValidation() {
+    // ARRANGE
+    Label savedLabel = new Label(
+        1L, "Bedrock Records", "bedrock-records", "image.jpg", "description",
+        null, null, Status.active, ZonedDateTime.now(), ZonedDateTime.now()
+    );
+    Label mockLabel = mock(Label.class);
+
+    when(mockUpdateLabelForm.hasErrors()).thenReturn(true);
+
+    // ACT
+    Either<Form<UpdateLabel>, Label> labelOrError = labelService.update(savedLabel, mockUpdateLabelForm);
+
+    // ASSERT
+    // assert right (success value) is not present
+    assertFalse(labelOrError.isRight());
+    // assert left (error value) is present
+    assertTrue(labelOrError.isLeft());
+    // verify that the labelRepository never tried to insert the invalid label
+    verify(mockLabelRepository, never()).update(mockLabel);
+  }
 }
