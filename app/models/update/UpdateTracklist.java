@@ -2,7 +2,7 @@ package models.update;
 
 import java.time.LocalDate;
 import java.util.List;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import models.Artist;
@@ -11,6 +11,7 @@ import play.data.validation.Constraints;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class UpdateTracklist {
 
   @Constraints.Required(message = "A name is required.")

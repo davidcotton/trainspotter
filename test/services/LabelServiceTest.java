@@ -74,7 +74,7 @@ public class LabelServiceTest {
     Optional<Label> maybeLabel = labelService.findById(nonExistentId);
 
     // ASSERT
-    assertThat(maybeLabel.isPresent(), is(false));
+    assertFalse(maybeLabel.isPresent());
   }
 
   @Test public void findByName_givenNameInDb() {
@@ -98,7 +98,7 @@ public class LabelServiceTest {
     Optional<Label> maybeLabel = labelService.findByName(name);
 
     // ASSERT
-    assertThat(maybeLabel.isPresent(), is(false));
+    assertFalse(maybeLabel.isPresent());
   }
 
   @Test public void insert_success() {

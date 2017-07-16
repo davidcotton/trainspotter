@@ -64,7 +64,7 @@ public class GenreServiceTest {
 
     Optional<Genre> maybeGenre = genreService.findById(nonExistentId);
 
-    assertThat(maybeGenre.isPresent(), is(false));
+    assertFalse(maybeGenre.isPresent());
   }
 
   @Test public void findByName_givenNameInDb() {
@@ -82,7 +82,7 @@ public class GenreServiceTest {
 
     Optional<Genre> maybeGenre = genreService.findByName(genreName);
 
-    assertThat(maybeGenre.isPresent(), is(false));
+    assertFalse(maybeGenre.isPresent());
   }
 
   @Test public void findBySlug_givenSlugInDb() {
@@ -100,7 +100,7 @@ public class GenreServiceTest {
 
     Optional<Genre> maybeGenre = genreService.findByName(genreName);
 
-    assertThat(maybeGenre.isPresent(), is(false));
+    assertFalse(maybeGenre.isPresent());
   }
 
   @Test public void insert_success() {
