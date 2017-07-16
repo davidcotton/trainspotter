@@ -17,14 +17,12 @@ import models.update.UpdatePassword;
 import models.update.UpdateUser;
 import models.User;
 import play.data.Form;
-import play.data.FormFactory;
 import play.data.validation.ValidationError;
 import repositories.UserRepository;
 
 public class UserService {
 
   private final UserRepository userRepository;
-  private final FormFactory formFactory;
   private final TokenService tokenService;
   private static final String FIELD_LOGIN = "login";
   private static final String MESSAGE_LOGIN_FAILURE = "Unable to login";
@@ -32,11 +30,9 @@ public class UserService {
   @Inject
   public UserService(
       UserRepository userRepository,
-      FormFactory formFactory,
       TokenService tokenService
   ) {
     this.userRepository = requireNonNull(userRepository);
-    this.formFactory = requireNonNull(formFactory);
     this.tokenService = requireNonNull(tokenService);
   }
 

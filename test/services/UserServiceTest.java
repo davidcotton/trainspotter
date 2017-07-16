@@ -30,7 +30,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import play.data.Form;
-import play.data.FormFactory;
 import repositories.UserRepository;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -38,7 +37,6 @@ public class UserServiceTest {
 
   @InjectMocks private UserService userService;
   @Mock private UserRepository mockUserRepository;
-  @Mock private FormFactory mockFormFactory;
   @Mock private TokenService mockTokenService;
   @Mock private Form<CreateUser> mockCreateUserForm;
   @Mock private Form<UpdateUser> mockUpdateUserForm;
