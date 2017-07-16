@@ -176,11 +176,10 @@ public class UserController extends Controller {
     LoginUser loginUser = loginForm.get();
     Optional<User> maybeUser = userService.findByEmail(loginUser.getEmail());
     if (!maybeUser.isPresent()) {
-      return notFound(login.render(loginForm));
+      return badRequest(login.render(loginForm));
     }
 
     User user = maybeUser.get();
-
     if (user.isAuthorised(loginUser.getPassword())) {
       setLoginSession(user);
       return Results.redirect(routes.ApplicationController.index());

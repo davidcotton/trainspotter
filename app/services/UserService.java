@@ -21,6 +21,7 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
 import repositories.UserRepository;
+import views.html.user.login;
 
 public class UserService {
 
@@ -144,28 +145,17 @@ public class UserService {
    * @param loginUser The user's credentials.
    * @return Either an access token on success or validation errors.
    */
-  public Either<Map<String, List<ValidationError>>, Token> login2(LoginUser loginUser) {
-    // validate the login details
-    Form<LoginUser> userForm = formFactory.form(LoginUser.class).bind(toJson(loginUser));
-    if (userForm.hasErrors()) {
-      return Either.left(userForm.errors());
-    }
-
+  public Either<Map<String, List<ValidationError>>, Token> loginToken(LoginUser loginUser) {
     return userRepository.findByEmail(loginUser.getEmail())
-        .flatMap(user -> fetchToken(loginUser.getPassword(), user))
+        .flatMap(user -> isAuthorised(user, loginUser.getPassword()))
         .map(Either::<Map<String, List<ValidationError>>, Token>right)
         .orElse(Either.left(getValidationErrors(FIELD_LOGIN, MESSAGE_LOGIN_FAILURE)));
   }
 
-  /**
-   * Fetch a login token for a user if the supplied password matches their saved hash.
-   *
-   * @param user      The user to verify.
-   * @param password  The password to check.
-   * @return An optional token that will be empty if the password doesn't match.
-   */
-  private Optional<Token> fetchToken(String password, User user) {
-    return user.isAuthorised(password) ? Optional.of(tokenService.create(user)) : Optional.empty();
+  private Optional<Token> isAuthorised(User user, String plaintext) {
+    return user.isAuthorised(plaintext)
+        ? Optional.of(tokenService.generate(user))
+        : Optional.empty();
   }
 
   /**

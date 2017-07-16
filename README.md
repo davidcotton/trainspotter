@@ -3,11 +3,10 @@ DJ tracklist management application.
 
 
 ## Installation
-1. Install encryption package `brew install libsodium` (required by Kalium)
-2. Create the app & test databases
-3. Add the environment variables to IDE/command line
-4. Download dependencies, run database migrations and run the app
-5. Load database fixtures to bootstrap the app with data
+1. Create the app & test databases
+2. Add the environment variables to IDE/command line
+3. Download dependencies, run database migrations and run the app
+4. Load database fixtures to bootstrap the app with data
 
 ### Create the app & test databases
 

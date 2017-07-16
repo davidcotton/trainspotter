@@ -3,23 +3,36 @@ package services;
 import static java.util.Objects.requireNonNull;
 import static models.Token.TOKEN_EXPIRY_PERIOD_HOURS;
 
+import com.google.common.io.BaseEncoding;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import javax.inject.Inject;
 import models.Token;
 import models.User;
-import org.abstractj.kalium.keys.AuthenticationKey;
-import play.Logger;
+import play.Configuration;
 import repositories.TokenRepository;
 
 public class TokenService {
 
+  private static final String HMAC_ALGORITHM = "HmacSHA256";
   private final TokenRepository tokenRepository;
-  private final AuthenticationKey authenticationKey;
+  private final Mac mac;
 
   @Inject
-  public TokenService(TokenRepository tokenRepository, AuthenticationKey authenticationKey) {
+  public TokenService(TokenRepository tokenRepository, Configuration configuration)
+      throws InvalidKeyException, NoSuchAlgorithmException {
     this.tokenRepository = requireNonNull(tokenRepository);
-    this.authenticationKey = requireNonNull(authenticationKey);
+    String secretKey = configuration.getString("play.crypto.secret");
+    if (secretKey.length() != 32) {
+      throw new InvalidKeyException("Must set a 32 character crypto secret");
+    }
+    SecretKeySpec signingKey = new SecretKeySpec(secretKey.getBytes(), HMAC_ALGORITHM);
+    mac = Mac.getInstance(HMAC_ALGORITHM);
+    mac.init(signingKey);
   }
 
   /**
@@ -31,23 +44,21 @@ public class TokenService {
    * @param user The user to create the token for.
    * @return An authentication token.
    */
-  public Token create(User user) {
-    ZonedDateTime expiry = ZonedDateTime.now().plusHours(TOKEN_EXPIRY_PERIOD_HOURS);
-    byte[] signature = authenticationKey.sign(
-        String.format("%s:%s", user.getEmail(), expiry.toString()).getBytes()
-    );
-    String derp = new String(signature);
-    Logger.info(derp);
+  public Token generate(User user) {
+    ZonedDateTime expiry = ZonedDateTime
+        .now()
+        .truncatedTo(ChronoUnit.SECONDS)
+        .plusHours(TOKEN_EXPIRY_PERIOD_HOURS);
+    String signature = sign(user, expiry);
 
     return tokenRepository.findByUser(user)
         .map(token -> {
-          token.setSignature(signature);
-          token.setExpiry(expiry);
+          token.update(expiry, signature);
           tokenRepository.update(token);
           return token;
         })
         .orElseGet(() -> {
-          Token token = new Token(user, signature, expiry);
+          Token token = new Token(user, expiry, signature);
           tokenRepository.insert(token);
           return token;
         });
@@ -60,10 +71,23 @@ public class TokenService {
    * @param signature The authentication token.
    * @return True if the user is authorised else false.
    */
-  public boolean isAuthorised(long userId, String signature) {
+  public boolean isAuthorised(long userId, ZonedDateTime expiry, String signature) {
     return tokenRepository
         .findByUserId(userId)
-        .map(token -> token.isValid(signature.getBytes(), signature))
+        .map(token -> token.isValid(expiry, signature))
         .orElse(false);
+  }
+
+  /**
+   * Generate a token signature.
+   *
+   * @param user    The user to generate the token for.
+   * @param expiry  The token expiration time.
+   * @return A token signature.
+   */
+  private String sign(User user, ZonedDateTime expiry) {
+    String signature = String.format("%s:%s", user.getId(), expiry.toString());
+    byte[] bytes = mac.doFinal(signature.getBytes());
+    return BaseEncoding.base64().encode(bytes);
   }
 }

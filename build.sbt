@@ -17,8 +17,6 @@ libraryDependencies ++= Seq(
   "org.projectlombok" % "lombok" % "1.16.10",
   "io.atlassian.fugue" % "fugue" % "4.5.0",
   "org.mindrot" % "jbcrypt" % "0.4",
-  "org.abstractj.kalium" % "kalium" % "0.6.0",
-//  "com.adrianhurt" %% "play-bootstrap" % "1.1.1-P25-B4",
   "com.adrianhurt" %% "play-bootstrap" % "1.2-P25-B4-SNAPSHOT",
   "be.objectify" %% "deadbolt-java" % "2.5.4",
   "org.mockito" % "mockito-core" % "2.1.0",

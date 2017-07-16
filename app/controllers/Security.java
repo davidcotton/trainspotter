@@ -5,11 +5,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import javax.inject.Inject;
-import models.Token;
-import models.User;
 import play.inject.Injector;
 import play.mvc.Action;
 import play.mvc.Http.Context;
@@ -17,7 +16,6 @@ import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.With;
 import services.TokenService;
-import services.UserService;
 
 public class Security {
 
@@ -53,7 +51,10 @@ public class Security {
       Authenticator authenticator = injector.instanceOf(configuration.value());
 
       try {
-        if (tokenService.isAuthorised(authenticator.getUserId(ctx), authenticator.getSignature(ctx))) {
+        long userId = authenticator.getUserId(ctx);
+        ZonedDateTime expiry = authenticator.getExpiry(ctx);
+        String signature = authenticator.getSignature(ctx);
+        if (tokenService.isAuthorised(userId, expiry, signature)) {
           return delegate.call(ctx);
         } else {
           throw new Exception();
@@ -62,21 +63,6 @@ public class Security {
         Result unauthorized = authenticator.onUnauthorized(ctx);
         return CompletableFuture.completedFuture(unauthorized);
       }
-
-//      if (!maybeUser.isPresent() | signature == null | expiry == null) {
-//        Result unauthorized = authenticator.onUnauthorized(ctx);
-//        return CompletableFuture.completedFuture(unauthorized);
-//      } else {
-//        try {
-//          //ctx.request().setUsername(userId);
-//          return delegate.call(ctx).whenComplete(
-//              (result, error) -> ctx.request().setUsername(null)
-//          );
-//        } catch (Exception e) {
-//          ctx.request().setUsername(null);
-//          throw e;
-//        }
-//      }
     }
   }
 
@@ -86,7 +72,12 @@ public class Security {
   public static class Authenticator extends Results {
 
     public long getUserId(Context ctx) {
-      return Long.parseLong(ctx.request().getHeader("X-Authorisation-User-ID"));
+      return Long.parseLong(ctx.request().getHeader("X-Authorisation-User-Id"));
+    }
+
+    public ZonedDateTime getExpiry(Context ctx) {
+      String expires = ctx.request().getHeader("X-Authorisation-Expires");
+      return ZonedDateTime.parse(expires, DateTimeFormatter.ISO_DATE_TIME);
     }
 
     public String getSignature(Context ctx) {
@@ -102,7 +93,6 @@ public class Security {
      */
     public Result onUnauthorized(Context ctx) {
       return unauthorized();
-//      return unauthorized(views.html.defaultpages.unauthorized.render());
     }
   }
 }

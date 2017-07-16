@@ -120,8 +120,8 @@ create table role (
 create table token (
   id                            bigint auto_increment not null,
   user_id                       bigint not null,
-  signature                     varbinary(255) not null,
   expiry                        TIMESTAMP DEFAULT CURRENT_TIMESTAMP not null,
+  signature                     varchar(255) not null,
   constraint uq_token_user_id unique (user_id),
   constraint pk_token primary key (id)
 );

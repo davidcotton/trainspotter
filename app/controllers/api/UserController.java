@@ -1,5 +1,7 @@
 package controllers.api;
 
+import java.util.Optional;
+
 import static java.util.Objects.requireNonNull;
 import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
@@ -8,14 +10,18 @@ import static utilities.JsonHelper.errorsAsJson;
 
 import controllers.Security;
 import javax.inject.Inject;
+
+import models.User;
 import models.create.CreateUser;
 import models.LoginUser;
 import models.update.UpdateUser;
+import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.UserService;
+import views.html.user.login;
 
 public class UserController extends Controller {
 
@@ -44,7 +50,7 @@ public class UserController extends Controller {
    * @param id The users ID.
    * @return The user if found else a 404 Not Found.
    */
-  @Security.Authenticated
+  //@Security.Authenticated
   public Result fetch(long id) {
     return userService.findActiveById(id)
         .map(user -> ok(toJson(user)))
@@ -113,8 +119,13 @@ public class UserController extends Controller {
    */
   @BodyParser.Of(BodyParser.Json.class)
   public Result login() {
+    Form<LoginUser> loginForm = formFactory.form(LoginUser.class).bindFromRequest();
+    if (loginForm.hasErrors()) {
+      return badRequest(login.render(loginForm));
+    }
+
     return userService
-        .login2(fromJson(request().body().asJson(), LoginUser.class))
+        .loginToken(loginForm.get())
         .fold(
             error -> badRequest(errorsAsJson(error)),
             token -> ok(toJson(token))

@@ -64,6 +64,7 @@ public class User extends Model implements Subject {
   @Column(unique = true, length = 191)
   private String username;
 
+  @JsonIgnore
   @NotNull
   @Column(unique = true, length = 191)
   private String slug;
@@ -84,9 +85,11 @@ public class User extends Model implements Subject {
   @Column(columnDefinition = "char(60)")
   private String hash;
 
+  @JsonIgnore
   @ManyToMany
   public List<Role> roles;
 
+  @JsonIgnore
   @ManyToMany
   public List<Permission> permissions;
 
@@ -209,7 +212,7 @@ public class User extends Model implements Subject {
     return karma;
   }
 
-  public String getKarmaFormatted() {
+  public String karmaFormatted() {
     if (karma < 1000) {
       return String.valueOf(karma);
     } else {
