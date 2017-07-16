@@ -130,6 +130,13 @@ public class UserService {
     userRepository.update(user);
   }
 
+  public User addTracklist(User user) {
+    user.addTracklist();
+    user.update();
+
+    return user;
+  }
+
   /**
    * Log a user into the system.
    * Takes user credentials and returns an access token.

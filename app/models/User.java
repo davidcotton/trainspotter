@@ -9,8 +9,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -47,6 +45,8 @@ import static utilities.SlugHelper.slugify;
 public class User extends Model implements Subject {
 
   private static final int bcryptWorkFactor = 16;
+  private static final int karmaNewTracklist = 100;
+  private static final int karmaIdentifyTrack = 10;
 
   public enum Status {
     @EnumValue("inactive")inactive,
@@ -183,6 +183,16 @@ public class User extends Model implements Subject {
    */
   private String hashPassword(String plaintext, String salt) {
     return BCrypt.hashpw(plaintext, salt);
+  }
+
+  public void addTracklist() {
+    tracklistsCreated += 1;
+    karma += karmaNewTracklist;
+  }
+
+  public void identifyTrack() {
+    tracksIdentified += 1;
+    karma += karmaIdentifyTrack;
   }
 
   public Long getId() {

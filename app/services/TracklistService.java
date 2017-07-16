@@ -20,10 +20,12 @@ import repositories.TracklistRepository;
 public class TracklistService {
 
   private final TracklistRepository tracklistRepository;
+  private final UserService userService;
 
   @Inject
-  public TracklistService(TracklistRepository tracklistRepository) {
+  public TracklistService(TracklistRepository tracklistRepository, UserService userService) {
     this.tracklistRepository = requireNonNull(tracklistRepository);
+    this.userService = requireNonNull(userService);
   }
 
   /**
@@ -72,9 +74,13 @@ public class TracklistService {
       return Either.left(tracklistForm);
     }
 
+    // insert the new tracklist
     Tracklist tracklist = new Tracklist(tracklistForm.get());
     tracklist.setUser(user);
     tracklistRepository.insert(tracklist);
+
+    // update the user
+    userService.addTracklist(user);
 
     return Either.right(tracklist);
   }
