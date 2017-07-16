@@ -6,24 +6,21 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import io.atlassian.fugue.Either;
-import models.Genre;
-import models.Label;
 import models.Track;
+import models.Track.Status;
+import models.create.CreateTrack;
+import models.update.UpdateTrack;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,8 +29,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import play.data.Form;
-import play.data.FormFactory;
-import play.data.validation.ValidationError;
 import repositories.TrackRepository;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -41,9 +36,8 @@ public class TrackServiceTest {
 
   @InjectMocks private TrackService trackService;
   @Mock private TrackRepository mockTrackRepository;
-  @Mock private FormFactory mockFormFactory;
-  @Mock private Form mockForm;
-  @Mock private Form mockDataForm;
+  @Mock private Form<CreateTrack> mockCreateTrackForm;
+  @Mock private Form<UpdateTrack> mockUpdateTrackForm;
 
   @Test public void fetchAll() {
     // ARRANGE
@@ -81,7 +75,7 @@ public class TrackServiceTest {
     Optional<Track> maybeTrack = trackService.findById(nonExistentId);
 
     // ASSERT
-    assertThat(maybeTrack.isPresent(), is(false));
+    assertFalse(maybeTrack.isPresent());
   }
 
   @Test public void findByName_givenNameInDb() {
@@ -105,94 +99,93 @@ public class TrackServiceTest {
     Optional<Track> maybeTrack = trackService.findByName(trackName);
 
     // ASSERT
-    assertThat(maybeTrack.isPresent(), is(false));
+    assertFalse(maybeTrack.isPresent());
   }
 
-//  @Test
-//  public void insert_successGivenValidData() {
-//    // ARRANGE
-//    Track track = new Track(null, "Beautiful Strange", null, null, null, null, null, null, null, null, null);
-//
-//    when(mockFormFactory.form(Track.class, Track.InsertValidators.class)).thenReturn(mockDataForm);
-//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-//    when(mockForm.hasErrors()).thenReturn(false);
-//
-//    // ACT
-//    Either<Map<String, List<ValidationError>>, Track> trackOrError = trackService.insert(track);
-//
-//    // ASSERT
-//    // assert left (error value) is not present
-//    assertFalse(trackOrError.isLeft());
-//    // assert right (success value) is present
-//    assertTrue(trackOrError.isRight());
-//    assertThat(trackOrError.right().get(), instanceOf(Track.class));
-//    // verify that the user repository inserted the new user
-//    ArgumentCaptor<Track> argument = ArgumentCaptor.forClass(Track.class);
-//    verify(mockTrackRepository).insert(argument.capture());
-//    assertThat(argument.getValue().getName(), is("Beautiful Strange"));
-//  }
-//
-//  @Test
-//  public void insert_failureGivenInvalidData() {
-//    // ARRANGE
-//    Track track = new Track(null, null, null, null, null, null, null, null, null, null, null);
-//
-//    Map<String, List<ValidationError>> validationErrors =
-//        new HashMap<String, List<ValidationError>>() {{
-//          put("name", mock(List.class));
-//        }};
-//
-//    when(mockFormFactory.form(Track.class, Track.InsertValidators.class)).thenReturn(mockDataForm);
-//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-//    when(mockForm.hasErrors()).thenReturn(true);
-//    when(mockForm.errors()).thenReturn(validationErrors);
-//
-//    // ACT
-//    Either<Map<String, List<ValidationError>>, Track> trackOrError = trackService.insert(track);
-//
-//    // ASSERT
-//    // assert right (success value) is not present
-//    assertFalse(trackOrError.isRight());
-//    // assert left (error value) is present
-//    assertTrue(trackOrError.isLeft());
-//    assertThat(trackOrError.left().get().get("name"), instanceOf(List.class));
-//    // verify that the trackRepository never tried to insert the invalid track
-//    verify(mockTrackRepository, never()).insert(any());
-//  }
-//
-//  @Test
-//  public void update_successGivenValidData() {
-//    // ARRANGE
-//    Track savedTrack = new Track(
-//        1L, "Heaven Scent", new ArrayList<>(), new ArrayList<>(), null,
-//        mock(Genre.class), mock(Label.class), LocalDate.now(), new ArrayList<>(),
-//        ZonedDateTime.now(), ZonedDateTime.now()
-//    );
-//    Track newTrack = new Track(
-//        1L, "Beautiful Strange", new ArrayList<>(), new ArrayList<>(), null,
-//        mock(Genre.class), mock(Label.class), LocalDate.now(), new ArrayList<>(),
-//        ZonedDateTime.now(), ZonedDateTime.now()
-//    );
-//
-//    when(mockFormFactory.form(Track.class, Track.UpdateValidators.class))
-//        .thenReturn(mockDataForm);
-//    when(mockDataForm.bind(any(JsonNode.class))).thenReturn(mockForm);
-//    when(mockForm.hasErrors()).thenReturn(false);
-//
-//    // ACT
-//    Either<Map<String, List<ValidationError>>, Track> trackOrError = trackService
-//        .update(savedTrack, newTrack);
-//
-//    // ASSERT
-//    // assert left (error value) is not present
-//    assertFalse(trackOrError.isLeft());
-//    // assert right (success value) is present
-//    assertTrue(trackOrError.isRight());
-//    // verify that the user repository updated the user
-//    ArgumentCaptor<Track> argument = ArgumentCaptor.forClass(Track.class);
-//    verify(mockTrackRepository).update(argument.capture());
-//    assertThat(argument.getValue().getName(), is("Beautiful Strange"));
-//  }
+  @Test public void insert_success() {
+    // ARRANGE
+    CreateTrack createTrack = new CreateTrack("Heaven Scent", null, null, "", null, null, LocalDate.now());
 
+    when(mockCreateTrackForm.hasErrors()).thenReturn(false);
+    when(mockCreateTrackForm.get()).thenReturn(createTrack);
+
+    // ACT
+    Either<Form<CreateTrack>, Track> trackOrError = trackService.insert(mockCreateTrackForm);
+
+    // ASSERT
+    // assert left (error value) is not present
+    assertFalse(trackOrError.isLeft());
+    // assert right (success value) is present
+    assertTrue(trackOrError.isRight());
+    assertThat(trackOrError.right().get(), instanceOf(Track.class));
+    // verify that the track repository inserted the new track
+    ArgumentCaptor<Track> argument = ArgumentCaptor.forClass(Track.class);
+    verify(mockTrackRepository).insert(argument.capture());
+    assertThat(argument.getValue().getName(), is("Heaven Scent"));
+  }
+
+  @Test public void insert_failureWhenFailsValidation() {
+    // ARRANGE
+    when(mockCreateTrackForm.hasErrors()).thenReturn(true);
+    Track mockTrack = mock(Track.class);
+
+    // ACT
+    Either<Form<CreateTrack>, Track> trackOrError = trackService.insert(mockCreateTrackForm);
+
+    // ASSERT
+    // assert right (success value) is not present
+    assertFalse(trackOrError.isRight());
+    // assert left (error value) is present
+    assertTrue(trackOrError.isLeft());
+    // verify that the trackRepository never tried to insert the invalid track
+    verify(mockTrackRepository, never()).insert(mockTrack);
+  }
+
+  @Test public void update_success() {
+    // ARRANGE
+    Track savedTrack = new Track(
+        1L, "Heaven Scent", null, null, "", null, null,
+        LocalDate.now(), null, Status.active, ZonedDateTime.now(), ZonedDateTime.now()
+    );
+    UpdateTrack updateTrack = new UpdateTrack("Xpander", null, null, "", null, null, LocalDate.now().minusMonths(-2));
+
+    when(mockUpdateTrackForm.hasErrors()).thenReturn(false);
+    when(mockUpdateTrackForm.get()).thenReturn(updateTrack);
+
+    // ACT
+    Either<Form<UpdateTrack>, Track> trackOrError = trackService.update(savedTrack, mockUpdateTrackForm);
+
+    // ASSERT
+    // assert left (error value) is not present
+    assertFalse(trackOrError.isLeft());
+    // assert right (success value) is present
+    assertTrue(trackOrError.isRight());
+    // verify that the user repository updated the user
+    ArgumentCaptor<Track> argument = ArgumentCaptor.forClass(Track.class);
+    verify(mockTrackRepository).update(argument.capture());
+    assertThat(argument.getValue().getName(), is("Xpander"));
+  }
+
+  @Test public void update_failureWhenFailsValidation() {
+    // ARRANGE
+    Track savedTrack = new Track(
+        1L, "Heaven Scent", null, null, "", null, null,
+        LocalDate.now(), null, Status.active, ZonedDateTime.now(), ZonedDateTime.now()
+    );
+    Track mockTrack = mock(Track.class);
+
+    when(mockUpdateTrackForm.hasErrors()).thenReturn(true);
+
+    // ACT
+    Either<Form<UpdateTrack>, Track> trackOrError = trackService.update(savedTrack, mockUpdateTrackForm);
+
+    // ASSERT
+    // assert right (success value) is not present
+    assertFalse(trackOrError.isRight());
+    // assert left (error value) is present
+    assertTrue(trackOrError.isLeft());
+    // verify that the trackRepository never tried to insert the invalid track
+    verify(mockTrackRepository, never()).update(mockTrack);
+  }
 
 }
