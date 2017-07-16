@@ -24,7 +24,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import models.create.CreateTrack;
 import models.update.UpdateTrack;
-import play.data.format.Formats;
 
 @Entity
 @Data
@@ -74,15 +73,13 @@ public class Track extends Model {
   private Status status;
 
   @CreatedTimestamp
-  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(columnDefinition = "datetime")
+  @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
   private ZonedDateTime created;
 
   @UpdatedTimestamp
-  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(columnDefinition = "datetime")
+  @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
   private ZonedDateTime updated;
 
   public Track(CreateTrack createTrack) {

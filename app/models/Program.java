@@ -27,7 +27,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import models.create.CreateProgram;
 import models.update.UpdateProgram;
-import play.data.format.Formats;
 import utilities.ImageHelper;
 import utilities.TextHelper;
 
@@ -73,15 +72,13 @@ public class Program extends Model {
   private Status status;
 
   @CreatedTimestamp
-  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(columnDefinition = "datetime")
+  @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
   private ZonedDateTime created;
 
   @UpdatedTimestamp
-  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(columnDefinition = "datetime")
+  @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
   private ZonedDateTime updated;
 
   public Program(CreateProgram createProgram) {

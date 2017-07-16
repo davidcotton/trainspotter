@@ -1,7 +1,6 @@
 package models;
 
 import com.avaje.ebean.Model;
-import com.avaje.ebeaninternal.server.lib.util.Str;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
@@ -39,7 +38,7 @@ public class Token extends Model {
   private byte[] signature;
 
   @NotNull
-  @Column(columnDefinition = "datetime")
+  @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
   private ZonedDateTime expiry;
 
   public Token(User user, byte[] signature, ZonedDateTime expiry) {

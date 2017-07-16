@@ -1,14 +1,14 @@
 package models;
 
+import static utilities.SlugHelper.slugify;
+
+import be.objectify.deadbolt.java.models.Subject;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import org.mindrot.jbcrypt.BCrypt;
-
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -24,8 +24,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-
-import be.objectify.deadbolt.java.models.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,9 +32,7 @@ import lombok.Setter;
 import models.create.CreateUser;
 import models.update.UpdatePassword;
 import models.update.UpdateUser;
-import play.data.format.Formats;
-
-import static utilities.SlugHelper.slugify;
+import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
 @Data
@@ -103,15 +99,13 @@ public class User extends Model implements Subject {
   private List<Media> medias;
 
   @CreatedTimestamp
-  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(columnDefinition = "datetime")
+  @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
   private ZonedDateTime created;
 
   @UpdatedTimestamp
-  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(columnDefinition = "datetime")
+  @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
   private ZonedDateTime updated;
 
   public User(CreateUser createUser) {

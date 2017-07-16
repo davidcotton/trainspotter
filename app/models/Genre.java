@@ -25,7 +25,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import models.create.CreateGenre;
 import models.update.UpdateGenre;
-import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 @Entity
@@ -65,15 +64,13 @@ public class Genre extends Model {
   private Status status;
 
   @CreatedTimestamp
-  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(columnDefinition = "datetime")
+  @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
   private ZonedDateTime created;
 
   @UpdatedTimestamp
-  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(columnDefinition = "datetime")
+  @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
   private ZonedDateTime updated;
 
   public Genre(CreateGenre createGenre) {
