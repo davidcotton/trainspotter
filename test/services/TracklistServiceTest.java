@@ -46,12 +46,12 @@ public class TracklistServiceTest {
 
   @InjectMocks private TracklistService tracklistService;
   @Mock private TracklistRepository mockTracklistRepository;
+  @Mock private UserService mockUserService;
   @Mock private FormFactory mockFormFactory;
   @Mock private Form mockForm;
   @Mock private Form mockDataForm;
 
-  @Test
-  public void fetchAll() {
+  @Test public void fetchAll() {
     // ARRANGE
     when(mockTracklistRepository.findAll()).thenReturn(new ArrayList<Tracklist>() {{
       add(mock(Tracklist.class));
@@ -66,8 +66,7 @@ public class TracklistServiceTest {
     assertThat(actualTracklists.size(), is(2));
   }
 
-  @Test
-  public void findById_givenIdInDb() {
+  @Test public void findById_givenIdInDb() {
     // ARRANGE
     long id = 1L;
     when(mockTracklistRepository.findById(id)).thenReturn(Optional.of(mock(Tracklist.class)));
@@ -79,8 +78,7 @@ public class TracklistServiceTest {
     assertTrue(maybeTracklist.isPresent());
   }
 
-  @Test
-  public void findById_givenIdNotInDb() {
+  @Test public void findById_givenIdNotInDb() {
     // ARRANGE
     long nonExistentId = 1L;
     when(mockTracklistRepository.findById(nonExistentId)).thenReturn(Optional.empty());

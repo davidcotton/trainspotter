@@ -54,8 +54,7 @@ public class TrackServiceTest {
   @Mock private Form mockForm;
   @Mock private Form mockDataForm;
 
-  @Test
-  public void fetchAll() {
+  @Test public void fetchAll() {
     // ARRANGE
     when(mockTrackRepository.findAll()).thenReturn(new ArrayList<Track>() {{
       add(mock(Track.class));
@@ -70,8 +69,7 @@ public class TrackServiceTest {
     assertThat(actualTracks.size(), is(2));
   }
 
-  @Test
-  public void findById_givenIdInDb() {
+  @Test public void findById_givenIdInDb() {
     // ARRANGE
     long id = 1L;
     when(mockTrackRepository.findById(id)).thenReturn(Optional.of(mock(Track.class)));
@@ -83,8 +81,7 @@ public class TrackServiceTest {
     assertTrue(maybeTrack.isPresent());
   }
 
-  @Test
-  public void findById_givenIdNotInDb() {
+  @Test public void findById_givenIdNotInDb() {
     // ARRANGE
     long nonExistentId = 1L;
     when(mockTrackRepository.findById(nonExistentId)).thenReturn(Optional.empty());
@@ -96,8 +93,7 @@ public class TrackServiceTest {
     assertThat(maybeTrack.isPresent(), is(false));
   }
 
-  @Test
-  public void findByName_givenNameInDb() {
+  @Test public void findByName_givenNameInDb() {
     // ARRANGE
     String trackName = "Beautiful Strange";
     when(mockTrackRepository.findByName(trackName)).thenReturn(Optional.of(mock(Track.class)));
@@ -109,8 +105,7 @@ public class TrackServiceTest {
     assertTrue(maybeTrack.isPresent());
   }
 
-  @Test
-  public void findByName_givenNameNotInDb() {
+  @Test public void findByName_givenNameNotInDb() {
     // ARRANGE
     String trackName = "Ice Ice Baby";
     when(mockTrackRepository.findByName(trackName)).thenReturn(Optional.empty());

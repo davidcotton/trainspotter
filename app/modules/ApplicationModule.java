@@ -1,16 +1,13 @@
 package modules;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Binder;
-
 import org.abstractj.kalium.keys.AuthenticationKey;
-
 import javax.inject.Provider;
-
 import play.Configuration;
 import play.Environment;
-
-import static java.util.Objects.requireNonNull;
 
 public class ApplicationModule extends AbstractModule {
 

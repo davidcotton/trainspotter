@@ -97,7 +97,6 @@ public class UserRepositoryTest extends AbstractIntegrationTest {
     // verify that default fields are populated
     assertNotNull(maybeUser.get().getId());
     assertThat(maybeUser.get().getStatus(), is(User.Status.unverified));
-    assertNotNull(maybeUser.get().getSalt());
     assertNotNull(maybeUser.get().getHash());
     assertNotNull(maybeUser.get().getCreated());
     assertNotNull(maybeUser.get().getUpdated());
@@ -121,7 +120,6 @@ public class UserRepositoryTest extends AbstractIntegrationTest {
     assertThat(maybeUser.get().getId(), is(3L));
     assertThat(maybeUser.get().getEmail(), is("joey-jo-jo-junior-shabadoo@simpsons.com"));
     assertThat(maybeUser.get().getStatus(), is(User.Status.active));
-    assertNotNull(maybeUser.get().getSalt());
     assertNotNull(maybeUser.get().getHash());
   }
 }
