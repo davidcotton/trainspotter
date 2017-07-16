@@ -16,43 +16,52 @@
   <h1>@tracklist.getName</h1>
 
   <!-- media tabs -->
-  <div class="">
-    <div class="media my-2">
-      <ul class="nav nav-tabs" role="tablist">
+  @if(tracklist.getMedias.size() > 0) {
+    <div class="">
+      <div class="media my-2">
+        <ul class="nav nav-tabs" role="tablist">
+          @for((media, i) <- tracklist.getMedias.zipWithIndex) {
+            <li class="nav-item"><a href="#tab-@media.getId" class="nav-link @if(i == 0) {active}" data-toggle="tab">@media.getType</a></li>
+          }
+        </ul>
+        <div class="tab-content">
         @for((media, i) <- tracklist.getMedias.zipWithIndex) {
-          <li class="nav-item"><a href="#tab-@media.getId" class="nav-link @if(i == 0) {active}" data-toggle="tab">@media.getType</a></li>
-        }
-      </ul>
-      <div class="tab-content">
-      @for((media, i) <- tracklist.getMedias.zipWithIndex) {
-        <div class="tab-pane @if(i == 0) {active}" id="tab-@media.getId" role="tabpanel">
-          @if(media.getType == "soundcloud") {
-            <object height="81" width="100%">
-              <param name="movie"
-              value="http://player.soundcloud.com/player.swf?{ ADD YOUR PARAMETERS HERE }&url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F293"></param>
-              <param name="allowscriptaccess" value="always"></param>
-              <embed
-              src="http://player.soundcloud.com/player.swf?{ ADD YOUR PARAMETERS HERE }&url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F293"
-              allowscriptaccess="always" height="81"  type="application/x-shockwave-flash" width="100%">
-              </embed>
-            </object>
-          }
-          @if(media.getType == "mixcloud") {
-            <iframe src="@media.getUrl"></iframe>
-          }
-          @if(media.getType == "youtube") {
+          <div class="tab-pane @if(i == 0) {active}" id="tab-@media.getId" role="tabpanel">
+            @if(media.getType == "soundcloud") {
+              <object height="81" width="100%">
+                <param name="movie"
+                value="http://player.soundcloud.com/player.swf?{ ADD YOUR PARAMETERS HERE }&url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F293"></param>
+                <param name="allowscriptaccess" value="always"></param>
+                <embed
+                src="http://player.soundcloud.com/player.swf?{ ADD YOUR PARAMETERS HERE }&url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F293"
+                allowscriptaccess="always" height="81"  type="application/x-shockwave-flash" width="100%">
+                </embed>
+              </object>
+            }
+            @if(media.getType == "mixcloud") {
+              <iframe src="@media.getUrl"></iframe>
+            }
+            @if(media.getType == "youtube") {
 
-          }
+            }
+          </div>
+        }
         </div>
-      }
       </div>
     </div>
-  </div>
+  }
 
   <div class="row">
-    <div class="col-sm-4">
-      <div class="card">
-        <img src="@routes.Assets.versioned(tracklist.getImageLink)" alt="@tracklist.getName" class="card-img-top">
+    <!-- left sidebar -->
+    <div class="col-md-3 col-xl-4">
+      <div class="card mb-4">
+        @if(tracklist.getImage != null) {
+          <img src="@routes.Assets.versioned(tracklist.getImageLink)" alt="@tracklist.getName" class="card-img-top">
+        } else {
+          <span class="align-self-center ml-auto mr-auto p-5 my-2" style="background-color: rgba(0,0,0,0.125);">
+            <i class="fa fa-headphones fa-5x" aria-hidden="true"></i>
+          </span>
+        }
         <div class="card-block">
           <h5 class="mb-1">
           @for(artist <- tracklist.getArtists) {
@@ -65,11 +74,24 @@
             <i class="fa fa-user" title="@tracklist.getUser.getUsername" aria-hidden="true"></i>
             <a href="@appRoutes.UserController.view(tracklist.getUser.getSlug)">@tracklist.getUser.getUsername</a> (@tracklist.getUser.getKarmaFormatted)
           </small>
+
+          <!-- edit/delete -->
+          <div class="d-flex flex-row mt-2">
+            <a href="@appRoutes.TracklistController.editForm(tracklist.getId)" class="btn btn-sm btn-warning mr-2">
+              <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
+            </a>
+            <form action="@appRoutes.TracklistController.delete(tracklist.getId)" method="post">
+              <button type="submit" class="btn btn-sm btn-danger">
+                <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="col-sm-8">
+    <!-- tracklist -->
+    <div class="col-md-9 col-xl-8">
       <table class="table table-striped">
         <thead>
           <tr>
@@ -88,9 +110,9 @@
               <td>@{track.getRemixers.map(renderArtist)}</td>
               <td><a href="@appRoutes.LabelController.view(track.getLabel.getSlug)">@track.getLabel.getName</a></td>
               <td>
-                <div>
-                  <a href="" class="btn btn-sm btn-success" title="Add Track"><i class="fa fa-plus" title="New Track" aria-hidden="true"></i></a>
-                  <a href="" class="btn btn-sm btn-warning" title="Suggest Correction"><i class="fa fa-pencil-square-o" title="Correction" aria-hidden="true"></i></a>
+                <div class="d-flex flex-row">
+                  <a href="#" class="btn btn-sm btn-success mr-2" title="Add Track"><i class="fa fa-plus" title="New Track" aria-hidden="true"></i></a>
+                  <a href="#" class="btn btn-sm btn-warning" title="Suggest Correction"><i class="fa fa-pencil" title="Correction" aria-hidden="true"></i></a>
                 </div>
               </td>
             </tr>

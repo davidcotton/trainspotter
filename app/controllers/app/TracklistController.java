@@ -15,6 +15,7 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
+import services.ArtistService;
 import services.TracklistService;
 import services.UserService;
 import views.html.notFound;
@@ -28,12 +29,19 @@ public class TracklistController extends Controller {
   private final TracklistService tracklistService;
   private final FormFactory formFactory;
   private final UserService userService;
+  private final ArtistService artistService;
 
   @Inject
-  public TracklistController(TracklistService tracklistRepository, FormFactory formFactory, UserService userService) {
+  public TracklistController(
+      TracklistService tracklistRepository,
+      FormFactory formFactory,
+      UserService userService,
+      ArtistService artistService
+  ) {
     this.tracklistService = requireNonNull(tracklistRepository);
     this.formFactory = requireNonNull(formFactory);
     this.userService = requireNonNull(userService);
+    this.artistService = requireNonNull(artistService);
   }
 
   /**
@@ -60,7 +68,7 @@ public class TracklistController extends Controller {
 
   @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
   public Result addForm() {
-    return ok(add.render(formFactory.form(CreateTracklist.class)));
+    return ok(add.render(formFactory.form(CreateTracklist.class), artistService.fetchAll()));
   }
 
   @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
@@ -70,7 +78,7 @@ public class TracklistController extends Controller {
         .map(user -> tracklistService
             .insert(formFactory.form(CreateTracklist.class).bindFromRequest(), user)
             .fold(
-                form -> badRequest(add.render(form)),
+                form -> badRequest(add.render(form, artistService.fetchAll())),
                 tracklist -> Results.redirect(routes.TracklistController.view(tracklist.getId()))
             )
         )
@@ -84,7 +92,8 @@ public class TracklistController extends Controller {
         .findById(id)
         .map(tracklist -> ok(edit.render(
             tracklist,
-            formFactory.form(UpdateTracklist.class).fill(new UpdateTracklist(tracklist))
+            formFactory.form(UpdateTracklist.class).fill(new UpdateTracklist(tracklist)),
+            artistService.fetchAll()
         )))
         .orElse(notFound(notFound.render()));
   }
@@ -96,7 +105,7 @@ public class TracklistController extends Controller {
         .map(savedTracklist -> tracklistService
             .update(savedTracklist, formFactory.form(UpdateTracklist.class).bindFromRequest())
             .fold(
-                form -> badRequest(edit.render(savedTracklist, form)),
+                form -> badRequest(edit.render(savedTracklist, form, artistService.fetchAll())),
                 newTracklist -> Results.redirect(routes.TracklistController.view(newTracklist.getId()))
             )
         )

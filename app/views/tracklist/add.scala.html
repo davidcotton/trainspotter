@@ -1,9 +1,14 @@
 @import controllers.app.{routes => appRoutes}
 @import models.create.CreateTracklist
 
-@(tracklistForm: play.data.Form[CreateTracklist])
+@(
+  tracklistForm: play.data.Form[CreateTracklist],
+  artists: java.util.List[Artist]
+)
 
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
+
+@artistOpts =@{artists.map(a => a.getId.toString -> a.getName)}
 
 @main("New Tracklist") {
   <div class="card mt-5">
@@ -11,7 +16,8 @@
     <div class="card-block">
     @b4.form(appRoutes.TracklistController.addSubmit()) {
       <fieldset>
-        @b4.text(tracklistForm("name"), '_label -> "Name", 'placeholder -> "Name")
+        @b4.text(tracklistForm("name"), '_label -> "Name")
+        @b4.select(tracklistForm("artists.id"), options = artistOpts, '_label -> "Artists", 'multiple -> true)
         @b4.file(tracklistForm("image"), '_label -> "Image")
         @b4.inputWrapped("text", tracklistForm("performed"), '_label -> "Performed") { input =>
           <div class="input-group date">

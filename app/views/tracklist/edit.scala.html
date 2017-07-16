@@ -1,9 +1,17 @@
 @import controllers.app.{routes => appRoutes}
 @import models.update.UpdateTracklist
 
-@(tracklist: Tracklist, tracklistForm: play.data.Form[UpdateTracklist])
+@(
+  tracklist: Tracklist,
+  tracklistForm: play.data.Form[UpdateTracklist],
+  artists: java.util.List[Artist]
+)
 
 @implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
+
+@artistOpts =@{artists.map(a => a.getId.toString -> a.getName)}
+@artistVals =@{tracklist.getArtists.map(a => a.getId.toString)}
+@fruits = @{ Seq("A"->"Apples","P"->"Pears","B"->"Bananas") }
 
 @main("Edit Tracklist") {
   <div class="card mt-5">
@@ -11,6 +19,11 @@
     <div class="card-block">
     @b4.form(appRoutes.TracklistController.editSubmit(tracklist.getId)) {
       <fieldset>
+        @b4.select(tracklistForm("foo"), options = fruits, '_label -> "Select", 'multiple -> true, 'readonly -> true, 'value -> "B,P")
+        @b4.select(tracklistForm("foo"), options = artistOpts, '_label -> "Artists", 'multiple -> true, 'value -> "21,22")
+        @b4.select(tracklistForm("artists"), options = artistOpts, '_label -> "Artists", 'multiple -> true, 'readonly -> true)
+        @* @b4.select(tracklistForm("artists"), options = artistOpts, '_label -> "Artists", 'multiple -> true, 'value -> "1,4") *@
+
         @b4.text(tracklistForm("name"), '_label -> "Name", 'placeholder -> "Name")
         @b4.file(tracklistForm("image"), '_label -> "Image")
         <div class="form-group row">

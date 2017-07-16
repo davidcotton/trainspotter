@@ -101,6 +101,7 @@ public class Tracklist extends Model {
     slug = slugify(createTracklist.getName());
     performed = createTracklist.getPerformed();
     image = imagify(createTracklist.getImage(), NICHE);
+    artists = createTracklist.getArtists();
     status = Status.active;
   }
 
@@ -112,7 +113,7 @@ public class Tracklist extends Model {
     image = imagify(updateTracklist.getImage(), NICHE);
     user = tracklist.user;
     tracks = tracklist.tracks;
-    artists = tracklist.artists;
+    artists = updateTracklist.getArtists();
     genres = tracklist.genres;
     medias = tracklist.medias;
     status = tracklist.status;
