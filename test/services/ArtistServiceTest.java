@@ -37,6 +37,8 @@ public class ArtistServiceTest {
 
   @InjectMocks private ArtistService artistService;
   @Mock private ArtistRepository mockArtistRepository;
+  @Mock private Form<CreateArtist> mockCreateArtistForm;
+  @Mock private Form<UpdateArtist> mockUpdateArtistForm;
 
   @Test public void fetchAll() {
     // ARRANGE
@@ -74,7 +76,7 @@ public class ArtistServiceTest {
     Optional<Artist> maybeArtist = artistService.findById(nonExistentId);
 
     // ASSERT
-    assertThat(maybeArtist.isPresent(), is(false));
+    assertFalse(maybeArtist.isPresent());
   }
 
   @Test public void findByName_givenNameInDb() {
@@ -98,19 +100,18 @@ public class ArtistServiceTest {
     Optional<Artist> maybeArtist = artistService.findByName(name);
 
     // ASSERT
-    assertThat(maybeArtist.isPresent(), is(false));
+    assertFalse(maybeArtist.isPresent());
   }
 
   @Test public void insert_success() {
     // ARRANGE
     CreateArtist createArtist = new CreateArtist("John Digweed", "john-digweed.jpg", "Diggers is tops.");
-    Form<CreateArtist> mockArtistForm = (Form<CreateArtist>) mock(Form.class);
 
-    when(mockArtistForm.hasErrors()).thenReturn(false);
-    when(mockArtistForm.get()).thenReturn(createArtist);
+    when(mockCreateArtistForm.hasErrors()).thenReturn(false);
+    when(mockCreateArtistForm.get()).thenReturn(createArtist);
 
     // ACT
-    Either<Form<CreateArtist>, Artist> artistOrError = artistService.insert(mockArtistForm);
+    Either<Form<CreateArtist>, Artist> artistOrError = artistService.insert(mockCreateArtistForm);
 
     // ASSERT
     // assert left (error value) is not present
@@ -126,12 +127,11 @@ public class ArtistServiceTest {
 
   @Test public void insert_failureWhenFailsValidation() {
     // ARRANGE
-    Form<CreateArtist> mockArtistForm = (Form<CreateArtist>) mock(Form.class);
-    when(mockArtistForm.hasErrors()).thenReturn(true);
+    when(mockCreateArtistForm.hasErrors()).thenReturn(true);
     Artist mockArtist = mock(Artist.class);
 
     // ACT
-    Either<Form<CreateArtist>, Artist> artistOrError = artistService.insert(mockArtistForm);
+    Either<Form<CreateArtist>, Artist> artistOrError = artistService.insert(mockCreateArtistForm);
 
     // ASSERT
     // assert right (success value) is not present
@@ -144,18 +144,17 @@ public class ArtistServiceTest {
 
   @Test public void update_success() {
     // ARRANGE
-    UpdateArtist updateArtist = new UpdateArtist("Richie Hawtin", "new-image.jpg", "new description");
     Artist savedArtist = new Artist(
         1L, "John Digweed", "john-digweed", "image.jpg", "description", null, null,
         null, null, null, null, ZonedDateTime.now(), ZonedDateTime.now()
     );
-    Form<UpdateArtist> mockArtistForm = (Form<UpdateArtist>) mock(Form.class);
+    UpdateArtist updateArtist = new UpdateArtist("Richie Hawtin", "new-image.jpg", "new description");
 
-    when(mockArtistForm.hasErrors()).thenReturn(false);
-    when(mockArtistForm.get()).thenReturn(updateArtist);
+    when(mockUpdateArtistForm.hasErrors()).thenReturn(false);
+    when(mockUpdateArtistForm.get()).thenReturn(updateArtist);
 
     // ACT
-    Either<Form<UpdateArtist>, Artist> artistOrError = artistService.update(savedArtist, mockArtistForm);
+    Either<Form<UpdateArtist>, Artist> artistOrError = artistService.update(savedArtist, mockUpdateArtistForm);
 
     // ASSERT
     // assert left (error value) is not present
@@ -174,13 +173,12 @@ public class ArtistServiceTest {
         1L, "John Digweed", "john-digweed", "image.jpg", "description", null, null,
         null, null, null, null, ZonedDateTime.now(), ZonedDateTime.now()
     );
-    Form<UpdateArtist> mockArtistForm = (Form<UpdateArtist>) mock(Form.class);
     Artist mockArtist = mock(Artist.class);
 
-    when(mockArtistForm.hasErrors()).thenReturn(true);
+    when(mockUpdateArtistForm.hasErrors()).thenReturn(true);
 
     // ACT
-    Either<Form<UpdateArtist>, Artist> artistOrError = artistService.update(savedArtist, mockArtistForm);
+    Either<Form<UpdateArtist>, Artist> artistOrError = artistService.update(savedArtist, mockUpdateArtistForm);
 
     // ASSERT
     // assert right (success value) is not present
