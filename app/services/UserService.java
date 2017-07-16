@@ -1,7 +1,6 @@
 package services;
 
 import static java.util.Objects.requireNonNull;
-import static play.libs.Json.toJson;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -21,7 +20,6 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.ValidationError;
 import repositories.UserRepository;
-import views.html.user.login;
 
 public class UserService {
 
