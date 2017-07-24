@@ -3,17 +3,12 @@ package validators;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
-
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
-
 import models.User;
-
 import play.data.validation.Constraints;
 import play.libs.F;
-
 import repositories.UserRepository;
-
 import validators.CustomConstraints.UniqueEmail;
 
 /**
