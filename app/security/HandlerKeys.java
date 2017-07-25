@@ -2,11 +2,10 @@ package security;
 
 import be.objectify.deadbolt.java.ConfigKeys;
 
-public enum  HandlerKeys {
+public enum HandlerKeys {
 
   DEFAULT(ConfigKeys.DEFAULT_HANDLER_KEY),
-  ALT("altHandler"),
-  BUGGY("buggyHandler"),
+  TOKEN("tokenHandler"),
   NO_USER("noUserHandler");
 
   public final String key;

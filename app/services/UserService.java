@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.atlassian.fugue.Either;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -150,6 +151,15 @@ public class UserService {
     return user.isAuthorised(plaintext)
         ? Optional.of(tokenService.generate(user))
         : Optional.empty();
+  }
+
+  public Optional<User> auth2(long userId, ZonedDateTime expiry, String signature) {
+    boolean result = tokenService.isAuthorised(userId, expiry, signature);
+    if (result) {
+      return userRepository.findActiveById(userId);
+    } else {
+      return Optional.empty();
+    }
   }
 
   /**

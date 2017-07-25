@@ -27,7 +27,7 @@ public class Security {
   @Retention(RetentionPolicy.RUNTIME)
   public @interface Authenticated {
 
-    Class<? extends Authenticator> value() default Authenticator.class;
+    Class<? extends TokenAuthenticator> value() default TokenAuthenticator.class;
   }
 
   /**
@@ -48,7 +48,7 @@ public class Security {
     }
 
     public CompletionStage<Result> call(final Context ctx) {
-      Authenticator authenticator = injector.instanceOf(configuration.value());
+      TokenAuthenticator authenticator = injector.instanceOf(configuration.value());
 
       try {
         long userId = authenticator.getUserId(ctx);
@@ -69,7 +69,7 @@ public class Security {
   /**
    * Handles authentication.
    */
-  public static class Authenticator extends Results {
+  public static class TokenAuthenticator extends Results {
 
     public long getUserId(Context ctx) {
       return Long.parseLong(ctx.request().getHeader("X-Authorisation-User-Id"));

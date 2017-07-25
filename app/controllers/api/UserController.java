@@ -1,17 +1,12 @@
 package controllers.api;
 
-import java.util.Optional;
-
 import static java.util.Objects.requireNonNull;
-import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
 import static utilities.JsonHelper.MESSAGE_NOT_FOUND;
 import static utilities.JsonHelper.errorsAsJson;
 
 import controllers.Security;
 import javax.inject.Inject;
-
-import models.User;
 import models.create.CreateUser;
 import models.LoginUser;
 import models.update.UpdateUser;
@@ -50,7 +45,6 @@ public class UserController extends Controller {
    * @param id The users ID.
    * @return The user if found else a 404 Not Found.
    */
-  //@Security.Authenticated
   public Result fetch(long id) {
     return userService.findActiveById(id)
         .map(user -> ok(toJson(user)))

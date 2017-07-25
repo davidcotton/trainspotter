@@ -5,23 +5,24 @@ import be.objectify.deadbolt.java.ConstraintPoint;
 import be.objectify.deadbolt.java.ExecutionContextProvider;
 import be.objectify.deadbolt.java.models.Permission;
 import be.objectify.deadbolt.java.models.Subject;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Executor;
-
 import models.User;
+import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
 import services.UserService;
 
-public class MyDeadboltHandler extends AbstractDeadboltHandler {
+public class TokenDeadboltHandler extends AbstractDeadboltHandler {
 
   private final UserService userService;
 
-//  public MyDeadboltHandler(final ExecutionContextProvider ecProvider) {
-  public MyDeadboltHandler(final ExecutionContextProvider ecProvider, UserService userService) {
+  public TokenDeadboltHandler(ExecutionContextProvider ecProvider, UserService userService) {
     super(ecProvider);
     this.userService = userService;
   }
@@ -39,9 +40,24 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
    */
   @Override
   public CompletionStage<Optional<? extends Subject>> getSubject(Context context) {
-    String user = context.session().get("userslug");
-    Optional<User> maybeUser = userService.findBySlug(user);
+    long userId = Long.parseLong(context.request().getHeader("X-Authorisation-User-Id"));
+    String expiryStr = context.request().getHeader("X-Authorisation-Expires");
+    ZonedDateTime expiry = ZonedDateTime.parse(expiryStr, DateTimeFormatter.ISO_DATE_TIME);
+    String signature = context.request().getHeader("X-Authorisation-Signature");
+
+    Optional<User> maybeUser = userService.auth2(userId, expiry, signature);
+
     return CompletableFuture.supplyAsync(() -> maybeUser, (Executor) executionContextProvider.get());
+  }
+
+  /**
+   * Gets the canonical name of the handler. Defaults to the class name.
+   *
+   * @return whatever the implementor considers the canonical name of the handler to be
+   */
+  @Override
+  public String handlerName() {
+    return null;
   }
 
   /**
@@ -53,7 +69,7 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
    * @param constraintPoint the point at which the constraint was applied
    */
   @Override
-  public void onAuthSuccess(Context context, String constraintType, ConstraintPoint constraintPoint) {
+  public void onAuthSuccess(Http.Context context, String constraintType, ConstraintPoint constraintPoint) {
 
   }
 

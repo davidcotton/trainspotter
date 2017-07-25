@@ -1,12 +1,11 @@
 package security;
 
-import java.util.List;
-import java.util.concurrent.CompletionStage;
-
 import be.objectify.deadbolt.java.AbstractDeadboltHandler;
 import be.objectify.deadbolt.java.ConstraintPoint;
 import be.objectify.deadbolt.java.ExecutionContextProvider;
 import be.objectify.deadbolt.java.models.Permission;
+import java.util.List;
+import java.util.concurrent.CompletionStage;
 import play.mvc.Http;
 
 public class NoUserDeadboltHandler extends AbstractDeadboltHandler {
