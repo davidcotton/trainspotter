@@ -14,16 +14,23 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.TracklistService;
+import services.UserService;
 
 public class TracklistController extends Controller {
 
   private final TracklistService tracklistService;
   private final FormFactory formFactory;
+  private final UserService userService;
 
   @Inject
-  public TracklistController(TracklistService tracklistService, FormFactory formFactory) {
+  public TracklistController(
+      TracklistService tracklistService,
+      FormFactory formFactory,
+      UserService userService
+  ) {
     this.tracklistService = requireNonNull(tracklistService);
     this.formFactory = requireNonNull(formFactory);
+    this.userService = requireNonNull(userService);
   }
 
   public Result fetchAll() {
@@ -39,14 +46,15 @@ public class TracklistController extends Controller {
   @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {
-    return TODO;
-
-//    return tracklistService
-//        .insert(formFactory.form(CreateTracklist.class).bindFromRequest())
-//        .fold(
-//            form -> badRequest(errorsAsJson(form.errors())),
-//            tracklist -> created(toJson(tracklist))
-//        );
+    return userService
+        .findActiveById(Long.parseLong(request().getHeader("X-Authorisation-User-Id")))
+        .map(user -> tracklistService
+            .insert(formFactory.form(CreateTracklist.class).bindFromRequest(), user)
+            .fold(
+                form -> badRequest(errorsAsJson(form.errors())),
+                tracklist -> created(toJson(tracklist))
+            ))
+        .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
   @Security.Authenticated

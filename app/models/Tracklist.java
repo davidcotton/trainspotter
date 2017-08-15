@@ -56,6 +56,7 @@ public class Tracklist extends Model {
   @Column(unique = true, length = 191)
   private String slug;
 
+  @NotNull
   private LocalDate performed;
 
   private String image;

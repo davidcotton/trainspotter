@@ -162,7 +162,7 @@ create table tracklist (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
   slug                          varchar(191) not null,
-  performed                     date,
+  performed                     date not null,
   image                         varchar(255),
   user_id                       bigint not null,
   status                        varchar(7) not null,

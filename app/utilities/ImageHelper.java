@@ -12,7 +12,7 @@ public class ImageHelper {
    * @return The filename of the saved image.
    */
   public static String imagify(String file, String niche) {
-    if (file.equals("")) {
+    if (file == null || file.equals("")) {
       return null;
     } else {
       return file;

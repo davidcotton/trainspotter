@@ -16,8 +16,12 @@ public class UpdateTracklist {
 
   @Constraints.Required(message = "A name is required.")
   private String name;
+
+  @Constraints.Required(message = "Performed date is required.")
   private LocalDate performed;
+
   private String image;
+
   private List<Artist> artists;
 
   public UpdateTracklist(Tracklist tracklist) {
