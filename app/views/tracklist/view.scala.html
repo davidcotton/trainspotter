@@ -59,7 +59,7 @@
           <img src="@routes.Assets.versioned(tracklist.getImageLink)" alt="@tracklist.getName" class="card-img-top">
         } else {
           <span class="align-self-center ml-auto mr-auto p-5 my-2" style="background-color: rgba(0,0,0,0.125);">
-            <i class="fa fa-headphones fa-5x" aria-hidden="true"></i>
+            <i class="fa fa-headphones fa-5x"></i>
           </span>
         }
         <div class="card-block">
@@ -71,18 +71,18 @@
           <p class="mb-1">Performed: @tracklist.getPerformed</p>
           <p class="mb-1">@tracklist.getGenres.map(_.getName).mkString(", ")</p>
           <small>
-            <i class="fa fa-user" title="@tracklist.getUser.getUsername" aria-hidden="true"></i>
+            <i class="fa fa-user" title="@tracklist.getUser.getUsername"></i>
             <a href="@appRoutes.UserController.view(tracklist.getUser.getSlug)">@tracklist.getUser.getUsername</a> (@tracklist.getUser.karmaFormatted)
           </small>
 
           <!-- edit/delete -->
           <div class="d-flex flex-row mt-2">
             <a href="@appRoutes.TracklistController.editForm(tracklist.getId)" class="btn btn-sm btn-warning mr-2">
-              <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
+              <i class="fa fa-pencil" title="Edit"></i>
             </a>
             <form action="@appRoutes.TracklistController.delete(tracklist.getId)" method="post">
-              <button type="submit" class="btn btn-sm btn-danger">
-                <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
+              <button class="btn btn-sm btn-danger">
+                <i class="fa fa-trash" title="Delete"></i>
               </button>
             </form>
           </div>
@@ -112,8 +112,8 @@
                 <td><a href="@appRoutes.LabelController.view(track.getLabel.getSlug)">@track.getLabel.getName</a></td>
                 <td>
                   <div class="d-flex flex-row">
-                    <a href="#" class="btn btn-sm btn-success mr-2" title="Add Track"><i class="fa fa-plus" title="New Track" aria-hidden="true"></i></a>
-                    <a href="#" class="btn btn-sm btn-warning" title="Suggest Correction"><i class="fa fa-pencil" title="Correction" aria-hidden="true"></i></a>
+                    <a href="#" class="btn btn-sm btn-success mr-2" title="Add Track"><i class="fa fa-plus" title="New Track"></i></a>
+                    <a href="#" class="btn btn-sm btn-warning" title="Suggest Correction"><i class="fa fa-pencil" title="Correction"></i></a>
                   </div>
                 </td>
               </tr>

@@ -5,7 +5,7 @@
 @main(user.getUsername) {
   <div class="row mt-5">
     <div class="col-md-4">
-      <h1><i class="fa fa-user" title="@user.getUsername" aria-hidden="true"></i> @user.getUsername</h1>
+      <h1><i class="fa fa-user" title="@user.getUsername"></i> @user.getUsername</h1>
       <table class="table table-striped">
         <tbody>
           <tr>
@@ -46,7 +46,7 @@
                 </div>
                 <p class="mb-1">@tracklist.getPerformed</p>
                 <small>
-                  <i class="fa fa-user" title="@tracklist.getUser.getUsername" aria-hidden="true"></i>
+                  <i class="fa fa-user" title="@tracklist.getUser.getUsername"></i>
                   @tracklist.getUser.getUsername
                 </small>
               </a>

@@ -20,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Trainspotter">
     <title>@title on Trainspotter</title>
-    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/bootstrap-4.min.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")">
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/font-awesome.min.css")">
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/bootstrap-datepicker3.css")">
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
@@ -70,29 +70,29 @@
               <a href="#" class="nav-item nav-link dropdown-toggle" data-toggle="dropdown">Register/Login</a>
               <div class="dropdown-menu">
                 <a href="@appRoutes.UserController.registerForm()" class="dropdown-item">
-                  <i class="fa fa-user-plus" title="Profile" aria-hidden="true"></i>
+                  <i class="fa fa-user-plus" title="Profile"></i>
                   Register
                 </a>
                 <a href="@appRoutes.UserController.loginForm()" class="dropdown-item">
-                  <i class="fa fa-sign-in" title="Profile" aria-hidden="true"></i>
+                  <i class="fa fa-sign-in" title="Profile"></i>
                   Login
                 </a>
               </div>
             } else {
               <a href="#" class="nav-item nav-link dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-user" title="@session.get("username")" aria-hidden="true"></i>
+                <i class="fa fa-user" title="@session.get("username")"></i>
                 @session.get("username")
               </a>
               <div class="dropdown-menu">
                 <a href="@appRoutes.UserController.profile(session.get("userslug"))" class="dropdown-item">
-                  <i class="fa fa-dashboard" title="Profile" aria-hidden="true"></i> Profile
+                  <i class="fa fa-dashboard" title="Profile"></i> Profile
                 </a>
                 <a href="@appRoutes.UserController.settingsForm(session.get("userslug"))" class="dropdown-item">
-                  <i class="fa fa-cogs" title="Settings" aria-hidden="true"></i> Settings
+                  <i class="fa fa-cogs" title="Settings"></i> Settings
                 </a>
                 <form action="@appRoutes.UserController.logout()" method="post">
-                  <button type="submit" class="dropdown-item">
-                    <i class="fa fa-sign-out" title="Profile" aria-hidden="true"></i> Logout
+                  <button class="dropdown-item">
+                    <i class="fa fa-sign-out" title="Profile"></i> Logout
                   </button>
                 </form>
               </div>
@@ -108,7 +108,7 @@
       <div class="container">
         <form class="form-inline">
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search">
+            <input class="form-control" placeholder="Search">
             <span class="input-group-btn">
               <button class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
             </span>
@@ -133,7 +133,7 @@
 
     <script src="@routes.Assets.versioned("javascripts/jquery-3.2.1.min.js")" type="text/javascript"></script>
     <script src="@routes.Assets.versioned("javascripts/tether.min.js")" type="text/javascript"></script>
-    <script src="@routes.Assets.versioned("javascripts/bootstrap-4.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/bootstrap.min.js")" type="text/javascript"></script>
     <script src="@routes.Assets.versioned("javascripts/bootstrap-datepicker.min.js")" type="text/javascript"></script>
     <script src="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript"></script>
     <script src="//widget.mixcloud.com/media/js/widgetApi.js" type="text/javascript"></script>

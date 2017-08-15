@@ -21,10 +21,10 @@
         <td>@user.getStatus</td>
         <td class="text-right">
           <a href="@appRoutes.UserController.settingsForm(user.getUsername)" class="btn btn-sm btn-warning">
-            <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
+            <i class="fa fa-pencil-square-o" title="Edit"></i>
           </a>
           <a href="@appRoutes.UserController.delete(user.getUsername)" class="btn btn-sm btn-danger">
-            <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
+            <i class="fa fa-trash" title="Delete"></i>
           </a>
         </td>
       </tr>
@@ -34,7 +34,7 @@
       <tr>
         <td colspan="4">
           <a href="@appRoutes.UserController.registerForm()" class="btn btn-sm btn-primary">
-            New User <i class="fa fa-plus" title="New User" aria-hidden="true"></i>
+            New User <i class="fa fa-plus" title="New User"></i>
           </a>
         </td>
       </tr>

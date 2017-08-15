@@ -31,11 +31,11 @@
           <!-- edit/delete -->
         <div class="btn-group" role="group">
           <a href="@appRoutes.LabelController.editForm(label.getSlug)" class="btn btn-sm btn-warning">
-            <i class="fa fa-pencil-square-o" title="Edit" aria-hidden="true"></i>
+            <i class="fa fa-pencil-square-o" title="Edit"></i>
           </a>
           <form action="@appRoutes.LabelController.delete(label.getSlug)" method="post">
-            <button type="submit" class="btn btn-sm btn-danger">
-              <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
+            <button class="btn btn-sm btn-danger">
+              <i class="fa fa-trash" title="Delete"></i>
             </button>
           </form>
         </div>
