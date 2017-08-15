@@ -9,6 +9,8 @@ import static models.Role.SUPER_ADMIN;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import javax.inject.Inject;
+
+import models.AddTrack;
 import models.create.CreateTracklist;
 import models.update.UpdateTracklist;
 import play.data.FormFactory;
@@ -62,7 +64,7 @@ public class TracklistController extends Controller {
   public Result view(long id) {
     return tracklistService
         .findById(id)
-        .map(tracklist -> ok(view.render(tracklist)))
+        .map(tracklist -> ok(view.render(tracklist, formFactory.form(AddTrack.class))))
         .orElse(notFound(notFound.render()));
   }
 
@@ -127,5 +129,10 @@ public class TracklistController extends Controller {
           return Results.redirect(routes.TracklistController.index(1));
         })
         .orElse(notFound(notFound.render()));
+  }
+
+  @Restrict({@Group(SUPER_ADMIN), @Group(ADMIN), @Group(EDITOR), @Group(CONTRIBUTOR)})
+  public Result addTrackSubmit(long id) {
+    return TODO;
   }
 }

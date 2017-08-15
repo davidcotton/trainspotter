@@ -1,6 +1,11 @@
 @import controllers.app.{routes => appRoutes}
 
-@(tracklist: Tracklist)
+@(
+  tracklist: Tracklist,
+  trackForm: play.data.Form[AddTrack]
+)
+
+@implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
 @renderArtist(artist: models.Artist) = {
   <strong><a href="@appRoutes.ArtistController.view(artist.getSlug)">@artist.getName</a></strong>
@@ -112,17 +117,52 @@
                 <td><a href="@appRoutes.LabelController.view(track.getLabel.getSlug)">@track.getLabel.getName</a></td>
                 <td>
                   <div class="d-flex flex-row">
-                    <a href="#" class="btn btn-sm btn-success mr-2" title="Add Track"><i class="fa fa-plus" title="New Track"></i></a>
-                    <a href="#" class="btn btn-sm btn-warning" title="Suggest Correction"><i class="fa fa-pencil" title="Correction"></i></a>
+                    <button type="button" class="btn btn-sm btn-success mr-2" data-toggle="modal" data-target="#addTrack">
+                      <i class="fa fa-plus" title="New track"></i>
+                    </button>
+                    <a href="#" class="btn btn-sm btn-warning" title="Suggest Correction">
+                      <i class="fa fa-pencil" title="Correction"></i>
+                    </a>
                   </div>
                 </td>
               </tr>
             }
           } else {
-            <tr><td colspan="5">This tracklist doesn't have any tracks, <a href="#">start adding some</a></td></tr>
+            <tr>
+              <td colspan="5">
+                This tracklist doesn't have any tracks,
+                  <a href="#" data-toggle="modal" data-target="#addTrack" title="Add track">start adding some</a>
+              </td>
+            </tr>
           }
         </tbody>
       </table>
+    </div>
+  </div>
+
+  <div id="addTrack" class="modal fade">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Track</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span >&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          @b4.form(appRoutes.TracklistController.addTrackSubmit(tracklist.getId)) {
+            <fieldset>
+              @b4.text(trackForm("artist"), '_label -> "Artist")
+              @b4.text(trackForm("track"), '_label -> "Track")
+              @b4.submit('class -> "btn btn-primary") { Add track }
+            </fieldset>
+          }
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Add track</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
   </div>
 }

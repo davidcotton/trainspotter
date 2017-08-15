@@ -158,6 +158,7 @@ GET     /tracklist/:id              controllers.app.TracklistController.view(id:
 GET     /tracklist/:id/edit         controllers.app.TracklistController.editForm(id:Long)
 POST    /tracklist/:id/edit         controllers.app.TracklistController.editSubmit(id:Long)
 POST    /tracklist/:id/delete       controllers.app.TracklistController.delete(id:Long)
+POST    /tracklist/:id/track        controllers.app.TracklistController.addTrackSubmit(id:Long)
 
 
 # Map static resources from the /public folder to the /assets URL path
