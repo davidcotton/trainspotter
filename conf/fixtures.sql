@@ -65,7 +65,23 @@ VALUES
   ('DJ Three', 'dj-three', null, null, 'active', NOW(), NOW()),
   ('Jeremy Olander', 'jeremy-olander', 'jeremy-olander.jpg', null, 'active', NOW(), NOW()),
   ('Öona Dahl', 'oona-dahl', null, null, 'active', NOW(), NOW()),
-  ('Pete Tong', 'pete-tong', 'pete-tong.jpg', null, 'active', NOW(), NOW());
+  ('Pete Tong', 'pete-tong', 'pete-tong.jpg', null, 'active', NOW(), NOW()),
+  ('Underworld', 'underworld', null, null, 'active', NOW(), NOW()),
+  ('Ruede Hagelstein', 'ruede-hagelstein', null, null, 'active', NOW(), NOW()),
+  ('Laurent Garnier', 'laurent-garnier', null, null, 'active', NOW(), NOW()),
+  ('Ramon Tapia', 'ramon-tapia', null, null, 'active', NOW(), NOW()),
+  ('Tiger Stripes', 'tiger-stripes', null, null, 'active', NOW(), NOW()),
+  ('Christian Smith', 'christian-smith', null, null, 'active', NOW(), NOW()),
+  ('Pig&Dan', 'pig&dan', null, null, 'active', NOW(), NOW()),
+  ('Undercatt', 'undercatt', null, null, 'active', NOW(), NOW()),
+  ('Adana Twins', 'adana-twins', null, null, 'active', NOW(), NOW()),
+  ('Reset Robot', 'reset-robot', null, null, 'active', NOW(), NOW()),
+  ('Monika Kruse', 'monika-kruse', null, null, 'active', NOW(), NOW()),
+  ('Jay Lumen', 'jay-lumen', null, null, 'active', NOW(), NOW()),
+  ('Mark Reeve', 'mark-reeve', null, null, 'active', NOW(), NOW()),
+  ('Layton Giordani', 'layton-giordani', null, null, 'active', NOW(), NOW()),
+  ('Martin Eyerer', 'martin-eyerer', null, null, 'active', NOW(), NOW()),
+  ('Philip Bader', 'philip-bader', null, null, 'active', NOW(), NOW());
 
 INSERT INTO `channel` (`name`, `slug`, `image`, `description`, `status`, `created`, `updated`) VALUES
   ('Proton Radio', 'proton-radio', 'proton-opengraph.gif','Welcome to Proton, a subscriber supported Internet radio station and music label.', 'active', NOW(), NOW()),
@@ -93,7 +109,17 @@ VALUES
   ('Cocoon Recordings', 'cocoon-recordings', 'cocoon-recordings.jpg', 'Cocoon Recordings philosophy has its roots in the need to create a platform for young and talented DJs and producers to develop their personal path of creativity. Since 2000, the label has released more than 350 artists ranging from house and techno to minimal and tech-house sounds with a total of 300 releases.\n\nAlthough vinyl remains the main musical communication tool, Cocoon Recordings is also distributing its music on web portals like iTunes and Beatport (just to name a few) in order to reach a wider pool of followers and fans. Until now, more than 1.2 million tracks have been legally downloaded worldwide, especially in Germany, Japan, U.K., USA, Italy and Spain.', 'active', NOW(), NOW()),
   ('Egothermia', 'egothermia', 'egothermia-records.jpg', null, 'active', NOW(), NOW()),
   ('Octopus Records', 'octopus-records', 'octopus-records.jpg', 'Octopus Recordings releases classic modern Techno from its base in Barcelona.Founded and ran by DJ and recording artist,Sian. http://octopusrecordings.com', 'active', NOW(), NOW()),
-  ('Get Physical Music', 'get-physical-music', 'get-physical-music.jpg', 'The name says it all: Get Physical tracks could hardly be more moving and corporeal. This aspect of physicality also resurfaces on two of the labels key releases: the in-house DJ mix series "Body Language" and a string of double vinyl compilations called "Full Body Workout", brimming with new beats and sounds by up-and-coming talents.', 'active', NOW(), NOW());
+  ('Get Physical Music', 'get-physical-music', 'get-physical-music.jpg', 'The name says it all: Get Physical tracks could hardly be more moving and corporeal. This aspect of physicality also resurfaces on two of the labels key releases: the in-house DJ mix series "Body Language" and a string of double vinyl compilations called "Full Body Workout", brimming with new beats and sounds by up-and-coming talents.', 'active', NOW(), NOW()),
+  ('Junior Boys Own', 'junior-boys-own', null, null, 'active', NOW(), NOW()),
+  ('Watergate', 'watergate', null, null, 'active', NOW(), NOW()),
+  ('Skryptom Records', 'skryptom-records', null, null, 'active', NOW(), NOW()),
+  ('Knee Deep In Sound', 'knee-deep-in-sound', null, null, 'active', NOW(), NOW()),
+  ('Tronic', 'tronic', null, null, 'active', NOW(), NOW()),
+  ('Diynamic', 'diynamic', null, null, 'active', NOW(), NOW()),
+  ('Truesoul', 'truesoul', null, null, 'active', NOW(), NOW()),
+  ('Terminal M', 'terminal-m', null, null, 'active', NOW(), NOW()),
+  ('Footwork', 'footwork', null, null, 'active', NOW(), NOW()),
+  ('Octopus Black', 'octopus-black', null, null, 'active', NOW(), NOW());
 
 INSERT INTO `genre` (`name`, `slug`, `status`, `created`, `updated`)
 VALUES
@@ -102,7 +128,21 @@ VALUES
   ('Deep House', 'deep-house', 'active', NOW(), NOW()),
   ('Tech House', 'tech-house', 'active', NOW(), NOW()),
   ('Progressive House', 'progressive-house', 'active', NOW(), NOW()),
-  ('Electronica', 'electronica', 'active', NOW(), NOW());
+  ('Electronica', 'electronica', 'active', NOW(), NOW()),
+  ('Electro House', 'electro-house', 'active', NOW(), NOW()),
+  ('Funky House', 'funky-house', 'active', NOW(), NOW()),
+  ('Trance', 'trance', 'active', NOW(), NOW()),
+  ('Minimal', 'minimal', 'active', NOW(), NOW()),
+  ('Dubstep', 'dubstep', 'active', NOW(), NOW()),
+  ('Breaks', 'breaks', 'active', NOW(), NOW()),
+  ('Hard Dance', 'hard-dance', 'active', NOW(), NOW()),
+  ('Drum & Bass', 'drum-and-bass', 'active', NOW(), NOW()),
+  ('Psy Trance', 'psy-trance', 'active', NOW(), NOW()),
+  ('Future House', 'future-house', 'active', NOW(), NOW()),
+  ('Garage', 'garage', 'active', NOW(), NOW()),
+  ('Hip Hop', 'hip-hop', 'active', NOW(), NOW()),
+  ('R&B', 'r-and-b', 'active', NOW(), NOW()),
+  ('Big Room', 'big-room', 'active', NOW(), NOW());
 
 INSERT INTO `program` (`name`, `slug`, `image`, `description`, `channel_id`, `status`, `created`, `updated`) VALUES
   ('Transitions', 'transitions', 'transitions.jpg', 'The most important radio show in house music needs no introduction, but here it goes anyway. John Digweed\'s long-standing weekly 2 hour program is legendary, airing for many years exclusively on Kiss 100 in London but now syndicated around the world and internet. In 2008, the show comes to Proton Radio. Expect upfront & unreleased tunes dished up by John Digweed alongside finely tuned guest mixes that are almost always exclusively prepared just for the show.', 1, 'active', NOW(), NOW()),
@@ -123,7 +163,19 @@ VALUES
   ('Times', null, 2, 7, NOW(), 'active', NOW(), NOW()),
   ('Airplane', null, 2, 8, NOW(), 'active', NOW(), NOW()),
   ('You Can Relate', null, 2, 2, NOW(), 'active', NOW(), NOW()),
-  ('Keep Faith', 'Scan Mode Remix', 2, 9, NOW(), 'active', NOW(), NOW());
+  ('Keep Faith', 'Scan Mode Remix', 2, 9, NOW(), 'active', NOW(), NOW()),
+  ('Dark & Long (Dark Train)', null, 6, 19, NOW(), 'active', NOW(), NOW()),
+  ('Flash Balls', null, 4, 20, NOW(), 'active', NOW(), NOW()),
+  ('Electric Djedi Disco Biscuit', null, 2, 21, NOW(), 'active', NOW(), NOW()),
+  ('Karma', 'Tiger Stripes Remix', 2, 22, NOW(), 'active', NOW(), NOW()),
+  ('Subzero', 'Pig&Dan Remix', 2, 23, NOW(), 'active', NOW(), NOW()),
+  ('Parade', null, 2, 24, NOW(), 'active', NOW(), NOW()),
+  ('Uncompromising', null, 2, 24, NOW(), 'active', NOW(), NOW()),
+  ('The Mask Of Sanity', null, 2, 25, NOW(), 'active', NOW(), NOW()),
+  ('So Good', null, 2, 26, NOW(), 'active', NOW(), NOW()),
+  ('Quiet Storm', 'Mark Reeve Remix', 2, 27, NOW(), 'active', NOW(), NOW()),
+  ('Sometimes', null, 2, 12, NOW(), 'active', NOW(), NOW());
+#   ('Modulations', null, 2, 12, NOW(), 'active', NOW(), NOW());
 
 INSERT INTO `tracklist` (`name`, `slug`, `performed`, `image`, `user_id`, `status`, `created`, `updated`)
 VALUES
@@ -173,7 +225,18 @@ VALUES
   (7, 11),
   (8, 12),
   (9, 13),
-  (10, 14);
+  (10, 14),
+  (11, 34),
+  (12, 35),
+  (13, 36),
+  (14, 37),
+  (15, 39),
+  (16, 41),
+  (17, 42),
+  (18, 43),
+  (19, 44),
+  (20, 45),
+  (21, 47);
 
 INSERT INTO `track_remixer` (`track_id`, `artist_id`)
 VALUES
@@ -181,7 +244,10 @@ VALUES
   (4, 7),
   (6, 9),
   (6, 10),
-  (10, 15);
+  (10, 15),
+  (14, 38),
+  (15, 40),
+  (20, 46);
 
 INSERT INTO tracklist_genre (tracklist_id, genre_id)
 VALUES
@@ -258,4 +324,15 @@ VALUES
   (7, 9),
   (8, 9),
   (9, 9),
-  (10, 9);
+  (10, 9),
+  (11, 1),
+  (12, 1),
+  (13, 1),
+  (14, 1),
+  (15, 1),
+  (16, 1),
+  (17, 1),
+  (18, 1),
+  (19, 1),
+  (20, 1),
+  (21, 1);
