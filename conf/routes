@@ -68,6 +68,7 @@ DELETE  /api/tracklist/:id              controllers.api.TracklistController.dele
 ## Tracks
 GET     /api/track                      controllers.api.TrackController.fetchAll
 POST    /api/track                      controllers.api.TrackController.create
+GET     /api/track/search               controllers.api.TrackController.search(q:String)
 GET     /api/track/:id                  controllers.api.TrackController.fetch(id:Long)
 PUT     /api/track/:id                  controllers.api.TrackController.update(id:Long)
 DELETE  /api/track/:id                  controllers.api.TrackController.delete(id:Long)

@@ -56,6 +56,19 @@ public class TrackRepository implements Repository<Track> {
     );
   }
 
+  /**
+   * @todo hacky, replace this with Elasticsearch.
+   *
+   * @param query The search query.
+   * @return A list of tracks with names like the query.
+   */
+  public List<Track> search(String query) {
+    return find
+        .where().like("name", String.format("%%%s%%", query))
+        .setMaxRows(10)
+        .findList();
+  }
+
   @Override
   public void insert(Track track) {
     track.insert();

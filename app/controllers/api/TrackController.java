@@ -36,6 +36,10 @@ public class TrackController extends Controller {
         .orElse(notFound(errorsAsJson(MESSAGE_NOT_FOUND)));
   }
 
+  public Result search(String query) {
+    return ok(toJson(trackService.search(query)));
+  }
+
   @Security.Authenticated
   @BodyParser.Of(BodyParser.Json.class)
   public Result create() {

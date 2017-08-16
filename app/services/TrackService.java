@@ -57,6 +57,10 @@ public class TrackService {
     return trackRepository.findByName(name);
   }
 
+  public List<Track> search(String query) {
+    return trackRepository.search(query);
+  }
+
   /**
    * Insert a new Track.
    *
