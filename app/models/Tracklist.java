@@ -22,6 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -67,6 +68,7 @@ public class Tracklist extends Model {
 
   @JsonManagedReference(value = "tracklist_usertrack")
   @OneToMany(cascade = CascadeType.PERSIST)
+  @OrderBy("position ASC")
   private List<UserTrack> userTracks;
 
   @JsonManagedReference(value = "artist_tracklist")

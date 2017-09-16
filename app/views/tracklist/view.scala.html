@@ -99,6 +99,44 @@
 
     <!-- tracklist -->
     <div class="col-md-9 col-xl-8">
+      <div class="list-group">
+      @if(tracklist.getUserTracks.size() > 0) {
+        @for(userTrack <- tracklist.getUserTracks) {
+        <div class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex flex-row w-100 justify-content-between">
+            <h5 class="mb-1">
+              @{userTrack.getTrack.getArtists.map(renderArtist)} -
+              @userTrack.getTrack.getName (@userTrack.getTrack.getRemixName)
+              [<a href="@appRoutes.LabelController.view(userTrack.getTrack.getLabel.getSlug)">@userTrack.getTrack.getLabel.getName</a>]
+            </h5>
+            <small>@userTrack.getTime</small>
+          </div>
+          <small>
+            <i class="fa fa-user" title="@userTrack.getUser.getUsername"></i>
+            <a href="@appRoutes.UserController.view(userTrack.getUser.getSlug)">@userTrack.getUser.getUsername</a> (@userTrack.getUser.karmaFormatted)
+          </small>
+
+          <div class="d-flex flex-row">
+            <button type="button" class="btn btn-sm btn-success mr-2" data-toggle="modal" data-target="#addTrack">
+              <i class="fa fa-plus" title="New track"></i>
+            </button>
+            <a href="#" class="btn btn-sm btn-warning" title="Suggest Correction">
+              <i class="fa fa-pencil" title="Correction"></i>
+            </a>
+          </div>
+        </div>
+        }
+      } else {
+        <li class="list-group-item">
+          This tracklist doesn't have any tracks,
+          <a href="#" data-toggle="modal" data-target="#addTrack" title="Add track">start adding some</a>
+        </li>
+      }
+      </div>
+    </div>
+
+
+    <div class="col-md-9 col-xl-8">
       <table class="table table-striped">
         <thead>
           <tr>

@@ -72,4 +72,12 @@ public class UserTrack extends Model {
   public Duration getCue() {
     return cue;
   }
+
+  public String getCueTime() {
+    if (cue == null) {
+      return "4.30";
+    }
+
+    return "12.23";
+  }
 }
