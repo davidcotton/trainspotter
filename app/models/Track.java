@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -65,9 +66,8 @@ public class Track extends Model {
 
   private LocalDate releaseDate;
 
-  @JsonBackReference(value = "tracklist_track")
-  @ManyToMany
-  private List<Tracklist> tracklists;
+  @OneToMany
+  private List<UserTrack> userTracks;
 
   @NotNull
   private Status status;
@@ -102,7 +102,7 @@ public class Track extends Model {
     genre = updateTrack.getGenre();
     label = updateTrack.getLabel();
     releaseDate = updateTrack.getReleaseDate();
-    tracklists = track.tracklists;
+    userTracks = track.getUserTracks();
     status = track.status;
   }
 
@@ -147,7 +147,7 @@ public class Track extends Model {
     return releaseDate;
   }
 
-  public List<Tracklist> getTracklists() {
-    return tracklists;
+  public List<UserTrack> getUserTracks() {
+    return userTracks;
   }
 }

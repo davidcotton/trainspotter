@@ -65,9 +65,9 @@ public class Tracklist extends Model {
   @ManyToOne(optional = false)
   private User user;
 
-  @JsonManagedReference(value = "tracklist_track")
-  @ManyToMany(mappedBy = "tracklists", cascade = CascadeType.PERSIST)
-  private List<Track> tracks;
+  @JsonManagedReference(value = "tracklist_usertrack")
+  @OneToMany(cascade = CascadeType.PERSIST)
+  private List<UserTrack> userTracks;
 
   @JsonManagedReference(value = "artist_tracklist")
   @ManyToMany
@@ -110,7 +110,7 @@ public class Tracklist extends Model {
     performed = updateTracklist.getPerformed();
     image = imagify(updateTracklist.getImage(), NICHE);
     user = tracklist.user;
-    tracks = tracklist.tracks;
+    userTracks = tracklist.userTracks;
     artists = updateTracklist.getArtists();
     genres = tracklist.genres;
     medias = tracklist.medias;
@@ -156,8 +156,8 @@ public class Tracklist extends Model {
     return user;
   }
 
-  public List<Track> getTracks() {
-    return tracks;
+  public List<UserTrack> getUserTracks() {
+    return userTracks;
   }
 
   public List<Artist> getArtists() {

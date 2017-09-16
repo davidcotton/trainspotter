@@ -152,12 +152,6 @@ create table track_remixer (
   constraint pk_track_remixer primary key (track_id,artist_id)
 );
 
-create table track_tracklist (
-  track_id                      bigint not null,
-  tracklist_id                  bigint not null,
-  constraint pk_track_tracklist primary key (track_id,tracklist_id)
-);
-
 create table tracklist (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
@@ -216,6 +210,18 @@ create table user_permission (
   constraint pk_user_permission primary key (user_id,permission_id)
 );
 
+create table user_track (
+  id                            bigint auto_increment not null,
+  tracklist_id                  bigint not null,
+  user_id                       bigint,
+  track_id                      bigint,
+  position                      integer not null,
+  cue                           bigint,
+  created                       TIMESTAMP DEFAULT CURRENT_TIMESTAMP not null,
+  updated                       TIMESTAMP DEFAULT CURRENT_TIMESTAMP not null,
+  constraint pk_user_track primary key (id)
+);
+
 alter table artist_program add constraint fk_artist_program_artist foreign key (artist_id) references artist (id) on delete restrict on update restrict;
 create index ix_artist_program_artist on artist_program (artist_id);
 
@@ -257,12 +263,6 @@ create index ix_track_remixer_track on track_remixer (track_id);
 alter table track_remixer add constraint fk_track_remixer_artist foreign key (artist_id) references artist (id) on delete restrict on update restrict;
 create index ix_track_remixer_artist on track_remixer (artist_id);
 
-alter table track_tracklist add constraint fk_track_tracklist_track foreign key (track_id) references track (id) on delete restrict on update restrict;
-create index ix_track_tracklist_track on track_tracklist (track_id);
-
-alter table track_tracklist add constraint fk_track_tracklist_tracklist foreign key (tracklist_id) references tracklist (id) on delete restrict on update restrict;
-create index ix_track_tracklist_tracklist on track_tracklist (tracklist_id);
-
 alter table tracklist add constraint fk_tracklist_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
 create index ix_tracklist_user_id on tracklist (user_id);
 
@@ -289,6 +289,15 @@ create index ix_user_permission_user on user_permission (user_id);
 
 alter table user_permission add constraint fk_user_permission_permission foreign key (permission_id) references permission (id) on delete restrict on update restrict;
 create index ix_user_permission_permission on user_permission (permission_id);
+
+alter table user_track add constraint fk_user_track_tracklist_id foreign key (tracklist_id) references tracklist (id) on delete restrict on update restrict;
+create index ix_user_track_tracklist_id on user_track (tracklist_id);
+
+alter table user_track add constraint fk_user_track_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_user_track_user_id on user_track (user_id);
+
+alter table user_track add constraint fk_user_track_track_id foreign key (track_id) references track (id) on delete restrict on update restrict;
+create index ix_user_track_track_id on user_track (track_id);
 
 
 # --- !Downs
@@ -334,12 +343,6 @@ drop index ix_track_remixer_track on track_remixer;
 alter table track_remixer drop foreign key fk_track_remixer_artist;
 drop index ix_track_remixer_artist on track_remixer;
 
-alter table track_tracklist drop foreign key fk_track_tracklist_track;
-drop index ix_track_tracklist_track on track_tracklist;
-
-alter table track_tracklist drop foreign key fk_track_tracklist_tracklist;
-drop index ix_track_tracklist_tracklist on track_tracklist;
-
 alter table tracklist drop foreign key fk_tracklist_user_id;
 drop index ix_tracklist_user_id on tracklist;
 
@@ -367,6 +370,15 @@ drop index ix_user_permission_user on user_permission;
 alter table user_permission drop foreign key fk_user_permission_permission;
 drop index ix_user_permission_permission on user_permission;
 
+alter table user_track drop foreign key fk_user_track_tracklist_id;
+drop index ix_user_track_tracklist_id on user_track;
+
+alter table user_track drop foreign key fk_user_track_user_id;
+drop index ix_user_track_user_id on user_track;
+
+alter table user_track drop foreign key fk_user_track_track_id;
+drop index ix_user_track_track_id on user_track;
+
 drop table if exists artist;
 
 drop table if exists artist_program;
@@ -393,8 +405,6 @@ drop table if exists track_artist;
 
 drop table if exists track_remixer;
 
-drop table if exists track_tracklist;
-
 drop table if exists tracklist;
 
 drop table if exists tracklist_artist;
@@ -406,4 +416,6 @@ drop table if exists user;
 drop table if exists user_role;
 
 drop table if exists user_permission;
+
+drop table if exists user_track;
 

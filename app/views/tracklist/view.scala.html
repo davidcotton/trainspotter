@@ -106,17 +106,19 @@
             <th>Title</th>
             <th>Remixers</th>
             <th>Label</th>
+            <th>User</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody>
-          @if(tracklist.getTracks.size() > 0) {
-            @for(track <- tracklist.getTracks) {
+          @if(tracklist.getUserTracks.size() > 0) {
+            @for(userTrack <- tracklist.getUserTracks) {
               <tr>
-                <td>@{track.getArtists.map(renderArtist)}</td>
-                <td>@partials.tracklink(track)</td>
-                <td>@{track.getRemixers.map(renderArtist)}</td>
-                <td><a href="@appRoutes.LabelController.view(track.getLabel.getSlug)">@track.getLabel.getName</a></td>
+                <td>@{userTrack.getTrack.getArtists.map(renderArtist)}</td>
+                <td>@partials.tracklink(userTrack.getTrack)</td>
+                <td>@{userTrack.getTrack.getRemixers.map(renderArtist)}</td>
+                <td><a href="@appRoutes.LabelController.view(userTrack.getTrack.getLabel.getSlug)">@userTrack.getTrack.getLabel.getName</a></td>
+                <td>@userTrack.getUser.getUsername</td>
                 <td>
                   <div class="d-flex flex-row">
                     <button type="button" class="btn btn-sm btn-success mr-2" data-toggle="modal" data-target="#addTrack">
