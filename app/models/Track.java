@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -133,6 +135,18 @@ public class Track extends Model {
 
   public String getRemixName() {
     return remixName;
+  }
+
+  public String getRemixString() {
+    if (remixName != null) {
+      return remixName;
+    } else if (!remixers.isEmpty()) {
+      return remixers.stream()
+          .map(Artist::getName)
+          .collect(Collectors.joining(" & ")) + " Remix";
+    } else {
+      return null;
+    }
   }
 
   public Genre getGenre() {

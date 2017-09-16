@@ -105,17 +105,23 @@
         <div class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex flex-row w-100 justify-content-between">
             <h5 class="mb-1">
-              @{userTrack.getTrack.getArtists.map(renderArtist)} -
-              @userTrack.getTrack.getName (@userTrack.getTrack.getRemixName)
+              @if(userTrack.getCue != null) {
+                <small>@userTrack.getCueTime</small>
+              }
+              @{userTrack.getTrack.getArtists.map(renderArtist)} - @userTrack.getTrack.getName
+              @if(userTrack.getTrack.getRemixString != null) {
+                (@userTrack.getTrack.getRemixString)
+              }
               [<a href="@appRoutes.LabelController.view(userTrack.getTrack.getLabel.getSlug)">@userTrack.getTrack.getLabel.getName</a>]
             </h5>
-            <small>@userTrack.getTime</small>
+            <small><i class="fa fa-cogs" title="Edit"></i></small>
           </div>
           <small>
             <i class="fa fa-user" title="@userTrack.getUser.getUsername"></i>
             <a href="@appRoutes.UserController.view(userTrack.getUser.getSlug)">@userTrack.getUser.getUsername</a> (@userTrack.getUser.karmaFormatted)
           </small>
 
+          <!--
           <div class="d-flex flex-row">
             <button type="button" class="btn btn-sm btn-success mr-2" data-toggle="modal" data-target="#addTrack">
               <i class="fa fa-plus" title="New track"></i>
@@ -124,6 +130,7 @@
               <i class="fa fa-pencil" title="Correction"></i>
             </a>
           </div>
+          -->
         </div>
         }
       } else {
@@ -133,52 +140,6 @@
         </li>
       }
       </div>
-    </div>
-
-
-    <div class="col-md-9 col-xl-8">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Artists</th>
-            <th>Title</th>
-            <th>Remixers</th>
-            <th>Label</th>
-            <th>User</th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          @if(tracklist.getUserTracks.size() > 0) {
-            @for(userTrack <- tracklist.getUserTracks) {
-              <tr>
-                <td>@{userTrack.getTrack.getArtists.map(renderArtist)}</td>
-                <td>@partials.tracklink(userTrack.getTrack)</td>
-                <td>@{userTrack.getTrack.getRemixers.map(renderArtist)}</td>
-                <td><a href="@appRoutes.LabelController.view(userTrack.getTrack.getLabel.getSlug)">@userTrack.getTrack.getLabel.getName</a></td>
-                <td>@userTrack.getUser.getUsername</td>
-                <td>
-                  <div class="d-flex flex-row">
-                    <button type="button" class="btn btn-sm btn-success mr-2" data-toggle="modal" data-target="#addTrack">
-                      <i class="fa fa-plus" title="New track"></i>
-                    </button>
-                    <a href="#" class="btn btn-sm btn-warning" title="Suggest Correction">
-                      <i class="fa fa-pencil" title="Correction"></i>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-            }
-          } else {
-            <tr>
-              <td colspan="5">
-                This tracklist doesn't have any tracks,
-                  <a href="#" data-toggle="modal" data-target="#addTrack" title="Add track">start adding some</a>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
     </div>
   </div>
 
