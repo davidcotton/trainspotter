@@ -23,14 +23,21 @@
   @if(tracklists.getTotalRowCount > 0) {
     <div class="list-group">
     @for(tracklist <- tracklists.getList) {
-      <a href="@appRoutes.TracklistController.view(tracklist.getId)" class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">@tracklist.getArtists.map(_.getName).mkString(", ")</h5>
+          <h5 class="mb-1">
+            @for(artist <- tracklist.getArtists) {
+              <a href="@appRoutes.ArtistController.view(artist.getSlug)">@artist.getName</a>
+            }
+             - <a href="@appRoutes.TracklistController.view(tracklist.getId)">@tracklist.getName</a>
+          </h5>
           <small>@tracklist.getPerformedDaysAgo days ago</small>
         </div>
-        <p class="mb-1">@tracklist.getName</p>
-        <small><i class="fa fa-user" title="user"></i> @tracklist.getUser.getUsername</small>
-      </a>
+        <small>
+          <i class="fa fa-user" title="user"></i>
+          <a href="@appRoutes.UserController.view(tracklist.getUser.getSlug)">@tracklist.getUser.getUsername</a>
+        </small>
+      </div>
     }
     </div>
 
